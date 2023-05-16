@@ -19,7 +19,7 @@
                             "output": {
                                 "stored_data": {
                                     // On crée une nouvelle Donnée Stockée nommée "UserLastName_Base_intermédiaire"
-                                    "name": "__Base_intermediaire2",
+                                    "name": "Base_intermediaire",
                                     "storage_type": "POSTGRESQL"
                                 }
                             },
@@ -28,76 +28,19 @@
                         // Liste des commentaires ajoutés à la Donnée Stockée en sortie de l'exécution du traitement
                         "comments": [],
                         // Liste des tags ajoutés à la Donnée Stockée en sortie de l'exécution du traitement
-                        "tags": {}
+                        "tags": {}// TO DO: Tester la mise en base avec des tags. Exemple de format: {"Nom_Tag" : "Valeur_Tag"}
                     }
                 ],
+                // Pour Bag donc pas besoin pour tester la gpf
                 "parents": []
             },
-            // Étape n°2 : création de la pyramide vecteur
-            "création-pyramide": {
-                "actions": [
-                    {
-                        // On crée une exécution de traitement
-                        "type": "processing-execution",
-                        "body_parameters": {
-                            // On récupère l'id du traitement nommé "Création d'une pyramide vecteur"
-                            "processing": "{store_entity.processing.infos._id [INFOS(name=Création d'une pyramide vecteur)]}",
-                            "inputs": {
-                                "stored_data": [
-                                    // On récupère l'id de la Donnée Stockée créée à l'étape précédente grâce à son nom, son type et l'un de ses tags
-                                    "{store_entity.stored_data.infos._id [INFOS(name={user.last_name}__Base_intermédiaire, type=VECTOR-DB) TAGS(tuto=oui)]}"
-                                ]
-                            },
-                            "output": {
-                                "stored_data": {
-                                    // On crée une nouvelle Donnée Stockée nommée "UserLastName__Pyramide_vecteur"
-                                    "name": "{user.last_name}__Pyramide_vecteur"
-                                }
-                            },
-                            "parameters": {
-                                // Tile Matrix Set à utiliser
-                                "tms": "PM",
-                                // Niveau du bas
-                                "bottom_level": "18",
-                                // Niveau du haut
-                                "top_level": "5",
-                                // Tables à utiliser, sur quels niveaux et avec quels attributs
-                                "composition": [
-                                    {
-                                        "table": "canton",
-                                        "bottom_level": "18",
-                                        "top_level": "5",
-                                        "attributes": "id,insee_dep,insee_reg,insee_can"
-                                    }
-                                ],
-                                // BBOX : on veut conserver toute l'emprise, donc on laisse vide
-                                //"bbox": [], // A COMPLETER
-                                // Options de généralisation tippecanoe (par défaut: "-al -ap")
-                                "tippecanoe_options": "-S10"
-                            }
-                        },
-                        // Liste des commentaires ajoutés à la Donnée Stockée en sortie de l'exécution du traitement
-                        "comments": [
-                            "Tutoriel de mise en place d'une pyramide vecteur : création pyramide vecteur à publier"
-                        ],
-                        // Liste des tags ajoutés à la Donnée Stockée en sortie de l'exécution du traitement
-                        "tags": {
-                            "tuto": "oui",
-                            "temp": "non"
-                        }
-                    }
-                ],
-                "parents": [
-                    "mise-en-base"
-                ]
-            },
-            // Étape n°3 : configuration d'un flux WFS
+            // Étape n°2 : configuration d'un flux WFS
             "configuration-wfs": {
                 "actions": [
                     {
                         "type": "configuration",
                         "body_parameters": {
-                            "type": "WFS",
+                            "type": "WMS-VECTOR",
                             "name": "Flux_vecteur",
                             "layer_name": "flux_vecteur",
                             "type_infos": {
@@ -109,22 +52,24 @@
                                         "relations": [
                                             {
                                                 "name": "site",
+                                                // TO DO : style mis en dure ici mais à optimiser. mettre un resolver pour les fichiers statiques ?
                                                 "style": "bf4fa4ed-1cf0-4cea-9e98-88fa3e6e8dce"
                                             }
                                         ],
                                         // On récupère l'id de la Donnée Stockée créée à l'étape précédente grâce à son nom, son type et l'un de ses tags
-                                        "stored_data": "{store_entity.stored_data.infos._id [INFOS(name=__Base_intermediaire2)]}"
+                                        "stored_data": "{store_entity.stored_data.infos._id [INFOS(name=Base_intermediaire)]}"
                                     }
                                 ]
                             }
                         },
                         // Liste des commentaires ajoutés à la Configuration
-                        "comments": []
+                        "comments": [],
                         // Liste des tags ajoutés à la Configuration
+                        "tags": {}// TO DO: Tester la mise en base avec des tags. Exemple de format: {"Nom_Tag" : "Valeur_Tag"}
                     }
                 ]
             },
-            // Étape n°4 : publication du flux WFS millésimé
+            // Étape n°3 : publication du flux WFS millésimé
             "publication-wfs": {
                 "actions": [
                     {
@@ -136,6 +81,7 @@
                         "body_parameters": {
                             "visibility": "PRIVATE",
                             // Endpoint de type WMTS-TMS (id trouvé en récupérant les informations de l'entrepôt)
+                            // TO DO: optimiser le endpoint
                             "endpoint": "41796939-b598-4c45-92ff-a6aae581e56e"
                         }
                     }
