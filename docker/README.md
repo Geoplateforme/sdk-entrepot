@@ -5,7 +5,7 @@
 Récupérez le cod du dépôt :
 
 ```sh
-git clone https://github.com/ignf-sidc/ignf-gpf-api.git
+git clone https://github.com/ignf-sidc/ignf-gpf-sdk.git
 ```
 
 Créez dans ce dossier un fichier `.env` contenant :
@@ -15,7 +15,7 @@ Créez dans ce dossier un fichier `.env` contenant :
 * le prefix pour nommer le conteneur.
 
 ```sh
-cd ignf-gpf-api/docker
+cd ignf-gpf-sdk/docker
 vim .env
 ```
 
@@ -24,7 +24,7 @@ Voici un exemple de fichier `.env` :
 ```sh
 # Construction
 TAG=dev
-COMPOSE_PROJECT_NAME=doc__ignf_gpf_api
+COMPOSE_PROJECT_NAME=doc__ignf_gpf_sdk
 
 # Lancement de l'image
 PORT=80

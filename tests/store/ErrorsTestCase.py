@@ -1,5 +1,5 @@
-from ignf_gpf_api.Errors import GpfApiError
-from ignf_gpf_api.store.Errors import StoreEntityError
+from ignf_gpf_sdk.Errors import GpfSdkError
+from ignf_gpf_sdk.store.Errors import StoreEntityError
 from tests.GpfTestCase import GpfTestCase
 
 
@@ -26,5 +26,5 @@ class ErrorsTestCase(GpfTestCase):
         self.assertEqual(f"{o_arc.exception}", "message")
         # La représentation est le nom de classe + le message
         self.assertEqual(repr(o_arc.exception), "StoreEntityError(message)")
-        # Enfant de GpfApiError
-        self.assertIsInstance(o_arc.exception, GpfApiError)
+        # Enfant de GpfSdkError
+        self.assertIsInstance(o_arc.exception, GpfSdkError)

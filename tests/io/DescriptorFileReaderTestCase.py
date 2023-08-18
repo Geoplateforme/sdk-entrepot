@@ -1,7 +1,7 @@
-from ignf_gpf_api.Errors import GpfApiError
-from ignf_gpf_api.io.Config import Config
-from ignf_gpf_api.io.Dataset import Dataset
-from ignf_gpf_api.io.DescriptorFileReader import DescriptorFileReader
+from ignf_gpf_sdk.Errors import GpfSdkError
+from ignf_gpf_sdk.io.Config import Config
+from ignf_gpf_sdk.io.Dataset import Dataset
+from ignf_gpf_sdk.io.DescriptorFileReader import DescriptorFileReader
 
 from tests.GpfTestCase import GpfTestCase
 
@@ -30,7 +30,7 @@ class DescriptorFileReaderTestCase(GpfTestCase):
 
     def test_init_ko_dir_not_found(self) -> None:
         """Test du constructeur quand au moins un dossier indiqué n'est pas trouvé."""
-        with self.assertRaises(GpfApiError) as o_arc:
+        with self.assertRaises(GpfSdkError) as o_arc:
             # Ouverture
             DescriptorFileReader(GpfTestCase.data_dir_path / "datasets" / "1_test_dataset_bad_pathes" / "upload_descriptor.json")
         # Vérifications

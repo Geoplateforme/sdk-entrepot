@@ -3,7 +3,7 @@ requires = ["flit >=3.7,<4"]
 build-backend = "flit.buildapi"
 
 [project]
-name = "ignf_gpf_api"
+name = "ignf_gpf_sdk"
 authors = [
     {name="Valentin Sasyan", email="valentin.sasyan@ign.fr"},
 ]
@@ -16,7 +16,7 @@ classifiers = [
     "Programming Language :: Python :: 3.8",
 ]
 dynamic = ["version"]
-description = "Python API to simplify the use of the GPF HTTPS API."
+description = "SDK Python pour simplifier l'utilisation de l'API Entrepôt de la Géoplateforme."
 
 dependencies = [
     "requests>=2.6",
@@ -45,15 +45,15 @@ doc = [
 ]
 
 [project.urls]
-Source = "https://github.com/VSasyan/ignf-gpf-api"
-Documentation = "https://github.com/VSasyan/ignf-gpf-api"
+Source = "https://github.com/ignf-sidc/ignf-gpf-sdk"
+Documentation = "https://github.com/ignf-sidc/ignf-gpf-sdk"
 
 [project.scripts]
-realpython = "ignf_gpf_api.__main__:main"
+realpython = "ignf_gpf_sdk.__main__:main"
 
 [tool.black]
 line-length = 200
 force-exclude = '(\.git|\.vscode|\.toml$)'
 
 [tool.coverage.run]
-omit = ["*/tests/*", "ignf_gpf_api/io/OutputManager.py", "*/__main__.py", "*/__init__.py"]
+omit = ["*/tests/*", "ignf_gpf_sdk/io/OutputManager.py", "*/__main__.py", "*/__init__.py"]

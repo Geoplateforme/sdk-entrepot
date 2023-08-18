@@ -7,11 +7,11 @@ from unittest.mock import patch, mock_open
 import requests
 import requests_mock
 
-from ignf_gpf_api.io.Config import Config
-from ignf_gpf_api.Errors import GpfApiError
-from ignf_gpf_api.auth.Authentifier import Authentifier
-from ignf_gpf_api.io.ApiRequester import ApiRequester
-from ignf_gpf_api.io.Errors import RouteNotFoundError, ConflictError
+from ignf_gpf_sdk.io.Config import Config
+from ignf_gpf_sdk.Errors import GpfSdkError
+from ignf_gpf_sdk.auth.Authentifier import Authentifier
+from ignf_gpf_sdk.io.ApiRequester import ApiRequester
+from ignf_gpf_sdk.io.Errors import RouteNotFoundError, ConflictError
 from tests.GpfTestCase import GpfTestCase
 
 # pylint:disable=protected-access
@@ -169,7 +169,7 @@ class ApiRequesterTestCase(GpfTestCase):
                 ],
             )
             # On s'attend à une exception
-            with self.assertRaises(GpfApiError) as o_arc:
+            with self.assertRaises(GpfSdkError) as o_arc:
                 # On effectue une requête
                 ApiRequester().url_request(self.url, ApiRequester.POST, params=self.param, data=self.data)
             # On doit avoir un message d'erreur
@@ -184,7 +184,7 @@ class ApiRequesterTestCase(GpfTestCase):
             # Une requête non réussie
             o_mock.post(self.url, status_code=HTTPStatus.BAD_REQUEST)
             # On s'attend à une exception
-            with self.assertRaises(GpfApiError) as o_arc:
+            with self.assertRaises(GpfSdkError) as o_arc:
                 # On effectue une requête
                 ApiRequester().url_request(self.url, ApiRequester.POST, params=self.param, data=self.data)
             # On doit avoir un message d'erreur
@@ -204,7 +204,7 @@ class ApiRequesterTestCase(GpfTestCase):
                 ApiRequester().url_request(self.url, ApiRequester.POST, params=self.param, data=self.data)
             # On doit avoir un message d'erreur
             # self.assertEqual(o_arc.exception.message, "La requête envoyée à l'Entrepôt génère un conflit. N'avez-vous pas déjà effectué l'action que vous essayez de faire ?")
-            # Au contraire de GpfApiError, ConflictError ne comporte pas de membre message...
+            # Au contraire de GpfSdkError, ConflictError ne comporte pas de membre message...
             # On a dû faire 1 seule requête
             self.assertEqual(o_mock.call_count, 1, "o_mock.call_count == 1")
 
@@ -222,7 +222,7 @@ class ApiRequesterTestCase(GpfTestCase):
                 ],
             )
             # On s'attend à une exception
-            with self.assertRaises(GpfApiError) as o_arc:
+            with self.assertRaises(GpfSdkError) as o_arc:
                 # On effectue une requête
                 ApiRequester().url_request(self.url, ApiRequester.POST, params=self.param, data=self.data)
             # On doit avoir un message d'erreur explicite
@@ -258,7 +258,7 @@ class ApiRequesterTestCase(GpfTestCase):
         with requests_mock.Mocker() as o_mock:
             o_mock.get(self.url, exc=requests.HTTPError)
             # On s'attend à une exception
-            with self.assertRaises(GpfApiError) as o_arc:
+            with self.assertRaises(GpfSdkError) as o_arc:
                 # Lancement de la requête
                 ApiRequester().url_request(self.url, ApiRequester.GET, params=self.param, data=self.data)
             # On doit avoir un message d'erreur
@@ -272,7 +272,7 @@ class ApiRequesterTestCase(GpfTestCase):
         with requests_mock.Mocker() as o_mock:
             o_mock.get(self.url, exc=requests.URLRequired)
             # On s'attend à une exception
-            with self.assertRaises(GpfApiError) as o_arc:
+            with self.assertRaises(GpfSdkError) as o_arc:
                 # Lancement de la requête
                 ApiRequester().url_request(self.url, ApiRequester.GET, params=self.param, data=self.data)
             # On doit avoir un message d'erreur

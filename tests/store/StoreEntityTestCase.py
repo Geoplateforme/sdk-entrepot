@@ -1,9 +1,9 @@
 import json
 from unittest.mock import call, patch
-from ignf_gpf_api.store.Errors import StoreEntityError
+from ignf_gpf_sdk.store.Errors import StoreEntityError
 
-from ignf_gpf_api.store.StoreEntity import StoreEntity
-from ignf_gpf_api.io.ApiRequester import ApiRequester
+from ignf_gpf_sdk.store.StoreEntity import StoreEntity
+from ignf_gpf_sdk.io.ApiRequester import ApiRequester
 from tests.GpfTestCase import GpfTestCase
 
 

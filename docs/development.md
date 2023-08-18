@@ -5,13 +5,13 @@
 Récupérez le code :
 
 ```sh
-git clone git@github.com:ignf-sidc/ignf-gpf-api.git
+git clone git@github.com:ignf-sidc/ignf-gpf-sdk.git
 ```
 
 Ouvrez le dossier nouvellement crée avec votre éditeur favoris (ici [Visual Studio Code](https://code.visualstudio.com/)) :
 
 ```sh
-code ignf-gpf-api
+code ignf-gpf-sdk
 ```
 
 Si nécessaire, effectuez les installations systèmes suivantes :
@@ -26,7 +26,7 @@ Puis mettez à jour `pip` et `virtualenv` :
 python3 -m pip install --user --upgrade pip virtualenv setuptools
 ```
 
-Créez un environnement isolé : (il sera créé dans le dossier où la commande est lancée donc il est préférable de se placer dans le dossier `ignf-gpf-api`)
+Créez un environnement isolé : (il sera créé dans le dossier où la commande est lancée donc il est préférable de se placer à la racine du dépôt que vous venez de cloner)
 
 ```sh
 python3 -m venv env
@@ -107,7 +107,7 @@ Le principe est de mettre à jour une version de code dans gitHub. Puis, de merg
 
 ### B. Mise à jour de la branche dev
 
-Pour effectuer un déploiment de la librairie ignf-gpf-api, il faut d'abord modifier le numéro de version dans le fichier `__init__.py` dans le dossier ignf_gpf_api/ignf_gpf_api/ .
+Pour effectuer un déploiement de la librairie `ignf_gpf_sdk`, il faut d'abord modifier le numéro de version dans le fichier `ignf_gpf_sdk/__init__.py`.
 
 ```py
 __version__ = <x.y.z>
@@ -119,14 +119,14 @@ Puis il faut résoudre ou faire les pull request avec la branche dev en fonction
 
 ### Création de la pre-release sur test.pypi
 
-Pour publier une nouvelle version, qui va être ensuite publiée comme librairie sur PyPi, il faut [créer une (pre)-release](https://github.com/ignf-sidc/ignf-gpf-api/releases/new) :
+Pour publier une nouvelle version, qui va être ensuite publiée comme librairie sur PyPi, il faut [créer une (pre)-release](https://github.com/ignf-sidc/ignf-gpf-sdk/releases/new) :
 
-- créez une release de test sur la branche **dev** versionnée selon le modèle `tx.y.z` (ex : t1.2.3) pour déployer une nouvelle version du module en test : 
+- créez une release de test sur la branche **dev** versionnée selon le modèle `tx.y.z` (ex : t1.2.3) pour déployer une nouvelle version du module en test :
   - choose a tag : taper "t0.1.10" et cliquer sur "Create new tag".
   - target : choisir "dev"
-  - ajouter un titre ("Test 1.2.3"), et une description des principales modifications apportées. 
+  - ajouter un titre ("Test 1.2.3") et une description des principales modifications apportées.
   - Cocher la case pre-release. Cliquer sur "Publish release" (les tests vont se lancer...)
-  - Vérifier la publication sur [test.pypi](https://test.pypi.org/project/ignf_gpf_api/)
+  - Vérifier la publication sur [test.pypi](https://test.pypi.org/project/ignf_gpf_sdk/)
 
 ### C. Mise à jour de la branche prod
 
@@ -136,21 +136,21 @@ Puis il faut résoudre ou faire les pull request avec la branche prod en fonctio
 
 ### Création de la pre-release sur pypi
 
-Pour publier une nouvelle version, qui va être ensuite publiée comme librairie sur PyPi, il faut [créer une (pre)-release](https://github.com/ignf-sidc/ignf-gpf-api/releases/new) :
+Pour publier une nouvelle version, qui va être ensuite publiée comme librairie sur PyPi, il faut [créer une (pre)-release](https://github.com/ignf-sidc/ignf-gpf-sdk/releases/new) :
 
-- créez une release sur la branche **prod** versionnée selon le modèle `vx.y.z` (ex : v1.2.3) pour déployer une nouvelle version du module en production : 
+- créez une release sur la branche **prod** versionnée selon le modèle `vx.y.z` (ex : v1.2.3) pour déployer une nouvelle version du module en production :
   - choose a tag : taper "v0.1.10" et cliquer sur "Create new tag".
   - target : choisir "prod"
-  - ajouter un titre ("Version 1.2.3"), et une description des principales modifications apportées. 
+  - ajouter un titre ("Version 1.2.3") et une description des principales modifications apportées.
   - Cliquer sur "Publish release" (les tests vont se lancer...)
-  - Vérifier la publication sur [pypi](https://pypi.org/project/ignf_gpf_api/)
+  - Vérifier la publication sur [pypi](https://pypi.org/project/ignf_gpf_sdk/)
 
 ### Publication sur PyPI à la main si besoin
 
-La publication du package sur PyPI est automatique sur Github grâce aux actions [CI Dev](https://github.com/ignf-sidc/ignf-gpf-api/actions/workflows/ci-dev.yml) et [CI Prod](https://github.com/ignf-sidc/ignf-gpf-api/actions/workflows/ci-prod.yml) :
+La publication du package sur PyPI est automatique sur Github grâce aux actions [CI Dev](https://github.com/ignf-sidc/ignf-gpf-sdk/actions/workflows/ci-dev.yml) et [CI Prod](https://github.com/ignf-sidc/ignf-gpf-sdk/actions/workflows/ci-prod.yml) :
 
 Si besoin, voici les commandes pour effectuer à la main la publication :
- 
+
 ```sh
 export FLIT_PASSWORD=<token>
 ```

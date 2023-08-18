@@ -1,10 +1,10 @@
 import json
 from typing import Optional
 from unittest.mock import patch, MagicMock
-from ignf_gpf_api.io.Config import Config
+from ignf_gpf_sdk.io.Config import Config
 
-from ignf_gpf_api.workflow.action.ActionAbstract import ActionAbstract
-from ignf_gpf_api.workflow.resolver.GlobalResolver import GlobalResolver
+from ignf_gpf_sdk.workflow.action.ActionAbstract import ActionAbstract
+from ignf_gpf_sdk.workflow.resolver.GlobalResolver import GlobalResolver
 from tests.GpfTestCase import GpfTestCase
 
 

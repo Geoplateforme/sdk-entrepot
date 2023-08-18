@@ -1,8 +1,8 @@
 from pathlib import Path
 from unittest.mock import mock_open, patch
 
-from ignf_gpf_api.io.ApiRequester import ApiRequester
-from ignf_gpf_api.store.interface.DownloadInterface import DownloadInterface
+from ignf_gpf_sdk.io.ApiRequester import ApiRequester
+from ignf_gpf_sdk.store.interface.DownloadInterface import DownloadInterface
 from tests.GpfTestCase import GpfTestCase
 
 

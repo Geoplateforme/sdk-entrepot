@@ -1,11 +1,11 @@
-# API Python pour la Géoplateforme
+# SDK Python pour la Géoplateforme
 
 ## Installation
 
 Installez le module via pip :
 
 ```sh
-pip install ignf_gpf_api
+pip install ignf_gpf_sdk
 ```
 
 Vous pouvez ensuite l'[utiliser comme exécutable](docs/comme-executable.md) ou l'[importer dans vos scripts Python](docs/comme-module.md).

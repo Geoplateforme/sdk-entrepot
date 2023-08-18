@@ -1,7 +1,7 @@
 from datetime import datetime
 from unittest.mock import patch
 
-from ignf_gpf_api.store.interface.CsfInterface import CsfInterface
+from ignf_gpf_sdk.store.interface.CsfInterface import CsfInterface
 from tests.GpfTestCase import GpfTestCase
 
 
