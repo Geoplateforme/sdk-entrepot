@@ -2,10 +2,10 @@ from pathlib import Path
 from typing import List, Dict, Any
 from unittest.mock import patch
 
-from ignf_gpf_api.io.ApiRequester import ApiRequester
-from ignf_gpf_api.io.Config import Config
-from ignf_gpf_api.store.Errors import StoreEntityError
-from ignf_gpf_api.store.interface.CreatedByUploadFileInterface import CreatedByUploadFileInterface
+from ignf_gpf_sdk.io.ApiRequester import ApiRequester
+from ignf_gpf_sdk.io.Config import Config
+from ignf_gpf_sdk.store.Errors import StoreEntityError
+from ignf_gpf_sdk.store.interface.CreatedByUploadFileInterface import CreatedByUploadFileInterface
 from tests.GpfTestCase import GpfTestCase
 
 # pylint:disable=protected-access

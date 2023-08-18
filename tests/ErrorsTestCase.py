@@ -1,4 +1,4 @@
-from ignf_gpf_api.Errors import GpfApiError
+from ignf_gpf_sdk.Errors import GpfSdkError
 from tests.GpfTestCase import GpfTestCase
 
 
@@ -10,12 +10,12 @@ class ErrorsTestCase(GpfTestCase):
 
     @staticmethod
     def raise_gpf_api_error() -> None:
-        raise GpfApiError("message")
+        raise GpfSdkError("message")
 
     def test_gpf_api_error(self) -> None:
-        """Vérifie le bon fonctionnement de GpfApiError."""
+        """Vérifie le bon fonctionnement de GpfSdkError."""
         # On lève l'exception
-        with self.assertRaises(GpfApiError) as o_arc:
+        with self.assertRaises(GpfSdkError) as o_arc:
             ErrorsTestCase.raise_gpf_api_error()
         # Vérifications
         # Message renvoi message
@@ -24,4 +24,4 @@ class ErrorsTestCase(GpfTestCase):
         self.assertEqual(str(o_arc.exception), "message")
         self.assertEqual(f"{o_arc.exception}", "message")
         # La représentation est le nom de classe + le message
-        self.assertEqual(repr(o_arc.exception), "GpfApiError(message)")
+        self.assertEqual(repr(o_arc.exception), "GpfSdkError(message)")

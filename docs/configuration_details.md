@@ -4,7 +4,7 @@ Comme indiqué dans la page précédente, la majorité de la configuration est d
 
 Cette page présente de manière exhaustive toutes les propriétés de configuration existante par section, cela est utile si jamais vous souhaitez avoir une utilisation avancée de ce module ou que les spécifications de l'API changent.
 
-Le fichier de configuration par défaut utilisé est accessible ici : [ignf_gpf_api/_conf/default.ini](https://github.com/ignf-sidc/ignf-gpf-api/blob/prod/ignf_gpf_api/_conf/default.ini)
+Le fichier de configuration par défaut utilisé est accessible ici : [ignf_gpf_sdk/_conf/default.ini](https://github.com/ignf-sidc/ignf-gpf-sdk/blob/prod/ignf_gpf_sdk/_conf/default.ini)
 
 ## Section `logging`
 
@@ -203,7 +203,7 @@ Cette section concerne les paramètres de gestion des configurations (`configura
 
 ## Section `static`
 
-Cette section concerne les paramètres de gestion des fichiers statiques (`static`) 
+Cette section concerne les paramètres de gestion des fichiers statiques (`static`)
 
 | Paramètre            | Type | Défaut | Description                                |
 | -------------------- | ---- | ------ | ------------------------------------------ |
@@ -211,7 +211,7 @@ Cette section concerne les paramètres de gestion des fichiers statiques (`stati
 
 ## Section `annexe`
 
-Cette section concerne les paramètres de gestion des annexes (`annexe`) 
+Cette section concerne les paramètres de gestion des annexes (`annexe`)
 
 | Paramètre            | Type | Défaut | Description                                |
 | -------------------- | ---- | ------ | ------------------------------------------ |

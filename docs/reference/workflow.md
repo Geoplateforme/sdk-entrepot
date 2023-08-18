@@ -1,3 +1,3 @@
-# ignf_gpf_api.workflow
+# ignf_gpf_sdk.workflow
 
-::: ignf_gpf_api.workflow.Workflow
+::: ignf_gpf_sdk.workflow.Workflow

@@ -145,11 +145,11 @@
       "locked": false,
       "fontSize": 28,
       "fontFamily": 1,
-      "text": "ignf_gpf_api",
+      "text": "ignf_gpf_sdk",
       "textAlign": "center",
       "verticalAlign": "middle",
       "containerId": "fURltBKQde9OmKUfEZDqu",
-      "originalText": "ignf_gpf_api"
+      "originalText": "ignf_gpf_sdk"
     },
     {
       "type": "arrow",
@@ -356,11 +356,11 @@
       "locked": false,
       "fontSize": 28,
       "fontFamily": 1,
-      "text": "Schéma de l'utilisation du module ignf_gpf_api",
+      "text": "Schéma de l'utilisation du module ignf_gpf_sdk",
       "textAlign": "center",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "Schéma de l'utilisation du module ignf_gpf_api"
+      "originalText": "Schéma de l'utilisation du module ignf_gpf_sdk"
     },
     {
       "type": "ellipse",

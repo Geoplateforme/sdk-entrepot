@@ -1,8 +1,8 @@
 from unittest.mock import patch
 
-from ignf_gpf_api.io.ApiRequester import ApiRequester
-from ignf_gpf_api.workflow.resolver.UserResolver import UserResolver
-from ignf_gpf_api.workflow.resolver.Errors import ResolveUserError
+from ignf_gpf_sdk.io.ApiRequester import ApiRequester
+from ignf_gpf_sdk.workflow.resolver.UserResolver import UserResolver
+from ignf_gpf_sdk.workflow.resolver.Errors import ResolveUserError
 
 from tests.GpfTestCase import GpfTestCase
 

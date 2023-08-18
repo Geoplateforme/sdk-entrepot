@@ -1,19 +1,19 @@
-# ignf_gpf_api.io
+# ignf_gpf_sdk.io
 
-::: ignf_gpf_api.io.ApiRequester
+::: ignf_gpf_sdk.io.ApiRequester
 
-::: ignf_gpf_api.io.Config
+::: ignf_gpf_sdk.io.Config
 
-::: ignf_gpf_api.io.Dataset
+::: ignf_gpf_sdk.io.Dataset
 
-::: ignf_gpf_api.io.DescriptorFileReader
+::: ignf_gpf_sdk.io.DescriptorFileReader
 
-::: ignf_gpf_api.io.JsonConverter
+::: ignf_gpf_sdk.io.JsonConverter
 
-::: ignf_gpf_api.io.OutputManager
+::: ignf_gpf_sdk.io.OutputManager
 
 ## Errors
 
-::: ignf_gpf_api.io.Errors
+::: ignf_gpf_sdk.io.Errors
     options:
         heading_level: 3

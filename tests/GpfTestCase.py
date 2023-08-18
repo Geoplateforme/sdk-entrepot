@@ -6,7 +6,7 @@ import requests
 
 import requests_mock
 
-from ignf_gpf_api.io.Config import Config
+from ignf_gpf_sdk.io.Config import Config
 
 
 class GpfTestCase(unittest.TestCase):

@@ -1,5 +1,5 @@
-from ignf_gpf_api.store.AbstractCommonFile import AbstractCommonFile
-from ignf_gpf_api.store.Errors import StoreEntityError
+from ignf_gpf_sdk.store.AbstractCommonFile import AbstractCommonFile
+from ignf_gpf_sdk.store.Errors import StoreEntityError
 
 from tests.GpfTestCase import GpfTestCase
 

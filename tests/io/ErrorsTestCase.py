@@ -1,4 +1,4 @@
-from ignf_gpf_api.io.Errors import (
+from ignf_gpf_sdk.io.Errors import (
     _WithResponseError,
     ConfigReaderError,
     ConflictError,

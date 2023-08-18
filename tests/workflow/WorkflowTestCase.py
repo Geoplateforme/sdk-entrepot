@@ -2,17 +2,17 @@ from pathlib import Path
 from typing import Any, Dict, Optional, Type, List, Callable
 from unittest.mock import PropertyMock, patch, MagicMock
 
-from ignf_gpf_api.Errors import GpfApiError
-from ignf_gpf_api.helper.JsonHelper import JsonHelper
-from ignf_gpf_api.io.Config import Config
-from ignf_gpf_api.store.ProcessingExecution import ProcessingExecution
+from ignf_gpf_sdk.Errors import GpfSdkError
+from ignf_gpf_sdk.helper.JsonHelper import JsonHelper
+from ignf_gpf_sdk.io.Config import Config
+from ignf_gpf_sdk.store.ProcessingExecution import ProcessingExecution
 
-from ignf_gpf_api.workflow.Errors import WorkflowError
-from ignf_gpf_api.workflow.Workflow import Workflow
-from ignf_gpf_api.workflow.action.ActionAbstract import ActionAbstract
-from ignf_gpf_api.workflow.action.ConfigurationAction import ConfigurationAction
-from ignf_gpf_api.workflow.action.OfferingAction import OfferingAction
-from ignf_gpf_api.workflow.action.ProcessingExecutionAction import ProcessingExecutionAction
+from ignf_gpf_sdk.workflow.Errors import WorkflowError
+from ignf_gpf_sdk.workflow.Workflow import Workflow
+from ignf_gpf_sdk.workflow.action.ActionAbstract import ActionAbstract
+from ignf_gpf_sdk.workflow.action.ConfigurationAction import ConfigurationAction
+from ignf_gpf_sdk.workflow.action.OfferingAction import OfferingAction
+from ignf_gpf_sdk.workflow.action.ProcessingExecutionAction import ProcessingExecutionAction
 
 from tests.GpfTestCase import GpfTestCase
 
@@ -258,7 +258,7 @@ class WorkflowTestCase(GpfTestCase):
         self.assertEqual(o_workflow_2.name, "wfs generic")
         self.assertEqual(len(o_workflow_2.steps), 8)
         # On teste un fichier inexistant
-        with self.assertRaises(GpfApiError) as o_arc:
+        with self.assertRaises(GpfSdkError) as o_arc:
             Workflow.open_workflow(Path("pas_là.json"))
         self.assertEqual(o_arc.exception.message, "Le fichier de workflow pas_là.json est introuvable. Contactez le support.")
 

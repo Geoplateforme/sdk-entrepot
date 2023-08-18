@@ -4,14 +4,14 @@ L'API Géoplateforme vous permet de téléverser, traiter puis publier vos donn�
 
 Vous pouvez l'utiliser directement en ligne de commande pour un usage simple ou l'intégrer dans vos script Python pour un usage avancé entièrement personnalisable.
 
-![Schéma de l'utilisation du module ignf_gpf_api](images/index__utilisation_module.png)
+![Schéma de l'utilisation du module ignf_gpf_sdk](images/index__utilisation_module.png)
 
 ## Installation
 
 Installez le module via pip :
 
 ```sh
-pip install ignf_gpf_api
+pip install ignf_gpf_sdk
 ```
 
 Vous pouvez ensuite l'[utiliser comme exécutable](comme-executable.md) ou l'[importer dans vos scripts Python](comme-module.md).
