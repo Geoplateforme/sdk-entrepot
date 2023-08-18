@@ -2,9 +2,9 @@ from unittest.mock import patch
 from pathlib import Path
 from typing import Any, Dict, List
 
-from ignf_gpf_api.io.Config import Config
-from ignf_gpf_api.store.Upload import Upload
-from ignf_gpf_api.io.ApiRequester import ApiRequester
+from ignf_gpf_sdk.io.Config import Config
+from ignf_gpf_sdk.store.Upload import Upload
+from ignf_gpf_sdk.io.ApiRequester import ApiRequester
 from tests.GpfTestCase import GpfTestCase
 
 

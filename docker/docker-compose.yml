@@ -6,7 +6,7 @@ services:
           dockerfile: Dockerfile
           args:
             - tag=${TAG}
-        container_name: "${PREFIX}__ignf_gpf_api"
+        container_name: "${PREFIX}__ignf_gpf_sdk"
         ports:
           - "${PORT}:80"
         env_file:

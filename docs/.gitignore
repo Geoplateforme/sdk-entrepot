@@ -1,3 +1,4 @@
 # Dossiers à ignorer
 api
+sdk
 .pheasant_cache

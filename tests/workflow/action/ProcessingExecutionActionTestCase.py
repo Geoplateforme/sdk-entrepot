@@ -2,13 +2,13 @@ from typing import Any, Dict, List, Optional
 
 from unittest.mock import PropertyMock, call, patch, MagicMock
 
-from ignf_gpf_api.io.Config import Config
-from ignf_gpf_api.store.ProcessingExecution import ProcessingExecution
-from ignf_gpf_api.store.StoredData import StoredData
-from ignf_gpf_api.store.Upload import Upload
-from ignf_gpf_api.workflow.action.ActionAbstract import ActionAbstract
-from ignf_gpf_api.workflow.action.ProcessingExecutionAction import ProcessingExecutionAction
-from ignf_gpf_api.Errors import GpfApiError
+from ignf_gpf_sdk.io.Config import Config
+from ignf_gpf_sdk.store.ProcessingExecution import ProcessingExecution
+from ignf_gpf_sdk.store.StoredData import StoredData
+from ignf_gpf_sdk.store.Upload import Upload
+from ignf_gpf_sdk.workflow.action.ActionAbstract import ActionAbstract
+from ignf_gpf_sdk.workflow.action.ProcessingExecutionAction import ProcessingExecutionAction
+from ignf_gpf_sdk.Errors import GpfSdkError
 from tests.GpfTestCase import GpfTestCase
 
 
@@ -112,7 +112,7 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
             if output_already_exist:
                 if behavior == "STOP" or not behavior:
                     # on attend une erreur
-                    with self.assertRaises(GpfApiError) as o_err:
+                    with self.assertRaises(GpfSdkError) as o_err:
                         o_pea.run(datastore)
                     self.assertEqual(o_err.exception.message, f"Impossible de créer l’exécution de traitement, une donnée stockée en sortie équivalente {o_exist_output} existe déjà.")
                     return
@@ -126,7 +126,7 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
                 else:
                     # behavior faux
                     # on attend une erreur
-                    with self.assertRaises(GpfApiError) as o_err:
+                    with self.assertRaises(GpfSdkError) as o_err:
                         o_pea.run(datastore)
                     self.assertEqual(o_err.exception.message, f"Le comportement {behavior} n'est pas reconnu, l'exécution de traitement est annulée.")
                     return
@@ -387,6 +387,6 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
         o_action = ProcessingExecutionAction("nom", d_definition)
         self.assertEqual("ProcessingExecutionAction(workflow=nom)", str(o_action))
         # test avec processing execution
-        with patch('ignf_gpf_api.workflow.action.ProcessingExecutionAction.ProcessingExecutionAction.processing_execution', new_callable=PropertyMock) as o_mock_processing_execution:
+        with patch('ignf_gpf_sdk.workflow.action.ProcessingExecutionAction.ProcessingExecutionAction.processing_execution', new_callable=PropertyMock) as o_mock_processing_execution:
             o_mock_processing_execution.return_value = MagicMock(id='test uuid')
             self.assertEqual("ProcessingExecutionAction(workflow=nom, processing_execution=test uuid)", str(o_action))

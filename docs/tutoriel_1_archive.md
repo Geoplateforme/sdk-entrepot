@@ -17,7 +17,7 @@ Le jeu de données « 2_dataset_archive » contient des données archives à té
 Récupérez les données en lançant la commande :
 
 ```sh
-python -m ignf_gpf_api dataset -n 2_dataset_archive
+python -m ignf_gpf_sdk dataset -n 2_dataset_archive
 ```
 
 Observez la structure du jeu de données :
@@ -53,7 +53,7 @@ La documentation du fichier descripteur est disponible [ici](upload_descriptor.m
 Livrer les données en indiquant le chemin du fichier descripteur au programme :
 
 ```sh
-python -m ignf_gpf_api upload -f 2_dataset_archive/upload_descriptor.json
+python -m ignf_gpf_sdk upload -f 2_dataset_archive/upload_descriptor.json
 ```
 
 Le programme doit vous indiquer que le transfert est en cours, puis qu'il attend la fin des vérifications côté API avant de conclure que tout est bon.
@@ -67,7 +67,7 @@ Ces étapes sont décrites grâce à un workflow.
 Vous pouvez récupérer un workflow d'exemple grâce à la commande suivante :
 
 ```sh
-python -m ignf_gpf_api workflow -n generic_archive.jsonc
+python -m ignf_gpf_sdk workflow -n generic_archive.jsonc
 ```
 
 Ouvrez le fichier. Vous trouverez plus de détails dans la [documentation sur les workflows](workflow.md), mais vous pouvez dès à présent voir que le workflow est composé de 3 étapes. Il faudra lancer une commande pour chacune d'elles.
@@ -91,9 +91,9 @@ Le workflow « generic_archive » permet de passer de la livraison à une lien p
 Lancez les 3 commandes suivantes pour exécuter les 3 étapes :
 
 ```sh
-python -m ignf_gpf_api workflow -f generic_archive.jsonc -s intégration-archive-livrée
-python -m ignf_gpf_api workflow -f generic_archive.jsonc -s configuration-archive-livrée
-python -m ignf_gpf_api workflow -f generic_archive.jsonc -s publication-archive-livrée
+python -m ignf_gpf_sdk workflow -f generic_archive.jsonc -s intégration-archive-livrée
+python -m ignf_gpf_sdk workflow -f generic_archive.jsonc -s configuration-archive-livrée
+python -m ignf_gpf_sdk workflow -f generic_archive.jsonc -s publication-archive-livrée
 ```
 
 La première commande ne doit pas être instantanée : un traitement est effectué et les logs doivent vous être remontés.
@@ -119,13 +119,13 @@ https://geoservices-geotuileur.ccs-ign-plage.ccs.cegedim.cloud/download/plage/ar
 
 ```sh
 # récupération des données d'exemple
-python -m ignf_gpf_api dataset -n 2_dataset_archive
+python -m ignf_gpf_sdk dataset -n 2_dataset_archive
 # livraison des données sur la Géoplateforme
-python -m ignf_gpf_api upload -f 2_dataset_archive/upload_descriptor.json
+python -m ignf_gpf_sdk upload -f 2_dataset_archive/upload_descriptor.json
 # récupération du workflow de traitement et publication d'une archive
-python -m ignf_gpf_api workflow -n generic_archive.jsonc
+python -m ignf_gpf_sdk workflow -n generic_archive.jsonc
 # exécution des 3 étapes pour le traitement et la publication de l'archive
-python -m ignf_gpf_api workflow -f generic_archive.jsonc -s intégration-archive-livrée
-python -m ignf_gpf_api workflow -f generic_archive.jsonc -s configuration-archive-livrée
-python -m ignf_gpf_api workflow -f generic_archive.jsonc -s publication-archive-livrée
+python -m ignf_gpf_sdk workflow -f generic_archive.jsonc -s intégration-archive-livrée
+python -m ignf_gpf_sdk workflow -f generic_archive.jsonc -s configuration-archive-livrée
+python -m ignf_gpf_sdk workflow -f generic_archive.jsonc -s publication-archive-livrée
 ```

@@ -54,8 +54,8 @@ RUN git config --global user.name "Docker Container"
 
 # Récupération du dépôt git
 RUN mkdir -p /var/www
-RUN git clone --depth 1 -b $tag https://github.com/ignf-sidc/ignf-gpf-api.git /var/www/ignf-gpf-api
-WORKDIR "/var/www/ignf-gpf-api"
+RUN git clone --depth 1 -b $tag https://github.com/ignf-sidc/ignf-gpf-sdk.git /var/www/ignf-gpf-sdk
+WORKDIR "/var/www/ignf-gpf-sdk"
 
 # Installation des dépendances
 RUN python3 -m pip install --user --upgrade pip setuptools flit

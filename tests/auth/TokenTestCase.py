@@ -1,4 +1,4 @@
-from ignf_gpf_api.auth.Token import Token
+from ignf_gpf_sdk.auth.Token import Token
 from tests.GpfTestCase import GpfTestCase
 
 

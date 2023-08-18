@@ -2,9 +2,9 @@ from unittest.mock import patch
 from http import HTTPStatus
 import requests_mock
 
-from ignf_gpf_api.io.Config import Config
-from ignf_gpf_api.auth.Authentifier import Authentifier
-from ignf_gpf_api.auth.Errors import AuthentificationError
+from ignf_gpf_sdk.io.Config import Config
+from ignf_gpf_sdk.auth.Authentifier import Authentifier
+from ignf_gpf_sdk.auth.Errors import AuthentificationError
 from tests.GpfTestCase import GpfTestCase
 
 # pylint:disable=protected-access

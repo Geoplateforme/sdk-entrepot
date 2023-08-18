@@ -1,7 +1,7 @@
-site_name: ignf_gpf_api
+site_name: ignf_gpf_sdk
 
-repo_url: https://github.com/ignf-sidc/ignf-gpf-api/
-repo_name: "ignf-sidc/ignf-gpf-api"
+repo_url: https://github.com/ignf-sidc/ignf-gpf-sdk/
+repo_name: "ignf-sidc/ignf-gpf-sdk"
 edit_uri: ""
 
 theme:
@@ -59,12 +59,12 @@ nav:
       - "Tutoriel 1 : publier une archive": tutoriel_1_archive.md
       - "Tutoriel 2 : publier un flux vecteur": tutoriel_2_flux_vecteur.md
   - Références:
-      - ignf_gpf_api.auth: reference/auth.md
-      - ignf_gpf_api.io: reference/io.md
-      - ignf_gpf_api.store: reference/store.md
-      - ignf_gpf_api.workflow: reference/workflow.md
-      - ignf_gpf_api.workflow.action: reference/workflow/action.md
-      - ignf_gpf_api.workflow.resolver: reference/workflow/resolver.md
+      - ignf_gpf_sdk.auth: reference/auth.md
+      - ignf_gpf_sdk.io: reference/io.md
+      - ignf_gpf_sdk.store: reference/store.md
+      - ignf_gpf_sdk.workflow: reference/workflow.md
+      - ignf_gpf_sdk.workflow.action: reference/workflow/action.md
+      - ignf_gpf_sdk.workflow.resolver: reference/workflow/resolver.md
 
 watch:
-  - ignf_gpf_api
+  - ignf_gpf_sdk

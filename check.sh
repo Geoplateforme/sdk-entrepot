@@ -1,19 +1,19 @@
 declare -i code=0
 
 # Lancement de pylint
-pylint --rcfile=.pylintrc --disable=fixme ignf_gpf_api --recursive=y
+pylint --rcfile=.pylintrc --disable=fixme ignf_gpf_sdk --recursive=y
 code+=$?
 pylint --rcfile=.pylintrc --disable=fixme tests --recursive=y
 code+=$?
 echo
 
 # Lancement de black
-black ignf_gpf_api tests
+black ignf_gpf_sdk tests
 code+=$?
 echo
 
 # Lancement de mypy
-mypy --strict ignf_gpf_api tests
+mypy --strict ignf_gpf_sdk tests
 code+=$?
 echo
 

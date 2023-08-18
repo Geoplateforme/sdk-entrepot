@@ -2,12 +2,12 @@ from typing import Any, Dict, List, Optional
 
 from pathlib import Path
 from unittest.mock import patch, MagicMock
-from ignf_gpf_api.workflow.action.ActionAbstract import ActionAbstract
+from ignf_gpf_sdk.workflow.action.ActionAbstract import ActionAbstract
 
-from ignf_gpf_api.workflow.action.UploadAction import UploadAction
-from ignf_gpf_api.store.Upload import Upload
-from ignf_gpf_api.io.Config import Config
-from ignf_gpf_api.Errors import GpfApiError
+from ignf_gpf_sdk.workflow.action.UploadAction import UploadAction
+from ignf_gpf_sdk.store.Upload import Upload
+from ignf_gpf_sdk.io.Config import Config
+from ignf_gpf_sdk.Errors import GpfSdkError
 from tests.GpfTestCase import GpfTestCase
 
 # pylint:disable=too-many-arguments
@@ -151,7 +151,7 @@ class UploadActionTestCase(GpfTestCase):
             # exécution de UploadAction
             o_ua = UploadAction(o_mock_dataset, behavior)
             if run_fail:
-                with self.assertRaises(GpfApiError) as o_arc:
+                with self.assertRaises(GpfSdkError) as o_arc:
                     o_ua.run("datastore_id")
                 self.assertEqual(o_arc.exception.message, message_exception)
                 return

@@ -1,9 +1,9 @@
 from unittest.mock import patch, MagicMock
 from typing import Any
 
-from ignf_gpf_api.store.Offering import Offering
-from ignf_gpf_api.store.Configuration import Configuration
-from ignf_gpf_api.workflow.action.OfferingAction import OfferingAction
+from ignf_gpf_sdk.store.Offering import Offering
+from ignf_gpf_sdk.store.Configuration import Configuration
+from ignf_gpf_sdk.workflow.action.OfferingAction import OfferingAction
 
 from tests.GpfTestCase import GpfTestCase
 

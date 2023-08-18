@@ -2,9 +2,9 @@ from typing import Any, Dict, List, Optional
 
 from unittest.mock import patch, MagicMock
 
-from ignf_gpf_api.store.Configuration import Configuration
-from ignf_gpf_api.workflow.action.ActionAbstract import ActionAbstract
-from ignf_gpf_api.workflow.action.ConfigurationAction import ConfigurationAction
+from ignf_gpf_sdk.store.Configuration import Configuration
+from ignf_gpf_sdk.workflow.action.ActionAbstract import ActionAbstract
+from ignf_gpf_sdk.workflow.action.ConfigurationAction import ConfigurationAction
 from tests.GpfTestCase import GpfTestCase
 
 

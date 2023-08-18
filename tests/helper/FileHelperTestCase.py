@@ -1,4 +1,4 @@
-from ignf_gpf_api.helper.FileHelper import FileHelper
+from ignf_gpf_sdk.helper.FileHelper import FileHelper
 from tests.GpfTestCase import GpfTestCase
 
 

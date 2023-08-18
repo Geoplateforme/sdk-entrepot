@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from ignf_gpf_api.helper.JsonHelper import JsonHelper
-from ignf_gpf_api.Errors import GpfApiError
+from ignf_gpf_sdk.helper.JsonHelper import JsonHelper
+from ignf_gpf_sdk.Errors import GpfSdkError
 from tests.GpfTestCase import GpfTestCase
 
 
@@ -20,7 +20,7 @@ class JsonHelperTestCase(GpfTestCase):
         p_json_path = Path("/not/existing/file")
 
         # Non existant : Une exception levée avec le message de base
-        with self.assertRaises(GpfApiError) as o_arc:
+        with self.assertRaises(GpfSdkError) as o_arc:
             JsonHelper.load(p_json_path)
         # Vérification du message renvoyé
         s_message = f"Fichier JSON {p_json_path} non trouvé"
@@ -28,7 +28,7 @@ class JsonHelperTestCase(GpfTestCase):
 
         # Non existant : Une exception levée avec un message personnalisé
         s_pattern = "Fichier {json_path} non trouvé, cela est vraiment dommage..."
-        with self.assertRaises(GpfApiError) as o_arc:
+        with self.assertRaises(GpfSdkError) as o_arc:
             JsonHelper.load(p_json_path, file_not_found_pattern=s_pattern)
         # Vérification du message renvoyé
         s_message = s_pattern.format(json_path=p_json_path)
@@ -38,7 +38,7 @@ class JsonHelperTestCase(GpfTestCase):
         p_json_path = JsonHelperTestCase.data_path / "json_not_parsable.json"
 
         # Non parsable : Une exception levée avec le message de base
-        with self.assertRaises(GpfApiError) as o_arc:
+        with self.assertRaises(GpfSdkError) as o_arc:
             JsonHelper.load(p_json_path)
         # Vérification du message renvoyé
         s_message = f"Fichier JSON {p_json_path} non parsable"
@@ -46,7 +46,7 @@ class JsonHelperTestCase(GpfTestCase):
 
         # Non parsable : Une exception levée avec un message personnalisé
         s_pattern = "Fichier JSON {json_path} non parsable, cela est vraiment dommage..."
-        with self.assertRaises(GpfApiError) as o_arc:
+        with self.assertRaises(GpfSdkError) as o_arc:
             JsonHelper.load(p_json_path, file_not_parsable_pattern=s_pattern)
         # Vérification du message renvoyé
         s_message = s_pattern.format(json_path=p_json_path)
@@ -69,7 +69,7 @@ class JsonHelperTestCase(GpfTestCase):
         s_error = "Expecting ',' delimiter: line 1 column 16 (char 15)"
 
         # Non parsable : Une exception levée avec le message de base
-        with self.assertRaises(GpfApiError) as o_arc:
+        with self.assertRaises(GpfSdkError) as o_arc:
             JsonHelper.loads(s_data, s_title)
         # Vérification du message renvoyé
         s_start = f"Impossible de parser le JSON «{s_title}»"
@@ -78,7 +78,7 @@ class JsonHelperTestCase(GpfTestCase):
 
         # Non parsable : Une exception levée avec un message personnalisé
         s_pattern = "Données {title} non parsable, cela est vraiment dommage..."
-        with self.assertRaises(GpfApiError) as o_arc:
+        with self.assertRaises(GpfSdkError) as o_arc:
             JsonHelper.loads(s_data, s_title, message_pattern=s_pattern)
         # Vérification du message renvoyé
         s_message = s_pattern.format(title=s_title)
@@ -104,7 +104,7 @@ class JsonHelperTestCase(GpfTestCase):
         d_schema_invalid_data = JsonHelper.load(p_schema_invalid_path)
         d_json_data = {"name": "toto", "title": "titi"}
         # Une exception levée avec le message de base
-        with self.assertRaises(GpfApiError) as o_arc:
+        with self.assertRaises(GpfSdkError) as o_arc:
             JsonHelper.validate_object(d_json_data, d_schema_invalid_data, s_json_not_valid, s_schema_not_valid)
         # Vérification du message renvoyé
         self.assertEqual(s_schema_not_valid, o_arc.exception.message)
@@ -114,7 +114,7 @@ class JsonHelperTestCase(GpfTestCase):
         d_schema_data = JsonHelper.load(p_schema_path)
         d_json_data = {"tutu": "toto", "tata": "titi"}
         # Une exception levée avec le message de base
-        with self.assertRaises(GpfApiError) as o_arc:
+        with self.assertRaises(GpfSdkError) as o_arc:
             JsonHelper.validate_object(d_json_data, d_schema_data, s_json_not_valid, s_schema_not_valid)
         # Vérification du message renvoyé
         self.assertEqual(s_json_not_valid, o_arc.exception.message)
@@ -145,7 +145,7 @@ class JsonHelperTestCase(GpfTestCase):
 
         # Schéma non trouvé
         # Une exception levée avec le message de base
-        with self.assertRaises(GpfApiError) as o_arc:
+        with self.assertRaises(GpfSdkError) as o_arc:
             JsonHelper.validate_json(p_valid_json_path, Path("/not/found"))
         # Vérification du message renvoyé
         s_message = s_schema_not_found_pattern.format(schema_path=Path("/not/found"))
@@ -153,7 +153,7 @@ class JsonHelperTestCase(GpfTestCase):
 
         # JSON non trouvé
         # Une exception levée avec le message de base
-        with self.assertRaises(GpfApiError) as o_arc:
+        with self.assertRaises(GpfSdkError) as o_arc:
             JsonHelper.validate_json(Path("/not/found"), p_valid_schema_path)
         # Vérification du message renvoyé
         s_message = s_json_not_found_pattern.format(json_path=Path("/not/found"))
@@ -161,7 +161,7 @@ class JsonHelperTestCase(GpfTestCase):
 
         # Schéma non parsable
         # Une exception levée avec le message de base
-        with self.assertRaises(GpfApiError) as o_arc:
+        with self.assertRaises(GpfSdkError) as o_arc:
             JsonHelper.validate_json(p_valid_json_path, p_not_parsable_path)
         # Vérification du message renvoyé
         s_message = s_schema_not_parsable_pattern.format(schema_path=p_not_parsable_path)
@@ -169,7 +169,7 @@ class JsonHelperTestCase(GpfTestCase):
 
         # JSON non parsable
         # Une exception levée avec le message de base
-        with self.assertRaises(GpfApiError) as o_arc:
+        with self.assertRaises(GpfSdkError) as o_arc:
             JsonHelper.validate_json(p_not_parsable_path, p_valid_schema_path)
         # Vérification du message renvoyé
         s_message = s_json_not_parsable_pattern.format(json_path=p_not_parsable_path)
@@ -177,7 +177,7 @@ class JsonHelperTestCase(GpfTestCase):
 
         # Schéma non valide
         # Une exception levée avec le message de base
-        with self.assertRaises(GpfApiError) as o_arc:
+        with self.assertRaises(GpfSdkError) as o_arc:
             JsonHelper.validate_json(p_valid_json_path, p_invalid_schema_path)
         # Vérification du message renvoyé
         s_message = s_schema_not_valid_pattern.format(schema_path=p_invalid_schema_path)
@@ -185,7 +185,7 @@ class JsonHelperTestCase(GpfTestCase):
 
         # JSON non valide
         # Une exception levée avec le message de base
-        with self.assertRaises(GpfApiError) as o_arc:
+        with self.assertRaises(GpfSdkError) as o_arc:
             JsonHelper.validate_json(p_invalid_json_path, p_valid_schema_path)
         # Vérification du message renvoyé
         s_message = s_json_not_valid_pattern.format(json_path=p_invalid_json_path)

@@ -17,7 +17,7 @@ Le jeu de données « 1_dataset_vector » contient des données vecteur à tél�
 Récupérez les données en lançant la commande :
 
 ```sh
-python -m ignf_gpf_api dataset -n 1_dataset_vector
+python -m ignf_gpf_sdk dataset -n 1_dataset_vector
 ```
 
 Observez la structure des données :
@@ -57,7 +57,7 @@ Chaque dataset contient :
 Livrer les données en indiquant le chemin du fichier descripteur au programme :
 
 ```sh
-python -m ignf_gpf_api upload -f 1_dataset_vector/upload_descriptor.json
+python -m ignf_gpf_sdk upload -f 1_dataset_vector/upload_descriptor.json
 ```
 
 Le programme doit vous indiquer que le transfert est en cours, puis qu'il attend la fin des vérifications côté API avant de conclure que tout est bon.
@@ -71,7 +71,7 @@ Ces étapes sont décrites grâce à un workflow.
 Vous pouvez récupérer un workflow d'exemple grâce à la commande suivante :
 
 ```sh
-python -m ignf_gpf_api workflow -n generic_vecteur.jsonc
+python -m ignf_gpf_sdk workflow -n generic_vecteur.jsonc
 ```
 
 Ouvrez le fichier. Vous trouverez plus de détails dans la [documentation sur les workflows](workflow.md), mais vous pouvez dès à présent voir que le workflow est composé de 4 étapes. Il faudra lancer une commande pour chacune d'elles.
@@ -94,9 +94,9 @@ flowchart TD
 
 ## fichier statique
 
-Pour publier les données en WMS il faut appliquer un style aux données. La partie versement d'un style ne peut pas encore se faire avec `ignf_gpf_api`. Il faut donc ajouté le fichier de style à la mains avec swagger, Insomnia ou en ligne de commande. Tutoriel [ICI](https://gpf-beta.ign.fr/geoplateforme/tutoriels/vecteur/gestion_statique/)
+Pour publier les données en WMS il faut appliquer un style aux données. La partie versement d'un style ne peut pas encore se faire avec `ignf_gpf_sdk`. Il faut donc ajouté le fichier de style à la mains avec swagger, Insomnia ou en ligne de commande. Tutoriel [ICI](https://gpf-beta.ign.fr/geoplateforme/tutoriels/vecteur/gestion_statique/)
 
-Un fichier statique ([CANTON_style.sld](https://raw.githubusercontent.com/ignf-sidc/ignf-gpf-api/prod/ignf_gpf_api/_data/datasets/1_dataset_vector/CANTON_style.sld)) pour le tuto est disponible dans le jeu de données test. Pour l'utiliser avec le workflow sans modification il faut le livrer avec `"name": "style_canton"`.
+Un fichier statique ([CANTON_style.sld](https://raw.githubusercontent.com/ignf-sidc/ignf-gpf-sdk/prod/ignf_gpf_sdk/_data/datasets/1_dataset_vector/CANTON_style.sld)) pour le tuto est disponible dans le jeu de données test. Pour l'utiliser avec le workflow sans modification il faut le livrer avec `"name": "style_canton"`.
 Si vous modifiez le nom du fichier de style il faut modifier dans le workflow la partie "configuration-wms".
 
 ## Traitement et publication
@@ -120,17 +120,17 @@ Les étapes "configuration + publication" des flux WMS et WFS sont indépendante
 Lancez les 8 commandes suivantes pour exécuter les 8 étapes :
 
 ```sh
-python -m ignf_gpf_api workflow -f generic_vecteur.jsonc -s mise-en-base
+python -m ignf_gpf_sdk workflow -f generic_vecteur.jsonc -s mise-en-base
 # WFS depuis BDD
-python -m ignf_gpf_api workflow -f generic_vecteur.jsonc -s configuration-wfs-bdd
-python -m ignf_gpf_api workflow -f generic_vecteur.jsonc -s publication-wfs-bdd
+python -m ignf_gpf_sdk workflow -f generic_vecteur.jsonc -s configuration-wfs-bdd
+python -m ignf_gpf_sdk workflow -f generic_vecteur.jsonc -s publication-wfs-bdd
 # WMS depuis BDD
-python -m ignf_gpf_api workflow -f generic_vecteur.jsonc -s configuration-wms-bdd
-python -m ignf_gpf_api workflow -f generic_vecteur.jsonc -s publication-wms-bdd
+python -m ignf_gpf_sdk workflow -f generic_vecteur.jsonc -s configuration-wms-bdd
+python -m ignf_gpf_sdk workflow -f generic_vecteur.jsonc -s publication-wms-bdd
 # création pyramide et WFS
-python -m ignf_gpf_api workflow -f generic_vecteur.jsonc -s création-pyramide
-python -m ignf_gpf_api workflow -f generic_vecteur.jsonc -s configuration-wfs-py
-python -m ignf_gpf_api workflow -f generic_vecteur.jsonc -s publication-wfs-py
+python -m ignf_gpf_sdk workflow -f generic_vecteur.jsonc -s création-pyramide
+python -m ignf_gpf_sdk workflow -f generic_vecteur.jsonc -s configuration-wfs-py
+python -m ignf_gpf_sdk workflow -f generic_vecteur.jsonc -s publication-wfs-py
 ```
 
 Les commandes de mise en base et de création de pyramides ne sont pas instantanées : un traitement est effectué et les logs doivent vous être remontés.

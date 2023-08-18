@@ -1,8 +1,8 @@
 from pathlib import Path
 
-from ignf_gpf_api.helper.FileHelper import FileHelper
-from ignf_gpf_api.helper.JsonHelper import JsonHelper
-from ignf_gpf_api.io.Dataset import Dataset
+from ignf_gpf_sdk.helper.FileHelper import FileHelper
+from ignf_gpf_sdk.helper.JsonHelper import JsonHelper
+from ignf_gpf_sdk.io.Dataset import Dataset
 
 from tests.GpfTestCase import GpfTestCase
 
