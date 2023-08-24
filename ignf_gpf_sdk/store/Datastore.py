@@ -62,7 +62,7 @@ class Datastore(StoreEntity):
 
     @staticmethod
     def get_id(datastore: str) -> str:
-        """récupération de l'id du datastore à partir de sont nom ou id
+        """récupération de l'id du datastore à partir de son nom ou id
 
         Args:
             datastore (str): nom ou id du datastore
