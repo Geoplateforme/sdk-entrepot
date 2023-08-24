@@ -1,7 +1,10 @@
+import re
 from typing import Dict, List, Optional, Type, TypeVar
+from ignf_gpf_sdk.Errors import GpfSdkError
 
 from ignf_gpf_sdk.io.ApiRequester import ApiRequester
 from ignf_gpf_sdk.store.StoreEntity import StoreEntity
+from ignf_gpf_sdk.io.Config import Config
 
 T = TypeVar("T", bound="StoreEntity")
 
@@ -56,3 +59,25 @@ class Datastore(StoreEntity):
 
         # On renvoie la liste des entités récupérées
         return l_entities
+
+    @staticmethod
+    def get_id(datastore: str) -> str:
+        """récupération de l'id du datastore à partir de sont nom ou id
+
+        Args:
+            datastore (str): nom ou id du datastore
+
+        Returns:
+            str: id du datastore
+        """
+        # On regarde s'il ressemble à une Id
+        p_id_regex = re.compile(Config().get_str("store_api", "regex_entity_id"))
+        if p_id_regex.match(datastore):
+            # Si c'est le cas, on le retourne
+            return datastore
+        # Sinon, on doit avoir un nom, on doit donc le résoudre
+        l_datastores = Datastore.api_list(infos_filter={"name": datastore})
+        if not l_datastores:
+            raise GpfSdkError(f"Le datastore demandé '{datastore}' n'a pas été trouvé. Vérifier le nom indiqué.")
+        # Et on renvoi l'id
+        return l_datastores[0].id
