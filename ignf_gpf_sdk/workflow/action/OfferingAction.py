@@ -54,8 +54,8 @@ class OfferingAction(ActionAbstract):
             # Création en gérant une erreur de type ConflictError (si la Configuration existe déjà selon les critères de l'API)
             try:
                 self.__offering = Offering.api_create(self.definition_dict["body_parameters"], route_params=self.definition_dict["url_parameters"])
-            except ConflictError:
-                Config().om.warning("L'offre que vous tentez de créer existe déjà !")
+            except ConflictError as e:
+                Config().om.warning(f"Impossible de créer l'offre il y a un conflict : \n{e.message}")
 
     def find_configuration(self, datastore: Optional[str] = None) -> Optional[Configuration]:
         """Fonction permettant de récupérer la Configuration associée à l'Offering qui doit être crée par cette Action.

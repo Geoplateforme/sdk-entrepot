@@ -2,7 +2,6 @@
 
 import configparser
 import io
-import re
 import sys
 import argparse
 import time
@@ -138,17 +137,7 @@ class Main:
         """
         # On regarde si le datastore est donné
         if self.o_args.datastore:
-            # On regarde s'il ressemble à une Id
-            p_id_regex = re.compile(Config().get_str("store_api", "regex_entity_id"))
-            if p_id_regex.match(self.o_args.datastore):
-                # Si c'est le cas, on le retourne
-                return str(self.o_args.datastore)
-            # Sinon, on doit avoir un nom, on doit donc le résoudre
-            l_datastores = Datastore.api_list(infos_filter={"name": self.o_args.datastore})
-            if not l_datastores:
-                raise GpfSdkError(f"Le datastore demandé '{self.o_args.datastore}' n'a pas été trouvé. Vérifier le nom indiqué.")
-            # Et on renvoi l'id
-            return l_datastores[0].id
+            return Datastore.get_id(self.o_args.datastore)
         # Sinon en renvoi None
         return None
 

@@ -1,4 +1,4 @@
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 from ignf_gpf_sdk.store.Datastore import Datastore
 from ignf_gpf_sdk.io.ApiRequester import ApiRequester
@@ -72,3 +72,20 @@ class DatastoreTestCase(GpfTestCase):
             self.assertEqual(l_entities[0].id, "1")
             self.assertEqual(l_entities[0]["name"], "Datastore 1")
             self.assertEqual(l_entities[0]["technical_name"], "ds1")
+
+    def test_get_id(self) -> None:
+        """test de get_id"""
+
+        s_uuid = "d2773f66-6b49-4e6d-bf14-cbe6f5ccd46d"
+        s_nom_datastore = "nom"
+        l_datastore = [MagicMock(id=s_uuid)]
+        with patch.object(Datastore, "api_list", return_value=l_datastore) as o_api_list:
+            # datastore avec le uuid :
+            s_res = Datastore.get_id(s_uuid)
+            self.assertEqual(s_uuid, s_res)
+            o_api_list.assert_not_called()
+
+            # datastore avec le nom :
+            s_res = Datastore.get_id(s_nom_datastore)
+            self.assertEqual(s_uuid, s_res)
+            o_api_list.assert_called_once_with(infos_filter={"name": s_nom_datastore})
