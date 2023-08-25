@@ -280,7 +280,7 @@
                             "processing": "{store_entity.processing.infos._id [INFOS(name=Calcul de pyramide raster)]}",
                             "inputs": {
                               "upload": [
-                                "store_entity.upload.infos._id [INFOS(name=EXAMPLE_DATASET_RASTER3)]}"
+                                "{store_entity.upload.infos._id [INFOS(name=EXAMPLE_DATASET_RASTER3)]}"
                               ]
                             },
                             "output": {
