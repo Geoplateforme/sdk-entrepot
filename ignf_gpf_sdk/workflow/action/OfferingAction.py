@@ -37,7 +37,7 @@ class OfferingAction(ActionAbstract):
             else:
                 # si les url sont récupérées sous forme de liste
                 s_urls = "\n   - ".join(o_offering["urls"])
-            Config().om.info(f"Offre créée : {self.__offering}\n{s_urls}")
+            Config().om.info(f"Offre créée : {self.__offering}\n   - {s_urls}", green_colored=True)
         Config().om.info("Création d'une offre : terminé")
 
     def __create_offering(self, datastore: Optional[str]) -> None:
