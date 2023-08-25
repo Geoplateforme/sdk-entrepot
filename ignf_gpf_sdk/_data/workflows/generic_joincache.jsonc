@@ -70,7 +70,15 @@
                                         "bottom_level": "18",
                                         "top_level": "5"
                                     }
-                                ]
+                                ],
+                                // BBox obligatoire ici, sinon l'injection dans la pyramide1 ne sera pas visible
+                                // BBox France métropolitaine
+                                "bbox": {
+                                    "west": -4.82,
+                                    "south": 42.18,
+                                    "east": 8.71,
+                                    "north": 51.14
+                                }
                             },
                             "getfeatureinfo": {
                                 "stored_data": true
@@ -113,7 +121,7 @@
                     "configuration-WMST-pyramide1"
                 ]
             },
-            
+
             // Étape n°4 : Création de pyramide raster 2
             "pyramide2": {
                 "actions": [
