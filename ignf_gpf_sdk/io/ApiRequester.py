@@ -4,9 +4,9 @@ from pathlib import Path
 import re
 import time
 import traceback
-
 from typing import Any, Dict, Optional, Tuple, List, Union
 import requests
+from requests_toolbelt import MultipartEncoder
 
 from ignf_gpf_sdk.Errors import GpfSdkError
 from ignf_gpf_sdk.auth.Authentifier import Authentifier
@@ -191,8 +191,21 @@ class ApiRequester(metaclass=Singleton):
 
         # Définition du header
         d_headers = Authentifier().get_http_header(json_content_type=files is None)
-        # Execution de la requête
-        r = requests.request(url=url, params=params, json=data, method=method, headers=d_headers, proxies=self.__proxy, files=files)
+        if files is not None:
+            # TODO : modifier la config ? root_url=https://geoplateforme-gpf-apim.qua.gpf-tech.ign.fr/api
+            # Création du MultipartEncoder (cf. https://github.com/requests/toolbelt#multipartform-data-encoder)
+            print(params)
+            print(data)
+            print(files)
+            if params is not None:
+                o_me = MultipartEncoder(fields={**params, **files})
+            else:
+                o_me = MultipartEncoder(fields={**files})
+            d_headers["content-type"] = o_me.content_type
+            # Execution de la requête
+            r = requests.request(url=url, data=o_me, method=method, headers=d_headers, proxies=self.__proxy)
+        else:
+            r = requests.request(url=url, params=params, json=data, method=method, headers=d_headers, proxies=self.__proxy)
 
         # Vérification du résultat...
         if r.status_code >= 200 and r.status_code < 300:
