@@ -39,7 +39,7 @@ class DescriptorFileReader:
         JsonHelper.validate_object(
             self.__descriptor_dict,
             d_schema,
-            "Fichier descriptif de livraison {json_path} non valide.",
+            f"Fichier descriptif de livraison {descriptor_file_path} non valide.",
             "Schéma du fichier descriptif de livraison non valide. Contactez le support.",
         )
 
