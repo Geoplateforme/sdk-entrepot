@@ -164,7 +164,7 @@ class StoreEntity(ABC):
                 params={**d_params, **{"page": i_page, "limit": i_limit}},
             )
             # On les ajoute à la liste
-            l_entities += [cls(i) for i in o_response.json()]
+            l_entities += [cls(i, datastore) for i in o_response.json()]
             # On regarde le Content-Range de la réponse pour savoir si on doit refaire une requête pour récupérer la fin
             b_next_page = ApiRequester.range_next_page(o_response.headers.get("Content-Range"), len(l_entities))
             # On passe à la page suivante
