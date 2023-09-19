@@ -72,6 +72,21 @@ class ProcessingExecutionAction(ActionAbstract):
                     o_stored_data.api_delete()
                     # on force à None pour que la création soit faite
                     self.__processing_execution = None
+                elif self.__behavior == self.BEHAVIOR_CONTINUE:
+                    if o_stored_data["status"] == StoredData.STATUS_UNSTABLE:
+                        # le traitement précédent est en échec
+                        raise GpfSdkError(f"Le traitement précédent a échoué sur la donnée stockée en sortie {o_stored_data}. Impossible de lancer le traitement demandé.")
+
+                    # le processing_execution a été créé mais pas exécuté (StoredData.STATUS_CREATED)
+                    # ou le processing execution est en cours d'exécution (StoredData.STATUS_GENERATING ou StoredData.STATUS_MODIFYING)
+                    # ou il est terminé (StoredData.STATUS_GENERATED)
+                    self.__stored_data = o_stored_data
+                    l_proc_exec = ProcessingExecution.api_list({"output_stored_data": o_stored_data.id})
+                    if not l_proc_exec:
+                        raise GpfSdkError(f"Impossible de trouver l'exécution de traitement liée à la donnée stockée {o_stored_data}")
+                    self.__processing_execution = l_proc_exec[0]
+                    return
+
                 # Comportements non supportés
                 else:
                     raise GpfSdkError(f"Le comportement {self.__behavior} n'est pas reconnu, l'exécution de traitement est annulée.")
@@ -137,12 +152,16 @@ class ProcessingExecutionAction(ActionAbstract):
     def __launch(self) -> None:
         """Lancement de la ProcessingExecution."""
         if self.processing_execution is not None:
-            Config().om.info(f"Exécution de traitement {self.processing_execution['processing']['name']} : lancement...")
-            self.processing_execution.api_launch()
-            Config().om.info(f"Exécution de traitement {self.processing_execution['processing']['name']} : lancée avec succès.")
-
+            if self.processing_execution["status"] == self.processing_execution.STATUS_CREATED:
+                Config().om.info(f"Exécution de traitement {self.processing_execution['processing']['name']} : lancement...")
+                self.processing_execution.api_launch()
+                Config().om.info(f"Exécution de traitement {self.processing_execution['processing']['name']} : lancée avec succès.")
+            elif self.__behavior == self.BEHAVIOR_CONTINUE:
+                Config().om.info(f"Exécution de traitement {self.processing_execution['processing']['name']} : déjà lancée.")
+            else:
+                raise StepActionError("L'exécution de traitement est déjà lancée.")
         else:
-            raise StepActionError("aucune procession-execution de trouvé. Impossible de lancer le traitement")
+            raise StepActionError("Aucune exécution de traitement trouvée. Impossible de lancer le traitement")
 
     def find_stored_data(self, datastore: Optional[str] = None) -> Optional[StoredData]:
         """Fonction permettant de récupérer une Stored Data ressemblant à celle qui devrait être créée par
