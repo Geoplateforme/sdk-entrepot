@@ -105,11 +105,12 @@ class ProcessingExecutionAction(ActionAbstract):
         if "upload" in d_info:
             # récupération de l'upload
             self.__upload = Upload.api_get(d_info["upload"]["_id"], datastore=datastore)
-        elif "stored_data" in d_info:
+            return
+        if "stored_data" in d_info:
             # récupération de la stored_data
             self.__stored_data = StoredData.api_get(d_info["stored_data"]["_id"], datastore=datastore)
-        else:
-            raise StepActionError(f"Aucune correspondance pour {d_info.keys()}")
+            return
+        raise StepActionError(f"Aucune correspondance pour {d_info.keys()}")
 
     def __add_tags(self) -> None:
         """Ajout des tags sur l'Upload ou la StoredData en sortie du ProcessingExecution."""
