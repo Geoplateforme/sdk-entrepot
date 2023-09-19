@@ -33,7 +33,7 @@ Voici un exemple de ce que cela peut donner :
 ```ini
 [store_authentification]
 # Groupe d’appartenance
-client_id=geotuileur
+client_id=gpf-warehouses
 # Votre login
 login=LOGIN
 # Votre mot de passe
