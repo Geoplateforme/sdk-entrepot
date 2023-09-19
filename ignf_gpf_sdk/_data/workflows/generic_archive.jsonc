@@ -19,7 +19,8 @@
                             "output": {
                                 "stored_data": {
                                     // On crée une nouvelle Donnée Stockée nommée "UserLastName__Archive"
-                                    "name": "{user.last_name}__Archive"
+                                    "name": "{user.last_name}__Archive",
+                                    "storage_tags": ["IGN", "ARCHIVE"]
                                 }
                             },
                             "parameters": {}

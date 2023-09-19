@@ -324,6 +324,13 @@ class Main:
                     Config().om.info(f"Liste des erreurs :\n   * {s_errors}")
                     raise GpfSdkError("Workflow invalide.")
                 Config().om.info("Le workflow est valide.", green_colored=True)
+
+                # Affichage des étapes disponibles et des parents
+                Config().om.info("Liste des étapes disponibles et de leurs parents :", green_colored=True)
+                l_steps = o_workflow.get_all_steps()
+                for s_step in l_steps:
+                    Config().om.info(f"   * {s_step}")
+
             else:
                 # Sinon, on définit des résolveurs
                 GlobalResolver().add_resolver(StoreEntityResolver("store_entity"))
