@@ -99,10 +99,18 @@ class Authentifier(metaclass=Singleton):
             if o_response.status_code == HTTPStatus.OK:
                 self.__last_token = Token(o_response.json())
             else:
-                raise requests.exceptions.HTTPError(f"Code retour authentification KeyCloak = {o_response.status_code}")
+                # On tente de récupérer le message
+                try:
+                    s_message = o_response.json()["error_description"]
+                except Exception:
+                    s_message = "pas de raison indiqué"
+                raise requests.exceptions.HTTPError(f"Code retour authentification KeyCloak = {o_response.status_code} ({s_message})")
 
         except Exception as e_error:
-            Config().om.warning("La récupération du jeton d'authentification a échoué...")
+            if isinstance(e_error, requests.exceptions.HTTPError):
+                Config().om.warning(e_error.args[0])
+            else:
+                Config().om.warning("La récupération du jeton d'authentification a échoué...")
             # Affiche la pile d'exécution
             Config().om.debug(traceback.format_exc())
             # Une erreur s'est produite : attend un peu et relance une nouvelle fois la fonction
