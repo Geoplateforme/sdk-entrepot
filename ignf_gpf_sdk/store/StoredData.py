@@ -11,3 +11,10 @@ class StoredData(TagInterface, CommentInterface, SharingInterface, EventInterfac
 
     _entity_name = "stored_data"
     _entity_title = "donnée stockée"
+
+    STATUS_CREATED = "CREATED"
+    STATUS_GENERATING = "GENERATING"
+    STATUS_MODIFYING = "MODIFYING"
+    STATUS_GENERATED = "GENERATED"
+    STATUS_DELETED = "DELETED"
+    STATUS_UNSTABLE = "UNSTABLE"
