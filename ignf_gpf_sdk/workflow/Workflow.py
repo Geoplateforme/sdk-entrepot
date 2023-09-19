@@ -16,9 +16,9 @@ from ignf_gpf_sdk.workflow.action.OfferingAction import OfferingAction
 
 
 class Workflow:
-    """Cette classe permet de décrire et de lancer d'un workflow.
+    """Cette classe permet de décrire et de lancer un workflow.
 
-    Un workflow est une suite de création d'entité (exécution de traitement,
+    Un workflow est une suite de création d'entités (exécution de traitement,
     configuration et offre) permettant de traiter puis de publier des données
     via la Géoplateforme.
 
@@ -32,7 +32,7 @@ class Workflow:
     def __init__(self, name: str, raw_dict: Dict[str, Any]) -> None:
         """La classe est instanciée à partir d'un nom et d'une représentation du workflow.
 
-        La représentation du workflow peut provenir par exemple d'une fichier JSON.
+        La représentation du workflow peut provenir par exemple d'un fichier JSON.
 
         Args:
             name (str) : Nom du workflow
@@ -66,7 +66,7 @@ class Workflow:
             liste des entités créées
         """
         Config().om.info(f"Lancement de l'étape {step_name}...")
-        # Création d'une liste pour stocker les entités créée
+        # Création d'une liste pour stocker les entités créées
         l_store_entity: List[StoreEntity] = []
         # Récupération de l'étape dans la définition de workflow
         d_step_definition = self.__get_step_definition(step_name)
@@ -297,3 +297,22 @@ class Workflow:
 
         # On renvoie la liste
         return l_errors
+
+    def get_all_steps(self) -> List[str]:
+        """Retourne la liste des différentes étapes et de leurs parents.
+
+        Returns:
+            liste des étapes (et des parents)
+        """
+        l_steps: List[str] = []
+
+        # Pour chaque étape
+        for s_step_name in self.steps:
+            # on récupère les parents
+            l_parents = self.__get_step_definition(s_step_name)["parents"]
+            s_parents = ", ".join(l_parents)
+            # on ajoute dans la liste
+            l_steps.append(f"Etape « {s_step_name} » [parent(s) : {s_parents}]")
+
+        # On renvoie la liste
+        return l_steps
