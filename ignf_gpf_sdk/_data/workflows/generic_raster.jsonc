@@ -71,7 +71,7 @@
                             },
                             "getfeatureinfo": {
                                 "stored_data": true
-                            }                
+                            }
                         },
                         // Liste des commentaires ajoutés à la Configuration
                         "comments": [
@@ -87,7 +87,7 @@
                 "parents": [
                     "pyramide"
                 ]
-                
+
             },
             // Étape n°A.3 : Publication WMST de la pyramide
             "publication-WMST": {
@@ -142,7 +142,7 @@
                             },
                             "getfeatureinfo": {
                                 "stored_data": true
-                            }                
+                            }
                         },
                         // Liste des commentaires ajoutés à la Configuration
                         "comments": [

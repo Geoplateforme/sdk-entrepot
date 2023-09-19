@@ -129,8 +129,8 @@ python -m ignf_gpf_sdk workflow -f generic_vecteur.jsonc -s configuration-wms-bd
 python -m ignf_gpf_sdk workflow -f generic_vecteur.jsonc -s publication-wms-bdd
 # création pyramide et WFS
 python -m ignf_gpf_sdk workflow -f generic_vecteur.jsonc -s création-pyramide
-python -m ignf_gpf_sdk workflow -f generic_vecteur.jsonc -s configuration-wfs-py
-python -m ignf_gpf_sdk workflow -f generic_vecteur.jsonc -s publication-wfs-py
+python -m ignf_gpf_sdk workflow -f generic_vecteur.jsonc -s configuration-tms-py
+python -m ignf_gpf_sdk workflow -f generic_vecteur.jsonc -s publication-tms-py
 ```
 
 Les commandes de mise en base et de création de pyramides ne sont pas instantanées : un traitement est effectué et les logs doivent vous être remontés.

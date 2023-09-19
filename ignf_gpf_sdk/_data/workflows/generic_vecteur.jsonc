@@ -19,7 +19,8 @@
                             "output": {
                                 "stored_data": {
                                     // On crée une nouvelle Donnée Stockée nommée "UserLastName__Base_intermédiaire"
-                                    "name": "{user.last_name}__Base_intermédiaire"
+                                    "name": "{user.last_name}__Base_intermédiaire",
+                                    "storage_tags": ["IGN", "VECTEUR"]
                                 }
                             },
                             "parameters": {}
@@ -56,7 +57,7 @@
                                                 "title": "{user.last_name} -- vecteur -- Couche Canton du tutoriel - WFS - BDD",
                                                 "keywords": ["Tutoriel", "Vecteur", "bdd"],
                                                 "abstract": "Cantons autour de Paris"
-                        
+
                                             }
                                         ],
                                         // On récupère l'id de la Donnée Stockée créée à l'étape précédente grâce à son nom
@@ -173,7 +174,7 @@
                         "type": "processing-execution",
                         "body_parameters": {
                             // On récupère l'id du traitement nommé "Calcul de pyramide vecteur"
-                            "processing": "{store_entity.processing.infos._id [INFOS(name=Calcul de pyramide vecteur)]}",
+                            "processing": "{store_entity.processing.infos._id [INFOS(name=Calcul ou mise à jour de pyramide vecteur)]}",
                             "inputs": {
                                 "stored_data": [
                                     // On récupère l'id de la Donnée Stockée créée à l'étape précédente grâce à son nom, son type et l'un de ses tags
@@ -183,7 +184,8 @@
                             "output": {
                                 "stored_data": {
                                     // On crée une nouvelle Donnée Stockée nommée "UserLastName__Pyramide_vecteur"
-                                    "name": "{user.last_name}__Pyramide_vecteur"
+                                    "name": "{user.last_name}__Pyramide_vecteur",
+                                    "storage_tags": ["IGN", "PYRAMIDE"]
                                 }
                             },
                             "parameters": {
