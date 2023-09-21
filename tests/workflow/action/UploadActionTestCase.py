@@ -81,6 +81,7 @@ class UploadActionTestCase(GpfTestCase):
         nb_data_files_on_api_ok: int = 0,
         nb_md5_files_on_api_ok: int = 0,
         comment_exist: bool = False,
+        is_open: bool = True,
     ) -> None:
         """Lance le test UploadAction.run selon un cas de figure. Faire varier les paramètres permet de jouer sur le cas testé.
         Args:
@@ -94,6 +95,7 @@ class UploadActionTestCase(GpfTestCase):
             nb_data_files_on_api_ok (int): nombre fichiers de données déjà livrés sur l'API et à ne pas re-livrer
             nb_md5_files_on_api_ok (int): nombre fichiers de clé déjà livrés sur l'API et à ne pas re-livrer
             comment_exist (bool): si on a un commentaire qui existe déjà
+            is_open (bool): si livraison ouverte
         """
 
         def create(d_dict: Dict[str, Any], route_params: Optional[Dict[str, Any]] = None) -> Upload:
@@ -171,12 +173,12 @@ class UploadActionTestCase(GpfTestCase):
             else:
                 o_mock_api_delete.assert_not_called()
             # vérif de o_mock_api_add_tags
-            if d_tags is not None:
+            if d_tags is not None and is_open:
                 o_mock_api_add_tags.assert_called_once_with(d_tags)
             else:
                 o_mock_api_add_tags.assert_not_called()
             # vérif de o_mock_api_add_comment
-            if l_comments is not None:
+            if l_comments is not None and is_open:
                 o_mock_api_list_comments.assert_called_once_with()
                 self.assertEqual(o_mock_api_add_comment.call_count, len(l_comments))
                 for s_comment in l_comments:
@@ -184,27 +186,36 @@ class UploadActionTestCase(GpfTestCase):
             else:
                 o_mock_api_add_comment.assert_not_called()
             # vérif de o_mock_api_push_data_file
-            # appelée une fois par fichiers à livrer moins le nb de fichiers déjà livrés
-            self.assertEqual(o_mock_api_push_data_file.call_count, len(d_data_files) - nb_data_files_on_api_ok)
-            # appelée selon le Path des fichiers à livrer
-            for p_file_path, s_api_path in d_data_files.items():
-                # S'il ne sont pas déjà livrés et avec la bonne taille
-                if files_on_api.get(f"data/{s_api_path}") != self.SIZE_OK:
-                    o_mock_api_push_data_file.assert_any_call(p_file_path, s_api_path)
+            if len(d_data_files) == nb_data_files_on_api_ok:
+                o_mock_api_push_data_file.assert_not_called()
+            else:
+                # appelée une fois par fichiers à livrer moins le nb de fichiers déjà livrés
+                self.assertEqual(o_mock_api_push_data_file.call_count, len(d_data_files) - nb_data_files_on_api_ok)
+                # appelée selon le Path des fichiers à livrer
+                for p_file_path, s_api_path in d_data_files.items():
+                    # S'il ne sont pas déjà livrés et avec la bonne taille
+                    if files_on_api.get(f"data/{s_api_path}") != self.SIZE_OK:
+                        o_mock_api_push_data_file.assert_any_call(p_file_path, s_api_path)
             # vérif de o_mock_api_push_md5_file
-            # appelée une fois par fichiers à livrer moins le nb de fichiers déjà livrés
-            self.assertEqual(o_mock_api_push_md5_file.call_count, len(l_md5_files) - nb_md5_files_on_api_ok)
-            # appelée selon le Path des fichiers à livrer
-            for p_file_path in l_md5_files:
-                # S'il ne sont pas déjà livrés et avec la bonne taille
-                if files_on_api.get(p_file_path.name) != self.SIZE_OK:
-                    o_mock_api_push_md5_file.assert_any_call(p_file_path)
-            # vérif de o_mock_api_tree (appelée par UploadAction.__push_data_files et UploadAction.__push_md5_files)
-            self.assertEqual(o_mock_api_tree.call_count, 2)
-            # vérif de o_mock_parse_tree (appelée par UploadAction.__push_data_files et UploadAction.__push_md5_files)
-            self.assertEqual(o_mock_parse_tree.call_count, 2)
-            # vérif de o_mock_close
-            o_mock_close.assert_called_once_with()
+            if len(l_md5_files) == nb_md5_files_on_api_ok:
+                o_mock_api_push_md5_file.assert_not_called()
+            else:
+                # appelée une fois par fichiers à livrer moins le nb de fichiers déjà livrés
+                self.assertEqual(o_mock_api_push_md5_file.call_count, len(l_md5_files) - nb_md5_files_on_api_ok)
+                # appelée selon le Path des fichiers à livrer
+                for p_file_path in l_md5_files:
+                    # S'il ne sont pas déjà livrés et avec la bonne taille
+                    if files_on_api.get(p_file_path.name) != self.SIZE_OK:
+                        o_mock_api_push_md5_file.assert_any_call(p_file_path)
+            if is_open:
+                # vérif de o_mock_api_tree (appelée par UploadAction.__push_data_files et UploadAction.__push_md5_files)
+                self.assertEqual(o_mock_api_tree.call_count, 2)
+                # vérif de o_mock_close
+                o_mock_close.assert_called_once_with()
+            else:
+                o_mock_api_tree.assert_not_called()
+                o_mock_close.assert_not_called()
+
 
     def test_run(self) -> None:
         """Lance le test de UploadAction.run selon plusieurs cas de figures."""
@@ -276,15 +287,26 @@ class UploadActionTestCase(GpfTestCase):
             comment_exist=True
         )
 
-        # mode CONTINUE mais avec doublon (fermé) => ça plante
+        # mode CONTINUE mais avec doublon (fermé) => ça passe mais sans modifications
         o_return_value_find_upload = Upload({"_id": "upload_existant", "name": "Upload existant", "status": "CLOSE"})
         self.run_args(
             behavior="CONTINUE",
             return_value_find_upload=o_return_value_find_upload,
             api_create=False,
             api_delete=False,
+            run_fail=False,
+            is_open=False,
+            nb_data_files_on_api_ok = 3,
+            nb_md5_files_on_api_ok = 2,
+        )
+        # mode CONTINUE mais avec doublon (ouvert) et commentaire déjà présent
+        self.run_args(
+            behavior="TOTO",
+            return_value_find_upload = o_return_value_find_upload,
             run_fail=True,
-            message_exception=f"Impossible de continuer, la livraison {o_return_value_find_upload} est fermée.",
+            api_create = False,
+            api_delete = False,
+            message_exception="Le comportement TOTO - DELETE n'est pas reconnu, l'exécution de traitement est annulée."
         )
 
     def test_monitor_until_end_ok(self) -> None:

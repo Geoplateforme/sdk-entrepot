@@ -90,7 +90,7 @@ class UploadAction:
                 # on en crée une nouvelle (on utilise les champs de "upload_infos" du dataset)
                 self.__upload = Upload.api_create(self.__dataset.upload_infos, route_params={"datastore": datastore})
                 Config().om.warning(f"Livraison {self.__upload} recréée avec succès.")
-            if self.__behavior == self.BEHAVIOR_CONTINUE:
+            elif self.__behavior == self.BEHAVIOR_CONTINUE:
                 # Sinon on continue avec cet upload pour le compléter (behavior == CONTINUE)
                 # cas livraison fermé : message particulier
                 if not o_upload.is_open():
@@ -99,7 +99,7 @@ class UploadAction:
                     Config().om.info(f"Livraison identique {o_upload} trouvée, le programme va la reprendre et la compléter.")
                 self.__upload = o_upload
             else:
-                raise GpfSdkError(f"Le comportement {self.__behavior} n'est pas reconnu, l'exécution de traitement est annulée.")
+                raise GpfSdkError(f"Le comportement {self.__behavior} - {self.BEHAVIOR_DELETE} n'est pas reconnu, l'exécution de traitement est annulée.")
         else:
             # Si la livraison est nulle, on en crée une nouvelle (on utilise les champs de "upload_infos" du dataset)
             self.__upload = Upload.api_create(self.__dataset.upload_infos, route_params={"datastore": datastore})
