@@ -13,7 +13,7 @@ code+=$?
 echo
 
 # Lancement de mypy
-mypy --strict ignf_gpf_sdk tests
+mypy --strict --config-file mypy.ini ignf_gpf_sdk tests
 code+=$?
 echo
 
