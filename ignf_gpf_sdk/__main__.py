@@ -253,18 +253,18 @@ class Main:
                 o_ua = UploadAction(o_dataset, behavior=s_behavior)
                 o_upload = o_ua.run(self.o_args.datastore)
                 if UploadAction.monitor_until_end(o_upload, print):
-                    print(f"Livraison {o_upload} créée avec succès.")
+                    Config().om.info(f"Livraison {o_upload} créée avec succès.", green_colored=True)
                 else:
-                    print(f"Livraison {o_upload} créée en erreur !")
+                    Config().om.error(f"Livraison {o_upload} créée en erreur !")
         elif self.o_args.id is not None:
             o_upload = Upload.api_get(self.o_args.id, datastore=self.datastore)
-            print(o_upload)
+            Config().om.info(f"{o_upload}")
         else:
             d_infos_filter = StoreEntity.filter_dict_from_str(self.o_args.infos)
             d_tags_filter = StoreEntity.filter_dict_from_str(self.o_args.tags)
             l_uploads = Upload.api_list(infos_filter=d_infos_filter, tags_filter=d_tags_filter, datastore=self.datastore)
             for o_upload in l_uploads:
-                print(o_upload)
+                Config().om.info(f"{o_upload}")
 
     def dataset(self) -> None:
         """Liste les jeux de données d'exemple proposés et, si demandé par l'utilisateur, en export un."""
