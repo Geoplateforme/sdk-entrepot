@@ -162,6 +162,21 @@ class UploadActionTestCase(GpfTestCase):
             # vérif de o_mock_find_upload
             o_mock_find_upload.assert_called_once_with("datastore_id")
 
+            # cas livraison fermé : aucune action
+            if not is_open:
+                o_mock_api_create.assert_not_called()
+                o_mock_api_delete.assert_not_called()
+                o_mock_api_add_tags.assert_not_called()
+                o_mock_api_list_comments.assert_not_called()
+                o_mock_api_add_comment.assert_not_called()
+                o_mock_api_push_data_file.assert_not_called()
+                o_mock_api_push_md5_file.assert_not_called()
+
+                o_mock_api_tree.assert_not_called()
+                o_mock_parse_tree.assert_not_called()
+                o_mock_close.assert_not_called()
+                return
+
             # vérif de o_mock_api_create
             if api_create:
                 o_mock_api_create.assert_called_once_with(d_upload_infos, route_params={'datastore': 'datastore_id'})
@@ -173,12 +188,12 @@ class UploadActionTestCase(GpfTestCase):
             else:
                 o_mock_api_delete.assert_not_called()
             # vérif de o_mock_api_add_tags
-            if d_tags is not None and is_open:
+            if d_tags is not None:
                 o_mock_api_add_tags.assert_called_once_with(d_tags)
             else:
                 o_mock_api_add_tags.assert_not_called()
             # vérif de o_mock_api_add_comment
-            if l_comments is not None and is_open:
+            if l_comments is not None:
                 o_mock_api_list_comments.assert_called_once_with()
                 self.assertEqual(o_mock_api_add_comment.call_count, len(l_comments))
                 for s_comment in l_comments:
@@ -207,14 +222,12 @@ class UploadActionTestCase(GpfTestCase):
                     # S'il ne sont pas déjà livrés et avec la bonne taille
                     if files_on_api.get(p_file_path.name) != self.SIZE_OK:
                         o_mock_api_push_md5_file.assert_any_call(p_file_path)
-            if is_open:
-                # vérif de o_mock_api_tree (appelée par UploadAction.__push_data_files et UploadAction.__push_md5_files)
-                self.assertEqual(o_mock_api_tree.call_count, 2)
-                # vérif de o_mock_close
-                o_mock_close.assert_called_once_with()
-            else:
-                o_mock_api_tree.assert_not_called()
-                o_mock_close.assert_not_called()
+            # vérif de o_mock_api_tree (appelée par UploadAction.__push_data_files et UploadAction.__push_md5_files)
+            self.assertEqual(o_mock_api_tree.call_count, 2)
+            # vérif de o_mock_parse_tree (appelée par UploadAction.__push_data_files et UploadAction.__push_md5_files)
+            self.assertEqual(o_mock_parse_tree.call_count, 2)
+            # vérif de o_mock_close
+            o_mock_close.assert_called_once_with()
 
 
     def test_run(self) -> None:
@@ -296,8 +309,6 @@ class UploadActionTestCase(GpfTestCase):
             api_delete=False,
             run_fail=False,
             is_open=False,
-            nb_data_files_on_api_ok = 3,
-            nb_md5_files_on_api_ok = 2,
         )
         # mode CONTINUE mais avec doublon (ouvert) et commentaire déjà présent
         self.run_args(
