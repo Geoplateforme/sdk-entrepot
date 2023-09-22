@@ -87,8 +87,7 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
         def get_items_processing(key:str) -> Any:
             if key == "status":
                 return "CREATED"
-            else:
-                return MagicMock()
+            return MagicMock()
         o_mock_processing.__getitem__.side_effect = get_items_processing
 
         # mock de upload
