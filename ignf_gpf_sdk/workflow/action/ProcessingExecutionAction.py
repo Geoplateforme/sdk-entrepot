@@ -169,8 +169,10 @@ class ProcessingExecutionAction(ActionAbstract):
 
     def __launch(self) -> None:
         """Lancement de la ProcessingExecution."""
-        if self.processing_execution is not None:
-            if self.processing_execution["status"] == self.processing_execution.STATUS_CREATED:
+        if self.processing_execution is None:
+            raise StepActionError("Aucune exécution de traitement trouvée. Impossible de lancer le traitement")
+        else:
+            if self.processing_execution["status"] == ProcessingExecution.STATUS_CREATED:
                 Config().om.info(f"Exécution de traitement {self.processing_execution['processing']['name']} : lancement...")
                 self.processing_execution.api_launch()
                 Config().om.info(f"Exécution de traitement {self.processing_execution['processing']['name']} : lancée avec succès.")
@@ -179,8 +181,6 @@ class ProcessingExecutionAction(ActionAbstract):
             else:
                 # processing_execution est déjà lancé ET le __behavior n'est pas en "continue", on ne devrait pas être ici :
                 raise StepActionError("L'exécution de traitement est déjà lancée.")
-        else:
-            raise StepActionError("Aucune exécution de traitement trouvée. Impossible de lancer le traitement")
 
     def find_stored_data(self, datastore: Optional[str] = None) -> Optional[StoredData]:
         """Fonction permettant de récupérer une Stored Data ressemblant à celle qui devrait être créée par

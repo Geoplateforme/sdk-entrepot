@@ -79,9 +79,17 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
 
         # mock de processing execution
         d_store_properties = {"output": {s_type_output: {"_id": "id"}}}
-        o_mock_precession = MagicMock()
-        o_mock_precession.get_store_properties.return_value = d_store_properties
-        o_mock_precession.api_launch.return_value = None
+        o_mock_processing = MagicMock()
+        o_mock_processing.get_store_properties.return_value = d_store_properties
+        o_mock_processing.api_launch.return_value = None
+        # o_mock_processing.__getitem__.return_value = ProcessingExecution.STATUS_CREATED
+        # ça veut dire que : o_mock_processing["quelchechose"] = "CREATED"
+        def get_items_processing(key:str) -> Any:
+            if key == "status":
+                return "CREATED"
+            else:
+                return MagicMock()
+        o_mock_processing.__getitem__.side_effect = get_items_processing
 
         # mock de upload
         o_mock_upload = MagicMock()
@@ -103,7 +111,7 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
         # suppression de la mise en page forcée pour le with
         with patch.object(Upload, "api_get", return_value=o_mock_upload) as o_mock_processing_upload_api_get, \
             patch.object(StoredData, "api_get", return_value=o_mock_stored_data) as o_mock_processing_store_data_api_get, \
-            patch.object(ProcessingExecution, "api_create", return_value=o_mock_precession) as o_mock_processing_execution_api_create, \
+            patch.object(ProcessingExecution, "api_create", return_value=o_mock_processing) as o_mock_processing_execution_api_create, \
             patch.object(ProcessingExecutionAction, "find_stored_data", return_value=o_exist_output) as o_mock_find_stored_data, \
             patch.object(ProcessingExecutionAction, "output_new_entity", new_callable=PropertyMock, return_value=output_already_exist), \
             patch.object(Config, "get_str", return_value="STOP") \
@@ -134,18 +142,14 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
                     return
 
             else:
-                if behavior == "CONTINUE":
-                    return
-                else:
-                    # on lance l'exécution de run
-                    ### @Ludivine, c'est à dire ?
-                    o_pea.run(datastore)
-                    o_mock_find_stored_data.assert_not_called()
+                # on appelle la méthode à tester
+                o_pea.run(datastore)
+                o_mock_find_stored_data.assert_not_called()
 
             # test de l'appel à ProcessingExecution.api_create
             o_mock_processing_execution_api_create.assert_called_once_with({**d_action['body_parameters'], "datastore":datastore})
             # un appel à ProcessingExecution().get_store_properties
-            o_mock_precession.get_store_properties.assert_called_once_with()
+            o_mock_processing.get_store_properties.assert_called_once_with()
 
             # verif appel à Upload/StoredData
             if "stored_data" in d_store_properties["output"]:
@@ -192,7 +196,7 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
                 o_mock_stored_data.api_add_comment.assert_not_called()
 
             # un appel à api_launch
-            o_mock_precession.api_launch.assert_called_once_with()
+            o_mock_processing.api_launch.assert_called_once_with()
 
     def test_run(self) -> None:
         """test de run"""
