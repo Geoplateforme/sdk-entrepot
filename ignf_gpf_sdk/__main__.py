@@ -29,7 +29,6 @@ from ignf_gpf_sdk.store.StoredData import StoredData
 from ignf_gpf_sdk.store.Upload import Upload
 from ignf_gpf_sdk.store.StoreEntity import StoreEntity
 from ignf_gpf_sdk.store.ProcessingExecution import ProcessingExecution
-from ignf_gpf_sdk.store.User import User
 from ignf_gpf_sdk.store.Datastore import Datastore
 from ignf_gpf_sdk.workflow.resolver.UserResolver import UserResolver
 
@@ -70,9 +69,6 @@ class Main:
             self.workflow()
         elif self.o_args.task == "delete":
             self.delete()
-        elif self.o_args.task == "me":
-            o_user = User.api_get("me")
-            print(o_user.to_json(indent=4))
 
     @staticmethod
     def parse_args(args: Optional[Sequence[str]] = None) -> argparse.Namespace:
@@ -91,42 +87,51 @@ class Main:
         o_parser.add_argument("--debug", dest="debug", required=False, default=False, action="store_true", help="Passe l'appli en mode debug (plus de messages affichés)")
         o_parser.add_argument("--datastore", "-d", dest="datastore", required=False, default=None, help="Identifiant du datastore à utiliser")
         o_sub_parsers = o_parser.add_subparsers(dest="task", metavar="TASK", required=True, help="Tâche à effectuer")
+
         # Parser pour auth
         o_sub_parser = o_sub_parsers.add_parser("auth", help="Authentification")
         o_sub_parser.add_argument("--show", type=str, choices=["token", "header"], default=None, help="Donnée à renvoyer")
+
         # Parser pour me
         o_sub_parser = o_sub_parsers.add_parser("me", help="Mes informations")
+
         # Parser pour config
         o_sub_parser = o_sub_parsers.add_parser("config", help="Configuration")
         o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin du fichier où sauvegarder la configuration (si null, la configuration est affichée)")
         o_sub_parser.add_argument("--section", "-s", type=str, default=None, help="Se limiter à une section")
         o_sub_parser.add_argument("--option", "-o", type=str, default=None, help="Se limiter à une option (section doit être renseignée)")
+
         # Parser pour upload
         o_sub_parser = o_sub_parsers.add_parser("upload", help="Livraisons")
         o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin vers le fichier descriptor dont on veut effectuer la livraison)")
         o_sub_parser.add_argument("--infos", "-i", type=str, default=None, help="Filter les livraisons selon les infos")
         o_sub_parser.add_argument("--tags", "-t", type=str, default=None, help="Filter les livraisons selon les tags")
-        o_sub_parser.add_argument("--behavior", "-b", type=str, default=None, help="Action à effectuer si la livraison existe déjà")
-        o_sub_parser.add_argument("--id", type=str, default=None, help="Affiche la livraison demandée")
+
         # Parser pour dataset
         o_sub_parser = o_sub_parsers.add_parser("dataset", help="Jeux de données")
         o_sub_parser.add_argument("--name", "-n", type=str, default=None, help="Nom du dataset à extraire")
         o_sub_parser.add_argument("--folder", "-f", type=str, default=None, help="Dossier où enregistrer le dataset")
+
         # Parser pour workflow
-        o_sub_parser = o_sub_parsers.add_parser("workflow", help="Workflow")
+        s_epilog_workflow = """Quatre types de lancement :
+        * liste des exemple de workflow disponibles : `` (aucun arguments)
+        * Récupération d'un workflow exemple : `--name NAME`
+        * Vérification de la structure du ficher workflow et affichage des étapes: `--file FILE --step STEP [--behavior BEHAVIOR]`
+        * Lancement l'une étape d'un workflow: `--file FILE --step STEP [--behavior BEHAVIOR]`
+        """
+        o_sub_parser = o_sub_parsers.add_parser("workflow", help="Workflow", epilog=s_epilog_workflow, formatter_class=argparse.RawTextHelpFormatter)
         o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin du fichier à utiliser OU chemin où extraire le dataset")
         o_sub_parser.add_argument("--name", "-n", type=str, default=None, help="Nom du workflow à extraire")
         o_sub_parser.add_argument("--step", "-s", type=str, default=None, help="Étape du workflow à lancer")
         o_sub_parser.add_argument("--behavior", "-b", type=str, default=None, help="Action à effectuer si l'exécution de traitement existe déjà")
+
         # Parser pour delete
         o_sub_parser = o_sub_parsers.add_parser("delete", help="Delete")
         o_sub_parser.add_argument("--type", choices=["livraison", "stored_data", "configuration", "offre"], required=True, help="Type de l'entité à supprimé")
         o_sub_parser.add_argument("--id", type=str, required=True, help="identifiant de l'entité à supprimé")
         o_sub_parser.add_argument("--cascade", action="store_true", help="Action à effectuer si l'exécution de traitement existe déjà")
-        o_sub_parser.add_argument("--force", action="store_true", help="Mode forcée, les suppression sont faites sans aucune interaction")
+        o_sub_parser.add_argument("--force", action="store_true", help="Mode forcée, les suppressions sont faites sans aucune interaction")
 
-        # Parser pour me
-        o_sub_parser = o_sub_parsers.add_parser("me", help="me")
         return o_parser.parse_args(args)
 
     def __datastore(self) -> Optional[str]:
