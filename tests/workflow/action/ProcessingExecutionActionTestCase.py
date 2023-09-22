@@ -61,11 +61,11 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
         output_already_exist: bool = False,
         behavior: Optional[str] = None,
     ) -> None:
-        """lancement +test de ProcessingExecutionAction.run selon param
+        """lancement + test de ProcessingExecutionAction.run selon param
 
         Args:
-            tags (Optional[Dict[str, Any]]): dict des tags ou None
-            comments (Optional[List]): list des comments ou None
+            tags (Optional[Dict[str, Any]]): dictionnaire des tags ou None
+            comments (Optional[List]): liste des commentaires ou None
             s_type_output (str): type de l'output (stored_data ou upload)
         """
         d_action: Dict[str, Any] = {"type": "processing-execution", "body_parameters":{"output":{s_key:"test"}}}
@@ -108,9 +108,9 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
             patch.object(ProcessingExecutionAction, "output_new_entity", new_callable=PropertyMock, return_value=output_already_exist), \
             patch.object(Config, "get_str", return_value="STOP") \
         :
-            # dans le cas de ou il y a un entité qui existe déjà
+            # dans le cas où une entité existe déjà dans la gpf :
             if output_already_exist:
-                if behavior == "STOP" or not behavior:
+                if not behavior or behavior == "STOP":
                     # on attend une erreur
                     with self.assertRaises(GpfSdkError) as o_err:
                         o_pea.run(datastore)
@@ -119,22 +119,28 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
 
                 if behavior == "DELETE":
                     # suppression de l'existant puis normal
+                    ### @Ludivine, ça veut dire quoi ??
                     o_pea.run(datastore)
                     # un appel à find_stored_data
                     o_mock_find_stored_data.assert_called_once_with(datastore)
                     o_mock_exist_output.api_delete.assert_called_once_with()
+                elif behavior == "CONTINUE":
+                    return
                 else:
-                    # behavior faux
-                    # on attend une erreur
+                    # behavior non reconnu. On attend une erreur
                     with self.assertRaises(GpfSdkError) as o_err:
                         o_pea.run(datastore)
-                    self.assertEqual(o_err.exception.message, f"Le comportement {behavior} n'est pas reconnu, l'exécution de traitement est annulée.")
+                    self.assertEqual(o_err.exception.message, f"Le comportement {behavior} n'est pas reconnu (STOP|DELETE|CONTINUE), l'exécution de traitement n'est pas possible.")
                     return
 
             else:
-                # on lance l'exécution de run
-                o_pea.run(datastore)
-                o_mock_find_stored_data.assert_not_called()
+                if behavior == "CONTINUE":
+                    return
+                else:
+                    # on lance l'exécution de run
+                    ### @Ludivine, c'est à dire ?
+                    o_pea.run(datastore)
+                    o_mock_find_stored_data.assert_not_called()
 
             # test de l'appel à ProcessingExecution.api_create
             o_mock_processing_execution_api_create.assert_called_once_with({**d_action['body_parameters'], "datastore":datastore})
@@ -206,6 +212,7 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
         # tests particuliers pour cas ou la sortie existe déjà
         self.run_args({"tag1": "val1", "tag2": "val2"}, ["comm1", "comm2", "comm3", "comm4"], s_key, s_type_output, s_datastore, True, "STOP")
         self.run_args({"tag1": "val1", "tag2": "val2"}, ["comm1", "comm2", "comm3", "comm4"], s_key, s_type_output, s_datastore, True, "DELETE")
+        self.run_args({"tag1": "val1", "tag2": "val2"}, ["comm1", "comm2", "comm3", "comm4"], s_key, s_type_output, s_datastore, True, "CONTINUE")
         self.run_args({"tag1": "val1", "tag2": "val2"}, ["comm1", "comm2", "comm3", "comm4"], s_key, s_type_output, s_datastore, True, "Toto")
         self.run_args({"tag1": "val1", "tag2": "val2"}, ["comm1", "comm2", "comm3", "comm4"], s_key, s_type_output, s_datastore, True, None)
 
