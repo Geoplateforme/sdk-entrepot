@@ -7,7 +7,7 @@ import argparse
 import time
 import traceback
 from pathlib import Path
-from typing import List, Optional, Sequence
+from typing import Callable, List, Optional, Sequence
 import shutil
 
 import ignf_gpf_sdk
@@ -102,8 +102,18 @@ class Main:
         o_sub_parser.add_argument("--option", "-o", type=str, default=None, help="Se limiter à une option (section doit être renseignée)")
 
         # Parser pour upload
-        o_sub_parser = o_sub_parsers.add_parser("upload", help="Livraisons")
+        s_epilog_upload = """Trois types de lancement :
+        * création / mise à jour de livraison : `--file FILE [--behavior BEHAVIOR]`
+        * détail d'une livraison, optionnel ouverture ou fermeture : `--id ID [--open | --close]`
+        * liste des livraison, optionnel filtre sur l'info et tags : `[--infos INFOS] [--tags TAGS]`
+        """
+        o_sub_parser = o_sub_parsers.add_parser("upload", help="Livraisons", epilog=s_epilog_upload, formatter_class=argparse.RawTextHelpFormatter)
         o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin vers le fichier descriptor dont on veut effectuer la livraison)")
+        o_sub_parser.add_argument("--behavior", "-b", type=str, default=None, help="Action à effectuer si la livraison existe déjà (uniquement avec -f)")
+        o_sub_parser.add_argument("--id", type=str, default=None, help="Affiche la livraison demandée")
+        o_exclusive = o_sub_parser.add_mutually_exclusive_group()
+        o_exclusive.add_argument("--open", action="store_true", default=False, help="Rouvrir une livraison fermée (uniquement avec --id)")
+        o_exclusive.add_argument("--close", action="store_true", default=False, help="Fermer une livraison ouverte (uniquement avec --id)")
         o_sub_parser.add_argument("--infos", "-i", type=str, default=None, help="Filter les livraisons selon les infos")
         o_sub_parser.add_argument("--tags", "-t", type=str, default=None, help="Filter les livraisons selon les tags")
 
@@ -244,6 +254,15 @@ class Main:
                     o_string_io.seek(0)
                     print(o_string_io.read()[:-1])
 
+    @staticmethod
+    def __monitoring_upload(upload: Upload, message_ok: str, message_ko: str, callback: Optional[Callable[[str], None]] = None) -> bool:
+        b_res = UploadAction.monitor_until_end(upload, callback)
+        if b_res:
+            Config().om.info(message_ok.format(upload=upload), green_colored=True)
+        else:
+            Config().om.error(message_ko.format(upload=upload))
+        return b_res
+
     def upload(self) -> None:
         """Création/Gestion des Livraison (Upload).
         Si un fichier descriptor est précisé, on effectue la livraison.
@@ -257,13 +276,41 @@ class Main:
                 s_behavior = str(self.o_args.behavior).upper() if self.o_args.behavior is not None else None
                 o_ua = UploadAction(o_dataset, behavior=s_behavior)
                 o_upload = o_ua.run(self.o_args.datastore)
-                if UploadAction.monitor_until_end(o_upload, print):
-                    print(f"Livraison {o_upload} créée avec succès.")
-                else:
-                    print(f"Livraison {o_upload} créée en erreur !")
+                self.__monitoring_upload(o_upload, "Livraison {upload} créée avec succès.", "Livraison {upload} créée en erreur !", print)
         elif self.o_args.id is not None:
             o_upload = Upload.api_get(self.o_args.id, datastore=self.datastore)
-            print(o_upload)
+            if self.o_args.open:
+                if o_upload.is_open():
+                    Config().om.warning(f"La livraison {o_upload} est déjà ouverte.")
+                    return
+                if o_upload["status"] in [Upload.STATUS_CLOSED, Upload.STATUS_UNSTABLE]:
+                    o_upload.api_open()
+                    Config().om.info(f"La livraison {o_upload} viens d'être rouverte.", green_colored=True)
+                    return
+                raise GpfSdkError(f"La livraison {o_upload} n'est pas dans un état permettant de d'ouvrir la livraison ({o_upload['status']}).")
+            if self.o_args.close:
+                # si ouverte : on ferme puis monitoring
+                if o_upload.is_open():
+                    # fermeture de l'upload
+                    o_upload.api_close()
+                    Config().om.info(f"La livraison {o_upload} viens d'être Fermée.", green_colored=True)
+                    # monitoring des tests :
+                    self.__monitoring_upload(o_upload, "Livraison {upload} fermée avec succès.", "Livraison {o_upload} fermée en erreur !", print)
+                    return
+                # si STATUS_CHECKING : monitoring
+                if o_upload["status"] == Upload.STATUS_CHECKING:
+                    Config().om.info(f"La livraison {o_upload} est fermé, les tests sont en cours.")
+                    self.__monitoring_upload(o_upload, "Livraison {upload} fermée avec succès.", "Livraison {o_upload} fermée en erreur !", print)
+                    return
+                # si ferme OK ou KO : wwarning
+                if o_upload["status"] in [Upload.STATUS_CLOSED, Upload.STATUS_UNSTABLE]:
+                    Config().om.warning(f"La livraison {o_upload} est déjà fermée, status : {o_upload['status']}")
+                    return
+                # autre : action impossible
+                raise GpfSdkError(f"La livraison {o_upload} n'est pas dans un état permettant de fermer la livraison ({o_upload['status']}).")
+
+            # affichage
+            print(o_upload.to_json(indent=3))
         else:
             d_infos_filter = StoreEntity.filter_dict_from_str(self.o_args.infos)
             d_tags_filter = StoreEntity.filter_dict_from_str(self.o_args.tags)
