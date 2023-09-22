@@ -256,6 +256,17 @@ class Main:
 
     @staticmethod
     def __monitoring_upload(upload: Upload, message_ok: str, message_ko: str, callback: Optional[Callable[[str], None]] = None) -> bool:
+        """monitiring de l'upload et affichage état de sortie
+
+        Args:
+            upload (Upload): upload à monitorer
+            message_ok (str): message si les vérifications sont ok
+            message_ko (str): message si les vérifications sont en erreur
+            callback (Optional[Callable[[str], None]], optional): fonction de callback à exécuter avec le message de suivi.
+
+        Returns:
+            bool: True si toutes les vérifications sont ok, sinon False
+        """
         b_res = UploadAction.monitor_until_end(upload, callback)
         if b_res:
             Config().om.info(message_ok.format(upload=upload), green_colored=True)
@@ -310,13 +321,13 @@ class Main:
                 raise GpfSdkError(f"La livraison {o_upload} n'est pas dans un état permettant de fermer la livraison ({o_upload['status']}).")
 
             # affichage
-            print(o_upload.to_json(indent=3))
+            Config().om.info(o_upload.to_json(indent=3))
         else:
             d_infos_filter = StoreEntity.filter_dict_from_str(self.o_args.infos)
             d_tags_filter = StoreEntity.filter_dict_from_str(self.o_args.tags)
             l_uploads = Upload.api_list(infos_filter=d_infos_filter, tags_filter=d_tags_filter, datastore=self.datastore)
             for o_upload in l_uploads:
-                print(o_upload)
+                Config().om.info(f"{o_upload}")
 
     def dataset(self) -> None:
         """Liste les jeux de données d'exemple proposés et, si demandé par l'utilisateur, en export un."""
