@@ -1,4 +1,4 @@
-from time import sleep
+import time
 from typing import Any, Dict, Optional
 
 from ignf_gpf_sdk.store.Offering import Offering
@@ -48,13 +48,14 @@ class OfferingAction(ActionAbstract):
         Config().om.info("vérification du statut ...")
         while True:
             o_offering.api_update()
-            if o_offering["status"] == Offering.STATUS_PUBLISHED:
+            s_status = o_offering["status"]
+            if s_status == Offering.STATUS_PUBLISHED:
                 Config().om.info("Création d'une offre : terminé")
                 break
-            if o_offering["status"] == Offering.STATUS_UNSTABLE:
-                raise StepActionError("Création d'une offre : terminé en erreur")
+            if s_status == Offering.STATUS_UNSTABLE:
+                raise StepActionError("Création d'une offre : terminé en erreur.")
             # on fixe à 1 seconde, normalement quasiment instantané
-            sleep(1)
+            time.sleep(1)
 
     def __create_offering(self, datastore: Optional[str]) -> None:
         """Création de l'Offering sur l'API à partir des paramètres de définition de l'action.
