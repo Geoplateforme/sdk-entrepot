@@ -90,17 +90,17 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
             return MagicMock()
         o_mock_processing_execution.__getitem__.side_effect = get_items_processing
 
-        # mock de upload
+        # mock de upload d'entrée
         o_mock_upload = MagicMock()
         o_mock_upload.api_add_tags.return_value = None
         o_mock_upload.api_add_comment.return_value = None
 
-        # mock de stored_data
+        # mock de stored_data d'entrée
         o_mock_stored_data = MagicMock()
         o_mock_stored_data.api_add_tags.return_value = None
         o_mock_stored_data.api_add_comment.return_value = None
 
-        # résultat de ProcessingExecutionAction."find_stored_data"
+        # résultat de ProcessingExecutionAction."find_stored_data" : stored_data de sortie
         o_exist_output = None
         if output_already_exist:
             o_mock_exist_output = MagicMock()
@@ -133,28 +133,23 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
                     o_mock_pea_find_stored_data.assert_called_once_with(datastore)
                     o_mock_exist_output.api_delete.assert_called_once_with()
                 elif behavior == "CONTINUE":
-                    # # # on regarde si le résultat du traitement précédent est en échec
-                    # # if o_stored_data["status"] == StoredData.STATUS_UNSTABLE:
-                    # #     raise GpfSdkError(f"Le traitement précédent a échoué sur la donnée stockée en sortie {o_stored_data}. Impossible de lancer le traitement demandé.")
-                    # TODO alain
-                    # o_mock_stored_data.__getitem__.return_value = StoredData.STATUS_UNSTABLE
-                    # with self.assertRaises(GpfSdkError) as o_err:
-                    #     o_pea.run(datastore)
-                    # self.assertEqual(o_err.exception.message, f"Le traitement précédent a échoué sur la donnée stockée en sortie {o_mock_stored_data}. Impossible de lancer le traitement demandé.")
+                    # premier test sur STATUS_UNSTABLE
+                    o_mock_exist_output.__getitem__.return_value = StoredData.STATUS_UNSTABLE
+                    with self.assertRaises(GpfSdkError) as o_err:
+                        o_pea.run(datastore)
+                    self.assertEqual(o_err.exception.message, f"Le traitement précédent a échoué sur la donnée stockée en sortie {o_mock_exist_output}. Impossible de lancer le traitement demandé.")
 
-                    # # # on est donc dans un des cas suivants :
-                    # # # le processing_execution a été créé mais pas exécuté (StoredData.STATUS_CREATED)
-                    # # # ou le processing execution est en cours d'exécution (StoredData.STATUS_GENERATING ou StoredData.STATUS_MODIFYING)
-                    # # # ou le processing execution est terminé (StoredData.STATUS_GENERATED)
-                    # # (...) o_stored_data = self.find_stored_data(datastore)
-                    # # self.__stored_data = o_stored_data
-                    # # l_proc_exec = ProcessingExecution.api_list({"output_stored_data": o_stored_data.id})
-                    o_mock_pe_api_list.assert_called_once_with(infos_filter={"output_stored_data":"val"}, tags_filter={"tag":"val"}, datastore=datastore)
+                    # deuxième test sur la stored data créée
+                    o_mock_exist_output.__getitem__.return_value = StoredData.STATUS_CREATED
+                    o_pea.run(datastore)
+                    o_mock_pe_api_list.assert_called_once_with({"output_stored_data":o_mock_exist_output.id}, datastore=datastore)
+                    self.assertEqual(o_pea.processing_execution, o_mock_processing_execution)
 
-                    # # if not l_proc_exec:
-                    # #     raise GpfSdkError(f"Impossible de trouver l'exécution de traitement liée à la donnée stockée {o_stored_data}")
-                    # # # arbitrairement, on prend le premier de la liste
-                    # # self.__processing_execution = l_proc_exec[0]
+                    # troisième test sur l'absence de la processing execution
+                    o_mock_pe_api_list.return_value = []
+                    with self.assertRaises(GpfSdkError) as o_err:
+                        o_pea.run(datastore)
+                    self.assertEqual(o_err.exception.message, f"Impossible de trouver l'exécution de traitement liée à la donnée stockée {o_mock_exist_output}")
 
                     return
                 else:
