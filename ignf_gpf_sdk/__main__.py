@@ -7,7 +7,7 @@ import argparse
 import time
 import traceback
 from pathlib import Path
-from typing import List, Optional, Sequence
+from typing import Callable, List, Optional, Sequence
 import shutil
 
 import ignf_gpf_sdk
@@ -29,7 +29,6 @@ from ignf_gpf_sdk.store.StoredData import StoredData
 from ignf_gpf_sdk.store.Upload import Upload
 from ignf_gpf_sdk.store.StoreEntity import StoreEntity
 from ignf_gpf_sdk.store.ProcessingExecution import ProcessingExecution
-from ignf_gpf_sdk.store.User import User
 from ignf_gpf_sdk.store.Datastore import Datastore
 from ignf_gpf_sdk.workflow.resolver.UserResolver import UserResolver
 
@@ -70,9 +69,6 @@ class Main:
             self.workflow()
         elif self.o_args.task == "delete":
             self.delete()
-        elif self.o_args.task == "me":
-            o_user = User.api_get("me")
-            print(o_user.to_json(indent=4))
 
     @staticmethod
     def parse_args(args: Optional[Sequence[str]] = None) -> argparse.Namespace:
@@ -91,42 +87,61 @@ class Main:
         o_parser.add_argument("--debug", dest="debug", required=False, default=False, action="store_true", help="Passe l'appli en mode debug (plus de messages affichés)")
         o_parser.add_argument("--datastore", "-d", dest="datastore", required=False, default=None, help="Identifiant du datastore à utiliser")
         o_sub_parsers = o_parser.add_subparsers(dest="task", metavar="TASK", required=True, help="Tâche à effectuer")
+
         # Parser pour auth
         o_sub_parser = o_sub_parsers.add_parser("auth", help="Authentification")
         o_sub_parser.add_argument("--show", type=str, choices=["token", "header"], default=None, help="Donnée à renvoyer")
+
         # Parser pour me
         o_sub_parser = o_sub_parsers.add_parser("me", help="Mes informations")
+
         # Parser pour config
         o_sub_parser = o_sub_parsers.add_parser("config", help="Configuration")
         o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin du fichier où sauvegarder la configuration (si null, la configuration est affichée)")
         o_sub_parser.add_argument("--section", "-s", type=str, default=None, help="Se limiter à une section")
         o_sub_parser.add_argument("--option", "-o", type=str, default=None, help="Se limiter à une option (section doit être renseignée)")
+
         # Parser pour upload
-        o_sub_parser = o_sub_parsers.add_parser("upload", help="Livraisons")
+        s_epilog_upload = """Trois types de lancement :
+        * création / mise à jour de livraison : `--file FILE [--behavior BEHAVIOR]`
+        * détail d'une livraison, optionnel ouverture ou fermeture : `--id ID [--open | --close]`
+        * liste des livraisons, optionnel filtre sur l'info et tags : `[--infos INFOS] [--tags TAGS]`
+        """
+        o_sub_parser = o_sub_parsers.add_parser("upload", help="Livraisons", epilog=s_epilog_upload, formatter_class=argparse.RawTextHelpFormatter)
         o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin vers le fichier descriptor dont on veut effectuer la livraison)")
+        o_sub_parser.add_argument("--behavior", "-b", type=str, default=None, help="Action à effectuer si la livraison existe déjà (uniquement avec -f)")
+        o_sub_parser.add_argument("--id", type=str, default=None, help="Affiche la livraison demandée")
+        o_exclusive = o_sub_parser.add_mutually_exclusive_group()
+        o_exclusive.add_argument("--open", action="store_true", default=False, help="Rouvrir une livraison fermée (uniquement avec --id)")
+        o_exclusive.add_argument("--close", action="store_true", default=False, help="Fermer une livraison ouverte (uniquement avec --id)")
         o_sub_parser.add_argument("--infos", "-i", type=str, default=None, help="Filter les livraisons selon les infos")
         o_sub_parser.add_argument("--tags", "-t", type=str, default=None, help="Filter les livraisons selon les tags")
-        o_sub_parser.add_argument("--behavior", "-b", type=str, default=None, help="Action à effectuer si la livraison existe déjà")
-        o_sub_parser.add_argument("--id", type=str, default=None, help="Affiche la livraison demandée")
+
         # Parser pour dataset
         o_sub_parser = o_sub_parsers.add_parser("dataset", help="Jeux de données")
         o_sub_parser.add_argument("--name", "-n", type=str, default=None, help="Nom du dataset à extraire")
         o_sub_parser.add_argument("--folder", "-f", type=str, default=None, help="Dossier où enregistrer le dataset")
+
         # Parser pour workflow
-        o_sub_parser = o_sub_parsers.add_parser("workflow", help="Workflow")
+        s_epilog_workflow = """Quatre types de lancement :
+        * liste des exemples de workflow disponibles : `` (aucun arguments)
+        * Récupération d'un workflow exemple : `--name NAME`
+        * Vérification de la structure du ficher workflow et affichage des étapes : `--file FILE`
+        * Lancement l'une étape d'un workflow: `--file FILE --step STEP [--behavior BEHAVIOR]`
+        """
+        o_sub_parser = o_sub_parsers.add_parser("workflow", help="Workflow", epilog=s_epilog_workflow, formatter_class=argparse.RawTextHelpFormatter)
         o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin du fichier à utiliser OU chemin où extraire le dataset")
         o_sub_parser.add_argument("--name", "-n", type=str, default=None, help="Nom du workflow à extraire")
         o_sub_parser.add_argument("--step", "-s", type=str, default=None, help="Étape du workflow à lancer")
         o_sub_parser.add_argument("--behavior", "-b", type=str, default=None, help="Action à effectuer si l'exécution de traitement existe déjà")
+
         # Parser pour delete
         o_sub_parser = o_sub_parsers.add_parser("delete", help="Delete")
         o_sub_parser.add_argument("--type", choices=["livraison", "stored_data", "configuration", "offre"], required=True, help="Type de l'entité à supprimé")
         o_sub_parser.add_argument("--id", type=str, required=True, help="identifiant de l'entité à supprimé")
         o_sub_parser.add_argument("--cascade", action="store_true", help="Action à effectuer si l'exécution de traitement existe déjà")
-        o_sub_parser.add_argument("--force", action="store_true", help="Mode forcée, les suppression sont faites sans aucune interaction")
+        o_sub_parser.add_argument("--force", action="store_true", help="Mode forcée, les suppressions sont faites sans aucune interaction")
 
-        # Parser pour me
-        o_sub_parser = o_sub_parsers.add_parser("me", help="me")
         return o_parser.parse_args(args)
 
     def __datastore(self) -> Optional[str]:
@@ -239,6 +254,26 @@ class Main:
                     o_string_io.seek(0)
                     print(o_string_io.read()[:-1])
 
+    @staticmethod
+    def __monitoring_upload(upload: Upload, message_ok: str, message_ko: str, callback: Optional[Callable[[str], None]] = None) -> bool:
+        """monitiring de l'upload et affichage état de sortie
+
+        Args:
+            upload (Upload): upload à monitorer
+            message_ok (str): message si les vérifications sont ok
+            message_ko (str): message si les vérifications sont en erreur
+            callback (Optional[Callable[[str], None]], optional): fonction de callback à exécuter avec le message de suivi.
+
+        Returns:
+            bool: True si toutes les vérifications sont ok, sinon False
+        """
+        b_res = UploadAction.monitor_until_end(upload, callback)
+        if b_res:
+            Config().om.info(message_ok.format(upload=upload), green_colored=True)
+        else:
+            Config().om.error(message_ko.format(upload=upload))
+        return b_res
+
     def upload(self) -> None:
         """Création/Gestion des Livraison (Upload).
         Si un fichier descriptor est précisé, on effectue la livraison.
@@ -252,13 +287,41 @@ class Main:
                 s_behavior = str(self.o_args.behavior).upper() if self.o_args.behavior is not None else None
                 o_ua = UploadAction(o_dataset, behavior=s_behavior)
                 o_upload = o_ua.run(self.o_args.datastore)
-                if UploadAction.monitor_until_end(o_upload, print):
-                    Config().om.info(f"Livraison {o_upload} créée avec succès.", green_colored=True)
-                else:
-                    Config().om.error(f"Livraison {o_upload} créée en erreur !")
+                self.__monitoring_upload(o_upload, "Livraison {upload} créée avec succès.", "Livraison {upload} créée en erreur !", print)
         elif self.o_args.id is not None:
             o_upload = Upload.api_get(self.o_args.id, datastore=self.datastore)
-            Config().om.info(f"{o_upload}")
+            if self.o_args.open:
+                if o_upload.is_open():
+                    Config().om.warning(f"La livraison {o_upload} est déjà ouverte.")
+                    return
+                if o_upload["status"] in [Upload.STATUS_CLOSED, Upload.STATUS_UNSTABLE]:
+                    o_upload.api_open()
+                    Config().om.info(f"La livraison {o_upload} viens d'être rouverte.", green_colored=True)
+                    return
+                raise GpfSdkError(f"La livraison {o_upload} n'est pas dans un état permettant de d'ouvrir la livraison ({o_upload['status']}).")
+            if self.o_args.close:
+                # si ouverte : on ferme puis monitoring
+                if o_upload.is_open():
+                    # fermeture de l'upload
+                    o_upload.api_close()
+                    Config().om.info(f"La livraison {o_upload} viens d'être Fermée.", green_colored=True)
+                    # monitoring des tests :
+                    self.__monitoring_upload(o_upload, "Livraison {upload} fermée avec succès.", "Livraison {o_upload} fermée en erreur !", print)
+                    return
+                # si STATUS_CHECKING : monitoring
+                if o_upload["status"] == Upload.STATUS_CHECKING:
+                    Config().om.info(f"La livraison {o_upload} est fermé, les tests sont en cours.")
+                    self.__monitoring_upload(o_upload, "Livraison {upload} fermée avec succès.", "Livraison {o_upload} fermée en erreur !", print)
+                    return
+                # si ferme OK ou KO : wwarning
+                if o_upload["status"] in [Upload.STATUS_CLOSED, Upload.STATUS_UNSTABLE]:
+                    Config().om.warning(f"La livraison {o_upload} est déjà fermée, status : {o_upload['status']}")
+                    return
+                # autre : action impossible
+                raise GpfSdkError(f"La livraison {o_upload} n'est pas dans un état permettant de fermer la livraison ({o_upload['status']}).")
+
+            # affichage
+            Config().om.info(o_upload.to_json(indent=3))
         else:
             d_infos_filter = StoreEntity.filter_dict_from_str(self.o_args.infos)
             d_tags_filter = StoreEntity.filter_dict_from_str(self.o_args.tags)
