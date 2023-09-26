@@ -59,7 +59,7 @@ class OfferingActionTestCase(GpfTestCase):
             with self.assertRaises(StepActionError) as o_err:
                 o_offering_action.run()
                 o_mock_create.assert_called_once()
-            self.assertEqual(o_err.exception.message, "Erreur à la création de la livraison.")
+            self.assertEqual(o_err.exception.message, "Erreur à la création de l'offre.")
 
         # problème lors de la création de l'offre
         o_offering_action = self.__get_offering_action()
