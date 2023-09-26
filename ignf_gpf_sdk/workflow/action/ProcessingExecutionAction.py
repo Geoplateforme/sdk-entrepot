@@ -22,16 +22,29 @@ class ProcessingExecutionAction(ActionAbstract):
         __StoredData (Optional[StoredData]): représentation Python de la données stockée en sortie (null si livraison en sortie)
     """
 
+    # comportements possibles (que peut écrire l'utilisateur)
     BEHAVIOR_STOP = "STOP"
     BEHAVIOR_DELETE = "DELETE"
     BEHAVIOR_CONTINUE = "CONTINUE"
 
+    # status possibles d'une ProcessingExecution (status délivrés par l'api)
+    # STATUS_CREATED
+    # STATUS_ABORTED STATUS_SUCCESS STATUS_FAILURE
+
+    # status possibles d'une Stored data (status délivrés par l'api)
+    # STATUS_CREATED
+    # STATUS_UNSTABLE
+    # STATUS_GENERATING STATUS_MODIFYING
+    # STATUS_GENERATED
+
     def __init__(self, workflow_context: str, definition_dict: Dict[str, Any], parent_action: Optional["ActionAbstract"] = None, behavior: Optional[str] = None) -> None:
         super().__init__(workflow_context, definition_dict, parent_action)
-        # Autres attributs
+        # l'exécution du traitement
         self.__processing_execution: Optional[ProcessingExecution] = None
+        # les données en sortie
         self.__upload: Optional[Upload] = None
         self.__stored_data: Optional[StoredData] = None
+        # comportement (écrit dans la ligne de commande par l'utilisateur), sinon celui par défaut (dans la config) qui vaut STOP
         self.__behavior: str = behavior if behavior is not None else Config().get_str("processing_execution", "behavior_if_exists")
 
     def run(self, datastore: Optional[str] = None) -> None:
@@ -55,12 +68,12 @@ class ProcessingExecutionAction(ActionAbstract):
         """
         d_info: Optional[Dict[str, Any]] = None
 
-        # On regarde si cette Exécution de Traitement implique la création d'une nouvelle entité (Livraison / Donnée Stockée)
+        # On regarde si cette Exécution de Traitement implique la création d'une nouvelle entité (Livraison ou Donnée Stockée)
         if self.output_new_entity:
-            # TODO : gérer également les Livraison
-            # On vérifie si une  Donnée Stockée équivalente à celle du dictionnaire de définition existe déjà
+            # TODO : gérer également les Livraisons
+            # On vérifie si une Donnée Stockée équivalente à celle du dictionnaire de définition (champ name) existe déjà sur la gpf
             o_stored_data = self.find_stored_data(datastore)
-            # Si on en a trouvée
+            # Si on a trouvé une Donnée Stockée sur la gpf :
             if o_stored_data is not None:
                 # Comportement d'arrêt du programme
                 if self.__behavior == self.BEHAVIOR_STOP:
@@ -72,9 +85,28 @@ class ProcessingExecutionAction(ActionAbstract):
                     o_stored_data.api_delete()
                     # on force à None pour que la création soit faite
                     self.__processing_execution = None
-                # Comportements non supportés
+                # Comportement "on continue l'exécution"
+                elif self.__behavior == self.BEHAVIOR_CONTINUE:
+                    # on regarde si le résultat du traitement précédent est en échec
+                    if o_stored_data["status"] == StoredData.STATUS_UNSTABLE:
+                        raise GpfSdkError(f"Le traitement précédent a échoué sur la donnée stockée en sortie {o_stored_data}. Impossible de lancer le traitement demandé.")
+
+                    # on est donc dans un des cas suivants :
+                    # le processing_execution a été créé mais pas exécuté (StoredData.STATUS_CREATED)
+                    # ou le processing execution est en cours d'exécution (StoredData.STATUS_GENERATING ou StoredData.STATUS_MODIFYING)
+                    # ou le processing execution est terminé (StoredData.STATUS_GENERATED)
+                    self.__stored_data = o_stored_data
+                    l_proc_exec = ProcessingExecution.api_list({"output_stored_data": o_stored_data.id}, datastore=datastore)
+                    if not l_proc_exec:
+                        raise GpfSdkError(f"Impossible de trouver l'exécution de traitement liée à la donnée stockée {o_stored_data}")
+                    # arbitrairement, on prend le premier de la liste
+                    self.__processing_execution = l_proc_exec[0]
+                    return
+                # Comportement non reconnu
                 else:
-                    raise GpfSdkError(f"Le comportement {self.__behavior} n'est pas reconnu, l'exécution de traitement est annulée.")
+                    raise GpfSdkError(
+                        f"Le comportement {self.__behavior} n'est pas reconnu ({self.BEHAVIOR_STOP}|{self.BEHAVIOR_DELETE}|{self.BEHAVIOR_CONTINUE}), l'exécution de traitement n'est pas possible."
+                    )
 
         # A ce niveau là, si on a encore self.__processing_execution qui est None, c'est qu'on peut créer l'Exécution de Traitement sans problème
         if self.__processing_execution is None:
@@ -90,11 +122,12 @@ class ProcessingExecutionAction(ActionAbstract):
         if "upload" in d_info:
             # récupération de l'upload
             self.__upload = Upload.api_get(d_info["upload"]["_id"], datastore=datastore)
-        elif "stored_data" in d_info:
+            return
+        if "stored_data" in d_info:
             # récupération de la stored_data
             self.__stored_data = StoredData.api_get(d_info["stored_data"]["_id"], datastore=datastore)
-        else:
-            raise StepActionError(f"Aucune correspondance pour {d_info.keys()}")
+            return
+        raise StepActionError(f"Aucune correspondance pour {d_info.keys()}")
 
     def __add_tags(self) -> None:
         """Ajout des tags sur l'Upload ou la StoredData en sortie du ProcessingExecution."""
@@ -136,13 +169,18 @@ class ProcessingExecutionAction(ActionAbstract):
 
     def __launch(self) -> None:
         """Lancement de la ProcessingExecution."""
-        if self.processing_execution is not None:
+        if self.processing_execution is None:
+            raise StepActionError("Aucune exécution de traitement trouvée. Impossible de lancer le traitement")
+
+        if self.processing_execution["status"] == ProcessingExecution.STATUS_CREATED:
             Config().om.info(f"Exécution de traitement {self.processing_execution['processing']['name']} : lancement...")
             self.processing_execution.api_launch()
             Config().om.info(f"Exécution de traitement {self.processing_execution['processing']['name']} : lancée avec succès.")
-
+        elif self.__behavior == self.BEHAVIOR_CONTINUE:
+            Config().om.info(f"Exécution de traitement {self.processing_execution['processing']['name']} : déjà lancée.")
         else:
-            raise StepActionError("aucune procession-execution de trouvé. Impossible de lancer le traitement")
+            # processing_execution est déjà lancé ET le __behavior n'est pas en "continue", on ne devrait pas être ici :
+            raise StepActionError("L'exécution de traitement est déjà lancée.")
 
     def find_stored_data(self, datastore: Optional[str] = None) -> Optional[StoredData]:
         """Fonction permettant de récupérer une Stored Data ressemblant à celle qui devrait être créée par
@@ -198,6 +236,7 @@ class ProcessingExecutionAction(ActionAbstract):
             ## on return le status de fin
             return str(s_status)
         except KeyboardInterrupt as e:
+            # TODO
             # si le traitement est déjà dans un statu fini on ne fait rien => transmission de l'interruption
             self.processing_execution.api_update()
             s_status = self.processing_execution.get_store_properties()["status"]
