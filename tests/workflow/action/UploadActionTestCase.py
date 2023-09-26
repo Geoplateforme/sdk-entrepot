@@ -317,7 +317,7 @@ class UploadActionTestCase(GpfTestCase):
             run_fail=True,
             api_create = False,
             api_delete = False,
-            message_exception="Le comportement TOTO - DELETE n'est pas reconnu, l'exécution de traitement est annulée."
+            message_exception="Le comportement TOTO n'est pas reconnu, l'exécution de traitement est annulée."
         )
 
     def test_monitor_until_end_ok(self) -> None:
