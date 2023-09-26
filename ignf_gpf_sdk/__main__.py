@@ -124,9 +124,9 @@ class Main:
 
         # Parser pour workflow
         s_epilog_workflow = """Quatre types de lancement :
-        * liste des exemple de workflow disponibles : `` (aucun arguments)
+        * liste des exemples de workflow disponibles : `` (aucun arguments)
         * Récupération d'un workflow exemple : `--name NAME`
-        * Vérification de la structure du ficher workflow et affichage des étapes: `--file FILE --step STEP [--behavior BEHAVIOR]`
+        * Vérification de la structure du ficher workflow et affichage des étapes : `--file FILE`
         * Lancement l'une étape d'un workflow: `--file FILE --step STEP [--behavior BEHAVIOR]`
         """
         o_sub_parser = o_sub_parsers.add_parser("workflow", help="Workflow", epilog=s_epilog_workflow, formatter_class=argparse.RawTextHelpFormatter)
