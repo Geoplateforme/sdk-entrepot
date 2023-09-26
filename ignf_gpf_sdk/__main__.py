@@ -105,7 +105,7 @@ class Main:
         s_epilog_upload = """Trois types de lancement :
         * création / mise à jour de livraison : `--file FILE [--behavior BEHAVIOR]`
         * détail d'une livraison, optionnel ouverture ou fermeture : `--id ID [--open | --close]`
-        * liste des livraison, optionnel filtre sur l'info et tags : `[--infos INFOS] [--tags TAGS]`
+        * liste des livraisons, optionnel filtre sur l'info et tags : `[--infos INFOS] [--tags TAGS]`
         """
         o_sub_parser = o_sub_parsers.add_parser("upload", help="Livraisons", epilog=s_epilog_upload, formatter_class=argparse.RawTextHelpFormatter)
         o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin vers le fichier descriptor dont on veut effectuer la livraison)")
