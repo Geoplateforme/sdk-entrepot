@@ -31,9 +31,9 @@ class OfferingAction(ActionAbstract):
         # Affichage
         o_offering = self.offering
 
-        # si on n'a pas réussi a trouvé/créer l'offering on plante
+        # si on n'a pas réussi a trouver/créer l'offering on plante
         if o_offering is None:
-            raise StepActionError("Erreur à la création de la livraison.")
+            raise StepActionError("Erreur à la création de l'offre.")
 
         # Récupération des liens
         o_offering.api_update()
