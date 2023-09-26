@@ -1,8 +1,11 @@
+import time
 from unittest.mock import patch, MagicMock
 from typing import Any
+from ignf_gpf_sdk.io.Errors import ConflictError
 
 from ignf_gpf_sdk.store.Offering import Offering
 from ignf_gpf_sdk.store.Configuration import Configuration
+from ignf_gpf_sdk.workflow.Errors import StepActionError
 from ignf_gpf_sdk.workflow.action.OfferingAction import OfferingAction
 
 from tests.GpfTestCase import GpfTestCase
@@ -30,7 +33,7 @@ class OfferingActionTestCase(GpfTestCase):
 
         # mock de offering
         o_mock_offering = MagicMock()
-        o_mock_offering.api_launch.return_value = None
+        o_mock_offering.__getitem__.return_value = Offering.STATUS_PUBLISHED
 
         # On mock find_offering et api_create
         with patch.object(o_offering_action, "find_offering", return_value=None) as o_mock_offering_action_list_offering:
@@ -44,6 +47,74 @@ class OfferingActionTestCase(GpfTestCase):
                 # test de l'appel à Offering.api_create
                 o_mock_offering_api_create.assert_called_once_with(self.d_action["body_parameters"], route_params=self.d_action["url_parameters"])
 
+                # api update appelé 2 fois
+                self.assertEqual(2, o_mock_offering.api_update.call_count)
+
+    def test_run_not_existing_not_create(self) -> None:
+        """test de run quand l'offre à créer n'existe pas et que l'offering n'est pas créer."""
+        # problème lors de la création de l'offre
+        o_offering_action = self.__get_offering_action()
+        with patch.object(OfferingAction, "_OfferingAction__create_offering", return_value=None) as o_mock_create:
+            # on lance l'exécution de run
+            with self.assertRaises(StepActionError) as o_err:
+                o_offering_action.run()
+                o_mock_create.assert_called_once()
+            self.assertEqual(o_err.exception.message, "Erreur à la création de l'offre.")
+
+        # problème lors de la création de l'offre
+        o_offering_action = self.__get_offering_action()
+        s_message = "message conflict"
+        with patch.object(o_offering_action, "find_offering", return_value=None) as o_mock_offering_action_list_offering:
+            e_error = ConflictError("url", "methode", None, None, s_message)
+            with patch.object(Offering, "api_create", side_effect=e_error) as o_mock_api_create:
+                # on lance l'exécution de run
+                with self.assertRaises(StepActionError) as o_err:
+                    o_offering_action.run()
+                o_mock_offering_action_list_offering.assert_called_once()
+                o_mock_api_create.assert_called_once()
+                self.assertEqual(o_err.exception.message, f"Impossible de créer l'offre il y a un conflict : \n{e_error.message}")
+
+    def test_run_not_existing_unstable(self) -> None:
+        """test de run quand l'offre à créer n'existe pas"""
+        # Instanciation de OfferingAction
+        o_offering_action = self.__get_offering_action()
+
+        o_mock_status = MagicMock(side_effect=[Offering.STATUS_PUBLISHING, Offering.STATUS_PUBLISHING, Offering.STATUS_UNSTABLE])
+
+        def offering_getitem(arg: str) -> Any:
+            """fonction pour mocker __getitem__ des offering
+            gestion des url + status
+
+            Args:
+                arg (Any): clef à affiché
+
+            Returns:
+                Any: valeur de retour
+            """
+            if arg == "urls":
+                return ["http://1", "http://2"]
+            if arg == "status":
+                return o_mock_status()
+            return "getitem"
+
+        # mock de offering
+        o_mock_offering = MagicMock()
+        o_mock_offering.__getitem__.side_effect = offering_getitem
+
+        # On mock find_offering et api_create
+        with patch.object(o_offering_action, "find_offering", return_value=None) as o_mock_offering_action_list_offering:
+            with patch.object(Offering, "api_create", return_value=o_mock_offering) as o_mock_offering_api_create:
+                with patch.object(time, "sleep", return_value=None) as o_mock_time:
+                    # on lance l'exécution de run
+                    with self.assertRaises(StepActionError) as o_err:
+                        o_offering_action.run()
+                    self.assertEqual(o_err.exception.message, "Création d'une offre : terminé en erreur.")
+
+                    o_mock_offering_action_list_offering.assert_called_once()
+                    o_mock_offering_api_create.assert_called_once_with(self.d_action["body_parameters"], route_params=self.d_action["url_parameters"])
+                    self.assertEqual(o_mock_offering.api_update.call_count, 4)
+                    o_mock_time.assert_any_call(1)
+
     # On mock find_offering et api_create
     def test_run_existing(self) -> None:
         """test de run quand l'offre à créer existe"""
@@ -52,7 +123,6 @@ class OfferingActionTestCase(GpfTestCase):
 
         # mock de offering
         o_mock_offering = MagicMock()
-        o_mock_offering.api_launch.return_value = None
 
         def side_effect_dict(arg: str) -> Any:
             """side_effect pour récupération des élément de offering, gestion du cas des url qui sont dans un dictionnaire
@@ -65,6 +135,8 @@ class OfferingActionTestCase(GpfTestCase):
             """
             if arg == "urls":
                 return [{"url": "http://1"}, {"url": "http://2"}]
+            if arg == "status":
+                return "PUBLISHED"
             return "getitem"
 
         def side_effect_text(arg: str) -> Any:
@@ -78,6 +150,8 @@ class OfferingActionTestCase(GpfTestCase):
             """
             if arg == "urls":
                 return ["http://1", "http://2"]
+            if arg == "status":
+                return "PUBLISHED"
             return "getitem"
 
         for f_effect in [side_effect_dict, side_effect_text]:

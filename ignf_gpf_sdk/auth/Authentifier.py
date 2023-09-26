@@ -104,8 +104,7 @@ class Authentifier(metaclass=Singleton):
                     s_message = o_response.json()["error_description"]
                 except Exception:
                     s_message = "pas de raison indiqué"
-                raise requests.exceptions.HTTPError(f"Code retour authentification KeyCloak = {o_response.status_code} ({s_message})")
-
+                raise requests.exceptions.HTTPError(f"Code retour authentification KeyCloak = {o_response.status_code} ({s_message})", response=o_response, request=o_response.request)
         except Exception as e_error:
             if isinstance(e_error, requests.exceptions.HTTPError):
                 Config().om.warning(e_error.args[0])

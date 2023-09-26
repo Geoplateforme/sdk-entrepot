@@ -13,14 +13,14 @@ code+=$?
 echo
 
 # Lancement de mypy
-mypy --strict ignf_gpf_sdk tests
+mypy --strict --config-file mypy.ini ignf_gpf_sdk tests
 code+=$?
 echo
 
 # Lancement des tests et vérification de la couverture
 coverage run -m unittest discover -b -p *TestCase.py
 code+=$?
-coverage report --fail-under=75
+coverage report -m --fail-under=75
 code+=$?
 coverage html
 

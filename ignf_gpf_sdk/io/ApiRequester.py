@@ -4,9 +4,9 @@ from pathlib import Path
 import re
 import time
 import traceback
-
 from typing import Any, Dict, Optional, Tuple, List, Union
 import requests
+from requests_toolbelt import MultipartEncoder
 
 from ignf_gpf_sdk.Errors import GpfSdkError
 from ignf_gpf_sdk.auth.Authentifier import Authentifier
@@ -191,8 +191,24 @@ class ApiRequester(metaclass=Singleton):
 
         # Définition du header
         d_headers = Authentifier().get_http_header(json_content_type=files is None)
-        # Execution de la requête
-        r = requests.request(url=url, params=params, json=data, method=method, headers=d_headers, proxies=self.__proxy, files=files)
+        # Création du MultipartEncoder (cf. https://github.com/requests/toolbelt#multipartform-data-encoder)
+        d_requests: Dict[str, Any] = {
+            "url": url,
+            "method": method,
+            "headers": d_headers,
+            "proxies": self.__proxy,
+        }
+        if files:
+            d_fields = {**files}
+            if params:
+                d_fields.update(params)
+            o_me = MultipartEncoder(fields=d_fields)
+            d_headers["content-type"] = o_me.content_type
+            # Execution de la requête
+            d_requests.update({"data": o_me})
+        else:
+            d_requests.update({"params": params, "json": data})
+        r = requests.request(**d_requests)
 
         # Vérification du résultat...
         if r.status_code >= 200 and r.status_code < 300:
