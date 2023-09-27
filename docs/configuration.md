@@ -125,12 +125,12 @@ Pour cela, il faut ajouter deux lignes dans le fichier de configuration. Voici u
 ```ini
 [store_authentification]
 # L'url de récupération du token d'authentification (cf. doc)
-token_url=https://geoplateforme-gpf-iam.qua.gpf-tech.ign.fr/realms/geoplateforme/protocol/openid-connect/token
+token_url= https://sso-qua.priv.geopf.fr/realms/geoplateforme/protocol/openid-connect/token
 # Autres paramètres à conserver (client_id, ...)
 
 [store_api]
 # L'url d'entrée de l'API (cf. doc)
-root_url=https://geoplateforme-gpf-warehouse.qua.gpf-tech.ign.fr
+root_url=https://data-qua.priv.geopf.fr/api
 # Autres paramètres à conserver (datastore, ...)
 ```
 
