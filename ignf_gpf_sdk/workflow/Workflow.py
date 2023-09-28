@@ -51,7 +51,7 @@ class Workflow:
         return self.__raw_definition_dict
 
     def run_step(self, step_name: str, callback: Optional[Callable[[ProcessingExecution], None]] = None, behavior: Optional[str] = None, datastore: Optional[str] = None) -> List[StoreEntity]:
-        """Lance une étape du workflow à partir de son nom. Liste les entités créées par chaque action et le retourne.
+        """Lance une étape du workflow à partir de son nom. Liste les entités créées par chaque action et retourne la liste.
 
         Args:
             step_name (str): nom de l'étape
@@ -91,14 +91,25 @@ class Workflow:
             # exécution de l'action
             Config().om.info(f"Exécution de l'action '{o_action.workflow_context}-{o_action.index}'...")
             o_action.run(s_use_datastore)
+
             # on attend la fin de l'exécution si besoin
+            # TODO alain
+            # on lance le monitoring en précisant la gestion du ctrl-C
+            def f_ctrl_c(processing_execution: ProcessingExecution) -> None:
+                """fonction callback pour la gestion du ctrl-C
+
+                Args:
+                    processing_execution (ProcessingExecution): processing exécution en cours
+                """
+
             if isinstance(o_action, ProcessingExecutionAction):
-                s_status = o_action.monitoring_until_end(callback=callback)
+                s_status = o_action.monitoring_until_end(callback=callback)  # , ctrl_c_action=f_ctrl_c)
                 if s_status != ProcessingExecution.STATUS_SUCCESS:
                     s_error_message = f"L'exécution de traitement {o_action} ne s'est pas bien passée. Sortie {s_status}."
                     Config().om.error(s_error_message)
                     raise WorkflowError(s_error_message)
-            # On récupère l'entité
+
+            # On récupère l'entité créée par l'Action
             if isinstance(o_action, ProcessingExecutionAction):
                 # Ajout de upload et/ou stored_data
                 if o_action.upload is not None:
@@ -111,6 +122,7 @@ class Workflow:
             elif isinstance(o_action, OfferingAction):
                 if o_action.offering is not None:
                     l_store_entity.append(o_action.offering)
+
             # Message de fin
             Config().om.info(f"Exécution de l'action '{o_action.workflow_context}-{o_action.index}' : terminée")
             # cette action sera la parente de la suivante
