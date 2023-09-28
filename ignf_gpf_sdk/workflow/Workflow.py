@@ -50,7 +50,15 @@ class Workflow:
         """
         return self.__raw_definition_dict
 
-    def run_step(self, step_name: str, callback: Optional[Callable[[ProcessingExecution], None]] = None, behavior: Optional[str] = None, datastore: Optional[str] = None) -> List[StoreEntity]:
+    def run_step(
+        self,
+        step_name: str,
+        callback: Optional[Callable[[ProcessingExecution], None]] = None,
+        behavior: Optional[str] = None,
+        datastore: Optional[str] = None,
+        comments: List[str] = [],
+        tags: Dict[str, str] = {},
+    ) -> List[StoreEntity]:
         """Lance une étape du workflow à partir de son nom. Liste les entités créées par chaque action et le retourne.
 
         Args:
@@ -58,18 +66,20 @@ class Workflow:
             callback (Optional[Callable[[ProcessingExecution], None]], optional): callback de suivi si création d'une exécution de traitement.
             behavior (Optional[str]): comportement à adopter si une entité existe déjà sur l'entrepôt.
             datastore (Optional[str]): id du datastore à utiliser. Si None, le datastore sera le premier trouvé dans l'action puis dans workflow puis dans configuration.
+            comments (Optional[List[str]]): liste des commentaire à rajouté à toute les actions de l'étape (les cas de doublons sont géré).
+            tags (Optional[Dict[str, str]]): dictionnaire des tag à rajouté pour toutes les action de l'étape. Écrasé par ceux du workflow, de l'étape et de l'action si les clef sont les même.
 
         Raises:
             WorkflowError: levée si un problème apparaît pendant l'exécution du workflow
 
         Returns:
-            liste des entités créées
+            List[StoreEntity]: liste des entités créées
         """
         Config().om.info(f"Lancement de l'étape {step_name}...")
         # Création d'une liste pour stocker les entités créées
         l_store_entity: List[StoreEntity] = []
         # Récupération de l'étape dans la définition de workflow
-        d_step_definition = self.__get_step_definition(step_name)
+        d_step_definition = self.__get_step_definition(step_name, comments, tags)
         # initialisation des actions parentes
         o_parent_action: Optional[ActionAbstract] = None
         # Pour chaque action définie dans le workflow, instanciation de l'objet Action puis création sur l'entrepôt
@@ -118,15 +128,20 @@ class Workflow:
         # Retour de la liste
         return l_store_entity
 
-    def __get_step_definition(self, step_name: str) -> Dict[str, Any]:
+    def __get_step_definition(self, step_name: str, comments: List[str] = [], tags: Dict[str, str] = {}) -> Dict[str, Any]:
         """Renvoie le dictionnaire correspondant à une étape du workflow à partir de son nom.
         Lève une WorkflowError avec un message clair si l'étape n'est pas trouvée.
 
         Args:
-            step_name (string): nom de l'étape
+            step_name (str): nom de l'étape
+            comments (Optional[List[str]]): liste des commentaire à rajouté à toute les actions de l'étape (les cas de doublons sont géré).
+            tags (Optional[Dict[str, str]]): dictionnaire des tag à rajouté pour toutes les action de l'étape. Écrasé par ceux du workflow, de l'étape et de l'action si les clef sont les même.
 
         Raises:
             WorkflowExecutionError: est levée si l'étape n'existe pas dans le workflow
+
+        Returns:
+            Dict[str, Any]: dictionnaire de l'étape
         """
         # Recherche de l'étape correspondante
         if step_name in self.__raw_definition_dict["workflow"]["steps"]:
@@ -134,29 +149,27 @@ class Workflow:
             d_step = dict(self.__raw_definition_dict["workflow"]["steps"][step_name])
 
             # on récupère les commentaires commun au workflow et à l'étape
-            l_comments = []
             if "comments" in self.__raw_definition_dict:
-                l_comments.extend(self.__raw_definition_dict["comments"])
+                comments.extend(self.__raw_definition_dict["comments"])
             if "comments" in d_step:
-                l_comments.extend(d_step["comments"])
+                comments.extend(d_step["comments"])
 
-            d_tags = {}
             # on récupère les tags commun au workflow et à l'étape
             if "tags" in self.__raw_definition_dict:
-                d_tags.update(self.__raw_definition_dict["tags"])
+                tags.update(self.__raw_definition_dict["tags"])
             if "tags" in d_step:
-                d_tags.update(d_step["tags"])
+                tags.update(d_step["tags"])
 
             # Ajout des commentaire et des tags à chaque actions
             for d_action in d_step["actions"]:
                 if "comments" in d_action:
-                    d_action["comments"] = [*l_comments, *d_action["comments"]]
+                    d_action["comments"] = [*comments, *d_action["comments"]]
                 else:
-                    d_action["comments"] = l_comments
+                    d_action["comments"] = comments
                 if "tags" in d_action:
-                    d_action["tags"] = {**d_tags, **d_action["tags"]}
+                    d_action["tags"] = {**tags, **d_action["tags"]}
                 else:
-                    d_action["tags"] = d_tags
+                    d_action["tags"] = tags
 
             return d_step
 
