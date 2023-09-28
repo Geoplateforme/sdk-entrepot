@@ -87,6 +87,7 @@ class ProcessingExecutionAction(ActionAbstract):
                     self.__processing_execution = None
                 # Comportement "on continue l'exécution"
                 elif self.__behavior == self.BEHAVIOR_CONTINUE:
+                    o_stored_data.api_update()
                     # on regarde si le résultat du traitement précédent est en échec
                     if o_stored_data["status"] == StoredData.STATUS_UNSTABLE:
                         raise GpfSdkError(f"Le traitement précédent a échoué sur la donnée stockée en sortie {o_stored_data}. Impossible de lancer le traitement demandé.")
