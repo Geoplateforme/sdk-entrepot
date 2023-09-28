@@ -130,7 +130,35 @@ class Workflow:
         """
         # Recherche de l'étape correspondante
         if step_name in self.__raw_definition_dict["workflow"]["steps"]:
-            return dict(self.__raw_definition_dict["workflow"]["steps"][step_name])
+            # récupération e l'étape :
+            d_step = dict(self.__raw_definition_dict["workflow"]["steps"][step_name])
+
+            # on récupère les commentaires commun au workflow et à l'étape
+            l_comments = []
+            if "comments" in self.__raw_definition_dict:
+                l_comments.extend(self.__raw_definition_dict["comments"])
+            if "comments" in d_step:
+                l_comments.extend(d_step["comments"])
+
+            d_tags = {}
+            # on récupère les tags commun au workflow et à l'étape
+            if "tags" in self.__raw_definition_dict:
+                d_tags.update(self.__raw_definition_dict["tags"])
+            if "tags" in d_step:
+                d_tags.update(d_step["tags"])
+
+            # Ajout des commentaire et des tags à chaque actions
+            for d_action in d_step["actions"]:
+                if "comments" in d_action:
+                    d_action["comments"] = [*l_comments, *d_action["comments"]]
+                else:
+                    d_action["comments"] = l_comments
+                if "tags" in d_action:
+                    d_action["tags"] = {**d_tags, **d_action["tags"]}
+                else:
+                    d_action["tags"] = d_tags
+
+            return d_step
 
         # Si on passe le if, c'est que l'étape n'existe pas dans la définition du workflow
         s_error_message = f"L'étape {step_name} n'est pas définie dans le workflow {self.__name}"

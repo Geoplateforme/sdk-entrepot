@@ -68,6 +68,15 @@
                                 "items": {
                                     "type": "string"
                                 }
+                            },
+                            "comments": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "tags": {
+                                "type": "object"
                             }
                         }
                     }
@@ -76,6 +85,15 @@
         },
         "datastore": {
             "type" : "string"
+        },
+        "comments": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "tags": {
+            "type": "object"
         }
     },
     "required": [ "workflow" ],
