@@ -134,12 +134,12 @@ class Main:
         o_sub_parser.add_argument("--name", "-n", type=str, default=None, help="Nom du workflow à extraire")
         o_sub_parser.add_argument("--step", "-s", type=str, default=None, help="Étape du workflow à lancer")
         o_sub_parser.add_argument("--behavior", "-b", type=str, default=None, help="Action à effectuer si l'exécution de traitement existe déjà")
-        o_sub_parser.add_argument("--tag", "-t", type=str, nargs=2, action="append", metavar=("Clef", "Valeur"), default=None, help="tag à ajouter aux actions (plusieurs tags possible)")
+        o_sub_parser.add_argument("--tag", "-t", type=str, nargs=2, action="append", metavar=("Clef", "Valeur"), default=[], help="tag à ajouter aux actions (plusieurs tags possible)")
         o_sub_parser.add_argument(
             "--commentaire",
             "-c",
             type=str,
-            default=None,
+            default=[],
             action="append",
             metavar='"Le commentaire"',
             help="Commentaire à ajouter aux actions (plusieurs commentaires possible, mettre le commentaire entre guillemets)",
@@ -425,9 +425,7 @@ class Main:
                     except Exception:
                         PrintLogHelper.print("Logs indisponibles pour le moment...")
 
-                d_tags = {}
-                if self.o_args.tag:
-                    d_tags = {l_el[0]: l_el[1] for l_el in self.o_args.tag}
+                d_tags = {l_el[0]: l_el[1] for l_el in self.o_args.tag}
                 o_workflow.run_step(self.o_args.step, callback_run_step, behavior=s_behavior, datastore=self.datastore, comments=self.o_args.commentaire, tags=d_tags)
         else:
             l_children: List[str] = []
