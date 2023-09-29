@@ -50,12 +50,20 @@ class Workflow:
         """
         return self.__raw_definition_dict
 
-    def run_step(self, step_name: str, callback: Optional[Callable[[ProcessingExecution], None]] = None, behavior: Optional[str] = None, datastore: Optional[str] = None) -> List[StoreEntity]:
+    def run_step(
+        self,
+        step_name: str,
+        callback: Optional[Callable[[ProcessingExecution], None]] = None,
+        ctrl_c_action: Optional[Callable[[], bool]] = None,
+        behavior: Optional[str] = None,
+        datastore: Optional[str] = None,
+    ) -> List[StoreEntity]:
         """Lance une étape du workflow à partir de son nom. Liste les entités créées par chaque action et retourne la liste.
 
         Args:
             step_name (str): nom de l'étape
             callback (Optional[Callable[[ProcessingExecution], None]], optional): callback de suivi si création d'une exécution de traitement.
+            ctrl_c_action (Optional[Callable[[], bool]], optional): gestion du ctrl-C lors d'une exécution de traitement.
             behavior (Optional[str]): comportement à adopter si une entité existe déjà sur l'entrepôt.
             datastore (Optional[str]): id du datastore à utiliser. Si None, le datastore sera le premier trouvé dans l'action puis dans workflow puis dans configuration.
 
@@ -91,19 +99,9 @@ class Workflow:
             # exécution de l'action
             Config().om.info(f"Exécution de l'action '{o_action.workflow_context}-{o_action.index}'...")
             o_action.run(s_use_datastore)
-
             # on attend la fin de l'exécution si besoin
-            # TODO alain
-            # on lance le monitoring en précisant la gestion du ctrl-C
-            def f_ctrl_c(processing_execution: ProcessingExecution) -> None:
-                """fonction callback pour la gestion du ctrl-C
-
-                Args:
-                    processing_execution (ProcessingExecution): processing exécution en cours
-                """
-
             if isinstance(o_action, ProcessingExecutionAction):
-                s_status = o_action.monitoring_until_end(callback=callback)  # , ctrl_c_action=f_ctrl_c)
+                s_status = o_action.monitoring_until_end(callback=callback, ctrl_c_action=ctrl_c_action)
                 if s_status != ProcessingExecution.STATUS_SUCCESS:
                     s_error_message = f"L'exécution de traitement {o_action} ne s'est pas bien passée. Sortie {s_status}."
                     Config().om.error(s_error_message)
