@@ -436,3 +436,24 @@ class WorkflowTestCase(GpfTestCase):
                 # Vérifications
                 self.assertEqual(o_action, o_action_get)
                 o_mock_get_actions.assert_called_once_with("stem_name")
+
+    def test_get_all_steps(self) -> None:
+        """test de get_all_steps"""
+        o_workflow = Workflow(
+            "workflow_name",
+            {
+                "workflow": {
+                    "steps": {
+                        "etape1": {"parents": [], "actions": []},
+                        "etape2A": {"parents": ["etape1"], "actions": []},
+                        "etape2B": {"parents": ["etape1"], "actions": []},
+                        "etape3": {"parents": ["etape2A", "etape2B"], "actions": []},
+                    },
+                },
+            },
+        )
+        l_steps = o_workflow.get_all_steps()
+        self.assertEqual(l_steps[0], "Etape « etape1 » [parent(s) : ]")
+        self.assertEqual(l_steps[1], "Etape « etape2A » [parent(s) : etape1]")
+        self.assertEqual(l_steps[2], "Etape « etape2B » [parent(s) : etape1]")
+        self.assertEqual(l_steps[3], "Etape « etape3 » [parent(s) : etape2A, etape2B]")
