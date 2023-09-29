@@ -1,4 +1,3 @@
-import sys
 import time
 from typing import Any, Callable, Dict, Optional
 
@@ -201,18 +200,17 @@ class ProcessingExecutionAction(ActionAbstract):
         # sinon on retourne None
         return None
 
-    def monitoring_until_end(self, callback: Optional[Callable[[ProcessingExecution], None]] = None, ctrl_c_action: Optional[Callable[[ProcessingExecution], None]] = None) -> str:
+    def monitoring_until_end(self, callback: Optional[Callable[[ProcessingExecution], None]] = None, ctrl_c_action: Optional[Callable[[], bool]] = None) -> str:
         """Attend que la ProcessingExecution soit terminée (statut `SUCCESS`, `FAILURE` ou `ABORTED`) avant de rendre la main.
 
         La fonction callback indiquée est exécutée après **chaque vérification du statut** en lui passant en paramètre
         la processing execution (callback(self.processing_execution)).
 
-        Si l'utilisateur stoppe le programme, la ProcessingExecution est ...
-        TODO alain
-        ... arrêtée avant de quitter.
+        Si l'utilisateur stoppe le programme (par ctrl-C), le devenir de la ProcessingExecutionAction sera géré par la callback ctrl_c_action().
 
         Args:
             callback (Optional[Callable[[ProcessingExecution], None]], optional): fonction de callback à exécuter. Prend en argument le traitement (callback(processing-execution)).
+            ctrl_c_action (Optional[Callable[[], bool]], optional): fonction de gestion du ctrl-C. Renvoie True si on doit stopper le traitement.
 
         Returns:
             "True" si SUCCESS, "False" si FAILURE, "None" si ABORTED
@@ -225,34 +223,26 @@ class ProcessingExecutionAction(ActionAbstract):
 
         s_status = self.processing_execution.get_store_properties()["status"]
         while s_status not in [ProcessingExecution.STATUS_ABORTED, ProcessingExecution.STATUS_SUCCESS, ProcessingExecution.STATUS_FAILURE]:
-            # appel de la fonction affichant les logs
-            if callback is not None:
-                callback(self.processing_execution)
-
-            # On attend le temps demandé
-            time.sleep(i_nb_sec_between_check)
-
-            # On met à jour __processing_execution + valeur status
             try:
+                # appel de la fonction affichant les logs
+                if callback is not None:
+                    callback(self.processing_execution)
+
+                # On attend le temps demandé
+                time.sleep(i_nb_sec_between_check)
+
+                # On met à jour __processing_execution + valeur status
                 self.processing_execution.api_update()
                 s_status = self.processing_execution.get_store_properties()["status"]
-            except KeyboardInterrupt as e:
-                # TODO alain
-                # sortie => sortie du monitoring, ne pas arrêter le traitement
-                # stopper l’exécution de traitement => stopper le traitement (et donc le monitoring) [par défaut] (raise un erreur d'interruption volontaire)
-                # ignorer / "erreur de manipulation" => reprendre le suivi
-                Config().om.info("Vous avez taper ctrl-C. Que souhaitez-vous faire ?")
-                Config().om.info("\t* 'a' : pour sortir et Arrêter le traitement")
-                Config().om.info("\t* 's' : pour sortir Sans arrêter le traitement")
-                Config().om.info("\t* 'c' : pour annuler et Continuer le traitement")
-                reponse = input().lower()
-                if reponse == "c":
-                    # on sort du except pour revenir dans le while
-                    pass
-                elif reponse == "s":
-                    # on sort sans arrêter le traitement
-                    sys.exit(0)
 
+            except KeyboardInterrupt as e:
+                # on appelle la callback de gestion du ctrl-C
+                if ctrl_c_action is not None:
+                    if not ctrl_c_action():
+                        # il ne faut pas arrêter le traitement :
+                        pass
+
+                # si on est ici, il faut arrêter le traitement et le monitoring :
                 # si le traitement est déjà dans un statut terminé, on ne fait rien => transmission de l'interruption
                 self.processing_execution.api_update()
                 s_status = self.processing_execution.get_store_properties()["status"]
@@ -276,15 +266,14 @@ class ProcessingExecutionAction(ActionAbstract):
                 if callback is not None:
                     callback(self.processing_execution)
                 # si statut Aborted :
-                if s_status == ProcessingExecution.STATUS_ABORTED and self.output_new_entity:
-                    # suppression de l'upload ou la stored data en sortie
-                    if self.upload is not None:
-                        Config().om.warning("Suppression de l'upload en cours de remplissage suite à l’interruption du programme")
-                        self.upload.api_delete()
-                    elif self.stored_data is not None:
-                        Config().om.warning("Suppression de la stored-data en cours de remplissage suite à l'interruption du programme")
-                        self.stored_data.api_delete()
-                # transmission de l'interruption
+                # suppression de l'upload ou de la stored data en sortie
+                if s_status == ProcessingExecution.STATUS_ABORTED and self.upload is not None:
+                    Config().om.warning("Suppression de l'upload en cours de remplissage suite à l’interruption du programme")
+                    self.upload.api_delete()
+                elif s_status == ProcessingExecution.STATUS_ABORTED and self.stored_data is not None:
+                    Config().om.warning("Suppression de la stored-data en cours de remplissage suite à l'interruption du programme")
+                    self.stored_data.api_delete()
+                # enfin, transmission de l'interruption
                 raise KeyboardInterrupt() from e
 
         # Si on est sorti du while c'est que la processing execution est terminée
