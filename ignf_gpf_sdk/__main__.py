@@ -256,7 +256,7 @@ class Main:
 
     @staticmethod
     def __monitoring_upload(upload: Upload, message_ok: str, message_ko: str, callback: Optional[Callable[[str], None]] = None) -> bool:
-        """monitiring de l'upload et affichage état de sortie
+        """monitoring de l'upload et affichage état de sortie
 
         Args:
             upload (Upload): upload à monitorer
@@ -313,7 +313,7 @@ class Main:
                     Config().om.info(f"La livraison {o_upload} est fermé, les tests sont en cours.")
                     self.__monitoring_upload(o_upload, "Livraison {upload} fermée avec succès.", "Livraison {o_upload} fermée en erreur !", print)
                     return
-                # si ferme OK ou KO : wwarning
+                # si ferme OK ou KO : warning
                 if o_upload["status"] in [Upload.STATUS_CLOSED, Upload.STATUS_UNSTABLE]:
                     Config().om.warning(f"La livraison {o_upload} est déjà fermée, status : {o_upload['status']}")
                     return
@@ -415,7 +415,34 @@ class Main:
                     except Exception:
                         PrintLogHelper.print("Logs indisponibles pour le moment...")
 
-                o_workflow.run_step(self.o_args.step, callback_run_step, behavior=s_behavior, datastore=self.datastore)
+                # on lance le monitoring de l'étape en précisant la gestion du ctrl-C
+                def ctrl_c_action() -> bool:
+                    """fonction callback pour la gestion du ctrl-C
+                    Renvoie un booléen d'arrêt de traitement. Si True, on doit arrêter le traitement.
+                    """
+                    # issues/9 :
+                    # sortie => sortie du monitoring, ne pas arrêter le traitement
+                    # stopper l’exécution de traitement => stopper le traitement (et donc le monitoring) [par défaut] (raise une erreur d'interruption volontaire)
+                    # ignorer / "erreur de manipulation" => reprendre le suivi
+                    s_reponse = "rien"
+                    while s_reponse not in ["a", "s", "c", ""]:
+                        Config().om.info("Vous avez taper ctrl-C. Que souhaitez-vous faire ?")
+                        Config().om.info("\t* 'a' : pour sortir et <Arrêter> le traitement [par défaut]")
+                        Config().om.info("\t* 's' : pour sortir <Sans arrêter> le traitement")
+                        Config().om.info("\t* 'c' : pour annuler et <Continuer> le traitement")
+                        s_reponse = input().lower()
+
+                    if s_reponse == "s":
+                        Config().om.info("\t 's' : sortir <Sans arrêter> le traitement")
+                        sys.exit(0)
+                    elif s_reponse == "c":
+                        Config().om.info("\t 'c' : annuler et <Continuer> le traitement")
+                        return False
+                    # on arrête le traitement
+                    Config().om.info("\t 'a' : sortir et <Arrêter> le traitement [par défaut]")
+                    return True
+
+                o_workflow.run_step(self.o_args.step, callback_run_step, ctrl_c_action, behavior=s_behavior, datastore=self.datastore)
         else:
             l_children: List[str] = []
             for p_child in p_root.iterdir():
