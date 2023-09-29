@@ -93,11 +93,11 @@ class WorkflowTestCase(GpfTestCase):
             if error_message is not None:
                 # si on attend une erreur
                 with self.assertRaises(WorkflowError) as o_arc:
-                    o_workflow.run_step(s_etape, callback, behavior, s_datastore)
+                    o_workflow.run_step(s_etape, callback, None, behavior, s_datastore)
                 self.assertEqual(o_arc.exception.message, error_message.format(action=o_mock_action))
             else:
                 # pas d'erreur attendu
-                l_entities = o_workflow.run_step(s_etape, callback, behavior, s_datastore)
+                l_entities = o_workflow.run_step(s_etape, callback, None, behavior, s_datastore)
                 self.assertListEqual(l_entities, ["entite"] * len(l_run_args))
 
             # vérification des appels à generate
@@ -118,7 +118,7 @@ class WorkflowTestCase(GpfTestCase):
             # si monitoring : vérification des appels à monitoring
             if monitoring_until_end:
                 self.assertEqual(o_mock_action.resolve.call_count, len(l_run_args))
-                o_mock_action.monitoring_until_end.assert_any_call(callback=callback)
+                o_mock_action.monitoring_until_end.assert_any_call(callback=callback, ctrl_c_action=None)
 
     def test_run_step(self) -> None:
         """test de run_step"""

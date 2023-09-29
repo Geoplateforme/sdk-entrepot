@@ -238,13 +238,14 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
         self.run_args({"tag1": "val1", "tag2": "val2"}, ["comm1", "comm2", "comm3", "comm4"], s_key, s_type_output, s_datastore, True, "Toto")
         self.run_args({"tag1": "val1", "tag2": "val2"}, ["comm1", "comm2", "comm3", "comm4"], s_key, s_type_output, s_datastore, True, None)
 
-    def monitoring_until_end_args(self, s_status_end: str, b_waits: bool, b_callback: bool) -> None:
+    def monitoring_until_end_args(self, s_status_end: str, b_waits: bool, b_callback: bool, b_ctrl_c: bool) -> None:
         """lancement + test de ProcessingExecutionAction.monitoring_until_end() selon param
 
         Args:
             s_status_end (str): status de fin
             b_waits (bool): si on a des status intermédiaire
             b_callback (bool): si on a une fonction callback
+            b_ctrl_c (bool): si on a une fonction callback pour gérer les ctrl_c
         """
 
         if b_waits:
@@ -255,6 +256,10 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
             f_callback = MagicMock()
         else:
             f_callback = None
+        if b_ctrl_c:
+            f_ctrl_c = MagicMock()
+        else:
+            f_ctrl_c = None
 
         # mock de o_mock_processing_execution
         o_mock_processing_execution = MagicMock(name="test")
@@ -267,7 +272,7 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
 
             # initialisation de ProcessingExecutionAction
             o_pea = ProcessingExecutionAction("contexte", {})
-            s_return = o_pea.monitoring_until_end(f_callback)
+            s_return = o_pea.monitoring_until_end(f_callback, f_ctrl_c)
 
             # vérification valeur de sortie
             self.assertEqual(s_return, s_status_end)
@@ -280,7 +285,7 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
                 self.assertEqual(f_callback.call_count, len(l_status)+1)
                 self.assertEqual(f_callback.mock_calls, [call(o_mock_processing_execution)] * (len(l_status)+1))
 
-    def interrupt_monitoring_until_end_args(self, s_status_end: str, b_waits: bool, b_callback: bool, b_upload: bool, b_stored_data: bool, b_new_output: bool) -> None:
+    def interrupt_monitoring_until_end_args(self, s_status_end: str, b_waits: bool, b_callback: bool, b_ctrl_c: bool, b_upload: bool, b_stored_data: bool, b_new_output: bool) -> None:
         # cas interruption par l'utilisateur.
         """lancement + test de ProcessingExecutionAction.monitoring_until_end() + simulation ctrl+C pendant monitoring_until_end
 
@@ -288,6 +293,7 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
             s_status_end (str): status de fin
             b_waits (bool): si on a des status intermédiaire
             b_callback (bool): si on a une fonction callback
+            b_ctrl_c (bool): si on a une fonction callback pour gérer les ctrl_c
             b_upload (bool): si sortie du traitement en upload
             b_stored_data (bool): si sortie du traitement en stored-data
             b_new_output (bool): si on a une nouvelle sortie (création) un ancienne (modification)
@@ -303,6 +309,11 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
             f_callback = MagicMock()
         else:
             f_callback = None
+        if b_ctrl_c:
+            f_ctrl_c = MagicMock()
+            l_status = [{"raise": "KeyboardInterrupt"}, {"status": s_status_end}]
+        else:
+            f_ctrl_c = None
 
         d_definition_dict: Dict[str, Any] = {"body_parameters":{"output":{}}}
         d_output = {"name": "new"} if b_new_output else {"_id": "ancien"}
@@ -332,6 +343,7 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
             """
             nonlocal i_iter
             s_el = l_status[i_iter]
+
             i_iter+=1
             if "raise" in s_el:
                 raise KeyboardInterrupt()
@@ -358,7 +370,7 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
 
             # vérification sortie en erreur de monitoring_until_end
             with self.assertRaises(KeyboardInterrupt):
-                o_pea.monitoring_until_end(f_callback)
+                o_pea.monitoring_until_end(f_callback, f_ctrl_c)
 
             # exécution de abort
             if not b_waits:
@@ -392,11 +404,12 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
         for s_status_end in [ProcessingExecution.STATUS_ABORTED, ProcessingExecution.STATUS_SUCCESS, ProcessingExecution.STATUS_FAILURE]:
             for b_waits in [False, True]:
                 for b_callback in [False, True]:
-                    self.monitoring_until_end_args(s_status_end, b_waits, b_callback)
-                    for b_new_output in [False, True]:
-                        self.interrupt_monitoring_until_end_args(s_status_end, b_waits, b_callback, True, False, b_new_output)
-                        self.interrupt_monitoring_until_end_args(s_status_end, b_waits, b_callback, False, True, b_new_output)
-                        self.interrupt_monitoring_until_end_args(s_status_end, b_waits, b_callback, False, False, b_new_output)
+                    for b_ctrl_c in [False, True]:
+                        self.monitoring_until_end_args(s_status_end, b_waits, b_callback, b_ctrl_c)
+                        for b_new_output in [False, True]:
+                            self.interrupt_monitoring_until_end_args(s_status_end, b_waits, b_callback, b_ctrl_c, True, False, b_new_output)
+                            self.interrupt_monitoring_until_end_args(s_status_end, b_waits, b_callback, b_ctrl_c, False, True, b_new_output)
+                            self.interrupt_monitoring_until_end_args(s_status_end, b_waits, b_callback, b_ctrl_c, False, False, b_new_output)
 
     def test_output_new_entity(self)-> None:
         """test de output_new_entity"""
