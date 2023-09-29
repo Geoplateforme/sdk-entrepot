@@ -426,18 +426,22 @@ class Main:
                     # ignorer / "erreur de manipulation" => reprendre le suivi
                     s_reponse = "rien"
                     while s_reponse not in ["a", "s", "c", ""]:
-                        Config().om.info("Vous avez taper ctrl-C. Que souhaitez-vous faire ?")
-                        Config().om.info("\t* 'a' : pour sortir et <Arrêter> le traitement [par défaut]")
-                        Config().om.info("\t* 's' : pour sortir <Sans arrêter> le traitement")
-                        Config().om.info("\t* 'c' : pour annuler et <Continuer> le traitement")
+                        Config().om.info(
+                            "Vous avez taper ctrl-C. Que souhaitez-vous faire ?\n\
+                                         \t* 'a' : pour sortir et <Arrêter> le traitement [par défaut]\n\
+                                         \t* 's' : pour sortir <Sans arrêter> le traitement\n\
+                                         \t* 'c' : pour annuler et <Continuer> le traitement"
+                        )
                         s_reponse = input().lower()
 
                     if s_reponse == "s":
                         Config().om.info("\t 's' : sortir <Sans arrêter> le traitement")
-                        sys.exit(0)
-                    elif s_reponse == "c":
+                        sys.exit(2)
+
+                    if s_reponse == "c":
                         Config().om.info("\t 'c' : annuler et <Continuer> le traitement")
                         return False
+
                     # on arrête le traitement
                     Config().om.info("\t 'a' : sortir et <Arrêter> le traitement [par défaut]")
                     return True
