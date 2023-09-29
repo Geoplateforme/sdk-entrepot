@@ -2,6 +2,8 @@ from pathlib import Path
 from typing import Any, Dict, Optional, Type, List
 from unittest.mock import PropertyMock, patch, MagicMock
 
+import jsonschema
+
 from ignf_gpf_sdk.Errors import GpfSdkError
 from ignf_gpf_sdk.helper.JsonHelper import JsonHelper
 from ignf_gpf_sdk.io.Config import Config
@@ -352,12 +354,15 @@ class WorkflowTestCase(GpfTestCase):
     def test_validate(self) -> None:
         """Test de la fonction validate."""
         p_workflows = Config.data_dir_path / "workflows"
+
         # On valide le workflow generic_archive.jsonc
         o_workflow_1 = Workflow.open_workflow(p_workflows / "generic_archive.jsonc")
         self.assertFalse(o_workflow_1.validate())
+
         # On valide le workflow generic_vecteur.jsonc
         o_workflow_2 = Workflow.open_workflow(p_workflows / "generic_vecteur.jsonc")
         self.assertFalse(o_workflow_2.validate())
+
         # On ne valide pas le workflow bad-workflow.jsonc
         p_workflow = GpfTestCase.data_dir_path / "workflows" / "bad-workflow.jsonc"
         o_workflow_2 = Workflow(p_workflow.stem, JsonHelper.load(p_workflow))
@@ -368,6 +373,21 @@ class WorkflowTestCase(GpfTestCase):
         self.assertEqual(l_errors[2], "L'étape « no-parent-no-action » n'a aucune action de défini.")
         self.assertEqual(l_errors[3], "L'action n°1 de l'étape « configuration-wfs » n'est pas instantiable (Aucune correspondance pour ce type d'action : type-not-found).")
         self.assertEqual(l_errors[4], "L'action n°2 de l'étape « configuration-wfs » n'a pas la clef obligatoire ('type').")
+        ## cas erreur non valide
+        with patch.object(Workflow, "generate", side_effect=Exception("error")) as o_mock_jsonschema:
+            l_errors = o_workflow_1.validate()
+            self.assertTrue(l_errors)
+            self.assertEqual(l_errors[0], "L'action n°1 de l'étape « intégration-archive-livrée » lève une erreur inattendue (error).")
+            self.assertEqual(l_errors[1], "L'action n°1 de l'étape « configuration-archive-livrée » lève une erreur inattendue (error).")
+            self.assertEqual(l_errors[2], "L'action n°1 de l'étape « publication-archive-livrée » lève une erreur inattendue (error).")
+
+        # problème avec le schema du fichier workflow
+        p_schema = Config.conf_dir_path / "json_schemas" / "workflow.json"
+        with patch.object(jsonschema, "validate", side_effect=jsonschema.exceptions.SchemaError("error")) as o_mock_jsonschema:
+            with self.assertRaises(GpfSdkError) as o_arc:
+                o_workflow_2.validate()
+            self.assertEqual(o_arc.exception.message, f"Le schéma décrivant la structure d'un workflow {p_schema} est invalide. Contactez le support.")
+            o_mock_jsonschema.assert_called_once()
 
     def test_get_actions(self) -> None:
         """Test de get_actions."""
