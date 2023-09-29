@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 
-import jsonschema  # type: ignore
+import jsonschema
 from ignf_gpf_sdk.Errors import GpfSdkError
 from ignf_gpf_sdk.helper.JsonHelper import JsonHelper
 
@@ -305,25 +305,18 @@ class Workflow:
 
         # Maintenant que l'on a fait ça, on peut faire des vérifications pratiques
 
-        # 1. Est-ce que les parents de chaque étape existent ?
         # Pour chaque étape
         for s_step_name in self.steps:
+            # 1. Est-ce que les parents de chaque étape existent ?
             # Pour chaque parent de l'étape
             for s_parent_name in self.__get_step_definition(s_step_name)["parents"]:
                 # S'il n'est pas dans la liste
                 if not s_parent_name in self.steps:
                     l_errors.append(f"Le parent « {s_parent_name} » de l'étape « {s_step_name} » n'est pas défini dans le workflow.")
-
-        # 2. Est-ce que chaque action a au moins une étape ?
-        # Pour chaque étape
-        for s_step_name in self.steps:
-            # est-ce qu'il y a au moins une action ?
+            # 2. Est-ce que chaque action a au moins une étape ?
             if not self.__get_step_definition(s_step_name)["actions"]:
                 l_errors.append(f"L'étape « {s_step_name} » n'a aucune action de défini.")
-
-        # 3. Est-ce que chaque action de chaque étape est instantiable ?
-        # Pour chaque étape
-        for s_step_name in self.steps:
+            # 3. Est-ce que chaque action de chaque étape est instantiable ?
             # Pour chaque action de l'étape
             for i, d_action in enumerate(self.__get_step_definition(s_step_name)["actions"], 1):
                 # On tente de l'instancier
