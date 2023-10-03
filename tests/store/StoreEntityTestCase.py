@@ -453,23 +453,14 @@ class StoreEntityTestCase(GpfTestCase):
         self.assertEqual(2, o_mock_sleep.call_count)
         reset_mock()
 
-        # suppression avec before_delete, avec annulation V1
-        o_mock_function = MagicMock()
-        o_mock_function.before_delete_function.return_value = []
-        StoreEntity.delete_liste_entities(l_entity, o_mock_function.before_delete_function)
-        o_mock_function.before_delete_function.assert_called_once_with(l_entity)
-        o_mock_1.api_delete.assert_not_called()
-        o_mock_2.api_delete.assert_not_called()
-        o_mock_3.api_delete.assert_not_called()
-        self.assertEqual(0, o_mock_sleep.call_count)
-        reset_mock()
-
-        # suppression avec before_delete, avec annulation V2
-        o_mock_function = MagicMock()
-        o_mock_function.before_delete_function.return_value = None
-        StoreEntity.delete_liste_entities(l_entity, o_mock_function.before_delete_function)
-        o_mock_function.before_delete_function.assert_called_once_with(l_entity)
-        o_mock_1.api_delete.assert_not_called()
-        o_mock_2.api_delete.assert_not_called()
-        self.assertEqual(0, o_mock_sleep.call_count)
-        reset_mock()
+        # suppression avec before_delete, avec annulation liste vide ou None
+        for o_return in [[], None]:  # type:ignore
+            o_mock_function = MagicMock()
+            o_mock_function.before_delete_function.return_value = o_return
+            StoreEntity.delete_liste_entities(l_entity, o_mock_function.before_delete_function)
+            o_mock_function.before_delete_function.assert_called_once_with(l_entity)
+            o_mock_1.api_delete.assert_not_called()
+            o_mock_2.api_delete.assert_not_called()
+            o_mock_3.api_delete.assert_not_called()
+            self.assertEqual(0, o_mock_sleep.call_count)
+            reset_mock()
