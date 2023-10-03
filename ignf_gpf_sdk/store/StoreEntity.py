@@ -1,6 +1,7 @@
 import json
 from abc import ABC
-from typing import Any, Dict, List, Optional, Type, TypeVar
+import time
+from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
 from datetime import datetime
 from dateutil import parser
 
@@ -241,6 +242,38 @@ class StoreEntity(ABC):
                     Config().om.error(s_error_message)
                     raise StoreEntityError(s_error_message)
         return d_filter
+
+    def delete_cascade(self, before_delete: Optional[Callable[[List["StoreEntity"]], List["StoreEntity"]]] = None) -> None:
+        """suppression en cascade des offres : uniquement les offres
+
+        Args:
+            before_delete (Optional[Callable[[List[StoreEntity]], List[StoreEntity]]], optional): fonction à lancé avant la suppression entrée liste des entités à supprimé,
+                sortie liste définitive des entités à supprimer. Defaults to None.
+        """
+        # suppression d'une configuration : offres puis configuration
+        self.delete_liste_entities([self], before_delete)
+
+    @staticmethod
+    def delete_liste_entities(l_entities: List["StoreEntity"], before_delete: Optional[Callable[[List["StoreEntity"]], List["StoreEntity"]]] = None) -> None:
+        """suppression d'une liste d’entités. Exécution de `before_delete(l_entities)` avant la suppression, before_delete return la nouvelle liste des éléments à supprimé.
+
+        Args:
+            l_entities (List[StoreEntity]]): liste des entités à supprimé
+            before_delete (Optional[Callable[[List[StoreEntity]], List[StoreEntity]]], optional): fonction à lancé avant la suppression entrée liste des entités à supprimé,
+                sortie liste définitive des entités à supprimer. Defaults to None.
+        """
+        if before_delete is not None:
+            # callback avant suppression
+            l_entities = before_delete(l_entities)
+        if not l_entities:
+            Config().om.info("Aucun élément supprimé.")
+            return
+        Config().om.info("Début de la suppression ...")
+        # suppression
+        for o_entity in l_entities:
+            o_entity.api_delete()
+            time.sleep(1)
+        Config().om.info("Suppression effectué.", green_colored=True)
 
     ##############################################################
     # Récupération du JSON

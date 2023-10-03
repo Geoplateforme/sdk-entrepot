@@ -4,7 +4,6 @@ import configparser
 import io
 import sys
 import argparse
-import time
 import traceback
 from pathlib import Path
 from typing import Callable, List, Optional, Sequence
@@ -17,6 +16,10 @@ from ignf_gpf_sdk.helper.JsonHelper import JsonHelper
 from ignf_gpf_sdk.helper.PrintLogHelper import PrintLogHelper
 from ignf_gpf_sdk.io.Errors import ConflictError
 from ignf_gpf_sdk.io.ApiRequester import ApiRequester
+from ignf_gpf_sdk.store.Check import Check
+from ignf_gpf_sdk.store.CheckExecution import CheckExecution
+from ignf_gpf_sdk.store.Endpoint import Endpoint
+from ignf_gpf_sdk.store.Processing import Processing
 from ignf_gpf_sdk.workflow.Workflow import Workflow
 from ignf_gpf_sdk.workflow.resolver.GlobalResolver import GlobalResolver
 from ignf_gpf_sdk.workflow.resolver.StoreEntityResolver import StoreEntityResolver
@@ -35,6 +38,20 @@ from ignf_gpf_sdk.workflow.resolver.UserResolver import UserResolver
 
 class Main:
     """Classe d'entrée pour utiliser la lib comme binaire."""
+
+    # lien entre le nom texte et la classe
+    ENTITY_TYPE = {
+        "entrepot": Datastore,
+        "endpoint": Endpoint,
+        "livraison": Upload,
+        "verification": Check,
+        "exécution de vérification": CheckExecution,
+        "stored_data": StoredData,
+        "traitement": Processing,
+        "exécution de traitement": ProcessingExecution,
+        "configuration": Configuration,
+        "offre": Offering,
+    }
 
     def __init__(self) -> None:
         """Constructeur."""
@@ -425,47 +442,42 @@ class Main:
 
     def delete(self) -> None:
         """suppression d'une entité par son type et son id"""
-        l_entities: List[StoreEntity] = []
-        if self.o_args.type == "livraison":
-            l_entities.append(Upload.api_get(self.o_args.id))
-        elif self.o_args.type == "stored_data":
-            o_stored_data = StoredData.api_get(self.o_args.id)
-            if self.o_args.cascade:
-                # liste des configurations
-                l_configuration = Configuration.api_list({"stored_data": self.o_args.id})
-                for o_configuration in l_configuration:
-                    # pour chaque configuration on récupère les offerings
-                    l_offering = o_configuration.api_list_offerings()
-                    l_entities += l_offering
-                    l_entities.append(o_configuration)
-            l_entities.append(o_stored_data)
-        elif self.o_args.type == "configuration":
-            o_configuration = Configuration.api_get(self.o_args.id)
-            if self.o_args.cascade:
-                l_offering = o_configuration.api_list_offerings()
-                l_entities += l_offering
-            l_entities.append(o_configuration)
-        elif self.o_args.type == "offre":
-            l_entities.append(Offering.api_get(self.o_args.id))
 
-        # affichage élément supprimés
-        Config().om.info("Suppression de :")
-        for o_entity in l_entities:
-            Config().om.info(str(o_entity), green_colored=True)
-
-        # demande validation si non forcée
-        if not self.o_args.force:
+        def question_before_delete(l_delete: List[StoreEntity]) -> List[StoreEntity]:
+            Config().om.info("suppression de :")
+            for o_entity in l_delete:
+                Config().om.info(str(o_entity), green_colored=True)
             Config().om.info("Voulez-vous effectué la suppression ? (oui/NON)")
             s_rep = input()
             # si la réponse ne correspond pas à oui on sort
             if s_rep.lower() not in ["oui", "o", "yes", "y"]:
                 Config().om.info("La suppression est annulée.")
-                return
+                return []
+            return l_delete
+
+        def print_before_delete(l_delete: List[StoreEntity]) -> List[StoreEntity]:
+            Config().om.info("suppression de :")
+            for o_entity in l_delete:
+                Config().om.info(str(o_entity), green_colored=True)
+            return l_delete
+
+        l_valid_type = ["livraison", "stored_data", "configuration", "offre"]
+        if self.o_args.type in l_valid_type:
+            # récupération de l'entité de base
+            o_entity = self.ENTITY_TYPE[self.o_args.type].api_get(self.o_args.id)
+        else:
+            raise GpfSdkError(f"Type {self.o_args.type} non reconnu. Type valide : {','.join(l_valid_type)}")
+
+        # choix de la fonction exécuté avant la suppression
+        ## force : juste affichage
+        ## sinon : question d'acceptation de la suppression
+        f_delete = print_before_delete if self.o_args.force else question_before_delete
+
         # suppression
-        for o_entity in l_entities:
-            o_entity.api_delete()
-            time.sleep(1)
-        Config().om.info("Suppression effectué.", green_colored=True)
+        if self.o_args.cascade:
+            o_entity.delete_cascade(f_delete)
+        else:
+            StoreEntity.delete_liste_entities([o_entity], f_delete)
 
 
 if __name__ == "__main__":
