@@ -22,11 +22,6 @@ class ProcessingExecutionAction(ActionAbstract):
         __StoredData (Optional[StoredData]): représentation Python de la données stockée en sortie (null si livraison en sortie)
     """
 
-    # comportements possibles (que peut écrire l'utilisateur)
-    BEHAVIOR_STOP = "STOP"
-    BEHAVIOR_DELETE = "DELETE"
-    BEHAVIOR_CONTINUE = "CONTINUE"
-
     # status possibles d'une ProcessingExecution (status délivrés par l'api)
     # STATUS_CREATED
     # STATUS_ABORTED STATUS_SUCCESS STATUS_FAILURE
@@ -101,6 +96,7 @@ class ProcessingExecutionAction(ActionAbstract):
                         raise GpfSdkError(f"Impossible de trouver l'exécution de traitement liée à la donnée stockée {o_stored_data}")
                     # arbitrairement, on prend le premier de la liste
                     self.__processing_execution = l_proc_exec[0]
+                    Config().om.info(f"La donnée stocké en sortie {o_stored_data} déjà existante, on reprend le traitement associé : {self.__processing_execution}.")
                     return
                 # Comportement non reconnu
                 else:
