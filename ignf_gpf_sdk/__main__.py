@@ -353,6 +353,37 @@ class Main:
                     l_children.append(p_child.name)
             print("Jeux de données disponibles :\n   * {}".format("\n   * ".join(l_children)))
 
+    @staticmethod
+    def ctrl_c_action() -> bool:
+        """fonction callback pour la gestion du ctrl-C
+        Renvoie un booléen d'arrêt de traitement. Si True, on doit arrêter le traitement.
+        """
+        # issues/9 :
+        # sortie => sortie du monitoring, ne pas arrêter le traitement
+        # stopper l’exécution de traitement => stopper le traitement (et donc le monitoring) [par défaut] (raise une erreur d'interruption volontaire)
+        # ignorer / "erreur de manipulation" => reprendre le suivi
+        s_reponse = "rien"
+        while s_reponse not in ["a", "s", "c", ""]:
+            Config().om.info(
+                "Vous avez taper ctrl-C. Que souhaitez-vous faire ?\n\
+                                \t* 'a' : pour sortir et <Arrêter> le traitement [par défaut]\n\
+                                \t* 's' : pour sortir <Sans arrêter> le traitement\n\
+                                \t* 'c' : pour annuler et <Continuer> le traitement"
+            )
+            s_reponse = input().lower()
+
+        if s_reponse == "s":
+            Config().om.info("\t 's' : sortir <Sans arrêter> le traitement")
+            sys.exit(2)
+
+        if s_reponse == "c":
+            Config().om.info("\t 'c' : annuler et <Continuer> le traitement")
+            return False
+
+        # on arrête le traitement
+        Config().om.info("\t 'a' : sortir et <Arrêter> le traitement [par défaut]")
+        return True
+
     def workflow(self) -> None:
         """Vérifie ou exécute un workflow."""
         p_root = Config.data_dir_path / "workflows"
@@ -416,37 +447,7 @@ class Main:
                         PrintLogHelper.print("Logs indisponibles pour le moment...")
 
                 # on lance le monitoring de l'étape en précisant la gestion du ctrl-C
-                def ctrl_c_action() -> bool:
-                    """fonction callback pour la gestion du ctrl-C
-                    Renvoie un booléen d'arrêt de traitement. Si True, on doit arrêter le traitement.
-                    """
-                    # issues/9 :
-                    # sortie => sortie du monitoring, ne pas arrêter le traitement
-                    # stopper l’exécution de traitement => stopper le traitement (et donc le monitoring) [par défaut] (raise une erreur d'interruption volontaire)
-                    # ignorer / "erreur de manipulation" => reprendre le suivi
-                    s_reponse = "rien"
-                    while s_reponse not in ["a", "s", "c", ""]:
-                        Config().om.info(
-                            "Vous avez taper ctrl-C. Que souhaitez-vous faire ?\n\
-                                         \t* 'a' : pour sortir et <Arrêter> le traitement [par défaut]\n\
-                                         \t* 's' : pour sortir <Sans arrêter> le traitement\n\
-                                         \t* 'c' : pour annuler et <Continuer> le traitement"
-                        )
-                        s_reponse = input().lower()
-
-                    if s_reponse == "s":
-                        Config().om.info("\t 's' : sortir <Sans arrêter> le traitement")
-                        sys.exit(2)
-
-                    if s_reponse == "c":
-                        Config().om.info("\t 'c' : annuler et <Continuer> le traitement")
-                        return False
-
-                    # on arrête le traitement
-                    Config().om.info("\t 'a' : sortir et <Arrêter> le traitement [par défaut]")
-                    return True
-
-                o_workflow.run_step(self.o_args.step, callback_run_step, ctrl_c_action, behavior=s_behavior, datastore=self.datastore)
+                o_workflow.run_step(self.o_args.step, callback_run_step, self.ctrl_c_action, behavior=s_behavior, datastore=self.datastore)
         else:
             l_children: List[str] = []
             for p_child in p_root.iterdir():
