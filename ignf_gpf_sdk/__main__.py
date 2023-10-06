@@ -134,9 +134,9 @@ class Main:
         o_sub_parser.add_argument("--name", "-n", type=str, default=None, help="Nom du workflow à extraire")
         o_sub_parser.add_argument("--step", "-s", type=str, default=None, help="Étape du workflow à lancer")
         o_sub_parser.add_argument("--behavior", "-b", type=str, default=None, help="Action à effectuer si l'exécution de traitement existe déjà")
-        o_sub_parser.add_argument("--tag", "-t", type=str, nargs=2, action="append", metavar=("Clef", "Valeur"), default=[], help="tag à ajouter aux actions (plusieurs tags possible)")
+        o_sub_parser.add_argument("--tag", "-t", type=str, nargs=2, action="append", metavar=("Clef", "Valeur"), default=[], help="Tag à ajouter aux actions (plusieurs tags possible)")
         o_sub_parser.add_argument(
-            "--commentaire",
+            "--comment",
             "-c",
             type=str,
             default=[],
@@ -426,7 +426,7 @@ class Main:
                         PrintLogHelper.print("Logs indisponibles pour le moment...")
 
                 d_tags = {l_el[0]: l_el[1] for l_el in self.o_args.tag}
-                o_workflow.run_step(self.o_args.step, callback_run_step, behavior=s_behavior, datastore=self.datastore, comments=self.o_args.commentaire, tags=d_tags)
+                o_workflow.run_step(self.o_args.step, callback_run_step, behavior=s_behavior, datastore=self.datastore, comments=self.o_args.comment, tags=d_tags)
         else:
             l_children: List[str] = []
             for p_child in p_root.iterdir():
