@@ -1,6 +1,6 @@
 from pathlib import Path
 from typing import Any
-import jsonschema  # type: ignore
+import jsonschema
 from jsonc_parser.parser import JsoncParser  # type: ignore
 from jsonc_parser.errors import ParserError  # type: ignore
 

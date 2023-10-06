@@ -41,7 +41,7 @@ class OutputManager(metaclass=Singleton):
         Args:
             message (str): message de type debug à journaliser
         """
-        self.__logger.debug("DEBUG - %s", message)
+        self.__logger.debug("%sDEBUG - %s%s", Color.GREY, message, Color.END)
 
     def info(self, message: str, green_colored: bool = False) -> None:
         """Ajout d'un message de type info
