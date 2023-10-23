@@ -23,11 +23,11 @@ class StoredData(TagInterface, CommentInterface, SharingInterface, EventInterfac
     STATUS_UNSTABLE = "UNSTABLE"
 
     def delete_cascade(self, before_delete: Optional[Callable[[List["StoreEntity"]], List["StoreEntity"]]] = None) -> None:
-        """suppression en cascade des offres : uniquement les offres
+        """Suppression de la donnée stockée avec suppression en cascade des configuration liées et des offres liées à chaque configuration.
 
         Args:
-            before_delete (Optional[Callable[[List[StoreEntity]], List[StoreEntity]]], optional): fonction à lancé avant la suppression entrée liste des entités à supprimé,
-                sortie liste définitive des entités à supprimer. Defaults to None.
+            before_delete (Optional[Callable[[List[StoreEntity]], List[StoreEntity]]], optional): fonction à lancer avant la suppression (entrée : liste des entités à supprimer,
+                sortie : liste définitive des entités à supprimer). Defaults to None.
         """
         # suppression d'une stored_data : uniquement l'upload, configuration et stored_data
         l_entities: List[StoreEntity] = []

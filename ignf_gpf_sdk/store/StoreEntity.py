@@ -255,12 +255,12 @@ class StoreEntity(ABC):
 
     @staticmethod
     def delete_liste_entities(l_entities: List["StoreEntity"], before_delete: Optional[Callable[[List["StoreEntity"]], List["StoreEntity"]]] = None) -> None:
-        """suppression d'une liste d’entités. Exécution de `before_delete(l_entities)` avant la suppression, before_delete return la nouvelle liste des éléments à supprimé.
+        """Suppression d'une liste d’entités. Exécution de `before_delete(l_entities)` avant la suppression, before_delete retourne la nouvelle liste des éléments à supprimer.
 
         Args:
-            l_entities (List[StoreEntity]]): liste des entités à supprimé
-            before_delete (Optional[Callable[[List[StoreEntity]], List[StoreEntity]]], optional): fonction à lancé avant la suppression entrée liste des entités à supprimé,
-                sortie liste définitive des entités à supprimer. Defaults to None.
+            l_entities (List[StoreEntity]]): liste des entités à supprimer
+            before_delete (Optional[Callable[[List[StoreEntity]], List[StoreEntity]]], optional): fonction à lancer avant la suppression (entrée : liste des entités à supprimer,
+                sortie : liste définitive des entités à supprimer). Defaults to None.
         """
         if before_delete is not None:
             # callback avant suppression
@@ -273,7 +273,7 @@ class StoreEntity(ABC):
         for o_entity in l_entities:
             o_entity.api_delete()
             time.sleep(1)
-        Config().om.info("Suppression effectué.", green_colored=True)
+        Config().om.info("Suppression effectuée.", green_colored=True)
 
     ##############################################################
     # Récupération du JSON

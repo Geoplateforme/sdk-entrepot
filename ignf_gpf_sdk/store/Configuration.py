@@ -48,11 +48,11 @@ class Configuration(TagInterface, CommentInterface, EventInterface, FullEditInte
         return Offering.api_create(data_offering, route_params={self._entity_name: self.id})
 
     def delete_cascade(self, before_delete: Optional[Callable[[List["StoreEntity"]], List["StoreEntity"]]] = None) -> None:
-        """suppression en cascade des offres : uniquement les offres
+        """Fonction de suppression de la Configuration en supprimant en cascade les offres liées (et uniquement les offres, pas les données stockées).
 
         Args:
-            before_delete (Optional[Callable[[List[StoreEntity]], List[StoreEntity]]], optional): fonction à lancé avant la suppression entrée liste des entités à supprimé,
-                sortie liste définitive des entités à supprimer. Defaults to None.
+            before_delete (Optional[Callable[[List[StoreEntity]], List[StoreEntity]]], optional): fonction à lancer avant la suppression (entrée : liste des entités à supprimer,
+                sortie : liste définitive des entités à supprimer). Defaults to None.
         """
         # suppression d'une configuration : offres puis configuration
         l_entities: List[StoreEntity] = []
