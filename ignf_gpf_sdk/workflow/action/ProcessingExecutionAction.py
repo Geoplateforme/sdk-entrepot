@@ -217,7 +217,7 @@ class ProcessingExecutionAction(ActionAbstract):
         """
 
         def callback_not_null(o_pe: ProcessingExecution) -> None:
-            """fonction pour évité des if à chaque callback
+            """fonction pour éviter des if à chaque appel
 
             Args:
                 o_pe (ProcessingExecution): traitement en cours
@@ -248,7 +248,7 @@ class ProcessingExecutionAction(ActionAbstract):
             except KeyboardInterrupt as e:
                 # on appelle la callback de gestion du ctrl-C
                 if ctrl_c_action is None or ctrl_c_action():
-                    # on arrêter le traitement :
+                    # on doit arrêter le traitement :
                     # si le traitement est déjà dans un statut terminé, on ne fait rien => transmission de l'interruption
                     self.processing_execution.api_update()
                     s_status = self.processing_execution.get_store_properties()["status"]
