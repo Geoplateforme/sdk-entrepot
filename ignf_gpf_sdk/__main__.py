@@ -255,7 +255,7 @@ class Main:
                     print(o_string_io.read()[:-1])
 
     @staticmethod
-    def __monitoring_upload(upload: Upload, message_ok: str, message_ko: str, callback: Optional[Callable[[str], None]] = None) -> bool:
+    def __monitoring_upload(upload: Upload, message_ok: str, message_ko: str, callback: Optional[Callable[[str], None]] = None, ctrl_c_action: Optional[Callable[[], bool]] = None) -> bool:
         """monitoring de l'upload et affichage état de sortie
 
         Args:
@@ -263,11 +263,11 @@ class Main:
             message_ok (str): message si les vérifications sont ok
             message_ko (str): message si les vérifications sont en erreur
             callback (Optional[Callable[[str], None]], optional): fonction de callback à exécuter avec le message de suivi.
-
+            ctrl_c_action (Optional[Callable[[], bool]], optional): gestion du ctrl-C
         Returns:
             bool: True si toutes les vérifications sont ok, sinon False
         """
-        b_res = UploadAction.monitor_until_end(upload, callback)
+        b_res = UploadAction.monitor_until_end(upload, callback, ctrl_c_action)
         if b_res:
             Config().om.info(message_ok.format(upload=upload), green_colored=True)
         else:
