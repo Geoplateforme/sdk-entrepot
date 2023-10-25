@@ -244,7 +244,7 @@ class StoreEntity(ABC):
         return d_filter
 
     def delete_cascade(self, before_delete: Optional[Callable[[List["StoreEntity"]], List["StoreEntity"]]] = None) -> None:
-        """Suppression en cascade d'une stored_data en supprimant en cascade les offering et les configurations liées.
+        """Suppression en cascade d'une entité en supprimant les entités liées (qui vont dépendre du type de l'entité, donc cf. les classes filles).
 
         Args:
             before_delete (Optional[Callable[[List[StoreEntity]], List[StoreEntity]]], optional): fonction à lancé avant la suppression entrée liste des entités à supprimé,
