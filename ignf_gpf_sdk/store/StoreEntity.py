@@ -247,8 +247,8 @@ class StoreEntity(ABC):
         """Suppression en cascade d'une entité en supprimant les entités liées (qui vont dépendre du type de l'entité, donc cf. les classes filles).
 
         Args:
-            before_delete (Optional[Callable[[List[StoreEntity]], List[StoreEntity]]], optional): fonction à lancé avant la suppression entrée liste des entités à supprimé,
-                sortie liste définitive des entités à supprimer. Defaults to None.
+            before_delete (Optional[Callable[[List[StoreEntity]], List[StoreEntity]]], optional): fonction à lancer avant la suppression (entrée : liste des entités à supprimer,
+                sortie : liste définitive des entités à supprimer). Defaults to None.
         """
         # suppression d'une configuration : offres puis configuration
         self.delete_liste_entities([self], before_delete)
