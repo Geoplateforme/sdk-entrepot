@@ -29,7 +29,7 @@ class StoredData(TagInterface, CommentInterface, SharingInterface, EventInterfac
             before_delete (Optional[Callable[[List[StoreEntity]], List[StoreEntity]]], optional): fonction à lancer avant la suppression (entrée : liste des entités à supprimer,
                 sortie : liste définitive des entités à supprimer). Defaults to None.
         """
-        # suppression d'une stored_data : uniquement l'upload, configuration et stored_data
+        # suppression d'une stored_data : offering et configuration liées puis la stored_data
         l_entities: List[StoreEntity] = []
 
         # liste des configurations
