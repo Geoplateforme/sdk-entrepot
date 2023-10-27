@@ -16,16 +16,13 @@ from ignf_gpf_sdk.helper.JsonHelper import JsonHelper
 from ignf_gpf_sdk.helper.PrintLogHelper import PrintLogHelper
 from ignf_gpf_sdk.io.Errors import ConflictError
 from ignf_gpf_sdk.io.ApiRequester import ApiRequester
-from ignf_gpf_sdk.store.Check import Check
-from ignf_gpf_sdk.store.CheckExecution import CheckExecution
-from ignf_gpf_sdk.store.Endpoint import Endpoint
-from ignf_gpf_sdk.store.Processing import Processing
 from ignf_gpf_sdk.workflow.Workflow import Workflow
 from ignf_gpf_sdk.workflow.resolver.GlobalResolver import GlobalResolver
 from ignf_gpf_sdk.workflow.resolver.StoreEntityResolver import StoreEntityResolver
 from ignf_gpf_sdk.workflow.action.UploadAction import UploadAction
 from ignf_gpf_sdk.io.Config import Config
 from ignf_gpf_sdk.io.DescriptorFileReader import DescriptorFileReader
+from ignf_gpf_sdk import store
 from ignf_gpf_sdk.store.Offering import Offering
 from ignf_gpf_sdk.store.Configuration import Configuration
 from ignf_gpf_sdk.store.StoredData import StoredData
@@ -39,19 +36,7 @@ from ignf_gpf_sdk.workflow.resolver.UserResolver import UserResolver
 class Main:
     """Classe d'entrée pour utiliser la lib comme binaire."""
 
-    # lien entre le nom texte et la classe
-    ENTITY_TYPE = {
-        "entrepot": Datastore,
-        "endpoint": Endpoint,
-        "livraison": Upload,
-        "verification": Check,
-        "exécution de vérification": CheckExecution,
-        "stored_data": StoredData,
-        "traitement": Processing,
-        "exécution de traitement": ProcessingExecution,
-        "configuration": Configuration,
-        "offre": Offering,
-    }
+    DELETABLE_TYPES = [Upload.entity_name(), StoredData.entity_name(), Configuration.entity_name(), Offering.entity_name()]
 
     def __init__(self) -> None:
         """Constructeur."""
@@ -116,7 +101,7 @@ class Main:
         o_sub_parser = o_sub_parsers.add_parser("config", help="Configuration")
         o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin du fichier où sauvegarder la configuration (si null, la configuration est affichée)")
         o_sub_parser.add_argument("--section", "-s", type=str, default=None, help="Se limiter à une section")
-        o_sub_parser.add_argument("--option", "-o", type=str, default=None, help="Se limiter à une option (section doit être renseignée)")
+        o_sub_parser.add_argument("--option", "-o", type=str, default=None, help="Se limiter à une option (la section doit être renseignée)")
 
         # Parser pour upload
         s_epilog_upload = """Trois types de lancement :
@@ -154,10 +139,10 @@ class Main:
 
         # Parser pour delete
         o_sub_parser = o_sub_parsers.add_parser("delete", help="Delete")
-        o_sub_parser.add_argument("--type", choices=["livraison", "stored_data", "configuration", "offre"], required=True, help="Type de l'entité à supprimé")
-        o_sub_parser.add_argument("--id", type=str, required=True, help="identifiant de l'entité à supprimé")
+        o_sub_parser.add_argument("--type", choices=Main.DELETABLE_TYPES, required=True, help="Type de l'entité à supprimer")
+        o_sub_parser.add_argument("--id", type=str, required=True, help="Identifiant de l'entité à supprimer")
         o_sub_parser.add_argument("--cascade", action="store_true", help="Action à effectuer si l'exécution de traitement existe déjà")
-        o_sub_parser.add_argument("--force", action="store_true", help="Mode forcée, les suppressions sont faites sans aucune interaction")
+        o_sub_parser.add_argument("--force", action="store_true", help="Mode forcé, les suppressions sont faites sans aucune interaction")
 
         return o_parser.parse_args(args)
 
@@ -273,7 +258,7 @@ class Main:
 
     @staticmethod
     def __monitoring_upload(upload: Upload, message_ok: str, message_ko: str, callback: Optional[Callable[[str], None]] = None) -> bool:
-        """monitiring de l'upload et affichage état de sortie
+        """Monitoring de l'upload et affichage état de sortie
 
         Args:
             upload (Upload): upload à monitorer
@@ -330,7 +315,7 @@ class Main:
                     Config().om.info(f"La livraison {o_upload} est fermé, les tests sont en cours.")
                     self.__monitoring_upload(o_upload, "Livraison {upload} fermée avec succès.", "Livraison {o_upload} fermée en erreur !", print)
                     return
-                # si ferme OK ou KO : wwarning
+                # si ferme OK ou KO : warning
                 if o_upload["status"] in [Upload.STATUS_CLOSED, Upload.STATUS_UNSTABLE]:
                     Config().om.warning(f"La livraison {o_upload} est déjà fermée, status : {o_upload['status']}")
                     return
@@ -461,12 +446,11 @@ class Main:
                 Config().om.info(str(o_entity), green_colored=True)
             return l_delete
 
-        l_valid_type = ["livraison", "stored_data", "configuration", "offre"]
-        if self.o_args.type in l_valid_type:
+        if self.o_args.type in Main.DELETABLE_TYPES:
             # récupération de l'entité de base
-            o_entity = self.ENTITY_TYPE[self.o_args.type].api_get(self.o_args.id)
+            o_entity = store.TYPE__ENTITY[self.o_args.type].api_get(self.o_args.id)
         else:
-            raise GpfSdkError(f"Type {self.o_args.type} non reconnu. Type valide : {','.join(l_valid_type)}")
+            raise GpfSdkError(f"Type {self.o_args.type} non reconnu. Types valides : {', '.join(Main.DELETABLE_TYPES)}")
 
         # choix de la fonction exécuté avant la suppression
         ## force : juste affichage
