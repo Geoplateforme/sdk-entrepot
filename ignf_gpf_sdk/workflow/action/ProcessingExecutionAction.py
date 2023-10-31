@@ -84,7 +84,6 @@ class ProcessingExecutionAction(ActionAbstract):
                     # Suppression de la donnée stockée
                     o_stored_data.api_delete()
                     # on force à None pour que la création soit faite
-                    # Pourquoi ? TODO Ludivine
                     self.__processing_execution = None
                 # Comportement "on continue l'exécution"
                 elif self.__behavior == self.BEHAVIOR_CONTINUE:
