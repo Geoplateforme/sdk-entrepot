@@ -374,7 +374,7 @@ class Main:
 
         if s_reponse == "s":
             Config().om.info("\t 's' : sortir <Sans arrêter> le traitement")
-            sys.exit(2)
+            sys.exit(0)
 
         if s_reponse == "c":
             Config().om.info("\t 'c' : annuler et <Continuer> le traitement")
