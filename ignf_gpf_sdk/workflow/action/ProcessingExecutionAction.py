@@ -212,7 +212,7 @@ class ProcessingExecutionAction(ActionAbstract):
             ctrl_c_action (Optional[Callable[[], bool]], optional): fonction de gestion du ctrl-C. Renvoie True si on doit stopper le traitement.
 
         Returns:
-            str: statut finale de l'exécution du traitement
+            str: statut final de l'exécution du traitement
         """
 
         def callback_not_null(o_pe: ProcessingExecution) -> None:
@@ -247,12 +247,16 @@ class ProcessingExecutionAction(ActionAbstract):
             except KeyboardInterrupt as e:
                 # on appelle la callback de gestion du ctrl-C
                 if ctrl_c_action is None or ctrl_c_action():
-                    # on doit arrêter le traitement :
-                    # si le traitement est déjà dans un statut terminé, on ne fait rien => transmission de l'interruption
+                    # on doit arrêter le traitement (maj + action spécifique selon le statut)
+
+                    # mise à jour du traitement
                     self.processing_execution.api_update()
+
+                    # si le traitement est déjà dans un statut terminé, on ne fait rien => transmission de l'interruption
                     s_status = self.processing_execution.get_store_properties()["status"]
+
+                    # si le traitement est terminé, on fait un dernier affichage :
                     if s_status in [ProcessingExecution.STATUS_ABORTED, ProcessingExecution.STATUS_SUCCESS, ProcessingExecution.STATUS_FAILURE]:
-                        # traitement terminé. On fait un dernier affichage :
                         callback_not_null(self.processing_execution)
                         Config().om.warning("traitement déjà terminé.")
                         raise
@@ -271,6 +275,7 @@ class ProcessingExecutionAction(ActionAbstract):
                         s_status = self.processing_execution.get_store_properties()["status"]
                     # traitement terminé. On fait un dernier affichage :
                     callback_not_null(self.processing_execution)
+
                     # si statut Aborted :
                     # suppression de l'upload ou de la stored data en sortie
                     if s_status == ProcessingExecution.STATUS_ABORTED and self.output_new_entity:
