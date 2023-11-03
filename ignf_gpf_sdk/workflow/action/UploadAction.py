@@ -222,7 +222,7 @@ class UploadAction:
         Args:
             upload (Upload): Livraison à monitorer
             callback (Optional[Callable[[str], None]]): fonction de callback à exécuter avec le message de suivi.
-            ctrl_c_action (Optional[Callable[[], bool]], optional): gestion du ctrl-C
+            ctrl_c_action (Optional[Callable[[], bool]], optional): gestion du ctrl-C. Si None ou si la fonction renvoie True, il faut arrêter les vérifications.
 
         Returns:
             True si toutes les vérifications sont ok, sinon False
