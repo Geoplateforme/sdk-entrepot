@@ -1,5 +1,5 @@
 import time
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Dict, Optional, Union
 
 from ignf_gpf_sdk.Errors import GpfSdkError
 from ignf_gpf_sdk.io.Config import Config
@@ -87,6 +87,7 @@ class ProcessingExecutionAction(ActionAbstract):
                     self.__processing_execution = None
                 # Comportement "on continue l'exécution"
                 elif self.__behavior == self.BEHAVIOR_CONTINUE:
+                    o_stored_data.api_update()
                     # on regarde si le résultat du traitement précédent est en échec
                     if o_stored_data["status"] == StoredData.STATUS_UNSTABLE:
                         raise GpfSdkError(f"Le traitement précédent a échoué sur la donnée stockée en sortie {o_stored_data}. Impossible de lancer le traitement demandé.")
@@ -153,19 +154,24 @@ class ProcessingExecutionAction(ActionAbstract):
             # cas on a pas de commentaires : on ne fait rien
             return
         # on ajoute les commentaires
+        i_nb_ajout = 0
         if self.upload is not None:
-            Config().om.info(f"Livraison {self.upload['name']} : ajout des {len(self.definition_dict['comments'])} commentaires...")
-            for s_comment in self.definition_dict["comments"]:
-                self.upload.api_add_comment({"text": s_comment})
-            Config().om.info(f"Livraison {self.upload['name']} : les {len(self.definition_dict['comments'])} commentaires ont été ajoutés avec succès.")
+            o_data: Union[StoredData, Upload] = self.upload
+            s_type = "Livraison"
         elif self.stored_data is not None:
-            Config().om.info(f"Donnée stockée {self.stored_data['name']} : ajout des {len(self.definition_dict['comments'])} commentaires...")
-            for s_comment in self.definition_dict["comments"]:
-                self.stored_data.api_add_comment({"text": s_comment})
-            Config().om.info(f"Donnée stockée {self.stored_data['name']} : les {len(self.definition_dict['comments'])} commentaires ont été ajoutés avec succès.")
+            o_data = self.stored_data
+            s_type = "Donnée stockée"
         else:
             # on a pas de stored_data ni de upload
             raise StepActionError("ni upload ni stored-data trouvé. Impossible d'ajouter les commentaires")
+
+        Config().om.info(f"{s_type} {o_data['name']} : ajout des {len(self.definition_dict['comments'])} commentaires...")
+        l_actual_comments = [d_comment["text"] for d_comment in o_data.api_list_comments() if d_comment]
+        for s_comment in self.definition_dict["comments"]:
+            if s_comment not in l_actual_comments:
+                o_data.api_add_comment({"text": s_comment})
+                i_nb_ajout += 1
+        Config().om.info(f"{s_type} {o_data['name']} : {i_nb_ajout} commentaires ont été ajoutés.")
 
     def __launch(self) -> None:
         """Lancement de la ProcessingExecution."""
