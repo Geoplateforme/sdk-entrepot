@@ -392,17 +392,20 @@ class UploadActionTestCase(GpfTestCase):
             raise KeyboardInterrupt()
 
         with patch.object(Upload, "api_list_checks", side_effect=checks) as o_mock_list_checks:
-            # On instancie un Upload
-            o_upload = Upload({"_id": "id_upload_monitor"})
-            # On instancie un faux callback
-            f_callback = MagicMock()
-            f_ctrl_c = MagicMock(return_value=True)
-            # On effectue le monitoring
-            with self.assertRaises(KeyboardInterrupt):
-                UploadAction.monitor_until_end(o_upload, f_callback, f_ctrl_c)
+            with patch.object(Upload, "api_close") as o_mock_api_close:
+                # On instancie un Upload
+                o_upload = Upload({"_id": "id_upload_monitor"})
+                # On instancie un faux callback
+                f_callback = MagicMock()
+                f_ctrl_c = MagicMock(return_value=True)
+                # On effectue le monitoring
+                with self.assertRaises(KeyboardInterrupt):
+                    UploadAction.monitor_until_end(o_upload, f_callback, f_ctrl_c)
 
-            # Vérification sur f_ctrl_c : a dû être appelée
+            # Vérification sur les appels de fonction
+            o_mock_list_checks.assert_called_once_with()
             f_ctrl_c.assert_called_once_with()
+            o_mock_api_close.assert_called_once_with()
 
     def test_api_tree_not_empty(self) -> None:
         """Vérifie le bon fonctionnement de api_tree si ce n'est pas vide."""
