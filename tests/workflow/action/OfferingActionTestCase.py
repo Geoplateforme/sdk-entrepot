@@ -1,6 +1,7 @@
 import time
 from unittest.mock import patch, MagicMock
-from typing import Any
+from typing import Any, Optional
+from ignf_gpf_sdk.Errors import GpfSdkError
 from ignf_gpf_sdk.io.Errors import ConflictError
 
 from ignf_gpf_sdk.store.Offering import Offering
@@ -20,9 +21,9 @@ class OfferingActionTestCase(GpfTestCase):
     # creation du dictionnaire qui reprend les paramètres du workflow pour créer une offre
     d_action = {"type": "offering", "body_parameters": {"endpoint": "id_endpoint"}, "url_parameters": {"configuration": "id_configuration"}}
 
-    def __get_offering_action(self) -> OfferingAction:
+    def __get_offering_action(self, behavior: Optional[str] = None) -> OfferingAction:
         # Instanciation de OfferingAction
-        o_offering_action = OfferingAction("contexte", self.d_action)
+        o_offering_action = OfferingAction("contexte", self.d_action, behavior=behavior)
         # Retour
         return o_offering_action
 
@@ -116,10 +117,8 @@ class OfferingActionTestCase(GpfTestCase):
                     o_mock_time.assert_any_call(1)
 
     # On mock find_offering et api_create
-    def test_run_existing(self) -> None:
-        """test de run quand l'offre à créer existe"""
-        # Instanciation de OfferingAction
-        o_offering_action = self.__get_offering_action()
+    def test_run_existing_behavior_continue(self) -> None:
+        """test de run quand l'offre à créer existe behavior continue"""
 
         # mock de offering
         o_mock_offering = MagicMock()
@@ -154,19 +153,86 @@ class OfferingActionTestCase(GpfTestCase):
                 return "PUBLISHED"
             return "getitem"
 
-        for f_effect in [side_effect_dict, side_effect_text]:
-            o_mock_offering.__getitem__.side_effect = f_effect
+        # Instanciation de OfferingAction
+        for o_offering_action in [self.__get_offering_action(), self.__get_offering_action("CONTINUE")]:
+            for f_effect in [side_effect_dict, side_effect_text]:
+                o_mock_offering.__getitem__.side_effect = f_effect
 
-            with patch.object(o_offering_action, "find_offering", return_value=o_mock_offering) as o_mock_offering_action_list_offering:
-                with patch.object(Offering, "api_create", return_value=None) as o_mock_offering_api_create:
-                    # on lance l'exécution de run
-                    o_offering_action.run()
+                with patch.object(o_offering_action, "find_offering", return_value=o_mock_offering) as o_mock_offering_action_list_offering:
+                    with patch.object(Offering, "api_create", return_value=None) as o_mock_offering_api_create:
+                        # on lance l'exécution de run
+                        o_offering_action.run()
 
-                    # test de l'appel à OfferingAction.find_offering
-                    o_mock_offering_action_list_offering.assert_called_once()
+                        # test de l'appel à OfferingAction.find_offering
+                        o_mock_offering_action_list_offering.assert_called_once()
 
-                    # test de l'appel à Offering.api_create
-                    o_mock_offering_api_create.assert_not_called()
+                        # test de l'appel à Offering.api_create
+                        o_mock_offering_api_create.assert_not_called()
+
+    # On mock find_offering et api_create
+    def test_run_existing_behavior_stop(self) -> None:
+        """test de run quand l'offre à créer existe behavior stop"""
+        # Instanciation de OfferingAction
+        o_offering_action = self.__get_offering_action("STOP")
+
+        # mock de offering
+        o_mock_offering = MagicMock()
+        with patch.object(o_offering_action, "find_offering", return_value=o_mock_offering):
+            with self.assertRaises(GpfSdkError) as o_err:
+                o_offering_action.run()
+            self.assertEqual(o_err.exception.message, f"Impossible de créer l'offre, une offre équivalente {o_mock_offering} existe déjà.")
+
+    # On mock find_offering et api_create
+    def test_run_existing_behavior_delete(self) -> None:
+        """test de run quand l'offre à créer existe behavior delete"""
+
+        def side_effect_dict(arg: str) -> Any:
+            """side_effect pour récupération des élément de offering, gestion du cas des url qui sont dans un dictionnaire
+
+            Args:
+                arg (str): clef à affiché
+
+            Returns:
+                Any: valeur de retour
+            """
+            if arg == "urls":
+                return [{"url": "http://1"}, {"url": "http://2"}]
+            if arg == "status":
+                return "PUBLISHED"
+            return "getitem"
+
+        # Instanciation de OfferingAction
+        o_offering_action = self.__get_offering_action("DELETE")
+
+        # mock de offering
+        o_mock_offering = MagicMock()
+        o_mock_offering.__getitem__.side_effect = side_effect_dict
+        with patch.object(o_offering_action, "find_offering", return_value=o_mock_offering) as o_mock_offering_action_list_offering:
+            with patch.object(Offering, "api_create", return_value=o_mock_offering) as o_mock_offering_api_create:
+                # on lance l'exécution de run
+                o_offering_action.run()
+
+                # test de l'appel à OfferingAction.find_offering
+                o_mock_offering_action_list_offering.assert_called_once()
+
+                # test de l'appel à Offering.api_create
+                o_mock_offering_api_create.assert_called_once()
+
+                # test appel de o_offering.api_delete
+                o_mock_offering.api_delete.assert_called_once()
+
+    # On mock find_offering et api_create
+    def test_run_existing_behavior_faux(self) -> None:
+        """test de run quand l'offre à créer existe behavior non compatible"""
+        # Instanciation de OfferingAction
+        o_offering_action = self.__get_offering_action("non")
+
+        # mock de offering
+        o_mock_offering = MagicMock()
+        with patch.object(o_offering_action, "find_offering", return_value=o_mock_offering):
+            with self.assertRaises(GpfSdkError) as o_err:
+                o_offering_action.run()
+            self.assertEqual(o_err.exception.message, "Le comportement non n'est pas reconnu (STOP|DELETE|CONTINUE), l'exécution de traitement n'est pas possible.")
 
     def test_find_offering_exists_and_ok(self) -> None:
         """Test de find_offering quand une offering est trouvée et que le endpoint correspond.

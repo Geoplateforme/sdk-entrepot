@@ -21,6 +21,7 @@ class UploadAction:
     BEHAVIOR_STOP = "STOP"
     BEHAVIOR_DELETE = "DELETE"
     BEHAVIOR_CONTINUE = "CONTINUE"
+    BEHAVIORS = [BEHAVIOR_STOP, BEHAVIOR_CONTINUE, BEHAVIOR_DELETE]
 
     def __init__(self, dataset: Dataset, behavior: Optional[str] = None) -> None:
         self.__dataset: Dataset = dataset

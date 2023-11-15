@@ -1,7 +1,9 @@
 import json
-from unittest.mock import call, patch
-from ignf_gpf_sdk.store.Errors import StoreEntityError
+import time
+from typing import List
+from unittest.mock import MagicMock, Mock, call, patch
 
+from ignf_gpf_sdk.store.Errors import StoreEntityError
 from ignf_gpf_sdk.store.StoreEntity import StoreEntity
 from ignf_gpf_sdk.io.ApiRequester import ApiRequester
 from tests.GpfTestCase import GpfTestCase
@@ -384,3 +386,81 @@ class StoreEntityTestCase(GpfTestCase):
             # Vérifications
             self.assertIsNotNone(o_datetime)
             o_mock_update.assert_not_called()
+
+    def test_delete_cascade(self) -> None:
+        """test de delete_cascade"""
+        o_store_entity = StoreEntity({"_id": "1", "datetime": "2022-09-20T10:45:04.396Z"})
+
+        # test sans before_delete
+        with patch.object(StoreEntity, "delete_liste_entities", return_value=None) as o_mock_delete:
+            o_store_entity.delete_cascade()
+            o_mock_delete.assert_called_once_with([o_store_entity], None)
+
+        # test avec before_delete
+        with patch.object(StoreEntity, "delete_liste_entities", return_value=None) as o_mock_delete:
+            o_mock = MagicMock()
+            o_mock.before_delete_function.return_value = [o_store_entity]
+            o_store_entity.delete_cascade(o_mock.before_delete_function)
+            o_mock_delete.assert_called_once_with([o_store_entity], o_mock.before_delete_function)
+
+    @patch.object(time, "sleep", return_value=None)
+    def test_delete_liste_entities(self, o_mock_sleep: Mock) -> None:
+        """test de delete_liste_entities"""
+
+        o_mock_1 = MagicMock()
+        o_mock_2 = MagicMock()
+        o_mock_3 = MagicMock()
+
+        def reset_mock() -> None:
+            """reset des mock de la fonction"""
+            o_mock_1.reset_mock()
+            o_mock_2.reset_mock()
+            o_mock_3.reset_mock()
+            o_mock_sleep.reset_mock()
+
+        # suppression d'un élément sans before_delete
+        StoreEntity.delete_liste_entities([o_mock_1])
+        o_mock_1.api_delete.assert_called_once_with()
+        self.assertEqual(1, o_mock_sleep.call_count)
+        reset_mock()
+
+        # suppression de plusieurs éléments sans before_delete
+        l_entity: List[StoreEntity] = [o_mock_1, o_mock_2]
+        StoreEntity.delete_liste_entities(l_entity)
+        o_mock_1.api_delete.assert_called_once_with()
+        o_mock_2.api_delete.assert_called_once_with()
+        self.assertEqual(2, o_mock_sleep.call_count)
+        reset_mock()
+
+        # suppression avec before_delete, sans modification
+        o_mock_function = MagicMock()
+        o_mock_function.before_delete_function.return_value = l_entity
+        StoreEntity.delete_liste_entities(l_entity, o_mock_function.before_delete_function)
+        o_mock_function.before_delete_function.assert_called_once_with(l_entity)
+        o_mock_1.api_delete.assert_called_once_with()
+        o_mock_2.api_delete.assert_called_once_with()
+        self.assertEqual(2, o_mock_sleep.call_count)
+        reset_mock()
+
+        # suppression avec before_delete, avec modification
+        o_mock_function = MagicMock()
+        o_mock_function.before_delete_function.return_value = [o_mock_1, o_mock_3]
+        StoreEntity.delete_liste_entities(l_entity, o_mock_function.before_delete_function)
+        o_mock_function.before_delete_function.assert_called_once_with(l_entity)
+        o_mock_1.api_delete.assert_called_once_with()
+        o_mock_2.api_delete.assert_not_called()
+        o_mock_3.api_delete.assert_called_once_with()
+        self.assertEqual(2, o_mock_sleep.call_count)
+        reset_mock()
+
+        # suppression avec before_delete, avec annulation liste vide ou None
+        for o_return in [[], None]:  # type:ignore
+            o_mock_function = MagicMock()
+            o_mock_function.before_delete_function.return_value = o_return
+            StoreEntity.delete_liste_entities(l_entity, o_mock_function.before_delete_function)
+            o_mock_function.before_delete_function.assert_called_once_with(l_entity)
+            o_mock_1.api_delete.assert_not_called()
+            o_mock_2.api_delete.assert_not_called()
+            o_mock_3.api_delete.assert_not_called()
+            self.assertEqual(0, o_mock_sleep.call_count)
+            reset_mock()
