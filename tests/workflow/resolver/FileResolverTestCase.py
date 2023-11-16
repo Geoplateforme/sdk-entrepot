@@ -1,7 +1,6 @@
 from ignf_gpf_sdk.workflow.resolver.Errors import ResolveFileInvalidError, ResolveFileNotFoundError, ResolverError
 from ignf_gpf_sdk.workflow.resolver.FileResolver import FileResolver
 from ignf_gpf_sdk.workflow.resolver.GlobalResolver import GlobalResolver
-from ignf_gpf_sdk.io.Config import Config
 
 from tests.GpfTestCase import GpfTestCase
 

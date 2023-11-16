@@ -30,6 +30,7 @@ class GlobalResolverTestCase(GpfTestCase):
     def setUpClass(cls) -> None:
         """fonction lancée une fois avant tous les tests de la classe"""
         super().setUpClass()
+        GlobalResolver._instance = None  # pylint:disable=protected-access
         GlobalResolver().add_resolver(DictResolver("localization", GlobalResolverTestCase.localization))
         GlobalResolver().add_resolver(DictResolver("profession", GlobalResolverTestCase.profession))
 
