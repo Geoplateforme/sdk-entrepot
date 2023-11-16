@@ -215,9 +215,13 @@ class ApiRequester(metaclass=Singleton):
             o_me = MultipartEncoder(fields=d_fields)
             d_headers["content-type"] = o_me.content_type
             # Execution de la requête
-            d_requests.update({"data": o_me})
+            # TODO : contournement pour les uploads, supprimé `"verify": False` une fois le problème résolu + suppression proxy
+            d_requests.update({"data": o_me, "verify": False})
+            del d_requests["proxies"]
         else:
             d_requests.update({"params": params, "json": data})
+
+        # exécution de la requête
         r = requests.request(**d_requests)
 
         # Vérification du résultat...
