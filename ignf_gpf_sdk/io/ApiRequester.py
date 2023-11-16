@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 from io import BufferedReader
+import json
 from pathlib import Path
 import re
 import time
@@ -92,8 +93,11 @@ class ApiRequester(metaclass=Singleton):
         # On formate l'URL
         s_url = s_route.format(**route_params)
 
+        # récupération du header additionnel
+        header = json.loads(Config().get("routing", route_name+"_header", fallback="{}"))
+
         # Exécution de la requête en boucle jusqu'au succès (ou erreur au bout d'un certains temps)
-        return self.url_request(s_url, method, params, data, files)
+        return self.url_request(s_url, method, params, data, files, header)
 
     def url_request(
         self,
@@ -102,6 +106,7 @@ class ApiRequester(metaclass=Singleton):
         params: Optional[Dict[str, Any]] = None,
         data: Optional[Union[Dict[str, Any], List[Any]]] = None,
         files: Optional[Dict[str, Tuple[str, BufferedReader]]] = None,
+        header: Optional[Dict[str, str]] = {},
     ) -> requests.Response:
         """Effectue une requête à l'API à partir d'une url. La requête est retentée plusieurs fois s'il y a un problème.
 
@@ -111,6 +116,7 @@ class ApiRequester(metaclass=Singleton):
             params (Optional[Dict[str, Any]], optional): paramètres de la requête (ajouté à l'url)
             data (Optional[Union[Dict[str, Any], List[Any]]], optional): contenue de la requête (ajouté au corp)
             files (Optional[Dict[str, Tuple[Any]]], optional): fichiers à envoyer
+            header (Optional[Dict[str, str]], optional): Header additionnel pour la requête
 
         Returns:
             réponse si succès
@@ -122,7 +128,7 @@ class ApiRequester(metaclass=Singleton):
             i_nb_attempts += 1
             try:
                 # On fait la requête
-                return self.__url_request(url, method, params=params, data=data, files=files)
+                return self.__url_request(url, method, params=params, data=data, files=files, header=header)
             except NotFoundError as e_error:
                 # Si l'entité n'est pas trouvée, on ne retente pas, on sort directement en erreur
                 s_message = f"L'élément demandé n'existe pas ({e_error.message}). Contactez le support si vous n'êtes pas à l'origine de la demande. URL : {method} {e_error.url}."
@@ -174,6 +180,7 @@ class ApiRequester(metaclass=Singleton):
         params: Optional[Dict[str, Any]] = None,
         data: Optional[Union[Dict[str, Any], List[Any]]] = None,
         files: Optional[Dict[str, Tuple[str, BufferedReader]]] = None,
+        header: Optional[Dict[str, str]] = {},
     ) -> requests.Response:
         """Effectue une requête à l'API à partir d'une url. Ne retente pas plusieurs fois si problème.
 
@@ -183,6 +190,7 @@ class ApiRequester(metaclass=Singleton):
             params (Optional[Dict[str, Any]], optional): paramètres.
             data (Optional[Union[Dict[str, Any], List[Any]]], optional): données.
             files (Optional[Dict[str, Tuple[Any]]], optional): fichiers.
+            header (Optional[Dict[str, str]], optional): Header additionnel pour la requête.
 
         Returns:
             réponse si succès
@@ -191,6 +199,8 @@ class ApiRequester(metaclass=Singleton):
 
         # Définition du header
         d_headers = Authentifier().get_http_header(json_content_type=files is None)
+        d_headers.update(header)
+
         # Création du MultipartEncoder (cf. https://github.com/requests/toolbelt#multipartform-data-encoder)
         d_requests: Dict[str, Any] = {
             "url": url,
