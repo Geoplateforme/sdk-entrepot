@@ -266,7 +266,7 @@ class UploadAction:
                     Config().om.warning("Ctrl+C : vérifications en cours d’interruption, veuillez attendre...")
                     upload.api_close()
                     # enfin, transmission de l'interruption
-                    raise KeyboardInterrupt() from e
+                    raise
 
         # Si on est sorti du while c'est que les vérifications sont terminées
         # On log le dernier rapport selon l'état et on sort
