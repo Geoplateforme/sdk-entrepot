@@ -8,50 +8,50 @@ from ignf_gpf_sdk.workflow.resolver.Errors import ResolveFileInvalidError, Resol
 
 
 class FileResolver(AbstractResolver):
-    """Classe permettant de résoudre des paramètres faisant référence à des fichiers.
-
-    Ce résolveur permet d'insérer le contenu d'un fichier au moment de la résolution.
+    """Classe permettant de résoudre des paramètres faisant référence à des fichiers : ce résolveur
+    permet d'insérer le contenu d'un fichier au moment de la résolution.
 
     Ce fichier peut être un fichier texte basique, une liste au format JSON ou un dictionnaire au format JSON.
 
 
-    Fichier texte :
+    **Fichier texte :** (dans cet exemple, `file` est le nom du résolveur)
 
-        Contenu du fichier `exemple.txt` :
+    Contenu du fichier `exemple.txt` :
 
-        ```txt
-        coucou
-        ```
+    ```txt
+    coucou
+    ```
 
-        Chaîne à remplacer : `Je veux dire : {file.str(exemple.txt)}`
+    Chaîne à remplacer : `Je veux dire : {file.str(exemple.txt)}`
 
-        Résultat : `Je veux dire : coucou`
-
-
-    Fichier de liste :
-
-        Contenu du fichier `list.json` :
-
-        ```json
-        ["valeur 1", "valeur 2"]
-        ```
-
-        Chaîne à remplacer : `{"values": "{file.list(list.json)"]}`
-
-        Résultat : `{"values": ["valeur 1", "valeur 2"]}`
+    Résultat : `Je veux dire : coucou`
 
 
-    Fichier de clé-valeur :
+    **Fichier de liste :** (dans cet exemple, `file` est le nom du résolveur)
 
-        Contenu du fichier `dict.json` :
+    Contenu du fichier `list.json` :
 
-        ```json
-        {"k1":"v1", "k2":"v2"}
-        ```
+    ```json
+    ["valeur 1", "valeur 2"]
+    ```
 
-        Chaîne à remplacer : `{"parameters": {"{file.dict(dict.json)}":"value"}}`
+    Chaîne à remplacer : `{"values": ["file","list(list.json)"]}`
 
-        Résultat : `{"parameters": {"k1":"v1", "k2":"v2"}}`
+    Résultat : `{"values": ["valeur 1", "valeur 2"]}`
+
+
+    **Fichier de clé-valeur :** (dans cet exemple, `file` est le nom du résolveur)
+
+    Contenu du fichier `dict.json` :
+
+    ```json
+    {"k1":"v1", "k2":"v2"}
+    ```
+
+    Chaîne à remplacer : `{"parameters": {"file":"dict(dict.json)"}}`
+
+    Résultat : `{"parameters": {"k1":"v1", "k2":"v2"}}`
+
 
     Attributes:
         __name (str): nom de code du resolver
@@ -59,9 +59,20 @@ class FileResolver(AbstractResolver):
 
     _file_regex = re.compile(Config().get_str("workflow_resolution_regex", "file_regex"))
 
+    def __init__(self, name: str, root_path: Path) -> None:
+        """À l'instanciation, il faut indiquer au résolveur le chemin racine d'où chercher les fichiers.
+
+        Args:
+            name (str): nom du résolveur
+            root_path (Path): chemin racine
+        """
+        super().__init__(name)
+        self.__root_path = root_path.absolute()
+
     def __resolve_str(self, string_to_solve: str, s_path: str) -> str:
-        """fonction privé qui se charge d'extraire une string d'un fichier texte
+        """fonction privée qui se charge d'extraire une string d'un fichier texte
            on valide que le contenu est bien un texte
+
         Args:
             string_to_solve (str): chaîne à résoudre
             s_path (str): string du path du fichier à ouvrir
@@ -69,20 +80,21 @@ class FileResolver(AbstractResolver):
         Returns:
             texte contenu dans le fichier
         """
-        p_path_text = Path(s_path)
+        p_path_text = self.__root_path / s_path
         if p_path_text.exists():
             s_result = str(p_path_text.read_text(encoding="UTF-8").rstrip("\n"))
         else:
-            raise ResolveFileNotFoundError(self.name, string_to_solve)
+            raise ResolveFileNotFoundError(self.name, string_to_solve, p_path_text)
         return s_result
 
     def __resolve_list(self, string_to_solve: str, s_path: str) -> str:
-        """fonction privé qui se charge d'extraire une string d'un fichier contenant une liste
+        """fonction privée qui se charge d'extraire une string d'un fichier contenant une liste
            on valide que le contenu est bien une liste
 
         Args:
             string_to_solve (str): chaîne à résoudre
             s_path (str): string du path du fichier à ouvrir
+
         Returns:
             liste contenue dans le fichier
         """
@@ -99,7 +111,7 @@ class FileResolver(AbstractResolver):
         return s_data
 
     def __resolve_dict(self, string_to_solve: str, s_path: str) -> str:
-        """fonction privé qui se charge d'extraire une string d'un fichier contenant un dictionnaire
+        """fonction privée qui se charge d'extraire une string d'un fichier contenant un dictionnaire
            on valide que le contenu est bien un dictionnaire
 
         Args:
@@ -122,7 +134,7 @@ class FileResolver(AbstractResolver):
         return s_data
 
     def resolve(self, string_to_solve: str) -> str:
-        """Fonction permettant de renvoyer sous forme de string la resolution
+        """Fonction permettant de renvoyer sous forme de string la résolution
         des paramètres de fichier passés en entrée.
 
         Args:
