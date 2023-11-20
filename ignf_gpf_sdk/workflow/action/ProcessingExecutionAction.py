@@ -288,7 +288,7 @@ class ProcessingExecutionAction(ActionAbstract):
                             Config().om.warning("Suppression de la stored-data en cours de remplissage suite à l'interruption du programme")
                             self.stored_data.api_delete()
                     # enfin, transmission de l'interruption
-                    raise KeyboardInterrupt() from e
+                    raise
 
         # Si on est sorti du while c'est que la processing execution est terminée
         ## dernier affichage
