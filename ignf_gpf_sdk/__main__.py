@@ -4,7 +4,6 @@ import configparser
 import io
 import sys
 import argparse
-import time
 import traceback
 from pathlib import Path
 from typing import Callable, List, Optional, Sequence
@@ -23,6 +22,7 @@ from ignf_gpf_sdk.workflow.resolver.StoreEntityResolver import StoreEntityResolv
 from ignf_gpf_sdk.workflow.action.UploadAction import UploadAction
 from ignf_gpf_sdk.io.Config import Config
 from ignf_gpf_sdk.io.DescriptorFileReader import DescriptorFileReader
+from ignf_gpf_sdk import store
 from ignf_gpf_sdk.store.Offering import Offering
 from ignf_gpf_sdk.store.Configuration import Configuration
 from ignf_gpf_sdk.store.StoredData import StoredData
@@ -35,6 +35,8 @@ from ignf_gpf_sdk.workflow.resolver.UserResolver import UserResolver
 
 class Main:
     """Classe d'entrée pour utiliser la lib comme binaire."""
+
+    DELETABLE_TYPES = [Upload.entity_name(), StoredData.entity_name(), Configuration.entity_name(), Offering.entity_name()]
 
     def __init__(self) -> None:
         """Constructeur."""
@@ -99,7 +101,7 @@ class Main:
         o_sub_parser = o_sub_parsers.add_parser("config", help="Configuration")
         o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin du fichier où sauvegarder la configuration (si null, la configuration est affichée)")
         o_sub_parser.add_argument("--section", "-s", type=str, default=None, help="Se limiter à une section")
-        o_sub_parser.add_argument("--option", "-o", type=str, default=None, help="Se limiter à une option (section doit être renseignée)")
+        o_sub_parser.add_argument("--option", "-o", type=str, default=None, help="Se limiter à une option (la section doit être renseignée)")
 
         # Parser pour upload
         s_epilog_upload = """Trois types de lancement :
@@ -109,13 +111,13 @@ class Main:
         """
         o_sub_parser = o_sub_parsers.add_parser("upload", help="Livraisons", epilog=s_epilog_upload, formatter_class=argparse.RawTextHelpFormatter)
         o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin vers le fichier descriptor dont on veut effectuer la livraison)")
-        o_sub_parser.add_argument("--behavior", "-b", type=str, default=None, help="Action à effectuer si la livraison existe déjà (uniquement avec -f)")
+        o_sub_parser.add_argument("--behavior", "-b", choices=UploadAction.BEHAVIORS, default=None, help="Action à effectuer si la livraison existe déjà (uniquement avec -f)")
         o_sub_parser.add_argument("--id", type=str, default=None, help="Affiche la livraison demandée")
         o_exclusive = o_sub_parser.add_mutually_exclusive_group()
         o_exclusive.add_argument("--open", action="store_true", default=False, help="Rouvrir une livraison fermée (uniquement avec --id)")
         o_exclusive.add_argument("--close", action="store_true", default=False, help="Fermer une livraison ouverte (uniquement avec --id)")
-        o_sub_parser.add_argument("--infos", "-i", type=str, default=None, help="Filter les livraisons selon les infos")
-        o_sub_parser.add_argument("--tags", "-t", type=str, default=None, help="Filter les livraisons selon les tags")
+        o_sub_parser.add_argument("--infos", "-i", type=str, default=None, help="Filtrer les livraisons selon les infos")
+        o_sub_parser.add_argument("--tags", "-t", type=str, default=None, help="Filtrer les livraisons selon les tags")
 
         # Parser pour dataset
         o_sub_parser = o_sub_parsers.add_parser("dataset", help="Jeux de données")
@@ -147,10 +149,10 @@ class Main:
 
         # Parser pour delete
         o_sub_parser = o_sub_parsers.add_parser("delete", help="Delete")
-        o_sub_parser.add_argument("--type", choices=["livraison", "stored_data", "configuration", "offre"], required=True, help="Type de l'entité à supprimé")
-        o_sub_parser.add_argument("--id", type=str, required=True, help="identifiant de l'entité à supprimé")
+        o_sub_parser.add_argument("--type", choices=Main.DELETABLE_TYPES, required=True, help="Type de l'entité à supprimer")
+        o_sub_parser.add_argument("--id", type=str, required=True, help="Identifiant de l'entité à supprimer")
         o_sub_parser.add_argument("--cascade", action="store_true", help="Action à effectuer si l'exécution de traitement existe déjà")
-        o_sub_parser.add_argument("--force", action="store_true", help="Mode forcée, les suppressions sont faites sans aucune interaction")
+        o_sub_parser.add_argument("--force", action="store_true", help="Mode forcé, les suppressions sont faites sans aucune interaction")
 
         return o_parser.parse_args(args)
 
@@ -266,7 +268,7 @@ class Main:
 
     @staticmethod
     def __monitoring_upload(upload: Upload, message_ok: str, message_ko: str, callback: Optional[Callable[[str], None]] = None, ctrl_c_action: Optional[Callable[[], bool]] = None) -> bool:
-        """monitoring de l'upload et affichage état de sortie
+        """Monitoring de l'upload et affichage état de sortie
 
         Args:
             upload (Upload): upload à monitorer
@@ -469,47 +471,41 @@ class Main:
 
     def delete(self) -> None:
         """suppression d'une entité par son type et son id"""
-        l_entities: List[StoreEntity] = []
-        if self.o_args.type == "livraison":
-            l_entities.append(Upload.api_get(self.o_args.id))
-        elif self.o_args.type == "stored_data":
-            o_stored_data = StoredData.api_get(self.o_args.id)
-            if self.o_args.cascade:
-                # liste des configurations
-                l_configuration = Configuration.api_list({"stored_data": self.o_args.id})
-                for o_configuration in l_configuration:
-                    # pour chaque configuration on récupère les offerings
-                    l_offering = o_configuration.api_list_offerings()
-                    l_entities += l_offering
-                    l_entities.append(o_configuration)
-            l_entities.append(o_stored_data)
-        elif self.o_args.type == "configuration":
-            o_configuration = Configuration.api_get(self.o_args.id)
-            if self.o_args.cascade:
-                l_offering = o_configuration.api_list_offerings()
-                l_entities += l_offering
-            l_entities.append(o_configuration)
-        elif self.o_args.type == "offre":
-            l_entities.append(Offering.api_get(self.o_args.id))
 
-        # affichage élément supprimés
-        Config().om.info("Suppression de :")
-        for o_entity in l_entities:
-            Config().om.info(str(o_entity), green_colored=True)
-
-        # demande validation si non forcée
-        if not self.o_args.force:
+        def question_before_delete(l_delete: List[StoreEntity]) -> List[StoreEntity]:
+            Config().om.info("suppression de :")
+            for o_entity in l_delete:
+                Config().om.info(str(o_entity), green_colored=True)
             Config().om.info("Voulez-vous effectué la suppression ? (oui/NON)")
             s_rep = input()
             # si la réponse ne correspond pas à oui on sort
             if s_rep.lower() not in ["oui", "o", "yes", "y"]:
                 Config().om.info("La suppression est annulée.")
-                return
+                return []
+            return l_delete
+
+        def print_before_delete(l_delete: List[StoreEntity]) -> List[StoreEntity]:
+            Config().om.info("suppression de :")
+            for o_entity in l_delete:
+                Config().om.info(str(o_entity), green_colored=True)
+            return l_delete
+
+        if self.o_args.type in Main.DELETABLE_TYPES:
+            # récupération de l'entité de base
+            o_entity = store.TYPE__ENTITY[self.o_args.type].api_get(self.o_args.id)
+        else:
+            raise GpfSdkError(f"Type {self.o_args.type} non reconnu. Types valides : {', '.join(Main.DELETABLE_TYPES)}")
+
+        # choix de la fonction exécuté avant la suppression
+        ## force : juste affichage
+        ## sinon : question d'acceptation de la suppression
+        f_delete = print_before_delete if self.o_args.force else question_before_delete
+
         # suppression
-        for o_entity in l_entities:
-            o_entity.api_delete()
-            time.sleep(1)
-        Config().om.info("Suppression effectué.", green_colored=True)
+        if self.o_args.cascade:
+            o_entity.delete_cascade(f_delete)
+        else:
+            StoreEntity.delete_liste_entities([o_entity], f_delete)
 
 
 if __name__ == "__main__":

@@ -1,8 +1,11 @@
 from typing import Any, Dict, List, Optional
 
 from unittest.mock import patch, MagicMock
+from ignf_gpf_sdk.Errors import GpfSdkError
+from ignf_gpf_sdk.io.Errors import ConflictError
 
 from ignf_gpf_sdk.store.Configuration import Configuration
+from ignf_gpf_sdk.workflow.Errors import StepActionError
 from ignf_gpf_sdk.workflow.action.ActionAbstract import ActionAbstract
 from ignf_gpf_sdk.workflow.action.ConfigurationAction import ConfigurationAction
 from tests.GpfTestCase import GpfTestCase
@@ -37,24 +40,28 @@ class ConfigurationActionTestCase(GpfTestCase):
                 "tag": "val",
             },
         }
-        # exécution de ConfigurationAction
-        o_ca = ConfigurationAction("contexte", d_action)
-        # Mock de ActionAbstract.get_filters et Configuration.api_list
-        with patch.object(ActionAbstract, "get_filters", return_value=({"info": "val"}, {"tag": "val"})) as o_mock_get_filters:
-            with patch.object(Configuration, "api_list", return_value=[o_c1, o_c2]) as o_mock_api_list:
-                # Appel de la fonction find_configuration
-                o_stored_data = o_ca.find_configuration("datastore_id")
-                # Vérifications
-                o_mock_get_filters.assert_called_once_with("configuration", d_action["body_parameters"], d_action["tags"])
-                o_mock_api_list.assert_called_once_with(infos_filter={"info": "val"}, tags_filter={"tag": "val"}, datastore="datastore_id")
-                self.assertEqual(o_stored_data, o_c1)
+        for o_api_list_return in [[o_c1, o_c2], [], None]:
+            # exécution de ConfigurationAction
+            o_ca = ConfigurationAction("contexte", d_action)
+            # Mock de ActionAbstract.get_filters et Configuration.api_list
+            with patch.object(ActionAbstract, "get_filters", return_value=({"info": "val"}, {"tag": "val"})) as o_mock_get_filters:
+                with patch.object(Configuration, "api_list", return_value=o_api_list_return) as o_mock_api_list:
+                    # Appel de la fonction find_configuration
+                    o_stored_data = o_ca.find_configuration("datastore_id")
+                    # Vérifications
+                    o_mock_get_filters.assert_called_once_with("configuration", d_action["body_parameters"], d_action["tags"])
+                    o_mock_api_list.assert_called_once_with(infos_filter={"info": "val"}, tags_filter={"tag": "val"}, datastore="datastore_id")
+                    self.assertEqual(o_stored_data, o_c1 if o_api_list_return else None)
 
-    def run_args(
+    def run_args(  # pylint:disable=too-many-statements
         self,
         tags: Optional[Dict[str, Any]],
         comments: Optional[List[str]],
         config_already_exists: bool,
         comment_exist: bool = False,
+        behavior: Optional[str] = None,
+        datastore: Optional[str] = None,
+        conflict_creation: bool = False,
     ) -> None:
         """lancement +test de ConfigurationAction.run selon param
         Args:
@@ -62,6 +69,9 @@ class ConfigurationActionTestCase(GpfTestCase):
             comments (Optional[List[str]]): liste des comments ou None
             config_already_exists (bool): configuration déjà existante
             comment_exist (bool): si on a un commentaire qui existe déjà
+            behavior (Optional[str]): si on a un commentaire qui existe déjà
+            datastore (Optional[str]): id du datastore à utiliser.
+            conflict_creation (bool): si il y a un conflict lors de la creation
         """
         # creation du dictionnaire qui reprend les paramètres du workflow pour créer une configuration
         d_action: Dict[str, Any] = {"type": "configuration", "body_parameters": {"param": "valeur"}}
@@ -78,28 +88,67 @@ class ConfigurationActionTestCase(GpfTestCase):
         o_mock_configuration.api_add_comment.return_value = None
         o_mock_configuration.api_list_comments.return_value = [{"text": "commentaire existe"}] if comment_exist else []
 
-        # Liste des configurations déjà existantes
-        if config_already_exists:
-            l_configs = [o_mock_configuration]
+        # paramétrage du mock de Configuration.api_create
+        if conflict_creation:
+            d_api_create: Dict[str, Any] = {"side_effect": ConflictError("url", "POST", None, None, '{"error_description":["message_erreur"]}')}
         else:
-            l_configs = []
+            d_api_create = {"return_value": o_mock_configuration}
+
+        # Liste des configurations déjà existantes
+        o_configs = o_mock_configuration if config_already_exists else None
 
         # suppression de la mise en page forcé pour le with
-        with patch.object(Configuration, "api_create", return_value=o_mock_configuration) as o_mock_configuration_api_create:
-            with patch.object(Configuration, "api_list", return_value=l_configs) as o_mock_configuration_api_list:
+        with patch.object(Configuration, "api_create", **d_api_create) as o_mock_configuration_api_create:
+            with patch.object(ConfigurationAction, "find_configuration", return_value=o_configs) as o_mock_find_configuration:
+
                 # initialisation de Configuration
-                o_conf = ConfigurationAction("contexte", d_action)
-                # on lance l'exécution de run
-                o_conf.run()
-
-                # test de l'appel à Configuration.api_create
-                o_mock_configuration_api_list.assert_called_once()
-
-                # test de l'appel à Configuration.api_create
+                o_conf = ConfigurationAction("contexte", d_action, behavior=behavior)
                 if config_already_exists:
-                    o_mock_configuration_api_create.assert_not_called()
+                    if behavior == "STOP":
+                        # on attend une erreur
+                        with self.assertRaises(GpfSdkError) as o_err:
+                            o_conf.run(datastore)
+                        self.assertEqual(o_err.exception.message, f"Impossible de créer la configuration, une configuration équivalente {o_mock_configuration} existe déjà.")
+                        o_mock_find_configuration.assert_called_once_with(datastore)
+                        return
+
+                    if behavior == "DELETE":
+                        if conflict_creation:
+                            with self.assertRaises(StepActionError) as o_err_2:
+                                o_conf.run(datastore)
+                            print(o_err_2.exception.message)
+                            self.assertEqual(o_err_2.exception.message, "Impossible de créer la configuration il y a un conflict : \nmessage_erreur")
+                            return
+                        # suppression de l'existant puis normal
+                        o_conf.run(datastore)
+                        # un appel à find_stored_data
+                        o_mock_configuration.api_delete.assert_called_once_with()
+                        o_mock_configuration_api_create.assert_called_once_with(d_action["body_parameters"], route_params={"datastore": datastore})
+                    elif not behavior or behavior == "CONTINUE":
+                        o_conf.run(datastore)
+                        # on n'a pas d'api create
+                        self.assertEqual(o_mock_configuration, o_conf.configuration)
+                        o_mock_configuration_api_create.assert_not_called()
+                    else:
+                        # behavior non valide
+                        with self.assertRaises(GpfSdkError) as o_err:
+                            o_conf.run(datastore)
+                        self.assertEqual(o_err.exception.message, f"Le comportement {behavior} n'est pas reconnu (STOP|DELETE|CONTINUE), l'exécution de traitement n'est pas possible.")
+                        return
+
+                elif conflict_creation:
+                    # pas de conflict trouvé avant création mais erreur conflict lors de la creation
+                    with self.assertRaises(StepActionError) as o_err_2:
+                        o_conf.run(datastore)
+                    self.assertEqual(o_err_2.exception.message, "Impossible de créer la configuration il y a un conflict : \nmessage_erreur")
+                    return
                 else:
-                    o_mock_configuration_api_create.assert_called_once_with(d_action["body_parameters"], route_params={"datastore": None})
+                    # on lance l'exécution de run
+                    o_conf.run(datastore)
+                    o_mock_configuration_api_create.assert_called_once_with(d_action["body_parameters"], route_params={"datastore": datastore})
+
+                # test de l'appel à Configuration.api_create
+                o_mock_find_configuration.assert_called_once()
 
                 # test api_add_tags
                 if "tags" in d_action and d_action["tags"]:
@@ -130,3 +179,8 @@ class ConfigurationActionTestCase(GpfTestCase):
             self.run_args({"tag1": "val1", "tag2": "val2"}, ["comm1", "comm2", "comm3", "comm4"], b_config_already_exists, False)
             ## 2 tag + 4 commentaire + 1 commentaire qui existe déjà
             self.run_args({"tag1": "val1", "tag2": "val2"}, ["comm1", "comm2", "comm3", "comm4"], b_config_already_exists, True)
+            self.run_args({"tag1": "val1", "tag2": "val2"}, ["comm1", "comm2", "comm3", "comm4"], b_config_already_exists, True, "STOP", "toto")
+            self.run_args({"tag1": "val1", "tag2": "val2"}, ["comm1", "comm2", "comm3", "comm4"], b_config_already_exists, True, "CONTINUE", "toto")
+            self.run_args({"tag1": "val1", "tag2": "val2"}, ["comm1", "comm2", "comm3", "comm4"], b_config_already_exists, True, "DELETE", "toto")
+            self.run_args({"tag1": "val1", "tag2": "val2"}, ["comm1", "comm2", "comm3", "comm4"], b_config_already_exists, True, "non", "toto")
+            self.run_args({"tag1": "val1", "tag2": "val2"}, ["comm1", "comm2", "comm3", "comm4"], b_config_already_exists, True, "DELETE", "toto", True)

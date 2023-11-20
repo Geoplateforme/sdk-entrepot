@@ -22,7 +22,7 @@ Cette partie de la configuration permet au module de vous authentifier et de ré
 
 | Paramètre              | Type | Défaut         | Description                                                     |
 | ---------------------- | ---- | -------------- | --------------------------------------------------------------- |
-| `token_url`            | str  | <https://sso.geopf.fr/realms/geoplateforme/protocol/openid-connect/token> | URL du service d'authentification de la Géoplateforme. Elle n'est à priori pas à changer, sauf si vous [utilisez un environnement particulier](/configuration/#utiliser-un-environnement-particulier-qualification) (test, qualification, ...). |
+| `token_url`            | str  | <https://sso.geopf.fr/realms/geoplateforme/protocol/openid-connect/token> | URL du service d'authentification de la Géoplateforme. Elle n'est à priori pas à changer, sauf si vous [utilisez un environnement particulier](configuration.md#utiliser-un-environnement-particulier-qualification) (test, qualification, ...). |
 | `http_proxy`           | str  | `null`         | Indiquez ici le proxy HTTP à utiliser si besoin.                |
 | `https_proxy`          | str  | `null`         | Indiquez ici le proxy HTTPS à utiliser si besoin.               |
 | `grant_type`           | str  | `password`     | Indiquez ici le type d'authentification à utiliser (`password` ou `client_credentials`). |

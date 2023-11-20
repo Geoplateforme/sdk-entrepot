@@ -1,4 +1,4 @@
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 from ignf_gpf_sdk.io.ApiRequester import ApiRequester
 from ignf_gpf_sdk.store.Offering import Offering
@@ -63,3 +63,37 @@ class ConfigurationTestCase(GpfTestCase):
             self.assertIsInstance(o_offering, Offering)
             self.assertEqual(o_offering.id, "11111111")
             self.assertDictEqual(o_offering.get_store_properties(), d_data_offering)
+
+    def test_delete_cascade(self) -> None:
+        """test de delete_cascade"""
+        o_configuration = Configuration({"_id": "2222222"})
+
+        # Mock offerings
+        o_mock_offering_1 = MagicMock()
+        o_mock_offering_2 = MagicMock()
+
+        # mock pour la fonction before_delete
+        o_mock = MagicMock()
+        o_mock.before_delete_function.return_value = [o_configuration]
+
+        for f_before_delete in [None, o_mock.before_delete_function]:
+            # Configuration sans offre
+            with patch.object(Configuration, "api_list_offerings", return_value=[]) as o_mock_list:
+                with patch.object(Configuration, "delete_liste_entities", return_value=None) as o_mock_delete:
+                    o_configuration.delete_cascade(f_before_delete)
+                    o_mock_delete.assert_called_once_with([o_configuration], f_before_delete)
+                    o_mock_list.assert_called_once_with()
+
+            # Configuration avec offres
+            with patch.object(Configuration, "api_list_offerings", return_value=[o_mock_offering_1, o_mock_offering_2]) as o_mock_list:
+                with patch.object(Configuration, "delete_liste_entities", return_value=None) as o_mock_delete:
+                    o_configuration.delete_cascade(f_before_delete)
+                    o_mock_delete.assert_called_once_with(
+                        [
+                            o_mock_offering_1,
+                            o_mock_offering_2,
+                            o_configuration,
+                        ],
+                        f_before_delete,
+                    )
+                    o_mock_list.assert_called_once_with()

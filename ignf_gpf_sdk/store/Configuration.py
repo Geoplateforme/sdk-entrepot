@@ -1,4 +1,4 @@
-from typing import Any, Dict, List
+from typing import Any, Callable, Dict, List, Optional
 
 from ignf_gpf_sdk.store.Offering import Offering
 from ignf_gpf_sdk.store.StoreEntity import StoreEntity
@@ -46,3 +46,17 @@ class Configuration(TagInterface, CommentInterface, EventInterface, FullEditInte
             Offering: représentation Python de l'Offering créée
         """
         return Offering.api_create(data_offering, route_params={self._entity_name: self.id})
+
+    def delete_cascade(self, before_delete: Optional[Callable[[List["StoreEntity"]], List["StoreEntity"]]] = None) -> None:
+        """Fonction de suppression de la Configuration en supprimant en cascade les offres liées (et uniquement les offres, pas les données stockées).
+
+        Args:
+            before_delete (Optional[Callable[[List[StoreEntity]], List[StoreEntity]]], optional): fonction à lancer avant la suppression (entrée : liste des entités à supprimer,
+                sortie : liste définitive des entités à supprimer). Defaults to None.
+        """
+        # suppression d'une configuration : offres puis configuration
+        l_entities: List[StoreEntity] = []
+        l_offering = self.api_list_offerings()
+        l_entities += l_offering
+        l_entities.append(self)
+        self.delete_liste_entities(l_entities, before_delete)

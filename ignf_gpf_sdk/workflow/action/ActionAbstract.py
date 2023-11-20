@@ -22,6 +22,11 @@ class ActionAbstract(ABC):
         __parent_action (Optional["Action"]): action parente
     """
 
+    # comportements possibles (que peut écrire l'utilisateur)
+    BEHAVIOR_STOP = "STOP"
+    BEHAVIOR_DELETE = "DELETE"
+    BEHAVIOR_CONTINUE = "CONTINUE"
+
     def __init__(self, workflow_context: str, definition_dict: Dict[str, Any], parent_action: Optional["ActionAbstract"] = None) -> None:
         super().__init__()
         self.__workflow_context: str = workflow_context
