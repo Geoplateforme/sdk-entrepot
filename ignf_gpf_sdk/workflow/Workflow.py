@@ -54,16 +54,18 @@ class Workflow:
         self,
         step_name: str,
         callback: Optional[Callable[[ProcessingExecution], None]] = None,
+        ctrl_c_action: Optional[Callable[[], bool]] = None,
         behavior: Optional[str] = None,
         datastore: Optional[str] = None,
         comments: List[str] = [],
         tags: Dict[str, str] = {},
     ) -> List[StoreEntity]:
-        """Lance une étape du workflow à partir de son nom. Liste les entités créées par chaque action et le retourne.
+        """Lance une étape du workflow à partir de son nom. Liste les entités créées par chaque action et retourne la liste.
 
         Args:
             step_name (str): nom de l'étape
             callback (Optional[Callable[[ProcessingExecution], None]], optional): callback de suivi si création d'une exécution de traitement.
+            ctrl_c_action (Optional[Callable[[], bool]], optional): gestion du ctrl-C lors d'une exécution de traitement.
             behavior (Optional[str]): comportement à adopter si une entité existe déjà sur l'entrepôt.
             datastore (Optional[str]): id du datastore à utiliser. Si None, le datastore sera le premier trouvé dans l'action puis dans workflow puis dans configuration.
             comments (Optional[List[str]]): liste des commentaire à rajouté à toute les actions de l'étape (les cas de doublons sont géré).
@@ -103,12 +105,13 @@ class Workflow:
             o_action.run(s_use_datastore)
             # on attend la fin de l'exécution si besoin
             if isinstance(o_action, ProcessingExecutionAction):
-                s_status = o_action.monitoring_until_end(callback=callback)
+                s_status = o_action.monitoring_until_end(callback=callback, ctrl_c_action=ctrl_c_action)
                 if s_status != ProcessingExecution.STATUS_SUCCESS:
                     s_error_message = f"L'exécution de traitement {o_action} ne s'est pas bien passée. Sortie {s_status}."
                     Config().om.error(s_error_message)
                     raise WorkflowError(s_error_message)
-            # On récupère l'entité
+
+            # On récupère l'entité créée par l'Action
             if isinstance(o_action, ProcessingExecutionAction):
                 # Ajout de upload et/ou stored_data
                 if o_action.upload is not None:
@@ -121,6 +124,7 @@ class Workflow:
             elif isinstance(o_action, OfferingAction):
                 if o_action.offering is not None:
                     l_store_entity.append(o_action.offering)
+
             # Message de fin
             Config().om.info(f"Exécution de l'action '{o_action.workflow_context}-{o_action.index}' : terminée")
             # cette action sera la parente de la suivante

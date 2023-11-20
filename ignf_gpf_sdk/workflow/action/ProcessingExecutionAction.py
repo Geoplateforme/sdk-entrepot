@@ -18,8 +18,8 @@ class ProcessingExecutionAction(ActionAbstract):
         __definition_dict (Dict[str, Any]): définition de l'action
         __parent_action (Optional["Action"]): action parente
         __processing_execution (Optional[ProcessingExecution]): représentation Python de l'exécution de traitement créée
-        __Upload (Optional[Upload]): représentation Python de la livraison en sortie (null si données stockée en sortie)
-        __StoredData (Optional[StoredData]): représentation Python de la données stockée en sortie (null si livraison en sortie)
+        __Upload (Optional[Upload]): représentation Python de la livraison en sortie (null si donnée stockée en sortie)
+        __StoredData (Optional[StoredData]): représentation Python de la donnée stockée en sortie (null si livraison en sortie)
     """
 
     # status possibles d'une ProcessingExecution (status délivrés par l'api)
@@ -142,7 +142,7 @@ class ProcessingExecutionAction(ActionAbstract):
             Config().om.info(f"Donnée stockée {self.stored_data['name']} : les {len(self.definition_dict['tags'])} tags ont été ajoutés avec succès.")
         else:
             # on a pas de stored_data ni de upload
-            raise StepActionError("aucune upload ou stored-data trouvé. Impossible d'ajouter les tags")
+            raise StepActionError("ni upload ni stored-data trouvé. Impossible d'ajouter les tags")
 
     def __add_comments(self) -> None:
         """Ajout des commentaires sur l'Upload ou la StoredData en sortie du ProcessingExecution."""
@@ -159,7 +159,7 @@ class ProcessingExecutionAction(ActionAbstract):
             s_type = "Donnée stockée"
         else:
             # on a pas de stored_data ni de upload
-            raise StepActionError("aucune upload ou stored-data trouvé. Impossible d'ajouter les commentaires")
+            raise StepActionError("ni upload ni stored-data trouvé. Impossible d'ajouter les commentaires")
 
         Config().om.info(f"{s_type} {o_data['name']} : ajout des {len(self.definition_dict['comments'])} commentaires...")
         l_actual_comments = [d_comment["text"] for d_comment in o_data.api_list_comments() if d_comment]
@@ -189,7 +189,7 @@ class ProcessingExecutionAction(ActionAbstract):
         l'exécution de traitement en fonction des filtres définis dans la Config.
 
         Returns:
-            données stockées retrouvée
+            donnée stockée retrouvée
         """
         # Récupération des critères de filtre
         d_infos, d_tags = ActionAbstract.get_filters("processing_execution", self.definition_dict["body_parameters"]["output"]["stored_data"], self.definition_dict.get("tags", {}))
@@ -201,75 +201,100 @@ class ProcessingExecutionAction(ActionAbstract):
         # sinon on retourne None
         return None
 
-    def monitoring_until_end(self, callback: Optional[Callable[[ProcessingExecution], None]] = None) -> str:
+    def monitoring_until_end(self, callback: Optional[Callable[[ProcessingExecution], None]] = None, ctrl_c_action: Optional[Callable[[], bool]] = None) -> str:
         """Attend que la ProcessingExecution soit terminée (statut `SUCCESS`, `FAILURE` ou `ABORTED`) avant de rendre la main.
 
-        La fonction callback indiquée est exécutée après **chaque vérification** en lui passant en paramètre
-        le log du traitement et le status du traitement (callback(logs, status)).
+        La fonction callback indiquée est exécutée après **chaque vérification du statut** en lui passant en paramètre
+        la processing execution (callback(self.processing_execution)).
 
-        Si l'utilisateur stoppe le programme, la ProcessingExecution est arrêtée avant de quitter.
+        Si l'utilisateur stoppe le programme (par ctrl-C), le devenir de la ProcessingExecutionAction sera géré par la callback ctrl_c_action().
 
         Args:
-            callback (Optional[Callable[[ProcessingExecution], None]], optional): fonction de callback à exécuter prend en argument le traitement (callback(processing-execution)).
+            callback (Optional[Callable[[ProcessingExecution], None]], optional): fonction de callback à exécuter. Prend en argument le traitement (callback(processing-execution)).
+            ctrl_c_action (Optional[Callable[[], bool]], optional): fonction de gestion du ctrl-C. Renvoie True si on doit stopper le traitement.
 
         Returns:
-            True si SUCCESS, False si FAILURE, None si ABORTED
+            str: statut final de l'exécution du traitement
         """
+
+        def callback_not_null(o_pe: ProcessingExecution) -> None:
+            """fonction pour éviter des if à chaque appel
+
+            Args:
+                o_pe (ProcessingExecution): traitement en cours
+            """
+            if callback is not None:
+                callback(o_pe)
+
         # NOTE :  Ne pas utiliser self.__processing_execution mais self.processing_execution pour faciliter les tests
         i_nb_sec_between_check = Config().get_int("processing_execution", "nb_sec_between_check_updates")
         Config().om.info(f"Monitoring du traitement toutes les {i_nb_sec_between_check} secondes...")
         if self.processing_execution is None:
-            raise StepActionError("Aucune procession-execution de trouvé. Impossible de suivre le déroulement du traitement")
-        try:
-            s_status = self.processing_execution.get_store_properties()["status"]
-            while s_status not in [ProcessingExecution.STATUS_ABORTED, ProcessingExecution.STATUS_SUCCESS, ProcessingExecution.STATUS_FAILURE]:
+            raise StepActionError("Aucune processing-execution trouvée. Impossible de suivre le déroulement du traitement")
+
+        self.processing_execution.api_update()
+        s_status = self.processing_execution.get_store_properties()["status"]
+        while s_status not in [ProcessingExecution.STATUS_ABORTED, ProcessingExecution.STATUS_SUCCESS, ProcessingExecution.STATUS_FAILURE]:
+            try:
                 # appel de la fonction affichant les logs
-                if callback is not None:
-                    callback(self.processing_execution)
+                callback_not_null(self.processing_execution)
+
                 # On attend le temps demandé
                 time.sleep(i_nb_sec_between_check)
+
                 # On met à jour __processing_execution + valeur status
                 self.processing_execution.api_update()
                 s_status = self.processing_execution.get_store_properties()["status"]
-            # Si on est sorti c'est que c'est fini
-            ## dernier affichage
-            if callback is not None:
-                callback(self.processing_execution)
-            ## on return le status de fin
-            return str(s_status)
-        except KeyboardInterrupt as e:
-            # TODO
-            # si le traitement est déjà dans un statu fini on ne fait rien => transmission de l'interruption
-            self.processing_execution.api_update()
-            s_status = self.processing_execution.get_store_properties()["status"]
-            if s_status in [ProcessingExecution.STATUS_ABORTED, ProcessingExecution.STATUS_SUCCESS, ProcessingExecution.STATUS_FAILURE]:
-                Config().om.warning("traitement déjà fini")
-                raise
-            # arrêt du traitement
-            Config().om.warning("Ctrl+C : traitement en cours d’interruption, veuillez attendre...")
-            self.processing_execution.api_abort()
-            # attente que le traitement passe dans un statu fini
-            self.processing_execution.api_update()
-            s_status = self.processing_execution.get_store_properties()["status"]
-            while s_status not in [ProcessingExecution.STATUS_ABORTED, ProcessingExecution.STATUS_SUCCESS, ProcessingExecution.STATUS_FAILURE]:
-                # On attend 2s
-                time.sleep(2)
-                # On met à jour __processing_execution + valeur status
-                self.processing_execution.api_update()
-                s_status = self.processing_execution.get_store_properties()["status"]
-            ## dernier affichage
-            if callback is not None:
-                callback(self.processing_execution)
-            if s_status == ProcessingExecution.STATUS_ABORTED and self.output_new_entity:
-                # suppression de l'upload ou la stored data en sortie
-                if self.upload is not None:
-                    Config().om.warning("Suppression de l'upload en cours de remplissage suite à l’interruption du programme")
-                    self.upload.api_delete()
-                elif self.stored_data is not None:
-                    Config().om.warning("Suppression de la stored-data en cours de remplissage suite à l'interruption du programme")
-                    self.stored_data.api_delete()
-                # transmission de l'interruption
-            raise KeyboardInterrupt() from e
+
+            except KeyboardInterrupt:
+                # on appelle la callback de gestion du ctrl-C
+                if ctrl_c_action is None or ctrl_c_action():
+                    # on doit arrêter le traitement (maj + action spécifique selon le statut)
+
+                    # mise à jour du traitement
+                    self.processing_execution.api_update()
+
+                    # si le traitement est déjà dans un statut terminé, on ne fait rien => transmission de l'interruption
+                    s_status = self.processing_execution.get_store_properties()["status"]
+
+                    # si le traitement est terminé, on fait un dernier affichage :
+                    if s_status in [ProcessingExecution.STATUS_ABORTED, ProcessingExecution.STATUS_SUCCESS, ProcessingExecution.STATUS_FAILURE]:
+                        callback_not_null(self.processing_execution)
+                        Config().om.warning("traitement déjà terminé.")
+                        raise
+
+                    # arrêt du traitement
+                    Config().om.warning("Ctrl+C : traitement en cours d’interruption, veuillez attendre...")
+                    self.processing_execution.api_abort()
+                    # attente que le traitement passe dans un statut terminé
+                    self.processing_execution.api_update()
+                    s_status = self.processing_execution.get_store_properties()["status"]
+                    while s_status not in [ProcessingExecution.STATUS_ABORTED, ProcessingExecution.STATUS_SUCCESS, ProcessingExecution.STATUS_FAILURE]:
+                        # On attend 2s
+                        time.sleep(2)
+                        # On met à jour __processing_execution + valeur status
+                        self.processing_execution.api_update()
+                        s_status = self.processing_execution.get_store_properties()["status"]
+                    # traitement terminé. On fait un dernier affichage :
+                    callback_not_null(self.processing_execution)
+
+                    # si statut Aborted :
+                    # suppression de l'upload ou de la stored data en sortie
+                    if s_status == ProcessingExecution.STATUS_ABORTED and self.output_new_entity:
+                        if self.upload is not None:
+                            Config().om.warning("Suppression de l'upload en cours de remplissage suite à l’interruption du programme")
+                            self.upload.api_delete()
+                        elif self.stored_data is not None:
+                            Config().om.warning("Suppression de la stored-data en cours de remplissage suite à l'interruption du programme")
+                            self.stored_data.api_delete()
+                    # enfin, transmission de l'interruption
+                    raise
+
+        # Si on est sorti du while c'est que la processing execution est terminée
+        ## dernier affichage
+        callback_not_null(self.processing_execution)
+        ## on return le status de fin
+        return str(s_status)
 
     @property
     def processing_execution(self) -> Optional[ProcessingExecution]:

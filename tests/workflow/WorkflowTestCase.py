@@ -162,7 +162,7 @@ class WorkflowTestCase(GpfTestCase):
             # si monitoring : vérification des appels à monitoring
             if monitoring_until_end:
                 self.assertEqual(o_mock_action.resolve.call_count, len(l_run_args))
-                o_mock_action.monitoring_until_end.assert_any_call(callback=d_args_run_step["callback"])
+                o_mock_action.monitoring_until_end.assert_any_call(callback=d_args_run_step["callback"], ctrl_c_action=None)
 
     def test_run_step(self) -> None:
         """test de run_step"""
