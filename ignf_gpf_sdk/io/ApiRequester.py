@@ -94,10 +94,13 @@ class ApiRequester(metaclass=Singleton):
         s_url = s_route.format(**route_params)
 
         # récupération du header additionnel
-        header = json.loads(Config().get("routing", route_name+"_header", fallback="{}"))
+        s_header = Config().get("routing", route_name + "_header", fallback=None)
+        d_header = {}
+        if s_header is not None:
+            d_header = json.loads(s_header)
 
         # Exécution de la requête en boucle jusqu'au succès (ou erreur au bout d'un certains temps)
-        return self.url_request(s_url, method, params, data, files, header)
+        return self.url_request(s_url, method, params, data, files, d_header)
 
     def url_request(
         self,
@@ -106,7 +109,7 @@ class ApiRequester(metaclass=Singleton):
         params: Optional[Dict[str, Any]] = None,
         data: Optional[Union[Dict[str, Any], List[Any]]] = None,
         files: Optional[Dict[str, Tuple[str, BufferedReader]]] = None,
-        header: Optional[Dict[str, str]] = {},
+        header: Dict[str, str] = {},
     ) -> requests.Response:
         """Effectue une requête à l'API à partir d'une url. La requête est retentée plusieurs fois s'il y a un problème.
 
@@ -116,7 +119,7 @@ class ApiRequester(metaclass=Singleton):
             params (Optional[Dict[str, Any]], optional): paramètres de la requête (ajouté à l'url)
             data (Optional[Union[Dict[str, Any], List[Any]]], optional): contenue de la requête (ajouté au corp)
             files (Optional[Dict[str, Tuple[Any]]], optional): fichiers à envoyer
-            header (Optional[Dict[str, str]], optional): Header additionnel pour la requête
+            header (Dict[str, str], optional): Header additionnel pour la requête
 
         Returns:
             réponse si succès
@@ -180,7 +183,7 @@ class ApiRequester(metaclass=Singleton):
         params: Optional[Dict[str, Any]] = None,
         data: Optional[Union[Dict[str, Any], List[Any]]] = None,
         files: Optional[Dict[str, Tuple[str, BufferedReader]]] = None,
-        header: Optional[Dict[str, str]] = {},
+        header: Dict[str, str] = {},
     ) -> requests.Response:
         """Effectue une requête à l'API à partir d'une url. Ne retente pas plusieurs fois si problème.
 
@@ -190,7 +193,7 @@ class ApiRequester(metaclass=Singleton):
             params (Optional[Dict[str, Any]], optional): paramètres.
             data (Optional[Union[Dict[str, Any], List[Any]]], optional): données.
             files (Optional[Dict[str, Tuple[Any]]], optional): fichiers.
-            header (Optional[Dict[str, str]], optional): Header additionnel pour la requête.
+            header (Dict[str, str], optional): Header additionnel pour la requête.
 
         Returns:
             réponse si succès
