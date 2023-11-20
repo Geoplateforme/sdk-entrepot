@@ -253,7 +253,7 @@ class UploadAction:
                     # On attend le temps demandé
                     time.sleep(i_nb_sec_between_check)
 
-            except KeyboardInterrupt as e:
+            except KeyboardInterrupt:
                 # on appelle la callback de gestion du ctrl-C
                 if ctrl_c_action is None or ctrl_c_action():
                     # on doit arrêter les vérifications :

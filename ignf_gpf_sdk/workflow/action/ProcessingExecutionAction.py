@@ -246,7 +246,7 @@ class ProcessingExecutionAction(ActionAbstract):
                 self.processing_execution.api_update()
                 s_status = self.processing_execution.get_store_properties()["status"]
 
-            except KeyboardInterrupt as e:
+            except KeyboardInterrupt:
                 # on appelle la callback de gestion du ctrl-C
                 if ctrl_c_action is None or ctrl_c_action():
                     # on doit arrêter le traitement (maj + action spécifique selon le statut)
