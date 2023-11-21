@@ -1,6 +1,8 @@
 from pathlib import Path
-from typing import Any, Dict, Optional, Type, List, Callable
+from typing import Any, Dict, Optional, Type, List
 from unittest.mock import PropertyMock, patch, MagicMock
+
+import jsonschema
 
 from ignf_gpf_sdk.Errors import GpfSdkError
 from ignf_gpf_sdk.helper.JsonHelper import JsonHelper
@@ -33,57 +35,99 @@ class WorkflowTestCase(GpfTestCase):
         o_workflow = Workflow("nom", d_workflow)
         self.assertDictEqual(d_workflow, o_workflow.get_raw_dict())
 
+    def __list_action_run_step(self, s_etape: str, d_args_run_step: Dict[str, Any], d_workflow: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """création de la liste des actions pour run_run_step()
+
+        Args:
+            s_etape (str): non de l'étape
+            d_args_run_step (Dict[str, Any]): dictionnaire donné à run step
+            d_workflow (Dict[str, Any]): dictionnaire du workflow
+
+        Returns:
+            List[Dict[str, Any]]: liste des actions avec les commentaire et les tags de gérer
+        """
+        if s_etape not in d_workflow["workflow"]["steps"]:
+            return []
+        l_comments: List[str] = d_args_run_step["comments"]
+        d_tags: Dict[str, str] = d_args_run_step["tags"]
+        l_actions = []
+
+        # général workflow
+        if "comments" in d_workflow:
+            l_comments = [*l_comments, *d_workflow["comments"]]
+        if "tags" in d_workflow:
+            d_tags = {**d_tags, **d_workflow["tags"]}
+        # dans l'étape
+        if "comments" in d_workflow["workflow"]["steps"][s_etape]:
+            l_comments = [*l_comments, *d_workflow["workflow"]["steps"][s_etape]["comments"]]
+        if "tags" in d_workflow["workflow"]["steps"][s_etape]:
+            d_tags = {**d_tags, **d_workflow["workflow"]["steps"][s_etape]["tags"]}
+        for d_action in d_workflow["workflow"]["steps"][s_etape]["actions"]:
+            d_action = d_action.copy()
+            if "comments" in d_action:
+                d_action["comments"] = [*l_comments, *d_action["comments"]]
+            else:
+                d_action["comments"] = l_comments
+            if "tags" in d_action:
+                d_action["tags"] = {**d_tags, **d_action["tags"]}
+            else:
+                d_action["tags"] = d_tags
+            l_actions.append(d_action)
+        return l_actions
+
     def run_run_step(
         self,
-        s_etape: str,
-        s_datastore: Optional[str],
+        d_args_run_step: Dict[str, Any],
         d_workflow: Dict[str, Any],
         l_run_args: List[Any],
-        callback: Optional[Callable[[ProcessingExecution], None]] = None,
-        behavior: Optional[str] = None,
         monitoring_until_end: Optional[List[str]] = None,
         error_message: Optional[str] = None,
+        output_type: str = "configuration",
     ) -> None:
         """Fonction de lancement des tests pour run_step()
 
         Args:
-            s_etape (str): nom de l'étape du workflow à lancé
-            s_datastore (Optional[str]): nom du datastore à utiliser, si None datastore trouvé dans l'étape, le workflow ou None.
+            d_args_run_step Dict[str, Any]: dictionnaire donné à run step
             d_workflow (Dict[str, Any]): dictionnaire du workflow
             l_run_args (List[Any]): liste des argument passé en appel de action.run(). Un élément = un appel
-            callback (Optional[Callable[[ProcessingExecution], None]], optional): possible callback utilisé. Defaults to None.
-            behavior (Optional[str], optional): Action en cas de doublon, None action par défaut. Defaults to None.
             monitoring_until_end (Optional[List[str]], optional): si None, action sans monitoring, si défini : définition du side effect du mock de action.monitoring_until_end(). Defaults to None.
             error_message (Optional[str], optional): Message d'erreur compléter avec "action", si None : pas d'erreur attendu. Defaults to None.
+            output_type (str): type de l'entité de sortie : stored_data, configuration, offering ou upload
         """
+        s_etape = str(d_args_run_step["step_name"])
+
         # récupération de la liste d'action
-        l_actions = []
-        if s_etape in d_workflow["workflow"]["steps"]:
-            l_actions = d_workflow["workflow"]["steps"][s_etape]["actions"]
+        l_actions = self.__list_action_run_step(s_etape, d_args_run_step, d_workflow)
 
         # création du o_mock_action
+        if output_type == "upload":
+            o_mock_action = MagicMock(spec=ProcessingExecutionAction)
+            o_mock_action.stored_data = None
+            o_mock_action.upload = f"Entity_{output_type}"
+        elif output_type == "stored_data":
+            o_mock_action = MagicMock(spec=ProcessingExecutionAction)
+            o_mock_action.stored_data = f"Entity_{output_type}"
+            o_mock_action.upload = None
+        elif output_type == "offering":
+            o_mock_action = MagicMock(spec=OfferingAction)
+            o_mock_action.offering = f"Entity_{output_type}"
+        else:
+            o_mock_action = MagicMock(spec=ConfigurationAction)
+            o_mock_action.configuration = f"Entity_{output_type}"
+
         if monitoring_until_end:
             # cas avec monitoring
-            o_mock_action = MagicMock(spec=ProcessingExecutionAction)
             o_mock_action.monitoring_until_end.side_effect = monitoring_until_end
-            o_mock_action.stored_data = "entite"
-            o_mock_action.upload = None
 
-        else:
-            # cas sans monitoring
-            o_mock_action = MagicMock(spec=ConfigurationAction)
-            o_mock_action.configuration = "entite"
         ## config mock générale
         o_mock_action.resolve.return_value = None
         o_mock_action.run.return_value = None
+
         ## mock de la property definition_dict
-        if len(l_actions) == 1:
-            type(o_mock_action).definition_dict = PropertyMock(return_value=l_actions[0])
-        else:
-            d_effect = []
-            for d_el in l_actions:
-                d_effect += [d_el] * 2
-            type(o_mock_action).definition_dict = PropertyMock(side_effect=d_effect)
+        d_effect = []
+        for d_el in l_actions:
+            d_effect += [d_el] * 2
+        type(o_mock_action).definition_dict = PropertyMock(side_effect=d_effect)
 
         # initialisation de Workflow
         o_workflow = Workflow("nom", d_workflow)
@@ -93,18 +137,18 @@ class WorkflowTestCase(GpfTestCase):
             if error_message is not None:
                 # si on attend une erreur
                 with self.assertRaises(WorkflowError) as o_arc:
-                    o_workflow.run_step(s_etape, callback, behavior, s_datastore)
+                    o_workflow.run_step(**d_args_run_step)
                 self.assertEqual(o_arc.exception.message, error_message.format(action=o_mock_action))
             else:
                 # pas d'erreur attendu
-                l_entities = o_workflow.run_step(s_etape, callback, behavior, s_datastore)
-                self.assertListEqual(l_entities, ["entite"] * len(l_run_args))
+                l_entities = o_workflow.run_step(**d_args_run_step)
+                self.assertListEqual(l_entities, [f"Entity_{output_type}"] * len(l_run_args))
 
             # vérification des appels à generate
             self.assertEqual(o_mock_action_generate.call_count, len(l_run_args))
             o_parent = None
-            for i in range(len(l_run_args)):
-                o_mock_action_generate.assert_any_call(s_etape, l_actions[i], o_parent, behavior)
+            for d_action in l_actions:
+                o_mock_action_generate.assert_any_call(s_etape, d_action, o_parent, d_args_run_step["behavior"])
                 o_parent = o_mock_action
 
             # vérification des appels à résolve
@@ -118,7 +162,7 @@ class WorkflowTestCase(GpfTestCase):
             # si monitoring : vérification des appels à monitoring
             if monitoring_until_end:
                 self.assertEqual(o_mock_action.resolve.call_count, len(l_run_args))
-                o_mock_action.monitoring_until_end.assert_any_call(callback=callback)
+                o_mock_action.monitoring_until_end.assert_any_call(callback=d_args_run_step["callback"], ctrl_c_action=None)
 
     def test_run_step(self) -> None:
         """test de run_step"""
@@ -152,48 +196,93 @@ class WorkflowTestCase(GpfTestCase):
                 }
             }
         }
-        d_workflow_2: Dict[str, Any] = {"datastore": "datastore_workflow", **d_workflow}
+        # ajout datastore
+        d_workflow_2: Dict[str, Any] = {"datastore": "datastore_workflow", **d_workflow.copy()}
+        # tag + commentaire au niveau workflow + étape
+        d_workflow_3: Dict[str, Any] = {
+            "workflow": {
+                "steps": {
+                    "mise-en-base": {
+                        "actions": [{"type": "action1"}],
+                        "comments": ["commentaire step 1", "commentaire step 2"],
+                        "tags": {"key_step": "val"},
+                    }
+                },
+            },
+            "comments": ["commentaire workflow 1", "commentaire workflow 2"],
+            "tags": {"key_workflow": "val"},
+        }
         s_datastore = "datastore_force"
 
+        d_args: Dict[str, Any] = {
+            "callback": None,
+            "behavior": None,
+            "datastore": None,
+            "comments": [],
+            "tags": {},
+        }
         # test simple sans s_datastore
-        self.run_run_step("mise-en-base", None, d_workflow, [None])
-        self.run_run_step("mise-en-base2", None, d_workflow, [None, None])
+        self.run_run_step({**d_args, "step_name": "mise-en-base"}, d_workflow, [None])
+        self.run_run_step({**d_args, "step_name": "mise-en-base2"}, d_workflow, [None, None])
 
         # datastore au niveau des étapes
-        self.run_run_step("mise-en-base3", None, d_workflow, ["datastore_3"])
-        self.run_run_step("mise-en-base4", None, d_workflow, ["datastore_4-1", None])
+        self.run_run_step({**d_args, "step_name": "mise-en-base3"}, d_workflow, ["datastore_3"])
+        self.run_run_step({**d_args, "step_name": "mise-en-base4"}, d_workflow, ["datastore_4-1", None])
 
         # datastore au niveau du workflow + étapes
-        self.run_run_step("mise-en-base", None, d_workflow_2, ["datastore_workflow"])
-        self.run_run_step("mise-en-base3", None, d_workflow_2, ["datastore_3"])
-        self.run_run_step("mise-en-base4", None, d_workflow_2, ["datastore_4-1", "datastore_workflow"])
+        self.run_run_step({**d_args, "step_name": "mise-en-base"}, d_workflow_2, ["datastore_workflow"])
+        self.run_run_step({**d_args, "step_name": "mise-en-base3"}, d_workflow_2, ["datastore_3"])
+        self.run_run_step({**d_args, "step_name": "mise-en-base4"}, d_workflow_2, ["datastore_4-1", "datastore_workflow"])
 
         # datastore au niveau du workflow + étape + forcé dans l'appel
-        self.run_run_step("mise-en-base", s_datastore, d_workflow, [s_datastore])
-        self.run_run_step("mise-en-base", s_datastore, d_workflow_2, [s_datastore])
-        self.run_run_step("mise-en-base3", s_datastore, d_workflow_2, [s_datastore])
-        self.run_run_step("mise-en-base4", s_datastore, d_workflow_2, [s_datastore, s_datastore])
+        self.run_run_step({**d_args, "step_name": "mise-en-base", "datastore": s_datastore}, d_workflow, [s_datastore])
+        self.run_run_step({**d_args, "step_name": "mise-en-base", "datastore": s_datastore}, d_workflow_2, [s_datastore])
+        self.run_run_step({**d_args, "step_name": "mise-en-base3", "datastore": s_datastore}, d_workflow_2, [s_datastore])
+        self.run_run_step({**d_args, "step_name": "mise-en-base4", "datastore": s_datastore}, d_workflow_2, [s_datastore, s_datastore])
+        self.run_run_step({**d_args, "step_name": "mise-en-base4", "datastore": s_datastore}, d_workflow_2, [s_datastore, s_datastore], output_type="offering")
+
+        # test pour les commentaires + tags
+        self.run_run_step({**d_args, "step_name": "mise-en-base", "datastore": s_datastore}, d_workflow_3, [s_datastore])
+        self.run_run_step({**d_args, "step_name": "mise-en-base", "datastore": s_datastore, "comments": ["commentaire 1", "commentaire 2"], "tags": {"workflow": "val"}}, d_workflow_3, [s_datastore])
 
         # étape qui n'existe pas
-        self.run_run_step("existe_pas", None, d_workflow, [], error_message="L'étape existe_pas n'est pas définie dans le workflow nom")
+        self.run_run_step({**d_args, "step_name": "existe_pas"}, d_workflow, [], error_message="L'étape existe_pas n'est pas définie dans le workflow nom")
+
         # test avec monitoring
-        self.run_run_step("mise-en-base", None, d_workflow, [None], monitoring_until_end=["SUCCESS"])
-        self.run_run_step("mise-en-base", None, d_workflow, [None], monitoring_until_end=["FAILURE"], error_message="L'exécution de traitement {action} ne s'est pas bien passée. Sortie FAILURE.")
-        self.run_run_step("mise-en-base", None, d_workflow, [None], monitoring_until_end=["ABORTED"], error_message="L'exécution de traitement {action} ne s'est pas bien passée. Sortie ABORTED.")
+        self.run_run_step({**d_args, "step_name": "mise-en-base"}, d_workflow, [None], monitoring_until_end=["SUCCESS"], output_type="upload")
+        self.run_run_step({**d_args, "step_name": "mise-en-base"}, d_workflow, [None], monitoring_until_end=["SUCCESS"], output_type="stored_data")
+        self.run_run_step({**d_args, "step_name": "mise-en-base4"}, d_workflow_2, ["datastore_4-1", "datastore_workflow"], monitoring_until_end=["SUCCESS", "SUCCESS"], output_type="stored_data")
         self.run_run_step(
-            "mise-en-base4",
-            None,
+            {**d_args, "step_name": "mise-en-base"},
+            d_workflow,
+            [None],
+            monitoring_until_end=["FAILURE"],
+            error_message="L'exécution de traitement {action} ne s'est pas bien passée. Sortie FAILURE.",
+            output_type="stored_data",
+        )
+        self.run_run_step(
+            {**d_args, "step_name": "mise-en-base"},
+            d_workflow,
+            [None],
+            monitoring_until_end=["ABORTED"],
+            error_message="L'exécution de traitement {action} ne s'est pas bien passée. Sortie ABORTED.",
+            output_type="stored_data",
+        )
+        self.run_run_step(
+            {**d_args, "step_name": "mise-en-base4"},
             d_workflow_2,
             ["datastore_4-1", "datastore_workflow"],
             monitoring_until_end=["SUCCESS", "ABORTED"],
             error_message="L'exécution de traitement {action} ne s'est pas bien passée. Sortie ABORTED.",
+            output_type="stored_data",
         )
-        self.run_run_step("mise-en-base4", None, d_workflow_2, ["datastore_4-1", "datastore_workflow"], monitoring_until_end=["SUCCESS", "SUCCESS"])
         # callbable
-        self.run_run_step("mise-en-base", None, d_workflow, [None], callback, None, ["SUCCESS"])
+        self.run_run_step({**d_args, "step_name": "mise-en-base", "callback": callback}, d_workflow, [None], monitoring_until_end=["SUCCESS", "SUCCESS"], output_type="stored_data")
         # behavior
-        self.run_run_step("mise-en-base", None, d_workflow, [None], None, "DELETE")
-        self.run_run_step("mise-en-base", None, d_workflow, [None], callback, "DELETE", ["SUCCESS"])
+        self.run_run_step({**d_args, "step_name": "mise-en-base", "behavior": "DELETE"}, d_workflow, [None])
+        self.run_run_step(
+            {**d_args, "step_name": "mise-en-base", "callback": callback, "behavior": "DELETE"}, d_workflow, [None], monitoring_until_end=["SUCCESS", "SUCCESS"], output_type="stored_data"
+        )
 
     def run_generation(self, expected_type: Type[ActionAbstract], name: str, dico_def: Dict[str, Any], parent: Optional[ActionAbstract] = None, behavior: Optional[str] = None) -> None:
         """lancement de la commande de génération
@@ -265,12 +354,15 @@ class WorkflowTestCase(GpfTestCase):
     def test_validate(self) -> None:
         """Test de la fonction validate."""
         p_workflows = Config.data_dir_path / "workflows"
+
         # On valide le workflow generic_archive.jsonc
         o_workflow_1 = Workflow.open_workflow(p_workflows / "generic_archive.jsonc")
         self.assertFalse(o_workflow_1.validate())
+
         # On valide le workflow generic_vecteur.jsonc
         o_workflow_2 = Workflow.open_workflow(p_workflows / "generic_vecteur.jsonc")
         self.assertFalse(o_workflow_2.validate())
+
         # On ne valide pas le workflow bad-workflow.jsonc
         p_workflow = GpfTestCase.data_dir_path / "workflows" / "bad-workflow.jsonc"
         o_workflow_2 = Workflow(p_workflow.stem, JsonHelper.load(p_workflow))
@@ -281,6 +373,21 @@ class WorkflowTestCase(GpfTestCase):
         self.assertEqual(l_errors[2], "L'étape « no-parent-no-action » n'a aucune action de défini.")
         self.assertEqual(l_errors[3], "L'action n°1 de l'étape « configuration-wfs » n'est pas instantiable (Aucune correspondance pour ce type d'action : type-not-found).")
         self.assertEqual(l_errors[4], "L'action n°2 de l'étape « configuration-wfs » n'a pas la clef obligatoire ('type').")
+        ## cas erreur non valide
+        with patch.object(Workflow, "generate", side_effect=Exception("error")) as o_mock_jsonschema:
+            l_errors = o_workflow_1.validate()
+            self.assertTrue(l_errors)
+            self.assertEqual(l_errors[0], "L'action n°1 de l'étape « intégration-archive-livrée » lève une erreur inattendue (error).")
+            self.assertEqual(l_errors[1], "L'action n°1 de l'étape « configuration-archive-livrée » lève une erreur inattendue (error).")
+            self.assertEqual(l_errors[2], "L'action n°1 de l'étape « publication-archive-livrée » lève une erreur inattendue (error).")
+
+        # problème avec le schema du fichier workflow
+        p_schema = Config.conf_dir_path / "json_schemas" / "workflow.json"
+        with patch.object(jsonschema, "validate", side_effect=jsonschema.exceptions.SchemaError("error")) as o_mock_jsonschema:
+            with self.assertRaises(GpfSdkError) as o_arc:
+                o_workflow_2.validate()
+            self.assertEqual(o_arc.exception.message, f"Le schéma décrivant la structure d'un workflow {p_schema} est invalide. Contactez le support.")
+            o_mock_jsonschema.assert_called_once()
 
     def test_get_actions(self) -> None:
         """Test de get_actions."""
@@ -329,3 +436,24 @@ class WorkflowTestCase(GpfTestCase):
                 # Vérifications
                 self.assertEqual(o_action, o_action_get)
                 o_mock_get_actions.assert_called_once_with("stem_name")
+
+    def test_get_all_steps(self) -> None:
+        """test de get_all_steps"""
+        o_workflow = Workflow(
+            "workflow_name",
+            {
+                "workflow": {
+                    "steps": {
+                        "etape1": {"parents": [], "actions": []},
+                        "etape2A": {"parents": ["etape1"], "actions": []},
+                        "etape2B": {"parents": ["etape1"], "actions": []},
+                        "etape3": {"parents": ["etape2A", "etape2B"], "actions": []},
+                    },
+                },
+            },
+        )
+        l_steps = o_workflow.get_all_steps()
+        self.assertEqual(l_steps[0], "Etape « etape1 » [parent(s) : ]")
+        self.assertEqual(l_steps[1], "Etape « etape2A » [parent(s) : etape1]")
+        self.assertEqual(l_steps[2], "Etape « etape2B » [parent(s) : etape1]")
+        self.assertEqual(l_steps[3], "Etape « etape3 » [parent(s) : etape2A, etape2B]")

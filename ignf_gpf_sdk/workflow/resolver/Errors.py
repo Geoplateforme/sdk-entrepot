@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from ignf_gpf_sdk.Errors import GpfSdkError
 
 
@@ -67,16 +69,18 @@ class ResolveFileNotFoundError(GpfSdkError):
         __message (str): message décrivant le problème
         __resolver_name (str): nom du résolveur
         __to_solve (str): chaîne à résoudre
+        __absolute_path (Path): chemin vers le fichier non trouvé
     """
 
-    def __init__(self, resolver_name: str, to_solve: str) -> None:
-        s_message = f"Erreur de traitement d'un fichier (résolveur '{resolver_name}') avec la chaîne '{to_solve}': fichier non existant."
+    def __init__(self, resolver_name: str, to_solve: str, path: Path) -> None:
+        s_message = f"Erreur de traitement d'un fichier (résolveur '{resolver_name}') avec la chaîne '{to_solve}': fichier ({path.absolute()}) non existant."
         super().__init__(s_message)
         self.__resolver_name = resolver_name
         self.__to_solve = to_solve
+        self.__absolute_path = path.absolute()
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}({self.__resolver_name}, {self.__to_solve})"
+        return f"{self.__class__.__name__}({self.__resolver_name}, {self.__to_solve}, {self.__absolute_path})"
 
 
 class ResolveFileInvalidError(GpfSdkError):
