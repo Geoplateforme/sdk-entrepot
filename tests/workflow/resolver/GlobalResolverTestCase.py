@@ -42,18 +42,69 @@ class GlobalResolverTestCase(GpfTestCase):
         self.assertTrue("localization" in GlobalResolver().resolvers)
         self.assertTrue("profession" in GlobalResolver().resolvers)
 
+    def test_regex(self) -> None:
+        """Vérifie que la regex fonctionne bien sur les cas particuliers."""
+        o_regex = GlobalResolver().regex
+
+        d_tests = {
+            "{localization.Jacques_country}_{profession.sailor}": [
+                {
+                    "param": "{localization.Jacques_country}",
+                    "resolver_name": "localization",
+                    "to_solve": "Jacques_country",
+                },
+                {
+                    "param": "{profession.sailor}",
+                    "resolver_name": "profession",
+                    "to_solve": "sailor",
+                },
+            ],
+            "{localization.Jacques_country} {profession.sailor}": [
+                {
+                    "param": "{localization.Jacques_country}",
+                    "resolver_name": "localization",
+                    "to_solve": "Jacques_country",
+                },
+                {
+                    "param": "{profession.sailor}",
+                    "resolver_name": "profession",
+                    "to_solve": "sailor",
+                },
+            ],
+            "{localization.{profession.chef}_city}": [
+                {
+                    "param": "{localization.{profession.chef}_city}",
+                    "resolver_name": "localization",
+                    "to_solve": "{profession.chef}_city",
+                },
+            ],
+        }
+        for s_string, l_results in d_tests.items():
+            self.assertListEqual(l_results, [i.groupdict() for i in o_regex.finditer(s_string)])
+
     def test_resolve(self) -> None:
         """Vérifie le bon fonctionnement de la fonction resolve."""
         # Cas simples : une seule résolution
+        # Comme string (pour insérer une ou plusieurs string)
         self.assertEqual(GlobalResolver().resolve("{localization.Jacques_country}"), "France")
-        self.assertEqual(GlobalResolver().resolve('{"localization":"Jacques_country"}'), "France")
-        self.assertEqual(GlobalResolver().resolve('["localization","Jacques_country"]'), "France")
-        self.assertEqual(GlobalResolver().resolve('{"localization":"store"}'), "{'Paris': 'Champs-Elysée', 'London': 'rue_Londres'}")
-        self.assertEqual(GlobalResolver().resolve('["localization","city"]'), "['Paris', 'London']")
         self.assertEqual(GlobalResolver().resolve("{profession.sailor}"), "John")
+        self.assertEqual(GlobalResolver().resolve("{localization.Jacques_country}_{profession.sailor}"), "France_John")
+        # Comme liste (pour insérer une string)
+        self.assertEqual(GlobalResolver().resolve('["localization","Jacques_country"]'), "France")
+        # Comme dict (pour insérer une string)
+        self.assertEqual(GlobalResolver().resolve('{"localization":"Jacques_country"}'), "France")
+        # Comme liste (pour insérer une liste)
+        self.assertEqual(GlobalResolver().resolve('["localization","city"]'), "['Paris', 'London']")
+        # Comme dict (pour insérer un dict)
+        self.assertEqual(GlobalResolver().resolve('{"localization":"store"}'), "{'Paris': 'Champs-Elysée', 'London': 'rue_Londres'}")
         # Cas avancés : deux résolutions l'une dans l'autre
+        # Comme string
         self.assertEqual(GlobalResolver().resolve("{localization.{profession.sailor}_country}"), "England")
         self.assertEqual(GlobalResolver().resolve("{localization.{profession.chef}_city}"), "Paris")
+        # Comme liste (pour insérer une string)
+        self.assertEqual(GlobalResolver().resolve('["localization","{profession.sailor}_country"]'), "England")
+        # Comme dict (pour insérer une string)
+        self.assertEqual(GlobalResolver().resolve('{"localization":"{profession.sailor}_country"}'), "England")
         # Cas erreur :
         with self.assertRaises(ResolverNotFoundError) as o_arc:
             GlobalResolver().resolve("{resolver_not_found.foo}")
