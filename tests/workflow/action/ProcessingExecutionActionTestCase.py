@@ -1,3 +1,4 @@
+import time
 from typing import Any, Dict, List, Optional
 
 from unittest.mock import PropertyMock, call, patch, MagicMock
@@ -6,6 +7,7 @@ from ignf_gpf_sdk.io.Config import Config
 from ignf_gpf_sdk.store.ProcessingExecution import ProcessingExecution
 from ignf_gpf_sdk.store.StoredData import StoredData
 from ignf_gpf_sdk.store.Upload import Upload
+from ignf_gpf_sdk.workflow.Errors import StepActionError
 from ignf_gpf_sdk.workflow.action.ActionAbstract import ActionAbstract
 from ignf_gpf_sdk.workflow.action.ProcessingExecutionAction import ProcessingExecutionAction
 from ignf_gpf_sdk.Errors import GpfSdkError
@@ -247,40 +249,37 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
             b_callback (bool): si on a une fonction callback
         """
 
-        if b_waits:
-            l_status = [ProcessingExecution.STATUS_CREATED,ProcessingExecution.STATUS_WAITING, ProcessingExecution.STATUS_PROGRESS]
-        else:
-            l_status = []
-        if b_callback:
-            f_callback = MagicMock()
-        else:
-            f_callback = None
+        l_status = [] if not b_waits else [ProcessingExecution.STATUS_CREATED,ProcessingExecution.STATUS_WAITING, ProcessingExecution.STATUS_PROGRESS]
+        f_callback = MagicMock() if b_callback else None
+        f_ctrl_c = MagicMock(return_value=True)
 
         # mock de o_mock_processing_execution
         o_mock_processing_execution = MagicMock(name="test")
         o_mock_processing_execution.get_store_properties.side_effect = [{"status": el} for el in l_status] + [{"status": s_status_end}]*3
         o_mock_processing_execution.api_update.return_value = None
 
-        with patch.object(ProcessingExecutionAction, "processing_execution", new_callable=PropertyMock) as o_mock_pe, \
+        with patch.object(ProcessingExecutionAction, "processing_execution", new_callable=PropertyMock, return_value = o_mock_processing_execution), \
+            patch.object(time, "sleep", return_value=None), \
             patch.object(Config, "get_int", return_value=0) :
-            o_mock_pe.return_value = o_mock_processing_execution
 
             # initialisation de ProcessingExecutionAction
             o_pea = ProcessingExecutionAction("contexte", {})
-            s_return = o_pea.monitoring_until_end(f_callback)
+            s_return = o_pea.monitoring_until_end(f_callback, f_ctrl_c)
 
             # vérification valeur de sortie
             self.assertEqual(s_return, s_status_end)
 
             # vérification de l'attente
             ## update
-            self.assertEqual(o_mock_processing_execution.api_update.call_count, len(l_status))
+            self.assertEqual(o_mock_processing_execution.api_update.call_count, len(l_status)+1)
             ##log + callback
             if f_callback is not None:
                 self.assertEqual(f_callback.call_count, len(l_status)+1)
                 self.assertEqual(f_callback.mock_calls, [call(o_mock_processing_execution)] * (len(l_status)+1))
 
-    def interrupt_monitoring_until_end_args(self, s_status_end: str, b_waits: bool, b_callback: bool, b_upload: bool, b_stored_data: bool, b_new_output: bool) -> None:
+            f_ctrl_c.assert_not_called()
+
+    def interrupt_monitoring_until_end_args(self, s_status_end: str, b_waits: bool, b_callback: bool, s_ctrl_c: str, b_upload: bool, b_stored_data: bool, b_new_output: bool) -> None:
         # cas interruption par l'utilisateur.
         """lancement + test de ProcessingExecutionAction.monitoring_until_end() + simulation ctrl+C pendant monitoring_until_end
 
@@ -288,21 +287,37 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
             s_status_end (str): status de fin
             b_waits (bool): si on a des status intermédiaire
             b_callback (bool): si on a une fonction callback
+            s_ctrl_c (str): si on a une fonction callback pour gérer les ctrl_c et action du ctrl + C. option : "non", "pass", "delete"
             b_upload (bool): si sortie du traitement en upload
             b_stored_data (bool): si sortie du traitement en stored-data
             b_new_output (bool): si on a une nouvelle sortie (création) un ancienne (modification)
 
         """
 
+        # print(
+        #     "s_status_end", s_status_end,
+        #     "b_waits", b_waits,
+        #     "b_callback", b_callback,
+        #     "s_ctrl_c", s_ctrl_c,
+        #     "b_upload", b_upload,
+        #     "b_stored_data", b_stored_data,
+        #     "b_new_output", b_new_output,
+        # )
         if b_waits:
+            i_nb_call_back=4
             l_status = [{"status": ProcessingExecution.STATUS_CREATED}, {"status": ProcessingExecution.STATUS_WAITING}, {"status": ProcessingExecution.STATUS_PROGRESS}, \
-                {"raise": "KeyboardInterrupt"}, {"status": ProcessingExecution.STATUS_PROGRESS}, {"status": s_status_end}]
+                {"raise": "KeyboardInterrupt"}, {"status": ProcessingExecution.STATUS_PROGRESS}, {"status": ProcessingExecution.STATUS_PROGRESS}, {"status": s_status_end}]
         else:
-            l_status = [{"raise": "KeyboardInterrupt"}, {"status": s_status_end}]
-        if b_callback:
-            f_callback = MagicMock()
+            i_nb_call_back =2
+            l_status = [{"status": ProcessingExecution.STATUS_PROGRESS}, {"raise": "KeyboardInterrupt"}, {"status": s_status_end}]
+
+        f_callback = MagicMock() if b_callback else None
+        if s_ctrl_c == "delete":
+            f_ctrl_c = MagicMock(return_value=True)
+        elif s_ctrl_c  == "pass":
+            f_ctrl_c = MagicMock(return_value=False)
         else:
-            f_callback = None
+            f_ctrl_c = None
 
         d_definition_dict: Dict[str, Any] = {"body_parameters":{"output":{}}}
         d_output = {"name": "new"} if b_new_output else {"_id": "ancien"}
@@ -332,6 +347,7 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
             """
             nonlocal i_iter
             s_el = l_status[i_iter]
+
             i_iter+=1
             if "raise" in s_el:
                 raise KeyboardInterrupt()
@@ -347,6 +363,7 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
         with patch.object(ProcessingExecutionAction, "processing_execution", new_callable=PropertyMock) as o_mock_pe, \
             patch.object(ProcessingExecutionAction, "upload", new_callable=PropertyMock) as o_mock_u, \
             patch.object(ProcessingExecutionAction, "stored_data", new_callable=PropertyMock) as o_mock_sd, \
+            patch.object(time, "sleep", return_value=None), \
             patch.object(Config, "get_int", return_value=0) :
 
             o_mock_pe.return_value = o_mock_processing_execution
@@ -356,9 +373,28 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
             # initialisation de ProcessingExecutionAction
             o_pea = ProcessingExecutionAction("contexte", d_definition_dict)
 
+            # ctrl+C mais continue
+            if s_ctrl_c  == "pass":
+                s_return = o_pea.monitoring_until_end(f_callback, f_ctrl_c)
+
+                # vérification valeur de sortie
+                self.assertEqual(s_return, s_status_end)
+
+                # vérification de l'attente
+                ## update
+                self.assertEqual(o_mock_processing_execution.api_update.call_count, len(l_status))
+                ##log + callback
+                if f_callback is not None:
+                    self.assertEqual(f_callback.call_count, len(l_status))
+                    self.assertEqual(f_callback.mock_calls, [call(o_mock_processing_execution)] * (len(l_status)))
+
+                if f_ctrl_c:
+                    f_ctrl_c.assert_called_once_with()
+                return
+
             # vérification sortie en erreur de monitoring_until_end
             with self.assertRaises(KeyboardInterrupt):
-                o_pea.monitoring_until_end(f_callback)
+                o_pea.monitoring_until_end(f_callback, f_ctrl_c)
 
             # exécution de abort
             if not b_waits:
@@ -368,11 +404,11 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
 
             # vérification de l'attente
             ## update
-            self.assertEqual(o_mock_processing_execution.api_update.call_count, len(l_status)-1)
+            self.assertEqual(o_mock_processing_execution.api_update.call_count, len(l_status))
             ##log + callback
             if f_callback is not None:
-                self.assertEqual(f_callback.call_count, len(l_status)-2)
-                self.assertEqual(f_callback.mock_calls, [call(o_mock_processing_execution)] * (len(l_status)-2))
+                self.assertEqual(f_callback.call_count, i_nb_call_back)
+                self.assertEqual(f_callback.mock_calls, [call(o_mock_processing_execution)] * i_nb_call_back)
 
             # vérification suppression el de sortie si nouveau
             if b_waits and s_status_end == ProcessingExecution.STATUS_ABORTED:
@@ -388,15 +424,25 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
                         o_mock_stored_data.api_delete.assert_not_called()
 
     def test_monitoring_until_end(self)-> None:
-        """test de test_monitoring_until_end"""
+        """test de monitoring_until_end"""
         for s_status_end in [ProcessingExecution.STATUS_ABORTED, ProcessingExecution.STATUS_SUCCESS, ProcessingExecution.STATUS_FAILURE]:
             for b_waits in [False, True]:
                 for b_callback in [False, True]:
                     self.monitoring_until_end_args(s_status_end, b_waits, b_callback)
-                    for b_new_output in [False, True]:
-                        self.interrupt_monitoring_until_end_args(s_status_end, b_waits, b_callback, True, False, b_new_output)
-                        self.interrupt_monitoring_until_end_args(s_status_end, b_waits, b_callback, False, True, b_new_output)
-                        self.interrupt_monitoring_until_end_args(s_status_end, b_waits, b_callback, False, False, b_new_output)
+                    for s_ctrl_c in ["non", "pass", "delete"]:
+                        for b_new_output in [False, True]:
+                            self.interrupt_monitoring_until_end_args(s_status_end, b_waits, b_callback, s_ctrl_c, True, False, b_new_output)
+                            self.interrupt_monitoring_until_end_args(s_status_end, b_waits, b_callback, s_ctrl_c, False, True, b_new_output)
+                            self.interrupt_monitoring_until_end_args(s_status_end, b_waits, b_callback, s_ctrl_c, False, False, b_new_output)
+        # cas sans processing execution => impossible
+        with patch.object(ProcessingExecutionAction, "processing_execution", new_callable=PropertyMock, return_value = None):
+            o_pea = ProcessingExecutionAction("contexte", {})
+            # on attend une erreur
+            with self.assertRaises(StepActionError) as o_err:
+                o_pea.monitoring_until_end()
+            self.assertEqual(o_err.exception.message, "Aucune processing-execution trouvée. Impossible de suivre le déroulement du traitement")
+            return
+
 
     def test_output_new_entity(self)-> None:
         """test de output_new_entity"""

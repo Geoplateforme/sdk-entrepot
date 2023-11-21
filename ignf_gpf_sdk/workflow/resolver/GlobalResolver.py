@@ -14,12 +14,12 @@ class GlobalResolver(metaclass=Singleton):
         __resolvers (Dict[str, AbstractResolver]): association nom du résolveur / résolveur.
     """
 
-    _regex: Pattern[str] = re.compile(Config().get_str("workflow_resolution_regex", "global_regex"))
     _solved_strings: Dict[str, str] = {}
 
     def __init__(self) -> None:
         """Constructeur."""
         self.__resolvers: Dict[str, AbstractResolver] = {}
+        self.__regex: Pattern[str] = re.compile(Config().get_str("workflow_resolution_regex", "global_regex"))
 
     def add_resolver(self, resolver: AbstractResolver) -> None:
         """Ajoute un résolveur à la liste."""
@@ -39,11 +39,15 @@ class GlobalResolver(metaclass=Singleton):
         Returns:
             chaîne résolue
         """
-        return GlobalResolver._regex.sub(GlobalResolver.resolve_group, string_to_solve_global)
+        return self.__regex.sub(GlobalResolver.resolve_group, string_to_solve_global)
 
     @property
     def resolvers(self) -> Dict[str, AbstractResolver]:
         return self.__resolvers
+
+    @property
+    def regex(self) -> Pattern[str]:
+        return self.__regex
 
     @staticmethod
     def resolve_group(match: Match[str]) -> str:
