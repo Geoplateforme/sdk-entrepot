@@ -77,7 +77,7 @@ class ApiRequesterTestCase(GpfTestCase):
             )
             # Vérification sur o_mock_request
             s_url = "https://api.test.io/api/v1/datastores/TEST_DATASTORE/create/42"
-            o_mock_request.assert_called_once_with(s_url, ApiRequester.POST, self.param, self.data, self.files)
+            o_mock_request.assert_called_once_with(s_url, ApiRequester.POST, self.param, self.data, self.files, {})
             # Vérification sur la réponse renvoyée par la fonction : ça doit être celle renvoyée par url_request
             self.assertEqual(o_fct_response, o_api_response)
 
@@ -98,7 +98,7 @@ class ApiRequesterTestCase(GpfTestCase):
             )
             # Vérification sur o_mock_request
             s_url = "https://api.test.io/api/v1/datastores/OTHER_DATASTORE/create/42"
-            o_mock_request.assert_called_once_with(s_url, ApiRequester.POST, self.param, self.data, self.files)
+            o_mock_request.assert_called_once_with(s_url, ApiRequester.POST, self.param, self.data, self.files, {})
             # Vérification sur la réponse renvoyée par la fonction : ça doit être celle renvoyée par url_request
             self.assertEqual(o_fct_response, o_api_response)
 
@@ -308,11 +308,4 @@ class ApiRequesterTestCase(GpfTestCase):
             with patch.object(ApiRequester, "route_request", return_value=None) as o_mock_request:
                 ApiRequester().route_upload_file(s_route_name, p_file, s_path_api, d_route_params, s_method, d_params, d_data)
                 o_mock_open.assert_called_once_with("rb")
-                o_mock_request.assert_called_once_with(
-                    s_route_name,
-                    route_params=d_route_params,
-                    method=s_method,
-                    params=d_params,
-                    data=d_data,
-                    files=o_dict_files,
-                )
+                o_mock_request.assert_called_once_with(s_route_name, route_params=d_route_params, method=s_method, params=d_params, data=d_data, files=o_dict_files)

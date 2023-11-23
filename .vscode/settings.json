@@ -31,6 +31,7 @@
         "rcfile",
         "recupere",
         "requêtage",
+        "requêter",
         "setuptools",
         "sharings",
         "sidc",
@@ -62,18 +63,17 @@
     "python.analysis.extraPaths": [
         ".",
     ],
-    "python.linting.enabled": true,
-    "python.linting.pylintEnabled": true,
-    "python.linting.mypyEnabled": true,
-    "python.linting.mypyArgs": [
+    "pylint.args": ["--rcfile=.pylintrc"],
+    "mypy-type-checker.args": [
         "--strict",
         "--check-untyped-defs",
         "--show-column-numbers",
+        "--config-file mypy.ini",
     ],
     "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
         "editor.formatOnSave": true,
     },
-    "python.formatting.provider": "black",
     // ASSOCIATIONS DE FICHIERS
     "files.associations": {
         // .pylintrc est au format .ini

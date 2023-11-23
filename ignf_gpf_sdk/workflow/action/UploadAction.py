@@ -21,6 +21,7 @@ class UploadAction:
     BEHAVIOR_STOP = "STOP"
     BEHAVIOR_DELETE = "DELETE"
     BEHAVIOR_CONTINUE = "CONTINUE"
+    BEHAVIORS = [BEHAVIOR_STOP, BEHAVIOR_CONTINUE, BEHAVIOR_DELETE]
 
     def __init__(self, dataset: Dataset, behavior: Optional[str] = None) -> None:
         self.__dataset: Dataset = dataset
@@ -212,7 +213,7 @@ class UploadAction:
         return self.__upload
 
     @staticmethod
-    def monitor_until_end(upload: Upload, callback: Optional[Callable[[str], None]] = None) -> bool:
+    def monitor_until_end(upload: Upload, callback: Optional[Callable[[str], None]] = None, ctrl_c_action: Optional[Callable[[], bool]] = None) -> bool:
         """Attend que toute les vérifications liées à la Livraison indiquée
         soient terminées (en erreur ou en succès) avant de rendre la main.
 
@@ -222,6 +223,7 @@ class UploadAction:
         Args:
             upload (Upload): Livraison à monitorer
             callback (Optional[Callable[[str], None]]): fonction de callback à exécuter avec le message de suivi.
+            ctrl_c_action (Optional[Callable[[], bool]], optional): gestion du ctrl-C. Si None ou si la fonction renvoie True, il faut arrêter les vérifications.
 
         Returns:
             True si toutes les vérifications sont ok, sinon False
@@ -231,24 +233,42 @@ class UploadAction:
         b_success: Optional[bool] = None
         Config().om.info(f"Monitoring des vérifications toutes les {i_nb_sec_between_check} secondes...")
         while b_success is None:
-            # On récupère les vérifications
-            d_checks = upload.api_list_checks()
-            # On peut déterminer b_success s'il n'y en a plus en attente et en cours
-            if len(d_checks["asked"]) == len(d_checks["in_progress"]) == 0:
-                b_success = len(d_checks["failed"]) == 0
-            # On affiche un rapport via la fonction de callback précisée
-            s_message = s_check_message_pattern.format(
-                nb_asked=len(d_checks["asked"]),
-                nb_in_progress=len(d_checks["in_progress"]),
-                nb_passed=len(d_checks["passed"]),
-                nb_failed=len(d_checks["failed"]),
-            )
-            if callback is not None:
-                callback(s_message)
-            # Si l'état est toujours indéterminé
-            if b_success is None:
-                # On attend le temps demandé
-                time.sleep(i_nb_sec_between_check)
+            try:
+                # On récupère les vérifications
+                d_checks = upload.api_list_checks()
+                # On peut déterminer b_success s'il n'y en a plus en attente et en cours
+                if 0 == len(d_checks["asked"]) == len(d_checks["in_progress"]):
+                    b_success = len(d_checks["failed"]) == 0
+                # On affiche un rapport via la fonction de callback précisée
+                s_message = s_check_message_pattern.format(
+                    nb_asked=len(d_checks["asked"]),
+                    nb_in_progress=len(d_checks["in_progress"]),
+                    nb_passed=len(d_checks["passed"]),
+                    nb_failed=len(d_checks["failed"]),
+                )
+                if callback is not None:
+                    callback(s_message)
+                # Si l'état est toujours indéterminé
+                if b_success is None:
+                    # On attend le temps demandé
+                    time.sleep(i_nb_sec_between_check)
+
+            except KeyboardInterrupt:
+                # on appelle la callback de gestion du ctrl-C
+                if ctrl_c_action is None or ctrl_c_action():
+                    # on doit arrêter les vérifications :
+                    # si les vérifications sont déjà terminées, on ne fait rien => transmission de l'interruption
+                    if b_success is not None:
+                        Config().om.warning("vérifications déjà terminées.")
+                        raise
+
+                    # arrêt des vérifications
+                    Config().om.warning("Ctrl+C : vérifications en cours d’interruption, veuillez attendre...")
+                    upload.api_close()
+                    # enfin, transmission de l'interruption
+                    raise
+
+        # Si on est sorti du while c'est que les vérifications sont terminées
         # On log le dernier rapport selon l'état et on sort
         if b_success:
             Config().om.info(s_message)

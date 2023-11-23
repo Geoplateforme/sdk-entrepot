@@ -1,5 +1,7 @@
 from typing import Any, Dict, Optional
+from ignf_gpf_sdk.Errors import GpfSdkError
 from ignf_gpf_sdk.store.Configuration import Configuration
+from ignf_gpf_sdk.workflow.Errors import StepActionError
 from ignf_gpf_sdk.workflow.action.ActionAbstract import ActionAbstract
 from ignf_gpf_sdk.io.Config import Config
 from ignf_gpf_sdk.io.Errors import ConflictError
@@ -15,10 +17,12 @@ class ConfigurationAction(ActionAbstract):
         __configuration (Optional[Configuration]): représentation Python de la configuration créée
     """
 
-    def __init__(self, workflow_context: str, definition_dict: Dict[str, Any], parent_action: Optional["ActionAbstract"] = None) -> None:
+    def __init__(self, workflow_context: str, definition_dict: Dict[str, Any], parent_action: Optional["ActionAbstract"] = None, behavior: Optional[str] = None) -> None:
         super().__init__(workflow_context, definition_dict, parent_action)
         # Autres attributs
         self.__configuration: Optional[Configuration] = None
+        # comportement (écrit dans la ligne de commande par l'utilisateur), sinon celui par défaut (dans la config) qui vaut CONTINUE
+        self.__behavior: str = behavior if behavior is not None else Config().get_str("configuration", "behavior_if_exists")
 
     def run(self, datastore: Optional[str] = None) -> None:
         Config().om.info("Création et complétion d'une configuration...")
@@ -41,16 +45,30 @@ class ConfigurationAction(ActionAbstract):
         # On regarde si on trouve quelque chose avec la fonction find
         o_configuration = self.find_configuration(datastore)
         if o_configuration is not None:
-            self.__configuration = o_configuration
-            Config().om.info(f"Configuration {self.__configuration['name']} déjà existante, complétion uniquement.")
-        else:
-            # Création en gérant une erreur de type ConflictError (si la Configuration existe déjà selon les critères de l'API)
-            try:
-                Config().om.info("Création de la configuration...")
-                self.__configuration = Configuration.api_create(self.definition_dict["body_parameters"], route_params={"datastore": datastore})
-                Config().om.info(f"Configuration {self.__configuration['name']} créée avec succès.")
-            except ConflictError:
-                Config().om.warning("La configuration que vous tentez de créer existe déjà !")
+            if self.__behavior == self.BEHAVIOR_STOP:
+                raise GpfSdkError(f"Impossible de créer la configuration, une configuration équivalente {o_configuration} existe déjà.")
+            if self.__behavior == self.BEHAVIOR_DELETE:
+                Config().om.warning(f"Une donnée configuration équivalente à {o_configuration} va être supprimée puis recréée.")
+                # Suppression de la donnée stockée
+                o_configuration.api_delete()
+                # on force à None pour que la création soit faite
+                self.__configuration = None
+            # Comportement "on continue l'exécution"
+            elif self.__behavior == self.BEHAVIOR_CONTINUE:
+                Config().om.info(f"Configuration {o_configuration} déjà existante, complétion uniquement.")
+                self.__configuration = o_configuration
+                return
+            else:
+                raise GpfSdkError(
+                    f"Le comportement {self.__behavior} n'est pas reconnu ({self.BEHAVIOR_STOP}|{self.BEHAVIOR_DELETE}|{self.BEHAVIOR_CONTINUE}), l'exécution de traitement n'est pas possible."
+                )
+        # Création en gérant une erreur de type ConflictError (si la Configuration existe déjà selon les critères de l'API)
+        try:
+            Config().om.info("Création de la configuration...")
+            self.__configuration = Configuration.api_create(self.definition_dict["body_parameters"], route_params={"datastore": datastore})
+            Config().om.info(f"Configuration {self.__configuration['name']} créée avec succès.")
+        except ConflictError as e:
+            raise StepActionError(f"Impossible de créer la configuration il y a un conflict : \n{e.message}") from e
 
     def __add_tags(self) -> None:
         """Ajout des tags sur la Configuration."""

@@ -322,7 +322,7 @@ class UploadActionTestCase(GpfTestCase):
 
     def test_monitor_until_end_ok(self) -> None:
         """Vérifie le bon fonctionnement de monitor_until_end si à la fin c'est ok."""
-        # 2 réponses possibles pour api_list_checks : il faut attendre ou c'est tout ok
+        # 3 réponses possibles pour api_list_checks : il faut attendre sur les 2 premières; tout est ok sur la troisième.
         d_list_checks_wait_1 = {"asked": [{}, {}],"in_progress": [],"passed": [],"failed": []}
         d_list_checks_wait_2 = {"asked": [{}],"in_progress": [{}],"passed": [],"failed": []}
         d_list_checks_ok = {"asked": [],"in_progress": [],"passed": [{},{}],"failed": []}
@@ -332,22 +332,25 @@ class UploadActionTestCase(GpfTestCase):
         with patch.object(Upload, "api_list_checks", side_effect=l_returns) as o_mock_list_checks:
             # On instancie un Upload
             o_upload = Upload({"_id": "id_upload_monitor"})
-            # On instancie un faut callback
+            # On instancie un faux callback
             f_callback = MagicMock()
+            f_ctrl_c = MagicMock(return_value=False)
             # On effectue le monitoring
-            b_result = UploadAction.monitor_until_end(o_upload, f_callback)
+            b_result = UploadAction.monitor_until_end(o_upload, f_callback, f_ctrl_c)
             # Vérification sur o_mock_list_checks et f_callback: ont dû être appelés 3 fois
             self.assertEqual(o_mock_list_checks.call_count, 3)
             self.assertEqual(f_callback.call_count, 3)
             f_callback.assert_any_call("Vérifications : 2 en attente, 0 en cours, 0 en échec, 0 en succès")
             f_callback.assert_any_call("Vérifications : 1 en attente, 1 en cours, 0 en échec, 0 en succès")
             f_callback.assert_any_call("Vérifications : 0 en attente, 0 en cours, 0 en échec, 2 en succès")
+            # Vérification sur f_ctrl_c : n'a pas dû être appelée
+            f_ctrl_c.assert_not_called()
             # Vérifications sur b_result : doit être finalement ok
             self.assertTrue(b_result)
 
     def test_monitor_until_end_ko(self) -> None:
         """Vérifie le bon fonctionnement de monitor_until_end si à la fin c'est ko."""
-        # 3 réponses possibles pour api_list_checks : 2 il faut attendre, 1 il y a un pb
+        # 3 réponses possibles pour api_list_checks : il faut attendre sur les 2 premières; il y a un pb sur la troisième.
         d_list_checks_wait_1 = {"asked": [{}, {}],"in_progress": [],"passed": [],"failed": []}
         d_list_checks_wait_2 = {"asked": [{}],"in_progress": [{}],"passed": [],"failed": []}
         d_list_checks_ko = {"asked": [],"in_progress": [],"passed": [{}],"failed": [{}]}
@@ -357,18 +360,52 @@ class UploadActionTestCase(GpfTestCase):
         with patch.object(Upload, "api_list_checks", side_effect=l_returns) as o_mock_list_checks:
             # On instancie un Upload
             o_upload = Upload({"_id": "id_upload_monitor"})
-            # On instancie un faut callback
+            # On instancie un faux callback
             f_callback = MagicMock()
+            f_ctrl_c = MagicMock(return_value=False)
             # On effectue le monitoring
-            b_result = UploadAction.monitor_until_end(o_upload, f_callback)
+            b_result = UploadAction.monitor_until_end(o_upload, f_callback, f_ctrl_c)
             # Vérification sur o_mock_list_checks et f_callback: ont dû être appelés 3 fois
             self.assertEqual(o_mock_list_checks.call_count, 3)
             self.assertEqual(f_callback.call_count, 3)
             f_callback.assert_any_call("Vérifications : 2 en attente, 0 en cours, 0 en échec, 0 en succès")
             f_callback.assert_any_call("Vérifications : 1 en attente, 1 en cours, 0 en échec, 0 en succès")
             f_callback.assert_any_call("Vérifications : 0 en attente, 0 en cours, 1 en échec, 1 en succès")
+            # Vérification sur f_ctrl_c : n'a pas dû être appelée
+            f_ctrl_c.assert_not_called()
             # Vérifications sur b_result : doit être finalement ko
             self.assertFalse(b_result)
+
+    def test_interrupt_monitor_until_end(self) -> None:
+        """Vérifie le bon fonctionnement de monitor_until_end si il y a interruption en cours de route."""
+
+        # On patch la fonction api_list_checks de l'upload
+        def checks() -> Dict[str, List[Dict[str, Any]]]:
+            """fonction pour mock de api_list_checks (=> checks)
+
+            Raises:
+                KeyboardInterrupt: simulation du Ctrl+C
+
+            Returns:
+                Dict[str, List[Dict[str, Any]]]: dict contenant les checks
+            """
+            raise KeyboardInterrupt()
+
+        with patch.object(Upload, "api_list_checks", side_effect=checks) as o_mock_list_checks:
+            with patch.object(Upload, "api_close") as o_mock_api_close:
+                # On instancie un Upload
+                o_upload = Upload({"_id": "id_upload_monitor"})
+                # On instancie un faux callback
+                f_callback = MagicMock()
+                f_ctrl_c = MagicMock(return_value=True)
+                # On effectue le monitoring
+                with self.assertRaises(KeyboardInterrupt):
+                    UploadAction.monitor_until_end(o_upload, f_callback, f_ctrl_c)
+
+            # Vérification sur les appels de fonction
+            o_mock_list_checks.assert_called_once_with()
+            f_ctrl_c.assert_called_once_with()
+            o_mock_api_close.assert_called_once_with()
 
     def test_api_tree_not_empty(self) -> None:
         """Vérifie le bon fonctionnement de api_tree si ce n'est pas vide."""
