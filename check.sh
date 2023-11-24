@@ -1,19 +1,19 @@
 declare -i code=0
 
 # Lancement de pylint
-pylint --rcfile=.pylintrc --disable=fixme ignf_gpf_sdk --recursive=y
+pylint --rcfile=.pylintrc --disable=fixme sdk_entrepot_gpf --recursive=y
 code+=$?
 pylint --rcfile=.pylintrc --disable=fixme tests --recursive=y
 code+=$?
 echo
 
 # Lancement de black
-black ignf_gpf_sdk tests
+black sdk_entrepot_gpf tests
 code+=$?
 echo
 
 # Lancement de mypy
-mypy --strict --config-file mypy.ini ignf_gpf_sdk tests
+mypy --strict --config-file mypy.ini sdk_entrepot_gpf tests
 code+=$?
 echo
 

@@ -2,10 +2,10 @@ from pathlib import Path
 from typing import List, Dict, Any
 from unittest.mock import patch
 
-from ignf_gpf_sdk.io.ApiRequester import ApiRequester
-from ignf_gpf_sdk.io.Config import Config
-from ignf_gpf_sdk.store.Errors import StoreEntityError
-from ignf_gpf_sdk.store.interface.CreatedByUploadFileInterface import CreatedByUploadFileInterface
+from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
+from sdk_entrepot_gpf.io.Config import Config
+from sdk_entrepot_gpf.store.Errors import StoreEntityError
+from sdk_entrepot_gpf.store.interface.CreatedByUploadFileInterface import CreatedByUploadFileInterface
 from tests.GpfTestCase import GpfTestCase
 
 # pylint:disable=protected-access
@@ -33,7 +33,6 @@ class CreatedByUploadFileInterfaceTestCase(GpfTestCase):
             with patch.object(ApiRequester, "route_upload_file", return_value=o_response) as o_mock_request:
                 # mock de Config.get_str()
                 with patch.object(Config, "get_str", return_value=s_key_file) as o_mock_config:
-
                     # On appelle la fonction api_create
                     o_entity = CreatedByUploadFileInterface.api_create({**d_data}, d_route_params)
 

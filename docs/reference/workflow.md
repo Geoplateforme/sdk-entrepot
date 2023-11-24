@@ -1,3 +1,3 @@
-# ignf_gpf_sdk.workflow
+# sdk_entrepot_gpf.workflow
 
-::: ignf_gpf_sdk.workflow.Workflow
+::: sdk_entrepot_gpf.workflow.Workflow

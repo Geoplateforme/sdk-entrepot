@@ -2,8 +2,8 @@ from datetime import datetime
 from unittest.mock import patch
 from typing import Any, Dict, List
 
-from ignf_gpf_sdk.io.ApiRequester import ApiRequester
-from ignf_gpf_sdk.store.ProcessingExecution import ProcessingExecution
+from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
+from sdk_entrepot_gpf.store.ProcessingExecution import ProcessingExecution
 from tests.GpfTestCase import GpfTestCase
 
 

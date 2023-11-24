@@ -4,17 +4,17 @@ from unittest.mock import PropertyMock, patch, MagicMock
 
 import jsonschema
 
-from ignf_gpf_sdk.Errors import GpfSdkError
-from ignf_gpf_sdk.helper.JsonHelper import JsonHelper
-from ignf_gpf_sdk.io.Config import Config
-from ignf_gpf_sdk.store.ProcessingExecution import ProcessingExecution
+from sdk_entrepot_gpf.Errors import GpfSdkError
+from sdk_entrepot_gpf.helper.JsonHelper import JsonHelper
+from sdk_entrepot_gpf.io.Config import Config
+from sdk_entrepot_gpf.store.ProcessingExecution import ProcessingExecution
 
-from ignf_gpf_sdk.workflow.Errors import WorkflowError
-from ignf_gpf_sdk.workflow.Workflow import Workflow
-from ignf_gpf_sdk.workflow.action.ActionAbstract import ActionAbstract
-from ignf_gpf_sdk.workflow.action.ConfigurationAction import ConfigurationAction
-from ignf_gpf_sdk.workflow.action.OfferingAction import OfferingAction
-from ignf_gpf_sdk.workflow.action.ProcessingExecutionAction import ProcessingExecutionAction
+from sdk_entrepot_gpf.workflow.Errors import WorkflowError
+from sdk_entrepot_gpf.workflow.Workflow import Workflow
+from sdk_entrepot_gpf.workflow.action.ActionAbstract import ActionAbstract
+from sdk_entrepot_gpf.workflow.action.ConfigurationAction import ConfigurationAction
+from sdk_entrepot_gpf.workflow.action.OfferingAction import OfferingAction
+from sdk_entrepot_gpf.workflow.action.ProcessingExecutionAction import ProcessingExecutionAction
 
 from tests.GpfTestCase import GpfTestCase
 

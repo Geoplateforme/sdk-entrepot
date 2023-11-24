@@ -17,7 +17,7 @@ Le jeu de données « 1_dataset_raster » contient des données raster à télé
 Récupérez les données en lançant la commande :
 
 ```sh
-python -m ignf_gpf_sdk dataset -n 4_dataset_raster_gpf
+python -m sdk_entrepot_gpf dataset -n 4_dataset_raster_gpf
 ```
 
 Observez la structure du fichier :
@@ -59,7 +59,7 @@ Chaque dataset contient :
 Livrez les données en indiquant le chemin du fichier descripteur au programme :
 
 ```sh
-python -m ignf_gpf_sdk upload -f 4_dataset_raster_gpf/upload_descriptor.jsonc
+python -m sdk_entrepot_gpf upload -f 4_dataset_raster_gpf/upload_descriptor.jsonc
 ```
 
 Le programme doit vous indiquer que le transfert est en cours, puis qu'il attend la fin des vérification côté API avant de conclure que tout est bon. (Memo : cette partie est assez longue du à des problèmes de performance côté back. Le problème a déjà été remonté.)
@@ -73,7 +73,7 @@ Ces étapes sont décrites grâces à un workflow.
 Vous pouvez récupérer un workflow d'exemple grâce à la commande suivante :
 
 ```sh
-python -m ignf_gpf_sdk workflow -n generic_raster.jsonc
+python -m sdk_entrepot_gpf workflow -n generic_raster.jsonc
 ```
 
 Ouvrez le fichier. Vous trouverez plus de détails dans la [documentation sur les workflows](workflow.md), mais vous pouvez dès à présent voir que le workflow est composé de 4 étapes. Il faudra lancer une commande pour chacune d'elles.
@@ -107,13 +107,13 @@ Les commandes à lancer sont les suivantes :
 
 ```sh
 # partie création de la pyramide
-python -m ignf_gpf_sdk workflow -f generic_raster.jsonc -s pyramide
+python -m sdk_entrepot_gpf workflow -f generic_raster.jsonc -s pyramide
 # partie publication WMST
-python -m ignf_gpf_sdk workflow -f generic_raster.jsonc -s configuration-WMST
-python -m ignf_gpf_sdk workflow -f generic_raster.jsonc -s publication-WMST
+python -m sdk_entrepot_gpf workflow -f generic_raster.jsonc -s configuration-WMST
+python -m sdk_entrepot_gpf workflow -f generic_raster.jsonc -s publication-WMST
 # partie publication WMS
-python -m ignf_gpf_sdk workflow -f generic_raster.jsonc -s configuration-WMS
-python -m ignf_gpf_sdk workflow -f generic_raster.jsonc -s publication-WMS
+python -m sdk_entrepot_gpf workflow -f generic_raster.jsonc -s configuration-WMS
+python -m sdk_entrepot_gpf workflow -f generic_raster.jsonc -s publication-WMS
 ```
 
 La première commande ne doit pas être instantanée : un traitement est effectué et les logs doivent vous être remontés.

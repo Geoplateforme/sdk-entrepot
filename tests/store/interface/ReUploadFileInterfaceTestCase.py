@@ -1,9 +1,9 @@
 from pathlib import Path
 from unittest.mock import patch
-from ignf_gpf_sdk.io.Config import Config
+from sdk_entrepot_gpf.io.Config import Config
 
-from ignf_gpf_sdk.store.interface.ReUploadFileInterface import ReUploadFileInterface
-from ignf_gpf_sdk.io.ApiRequester import ApiRequester
+from sdk_entrepot_gpf.store.interface.ReUploadFileInterface import ReUploadFileInterface
+from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
 
 from tests.GpfTestCase import GpfTestCase
 
@@ -25,7 +25,6 @@ class ReUploadFileInterfaceTestCase(GpfTestCase):
         with patch.object(ApiRequester, "route_upload_file", return_value=None) as o_mock_request:
             with patch.object(o_full_edit_interface, "api_update", return_value=None) as o_mock_update:
                 with patch.object(Config, "get_str", return_value=s_file_key):
-
                     # On appelle la fonction api_re_upload
                     o_full_edit_interface.api_re_upload(p_file)
 

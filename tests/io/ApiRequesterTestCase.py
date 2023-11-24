@@ -7,11 +7,11 @@ from unittest.mock import patch, mock_open
 import requests
 import requests_mock
 
-from ignf_gpf_sdk.io.Config import Config
-from ignf_gpf_sdk.Errors import GpfSdkError
-from ignf_gpf_sdk.auth.Authentifier import Authentifier
-from ignf_gpf_sdk.io.ApiRequester import ApiRequester
-from ignf_gpf_sdk.io.Errors import RouteNotFoundError, ConflictError
+from sdk_entrepot_gpf.io.Config import Config
+from sdk_entrepot_gpf.Errors import GpfSdkError
+from sdk_entrepot_gpf.auth.Authentifier import Authentifier
+from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
+from sdk_entrepot_gpf.io.Errors import RouteNotFoundError, ConflictError
 from tests.GpfTestCase import GpfTestCase
 
 # pylint:disable=protected-access

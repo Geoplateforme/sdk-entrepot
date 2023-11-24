@@ -1,6 +1,6 @@
-from ignf_gpf_sdk.workflow.resolver.DictResolver import DictResolver
-from ignf_gpf_sdk.workflow.resolver.Errors import ResolverNotFoundError
-from ignf_gpf_sdk.workflow.resolver.GlobalResolver import GlobalResolver
+from sdk_entrepot_gpf.workflow.resolver.DictResolver import DictResolver
+from sdk_entrepot_gpf.workflow.resolver.Errors import ResolverNotFoundError
+from sdk_entrepot_gpf.workflow.resolver.GlobalResolver import GlobalResolver
 
 from tests.GpfTestCase import GpfTestCase
 

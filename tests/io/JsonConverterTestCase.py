@@ -1,7 +1,7 @@
 import datetime
 import json
 
-from ignf_gpf_sdk.io.JsonConverter import JsonConverter
+from sdk_entrepot_gpf.io.JsonConverter import JsonConverter
 from tests.GpfTestCase import GpfTestCase
 
 

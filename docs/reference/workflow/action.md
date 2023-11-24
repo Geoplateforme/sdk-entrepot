@@ -1,11 +1,11 @@
-# ignf_gpf_sdk.workflow.action
+# sdk_entrepot_gpf.workflow.action
 
-::: ignf_gpf_sdk.workflow.action.ActionAbstract
+::: sdk_entrepot_gpf.workflow.action.ActionAbstract
 
-::: ignf_gpf_sdk.workflow.action.ConfigurationAction
+::: sdk_entrepot_gpf.workflow.action.ConfigurationAction
 
-::: ignf_gpf_sdk.workflow.action.OfferingAction
+::: sdk_entrepot_gpf.workflow.action.OfferingAction
 
-::: ignf_gpf_sdk.workflow.action.ProcessingExecutionAction
+::: sdk_entrepot_gpf.workflow.action.ProcessingExecutionAction
 
-::: ignf_gpf_sdk.workflow.action.UploadAction
+::: sdk_entrepot_gpf.workflow.action.UploadAction

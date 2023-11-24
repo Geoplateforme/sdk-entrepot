@@ -1,7 +1,7 @@
 import configparser
 from pathlib import Path
 
-from ignf_gpf_sdk.io.Config import Config
+from sdk_entrepot_gpf.io.Config import Config
 from tests.GpfTestCase import GpfTestCase
 
 # pylint:disable=protected-access

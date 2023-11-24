@@ -8,7 +8,7 @@ Ce fichier devra être chargé au début de votre script grâce à la classe `Co
 
 ```py
 # Importation de la classe Config
-from ignf_gpf_sdk.io.Config import Config
+from sdk_entrepot_gpf.io.Config import Config
 
 # Chargement de mon fichier de config
 Config().read("config.ini")
@@ -25,8 +25,8 @@ Voici un exemple de code Python permettant de le faire (à lancer après le char
 
 ```py
 # Importation des classes DescriptorFileReader et UploadAction
-from ignf_gpf_sdk.io.DescriptorFileReader import DescriptorFileReader
-from ignf_gpf_sdk.workflow.action.UploadAction import UploadAction
+from sdk_entrepot_gpf.io.DescriptorFileReader import DescriptorFileReader
+from sdk_entrepot_gpf.workflow.action.UploadAction import UploadAction
 
 # Instanciation d'une DescriptorFileReader
 descriptor_file_reader = DescriptorFileReader(p_descriptor)
@@ -57,7 +57,7 @@ Voici un exemple de code Python permettant de le faire (à lancer après le char
 ```py
 from pathlib import Path
 # Importation de la classe Upload
-from ignf_gpf_sdk.store.Upload import Upload
+from sdk_entrepot_gpf.store.Upload import Upload
 
 # Attributs pour créer ma livraison (cf. la documentation)
 # https://data.geopf.fr/api/swagger-ui/index.html#/Livraisons%20et%20vérifications/create
@@ -117,11 +117,11 @@ On part ici du principe que vous avez déjà écrit [votre workflow](workflow.md
 
 ```py
 # Importation de la classe JsonHelper
-from ignf_gpf_sdk.helper.JsonHelper import JsonHelper
+from sdk_entrepot_gpf.helper.JsonHelper import JsonHelper
 # Importation des classes Workflow, GlobalResolver et StoreEntityResolver
-from ignf_gpf_sdk.workflow.Workflow import Workflow
-from ignf_gpf_sdk.workflow.resolver.GlobalResolver import GlobalResolver
-from ignf_gpf_sdk.workflow.resolver.StoreEntityResolver import StoreEntityResolver
+from sdk_entrepot_gpf.workflow.Workflow import Workflow
+from sdk_entrepot_gpf.workflow.resolver.GlobalResolver import GlobalResolver
+from sdk_entrepot_gpf.workflow.resolver.StoreEntityResolver import StoreEntityResolver
 ```
 
 La première étape consiste à charger le fichier de workflow et à instancier la classe associée. Vous pouvez utiliser notre classe de lecture JSON qui gère les fichier `.jsonc` (c'est à dire avec des commentaires).

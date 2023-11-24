@@ -1,7 +1,7 @@
-# ignf_gpf_sdk.auth
+# sdk_entrepot_gpf.auth
 
-::: ignf_gpf_sdk.auth.Authentifier
+::: sdk_entrepot_gpf.auth.Authentifier
 
-::: ignf_gpf_sdk.auth.Token
+::: sdk_entrepot_gpf.auth.Token
 
-::: ignf_gpf_sdk.auth.Errors
+::: sdk_entrepot_gpf.auth.Errors

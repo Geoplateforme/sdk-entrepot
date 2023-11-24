@@ -1,4 +1,4 @@
-from ignf_gpf_sdk.io.Errors import (
+from sdk_entrepot_gpf.io.Errors import (
     _WithResponseError,
     ConfigReaderError,
     ConflictError,

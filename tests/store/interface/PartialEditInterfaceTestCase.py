@@ -1,7 +1,7 @@
 from unittest.mock import patch
 
-from ignf_gpf_sdk.store.interface.PartialEditInterface import PartialEditInterface
-from ignf_gpf_sdk.io.ApiRequester import ApiRequester
+from sdk_entrepot_gpf.store.interface.PartialEditInterface import PartialEditInterface
+from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
 
 from tests.GpfTestCase import GpfTestCase
 

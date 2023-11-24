@@ -24,11 +24,11 @@ Voici un exemple de fichier `.env` :
 ```sh
 # Construction
 TAG=dev
-COMPOSE_PROJECT_NAME=doc__ignf_gpf_sdk
+COMPOSE_PROJECT_NAME=doc__sdk_entrepot_gpf
 
 # Lancement de l'image
 PORT=80
-PREFIX=documentation
+PREFIX=doc
 ```
 
 ## Lancement de docker-compose

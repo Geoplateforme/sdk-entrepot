@@ -3,7 +3,7 @@ requires = ["flit >=3.7,<4"]
 build-backend = "flit.buildapi"
 
 [project]
-name = "ignf_gpf_sdk"
+name = "sdk_entrepot_gpf"
 authors = [
     {name="Valentin Sasyan", email="valentin.sasyan@ign.fr"},
 ]
@@ -50,11 +50,11 @@ Source = "https://github.com/ignf-sidc/ignf-gpf-sdk"
 Documentation = "https://github.com/ignf-sidc/ignf-gpf-sdk"
 
 [project.scripts]
-realpython = "ignf_gpf_sdk.__main__:main"
+realpython = "sdk_entrepot_gpf.__main__:main"
 
 [tool.black]
 line-length = 200
 force-exclude = '(\.git|\.vscode|\.toml$)'
 
 [tool.coverage.run]
-omit = ["*/tests/*", "ignf_gpf_sdk/io/OutputManager.py", "*/__main__.py", "*/__init__.py"]
+omit = ["*/tests/*", "sdk_entrepot_gpf/io/OutputManager.py", "*/__main__.py", "*/__init__.py"]

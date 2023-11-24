@@ -1,13 +1,13 @@
 from typing import Any, Dict, List, Optional
 
 from unittest.mock import patch, MagicMock
-from ignf_gpf_sdk.Errors import GpfSdkError
-from ignf_gpf_sdk.io.Errors import ConflictError
+from sdk_entrepot_gpf.Errors import GpfSdkError
+from sdk_entrepot_gpf.io.Errors import ConflictError
 
-from ignf_gpf_sdk.store.Configuration import Configuration
-from ignf_gpf_sdk.workflow.Errors import StepActionError
-from ignf_gpf_sdk.workflow.action.ActionAbstract import ActionAbstract
-from ignf_gpf_sdk.workflow.action.ConfigurationAction import ConfigurationAction
+from sdk_entrepot_gpf.store.Configuration import Configuration
+from sdk_entrepot_gpf.workflow.Errors import StepActionError
+from sdk_entrepot_gpf.workflow.action.ActionAbstract import ActionAbstract
+from sdk_entrepot_gpf.workflow.action.ConfigurationAction import ConfigurationAction
 from tests.GpfTestCase import GpfTestCase
 
 
@@ -100,7 +100,6 @@ class ConfigurationActionTestCase(GpfTestCase):
         # suppression de la mise en page forcé pour le with
         with patch.object(Configuration, "api_create", **d_api_create) as o_mock_configuration_api_create:
             with patch.object(ConfigurationAction, "find_configuration", return_value=o_configs) as o_mock_find_configuration:
-
                 # initialisation de Configuration
                 o_conf = ConfigurationAction("contexte", d_action, behavior=behavior)
                 if config_already_exists:

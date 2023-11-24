@@ -1,13 +1,13 @@
-# ignf_gpf_sdk.workflow.resolver
+# sdk_entrepot_gpf.workflow.resolver
 
-::: ignf_gpf_sdk.workflow.resolver.AbstractResolver
+::: sdk_entrepot_gpf.workflow.resolver.AbstractResolver
 
-::: ignf_gpf_sdk.workflow.resolver.DictResolver
+::: sdk_entrepot_gpf.workflow.resolver.DictResolver
 
-::: ignf_gpf_sdk.workflow.resolver.FileResolver
+::: sdk_entrepot_gpf.workflow.resolver.FileResolver
 
-::: ignf_gpf_sdk.workflow.resolver.GlobalResolver
+::: sdk_entrepot_gpf.workflow.resolver.GlobalResolver
 
-::: ignf_gpf_sdk.workflow.resolver.StoreEntityResolver
+::: sdk_entrepot_gpf.workflow.resolver.StoreEntityResolver
 
-::: ignf_gpf_sdk.workflow.resolver.UserResolver
+::: sdk_entrepot_gpf.workflow.resolver.UserResolver

@@ -11,9 +11,9 @@ Un bon moyen de vérifier que la configuration est correcte est de s'authentifie
 ```sh
 # Le fichier de configuration est directement trouvé s'il est
 # nommé "config.ini" et qu'il est situé dans le dossier de travail
-python -m ignf_gpf_sdk auth
+python -m sdk_entrepot_gpf auth
 # Sinon indiquez son chemin
-python -m ignf_gpf_sdk --ini /autre/chemin/config.ini auth
+python -m sdk_entrepot_gpf --ini /autre/chemin/config.ini auth
 ```
 
 Cela devrait renvoyer :
@@ -31,7 +31,7 @@ Si vous ne le connaissez pas, il est possible de lister les communautés auxquel
 Commande pour lister les communautés auxquelles vous appartenez :
 
 ```sh
-python -m ignf_gpf_sdk me
+python -m sdk_entrepot_gpf me
 ```
 
 Cela devrait renvoyer :
@@ -66,11 +66,11 @@ Affichez la configuration :
 
 ```sh
 # Toute la configuration
-python -m ignf_gpf_sdk config
+python -m sdk_entrepot_gpf config
 # Une section
-python -m ignf_gpf_sdk config -s store_authentification
+python -m sdk_entrepot_gpf config -s store_authentification
 # Une option d'une section
-python -m ignf_gpf_sdk config -s store_authentification -o password
+python -m sdk_entrepot_gpf config -s store_authentification -o password
 ```
 
 ## Récupérer des jeux de données d'exemple
@@ -80,13 +80,13 @@ Il est possible de récupérer des jeux de données d'exemple via l'exécutable.
 Lancez la commande suivante pour lister les jeux disponibles :
 
 ```sh
-python -m ignf_gpf_sdk dataset
+python -m sdk_entrepot_gpf dataset
 ```
 
 Lancez la commande suivante pour extraire un jeu de donnée :
 
 ```sh
-python -m ignf_gpf_sdk dataset -n 1_dataset_vector
+python -m sdk_entrepot_gpf dataset -n 1_dataset_vector
 ```
 
 Les données seront extraites dans le dossier courant, vous pouvez préciser la destination avec le paramètre `--folder` (ou `-f`).
@@ -101,7 +101,7 @@ C'est un fichier au format JSON permettant de décrire les données à livrer et
 Ensuite, vous pouvez simplement livrer des données :
 
 ```sh
-python -m ignf_gpf_sdk upload -f mon_fichier_descripteur.json
+python -m sdk_entrepot_gpf upload -f mon_fichier_descripteur.json
 ```
 
 Les jeux de données d'exemple sont fournis avec le fichier descripteur (voir [Récupérer des jeux de données d'exemple](#recuperer-des-jeux-de-donnees-dexemple)).
@@ -116,13 +116,13 @@ C'est un fichier au format JSON permettant de décrire, en une suite d'étapes, 
 Vous pouvez valider votre workflow :
 
 ```sh
-python -m ignf_gpf_sdk workflow -f mon_workflow.json
+python -m sdk_entrepot_gpf workflow -f mon_workflow.json
 ```
 
 Ensuite, vous pouvez simplement lancer une étape :
 
 ```sh
-python -m ignf_gpf_sdk workflow -f mon_workflow.json -s mon_étape
+python -m sdk_entrepot_gpf workflow -f mon_workflow.json -s mon_étape
 ```
 
 
