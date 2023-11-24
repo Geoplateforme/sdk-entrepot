@@ -119,7 +119,7 @@ Puis il faut résoudre ou faire les pull request avec la branche dev en fonction
 
 ### Création de la pre-release sur test.pypi
 
-Pour publier une nouvelle version, qui va être ensuite publiée comme librairie sur PyPi, il faut [créer une (pre)-release](https://github.com/ignf-sidc/ignf-gpf-sdk/releases/new) :
+Pour publier une nouvelle version, qui va être ensuite publiée comme librairie sur PyPi, il faut [créer une (pre)-release](https://github.com/Geoplateforme/sdk_entrepot/releases/new) :
 
 - créez une release de test sur la branche **dev** versionnée selon le modèle `tx.y.z` (ex : t1.2.3) pour déployer une nouvelle version du module en test :
   - choose a tag : taper "t0.1.10" et cliquer sur "Create new tag".
@@ -136,7 +136,7 @@ Puis il faut résoudre ou faire les pull request avec la branche prod en fonctio
 
 ### Création de la pre-release sur pypi
 
-Pour publier une nouvelle version, qui va être ensuite publiée comme librairie sur PyPi, il faut [créer une (pre)-release](https://github.com/ignf-sidc/ignf-gpf-sdk/releases/new) :
+Pour publier une nouvelle version, qui va être ensuite publiée comme librairie sur PyPi, il faut [créer une (pre)-release](https://github.com/Geoplateforme/sdk_entrepot/releases/new) :
 
 - créez une release sur la branche **prod** versionnée selon le modèle `vx.y.z` (ex : v1.2.3) pour déployer une nouvelle version du module en production :
   - choose a tag : taper "v0.1.10" et cliquer sur "Create new tag".
@@ -147,7 +147,7 @@ Pour publier une nouvelle version, qui va être ensuite publiée comme librairie
 
 ### Publication sur PyPI à la main si besoin
 
-La publication du package sur PyPI est automatique sur Github grâce aux actions [CI Dev](https://github.com/ignf-sidc/ignf-gpf-sdk/actions/workflows/ci-dev.yml) et [CI Prod](https://github.com/ignf-sidc/ignf-gpf-sdk/actions/workflows/ci-prod.yml) :
+La publication du package sur PyPI est automatique sur Github grâce aux actions [CI Dev](https://github.com/Geoplateforme/sdk_entrepot/actions/workflows/ci-dev.yml) et [CI Prod](https://github.com/Geoplateforme/sdk_entrepot/actions/workflows/ci-prod.yml) :
 
 Si besoin, voici les commandes pour effectuer à la main la publication :
 

@@ -1,7 +1,7 @@
 site_name: sdk_entrepot_gpf
 
-repo_url: https://github.com/ignf-sidc/ignf-gpf-sdk/
-repo_name: "ignf-sidc/ignf-gpf-sdk"
+repo_url: https://github.com/Geoplateforme/sdk_entrepot
+repo_name: "Geoplateforme/sdk_entrepot"
 edit_uri: ""
 
 theme:

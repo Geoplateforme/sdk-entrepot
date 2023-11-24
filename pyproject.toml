@@ -46,8 +46,8 @@ doc = [
 ]
 
 [project.urls]
-Source = "https://github.com/ignf-sidc/ignf-gpf-sdk"
-Documentation = "https://github.com/ignf-sidc/ignf-gpf-sdk"
+Source = "https://github.com/Geoplateforme/sdk_entrepot"
+Documentation = "https://github.com/Geoplateforme/sdk_entrepot/blob/prod/docs/index.md"
 
 [project.scripts]
 realpython = "sdk_entrepot_gpf.__main__:main"
