@@ -1,13 +1,13 @@
 import time
 from unittest.mock import patch, MagicMock
 from typing import Any, Optional
-from ignf_gpf_sdk.Errors import GpfSdkError
-from ignf_gpf_sdk.io.Errors import ConflictError
+from sdk_entrepot_gpf.Errors import GpfSdkError
+from sdk_entrepot_gpf.io.Errors import ConflictError
 
-from ignf_gpf_sdk.store.Offering import Offering
-from ignf_gpf_sdk.store.Configuration import Configuration
-from ignf_gpf_sdk.workflow.Errors import StepActionError
-from ignf_gpf_sdk.workflow.action.OfferingAction import OfferingAction
+from sdk_entrepot_gpf.store.Offering import Offering
+from sdk_entrepot_gpf.store.Configuration import Configuration
+from sdk_entrepot_gpf.workflow.Errors import StepActionError
+from sdk_entrepot_gpf.workflow.action.OfferingAction import OfferingAction
 
 from tests.GpfTestCase import GpfTestCase
 

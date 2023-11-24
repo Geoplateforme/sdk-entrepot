@@ -1,8 +1,8 @@
 from unittest.mock import patch
 
-from ignf_gpf_sdk.io.ApiRequester import ApiRequester
-from ignf_gpf_sdk.store.interface.TagInterface import TagInterface
-from ignf_gpf_sdk.store.Errors import StoreEntityError
+from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
+from sdk_entrepot_gpf.store.interface.TagInterface import TagInterface
+from sdk_entrepot_gpf.store.Errors import StoreEntityError
 from tests.GpfTestCase import GpfTestCase
 
 

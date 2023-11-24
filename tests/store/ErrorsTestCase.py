@@ -1,5 +1,5 @@
-from ignf_gpf_sdk.Errors import GpfSdkError
-from ignf_gpf_sdk.store.Errors import StoreEntityError
+from sdk_entrepot_gpf.Errors import GpfSdkError
+from sdk_entrepot_gpf.store.Errors import StoreEntityError
 from tests.GpfTestCase import GpfTestCase
 
 

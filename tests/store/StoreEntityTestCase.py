@@ -3,9 +3,9 @@ import time
 from typing import List
 from unittest.mock import MagicMock, Mock, call, patch
 
-from ignf_gpf_sdk.store.Errors import StoreEntityError
-from ignf_gpf_sdk.store.StoreEntity import StoreEntity
-from ignf_gpf_sdk.io.ApiRequester import ApiRequester
+from sdk_entrepot_gpf.store.Errors import StoreEntityError
+from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
+from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
 from tests.GpfTestCase import GpfTestCase
 
 

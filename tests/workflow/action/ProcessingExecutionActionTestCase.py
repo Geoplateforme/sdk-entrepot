@@ -3,14 +3,14 @@ from typing import Any, Dict, List, Optional
 
 from unittest.mock import PropertyMock, call, patch, MagicMock
 
-from ignf_gpf_sdk.io.Config import Config
-from ignf_gpf_sdk.store.ProcessingExecution import ProcessingExecution
-from ignf_gpf_sdk.store.StoredData import StoredData
-from ignf_gpf_sdk.store.Upload import Upload
-from ignf_gpf_sdk.workflow.Errors import StepActionError
-from ignf_gpf_sdk.workflow.action.ActionAbstract import ActionAbstract
-from ignf_gpf_sdk.workflow.action.ProcessingExecutionAction import ProcessingExecutionAction
-from ignf_gpf_sdk.Errors import GpfSdkError
+from sdk_entrepot_gpf.io.Config import Config
+from sdk_entrepot_gpf.store.ProcessingExecution import ProcessingExecution
+from sdk_entrepot_gpf.store.StoredData import StoredData
+from sdk_entrepot_gpf.store.Upload import Upload
+from sdk_entrepot_gpf.workflow.Errors import StepActionError
+from sdk_entrepot_gpf.workflow.action.ActionAbstract import ActionAbstract
+from sdk_entrepot_gpf.workflow.action.ProcessingExecutionAction import ProcessingExecutionAction
+from sdk_entrepot_gpf.Errors import GpfSdkError
 from tests.GpfTestCase import GpfTestCase
 
 
@@ -462,6 +462,6 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
         o_action = ProcessingExecutionAction("nom", d_definition)
         self.assertEqual("ProcessingExecutionAction(workflow=nom)", str(o_action))
         # test avec processing execution
-        with patch('ignf_gpf_sdk.workflow.action.ProcessingExecutionAction.ProcessingExecutionAction.processing_execution', new_callable=PropertyMock) as o_mock_processing_execution:
+        with patch('sdk_entrepot_gpf.workflow.action.ProcessingExecutionAction.ProcessingExecutionAction.processing_execution', new_callable=PropertyMock) as o_mock_processing_execution:
             o_mock_processing_execution.return_value = MagicMock(id='test uuid')
             self.assertEqual("ProcessingExecutionAction(workflow=nom, processing_execution=test uuid)", str(o_action))

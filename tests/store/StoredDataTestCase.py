@@ -1,7 +1,7 @@
 from unittest.mock import MagicMock, patch
-from ignf_gpf_sdk.store.Configuration import Configuration
+from sdk_entrepot_gpf.store.Configuration import Configuration
 
-from ignf_gpf_sdk.store.StoredData import StoredData
+from sdk_entrepot_gpf.store.StoredData import StoredData
 from tests.GpfTestCase import GpfTestCase
 
 

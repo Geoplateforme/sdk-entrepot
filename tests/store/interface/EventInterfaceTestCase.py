@@ -1,7 +1,7 @@
 from unittest.mock import patch
 
-from ignf_gpf_sdk.io.ApiRequester import ApiRequester
-from ignf_gpf_sdk.store.interface.EventInterface import EventInterface
+from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
+from sdk_entrepot_gpf.store.interface.EventInterface import EventInterface
 from tests.GpfTestCase import GpfTestCase
 
 

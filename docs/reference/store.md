@@ -1,17 +1,17 @@
-# ignf_gpf_sdk.store
+# sdk_entrepot_gpf.store
 
-::: ignf_gpf_sdk.store.StoreEntity
+::: sdk_entrepot_gpf.store.StoreEntity
 
-::: ignf_gpf_sdk.store.StoredData
+::: sdk_entrepot_gpf.store.StoredData
 
-::: ignf_gpf_sdk.store.Upload
+::: sdk_entrepot_gpf.store.Upload
 
-::: ignf_gpf_sdk.store.Check
+::: sdk_entrepot_gpf.store.Check
 
-::: ignf_gpf_sdk.store.CheckExecution
+::: sdk_entrepot_gpf.store.CheckExecution
 
-::: ignf_gpf_sdk.store.Processing
+::: sdk_entrepot_gpf.store.Processing
 
-::: ignf_gpf_sdk.store.ProcessingExecution
+::: sdk_entrepot_gpf.store.ProcessingExecution
 
-::: ignf_gpf_sdk.store.Errors
+::: sdk_entrepot_gpf.store.Errors

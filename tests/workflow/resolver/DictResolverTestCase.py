@@ -1,5 +1,5 @@
-from ignf_gpf_sdk.workflow.resolver.DictResolver import DictResolver
-from ignf_gpf_sdk.workflow.resolver.Errors import ResolverError
+from sdk_entrepot_gpf.workflow.resolver.DictResolver import DictResolver
+from sdk_entrepot_gpf.workflow.resolver.Errors import ResolverError
 
 from tests.GpfTestCase import GpfTestCase
 

@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from ignf_gpf_sdk.helper.JsonHelper import JsonHelper
-from ignf_gpf_sdk.Errors import GpfSdkError
+from sdk_entrepot_gpf.helper.JsonHelper import JsonHelper
+from sdk_entrepot_gpf.Errors import GpfSdkError
 from tests.GpfTestCase import GpfTestCase
 
 

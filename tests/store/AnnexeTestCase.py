@@ -1,7 +1,7 @@
 from unittest.mock import patch
 
-from ignf_gpf_sdk.io.ApiRequester import ApiRequester
-from ignf_gpf_sdk.store.Annexe import Annexe
+from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
+from sdk_entrepot_gpf.store.Annexe import Annexe
 from tests.GpfTestCase import GpfTestCase
 
 
@@ -20,7 +20,6 @@ class AnnexeTestCase(GpfTestCase):
             # On mock la fonction route_request, on veut vérifier qu'elle est appelée avec les bons params
             o_response = GpfTestCase.get_response(text=f"{i_file}")
             with patch.object(ApiRequester, "route_request", return_value=o_response) as o_mock_request:
-
                 # on appelle la fonction à tester : publish_by_label
                 s_data_recupere = Annexe.publish_by_label(l_labels, s_datastore)
 
@@ -43,7 +42,6 @@ class AnnexeTestCase(GpfTestCase):
             # On mock la fonction route_request, on veut vérifier qu'elle est appelée avec les bons params
             o_response = GpfTestCase.get_response(text=f"{i_file}")
             with patch.object(ApiRequester, "route_request", return_value=o_response) as o_mock_request:
-
                 # on appelle la fonction à tester : unpublish_by_label
                 s_data_recupere = Annexe.unpublish_by_label(l_labels, s_datastore)
 

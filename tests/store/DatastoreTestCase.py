@@ -1,7 +1,7 @@
 from unittest.mock import MagicMock, patch
 
-from ignf_gpf_sdk.store.Datastore import Datastore
-from ignf_gpf_sdk.io.ApiRequester import ApiRequester
+from sdk_entrepot_gpf.store.Datastore import Datastore
+from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
 from tests.GpfTestCase import GpfTestCase
 
 

@@ -1,9 +1,9 @@
 from unittest.mock import MagicMock, patch
 
-from ignf_gpf_sdk.io.ApiRequester import ApiRequester
-from ignf_gpf_sdk.store.Offering import Offering
-from ignf_gpf_sdk.store.Configuration import Configuration
-from ignf_gpf_sdk.store.StoreEntity import StoreEntity
+from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
+from sdk_entrepot_gpf.store.Offering import Offering
+from sdk_entrepot_gpf.store.Configuration import Configuration
+from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
 
 from tests.GpfTestCase import GpfTestCase
 

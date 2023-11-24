@@ -5,13 +5,13 @@
 Récupérez le code :
 
 ```sh
-git clone git@github.com:ignf-sidc/ignf-gpf-sdk.git
+git clone git@github.com:geoplateforme/sdk_entrepot.git
 ```
 
 Ouvrez le dossier nouvellement crée avec votre éditeur favoris (ici [Visual Studio Code](https://code.visualstudio.com/)) :
 
 ```sh
-code ignf-gpf-sdk
+code sdk_entrepot
 ```
 
 Si nécessaire, effectuez les installations systèmes suivantes :
@@ -107,7 +107,7 @@ Le principe est de mettre à jour une version de code dans gitHub. Puis, de merg
 
 ### B. Mise à jour de la branche dev
 
-Pour effectuer un déploiement de la librairie `ignf_gpf_sdk`, il faut d'abord modifier le numéro de version dans le fichier `ignf_gpf_sdk/__init__.py`.
+Pour effectuer un déploiement de la librairie `sdk_entrepot_gpf`, il faut d'abord modifier le numéro de version dans le fichier `sdk_entrepot_gpf/__init__.py`.
 
 ```py
 __version__ = <x.y.z>
@@ -126,7 +126,7 @@ Pour publier une nouvelle version, qui va être ensuite publiée comme librairie
   - target : choisir "dev"
   - ajouter un titre ("Test 1.2.3") et une description des principales modifications apportées.
   - Cocher la case pre-release. Cliquer sur "Publish release" (les tests vont se lancer...)
-  - Vérifier la publication sur [test.pypi](https://test.pypi.org/project/ignf_gpf_sdk/)
+  - Vérifier la publication sur [test.pypi](https://test.pypi.org/project/sdk_entrepot_gpf/)
 
 ### C. Mise à jour de la branche prod
 
@@ -143,7 +143,7 @@ Pour publier une nouvelle version, qui va être ensuite publiée comme librairie
   - target : choisir "prod"
   - ajouter un titre ("Version 1.2.3") et une description des principales modifications apportées.
   - Cliquer sur "Publish release" (les tests vont se lancer...)
-  - Vérifier la publication sur [pypi](https://pypi.org/project/ignf_gpf_sdk/)
+  - Vérifier la publication sur [pypi](https://pypi.org/project/sdk_entrepot_gpf/)
 
 ### Publication sur PyPI à la main si besoin
 

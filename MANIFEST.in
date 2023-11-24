@@ -1,5 +1,5 @@
 include README.md
 include LICENSE
-include ignf_gpf_sdk/py.typed
-include ignf_gpf_sdk/_conf/*
-include ignf_gpf_sdk/_data/*
+include sdk_entrepot_gpf/py.typed
+include sdk_entrepot_gpf/_conf/*
+include sdk_entrepot_gpf/_data/*

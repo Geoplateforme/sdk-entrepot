@@ -1,4 +1,4 @@
-from ignf_gpf_sdk.__main__ import Main
+from sdk_entrepot_gpf.__main__ import Main
 from tests.GpfTestCase import GpfTestCase
 
 

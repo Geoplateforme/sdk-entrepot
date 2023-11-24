@@ -1,4 +1,4 @@
-site_name: ignf_gpf_sdk
+site_name: sdk_entrepot_gpf
 
 repo_url: https://github.com/ignf-sidc/ignf-gpf-sdk/
 repo_name: "ignf-sidc/ignf-gpf-sdk"
@@ -59,12 +59,12 @@ nav:
       - "Tutoriel 1 : publier une archive": tutoriel_1_archive.md
       - "Tutoriel 2 : publier un flux vecteur": tutoriel_2_flux_vecteur.md
   - Références:
-      - ignf_gpf_sdk.auth: reference/auth.md
-      - ignf_gpf_sdk.io: reference/io.md
-      - ignf_gpf_sdk.store: reference/store.md
-      - ignf_gpf_sdk.workflow: reference/workflow.md
-      - ignf_gpf_sdk.workflow.action: reference/workflow/action.md
-      - ignf_gpf_sdk.workflow.resolver: reference/workflow/resolver.md
+      - sdk_entrepot_gpf.auth: reference/auth.md
+      - sdk_entrepot_gpf.io: reference/io.md
+      - sdk_entrepot_gpf.store: reference/store.md
+      - sdk_entrepot_gpf.workflow: reference/workflow.md
+      - sdk_entrepot_gpf.workflow.action: reference/workflow/action.md
+      - sdk_entrepot_gpf.workflow.resolver: reference/workflow/resolver.md
 
 watch:
-  - ignf_gpf_sdk
+  - sdk_entrepot_gpf

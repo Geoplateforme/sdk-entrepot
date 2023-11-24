@@ -1,7 +1,7 @@
-from ignf_gpf_sdk.Errors import GpfSdkError
-from ignf_gpf_sdk.io.Config import Config
-from ignf_gpf_sdk.io.Dataset import Dataset
-from ignf_gpf_sdk.io.DescriptorFileReader import DescriptorFileReader
+from sdk_entrepot_gpf.Errors import GpfSdkError
+from sdk_entrepot_gpf.io.Config import Config
+from sdk_entrepot_gpf.io.Dataset import Dataset
+from sdk_entrepot_gpf.io.DescriptorFileReader import DescriptorFileReader
 
 from tests.GpfTestCase import GpfTestCase
 

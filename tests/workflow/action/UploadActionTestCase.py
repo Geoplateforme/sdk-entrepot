@@ -2,12 +2,12 @@ from typing import Any, Dict, List, Optional
 
 from pathlib import Path
 from unittest.mock import patch, MagicMock
-from ignf_gpf_sdk.workflow.action.ActionAbstract import ActionAbstract
+from sdk_entrepot_gpf.workflow.action.ActionAbstract import ActionAbstract
 
-from ignf_gpf_sdk.workflow.action.UploadAction import UploadAction
-from ignf_gpf_sdk.store.Upload import Upload
-from ignf_gpf_sdk.io.Config import Config
-from ignf_gpf_sdk.Errors import GpfSdkError
+from sdk_entrepot_gpf.workflow.action.UploadAction import UploadAction
+from sdk_entrepot_gpf.store.Upload import Upload
+from sdk_entrepot_gpf.io.Config import Config
+from sdk_entrepot_gpf.Errors import GpfSdkError
 from tests.GpfTestCase import GpfTestCase
 
 # pylint:disable=too-many-arguments

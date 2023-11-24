@@ -1,12 +1,12 @@
 from typing import List
 from unittest.mock import patch
 
-from ignf_gpf_sdk.store.Endpoint import Endpoint
-from ignf_gpf_sdk.store.StoreEntity import StoreEntity
-from ignf_gpf_sdk.store.Upload import Upload
-from ignf_gpf_sdk.store.Datastore import Datastore
-from ignf_gpf_sdk.workflow.resolver.Errors import NoEntityFoundError, ResolverError
-from ignf_gpf_sdk.workflow.resolver.StoreEntityResolver import StoreEntityResolver
+from sdk_entrepot_gpf.store.Endpoint import Endpoint
+from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
+from sdk_entrepot_gpf.store.Upload import Upload
+from sdk_entrepot_gpf.store.Datastore import Datastore
+from sdk_entrepot_gpf.workflow.resolver.Errors import NoEntityFoundError, ResolverError
+from sdk_entrepot_gpf.workflow.resolver.StoreEntityResolver import StoreEntityResolver
 
 from tests.GpfTestCase import GpfTestCase
 

@@ -62,7 +62,7 @@ Si vous ne savez pas quoi mettre, il est possible de lister les communautés aux
 La commande pour lister les communautés auxquelles vous appartenez est la suivante :
 
 ```sh
-python -m ignf_gpf_sdk me
+python -m sdk_entrepot_gpf me
 ```
 
 Cela devrait renvoyer :
@@ -97,16 +97,16 @@ Ce module Python est utilisable comme exécutable. Dans ce cas vous avez deux ma
 * vous pouvez nommez le fichier `config.ini` et le mettre dans le répertoire courant ;
 * vous pouvez indiquer au programme le chemin vers votre fichier via le paramètre `--ini` :
 ```sh
-python -m ignf_gpf_sdk --ini chemin/vers/config.ini
+python -m sdk_entrepot_gpf --ini chemin/vers/config.ini
 ```
 
 ### Utilisation via un script
 
-Si vous utilisez ce module Python dans un script, il faudra ouvrir le fichier de configuration via la classe [Config][ignf_gpf_sdk.io.Config.Config] au début de celui-ci :
+Si vous utilisez ce module Python dans un script, il faudra ouvrir le fichier de configuration via la classe [Config][sdk_entrepot_gpf.io.Config.Config] au début de celui-ci :
 
 ```python
 # Importez la classe Config
-from ignf_gpf_sdk.io.Config import Config
+from sdk_entrepot_gpf.io.Config import Config
 
 # Ajoutez votre fichier de configuration (adaptez le chemin)
 Config().read("config.ini")
