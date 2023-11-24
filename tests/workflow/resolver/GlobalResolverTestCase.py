@@ -78,6 +78,25 @@ class GlobalResolverTestCase(GpfTestCase):
                     "to_solve": "{profession.chef}_city",
                 },
             ],
+            "{store_entity.stored_data.infos.name [INFOS(name=ADMIN-EXPRESS_{param.edition}), TAGS(demande={param.demande})]}": [
+                {
+                    "param": "{store_entity.stored_data.infos.name [INFOS(name=ADMIN-EXPRESS_{param.edition}), TAGS(demande={param.demande})]}",
+                    "resolver_name": "store_entity",
+                    "to_solve": "stored_data.infos.name [INFOS(name=ADMIN-EXPRESS_{param.edition}), TAGS(demande={param.demande})]",
+                }
+            ],
+            "stored_data.infos.name [INFOS(name=ADMIN-EXPRESS_{param.edition}), TAGS(demande={param.demande})]": [
+                {
+                    "param": "{param.edition}",
+                    "resolver_name": "param",
+                    "to_solve": "edition",
+                },
+                {
+                    "param": "{param.demande}",
+                    "resolver_name": "param",
+                    "to_solve": "demande",
+                },
+            ],
         }
         for s_string, l_results in d_tests.items():
             self.assertListEqual(l_results, [i.groupdict() for i in o_regex.finditer(s_string)])
