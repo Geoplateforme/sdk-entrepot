@@ -14,6 +14,7 @@ from sdk_entrepot_gpf.Errors import GpfSdkError
 from sdk_entrepot_gpf.auth.Authentifier import Authentifier
 from sdk_entrepot_gpf.helper.JsonHelper import JsonHelper
 from sdk_entrepot_gpf.helper.PrintLogHelper import PrintLogHelper
+from sdk_entrepot_gpf.io.Color import Color
 from sdk_entrepot_gpf.io.Errors import ConflictError
 from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
 from sdk_entrepot_gpf.workflow.Workflow import Workflow
@@ -295,11 +296,52 @@ class Main:
         if self.o_args.file is not None:
             p_file = Path(self.o_args.file)
             o_dfu = DescriptorFileReader(p_file)
+            s_behavior = str(self.o_args.behavior).upper() if self.o_args.behavior is not None else None
+
+            l_uploads = [] # liste des uploads lancées
+            d_upload_fail = {} # dictionnaire upload : erreur des uploads qui ont fail
+            l_check_ko = [] # liste des uploads dont les vérifications plantes
+            # on fait toutes les livraisons
+            Config().om.info(f"LIVRAISONS : ({len(o_dfu.datasets)})", green_colored=True)
             for o_dataset in o_dfu.datasets:
-                s_behavior = str(self.o_args.behavior).upper() if self.o_args.behavior is not None else None
-                o_ua = UploadAction(o_dataset, behavior=s_behavior)
-                o_upload = o_ua.run(self.o_args.datastore)
-                self.__monitoring_upload(o_upload, "Livraison {upload} créée avec succès.", "Livraison {upload} créée en erreur !", print)
+                s_nom = o_dataset.upload_infos['name']
+                Config().om.info(f"{Color.BLUE} * {s_nom}{Color.END}")
+                try :
+                    o_ua = UploadAction(o_dataset, behavior=s_behavior)
+                    o_upload = o_ua.run(self.o_args.datastore)
+                    l_uploads.append(o_upload)
+                except Exception as e:
+                    s_nom = o_dataset.upload_infos['name']
+                    d_upload_fail[s_nom] = e
+                    Config().om.error(f"livraison {s_nom} : {e}")
+            # vérification des livraisons
+
+            Config().om.info("Fin des livraisons.", green_colored=True)
+            Config().om.info("Suivi des vérifications :", green_colored=True)
+            l_check_ko = []
+            for o_upload in l_uploads:
+                Config().om.info(f"{Color.BLUE} * {o_upload}{Color.END}")
+                b_res = self.__monitoring_upload(o_upload, "Livraison {upload} créée avec succès.", "Livraison {upload} créée en erreur !", print)
+                if not b_res:
+                    l_check_ko.append(o_upload)
+            Config().om.info("-"*100)
+            Config().om.info("RÉCAPITULATIF :", green_colored=True)
+            if d_upload_fail:
+                Config().om.error(f"{len(d_upload_fail)} livraisons échoués :")
+                for s_nom, e_error in d_upload_fail.items():
+                    Config().om.info(f" * {s_nom} : {e_error}")
+            if l_check_ko:
+                Config().om.error(f"{len(l_check_ko)} vérifications de livraisons échoués :")
+                for o_upload in l_check_ko:
+                    Config().om.info(f" * {o_upload}")
+            Config().om.info("-"*100)
+            if d_upload_fail or l_check_ko:
+                Config().om.error(f"BILAN : sur {len(o_dfu.datasets)} livraisons, {len(d_upload_fail)} livraisons échouées, {len(l_check_ko)} vérifications de livraisons échouées")
+                sys.exit(1)
+            else:
+                Config().om.info("Aucun problème")
+                Config().om.info(f"BILAN : les {len(o_dfu.datasets)} livraisons se sont bien passées", green_colored=True)
+
         elif self.o_args.id is not None:
             o_upload = Upload.api_get(self.o_args.id, datastore=self.datastore)
             if self.o_args.open:
