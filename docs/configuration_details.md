@@ -278,7 +278,7 @@ Les chaînes capturées doivent être nommées :
 Configuration de la regex de détection de l'appel à un résolveur.
 
 * Type : str
-* Valeur par défaut : `(?P<param>{(?P<resolver_name>[a-z_]+)\.(?P<to_solve>.*)})`
+* Valeur par défaut : `(?P<param>(\["|{"?)(?P<resolver_name>[a-z_]+)(\.|": *"|", *")(?P<to_solve>[^"{}]*?({[^}]+}[^"{}]*?)*)("\]|"?}))`
 
 Les chaînes capturées doivent être nommées :
 

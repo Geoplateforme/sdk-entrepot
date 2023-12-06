@@ -90,20 +90,20 @@ Pour automatiser dans VSCode : [doc ici](https://code.visualstudio.com/docs/pyth
   - `o_` : object​
 - Programmation typée (vérifiée avec mypy; [memo type](https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html))
 - Toutes les classes et fonctions doivent être documentées.
-- Utilisation de pathlib.Path et non de os.path​
+- Utilisation de `pathlib.Path` et non de `os.path​`.
 - Gérer l'affichage des messages avec `Config().om​`, ne pas utiliser de `print()` ou autre logger.
-  - Config().om.debug("message")
-  - Config().om.info("message")
-  - Config().om.warning("message")
-  - Config().om.error("message")
-  - Config().om.critical("message")
+  - `Config().om.debug("message")`
+  - `Config().om.info("message")`
+  - `Config().om.warning("message")`
+  - `Config().om.error("message")`
+  - `Config().om.critical("message")`
 - Configuration centralisée via la classe Config()​ (cf. [Utilisation comme module Python](comme-module.md))
 
 ## Déploiement des versions dev et prod sur PyPI
 
 ### A. Principe
 
-Le principe est de mettre à jour une version de code dans gitHub. Puis, de merger cette version dans la branche dev (ou prod selon votre besoin). Enfin, de faire une release sur test.pypi (ou pi selon votre besoin).
+Le principe est de mettre à jour une version de code dans Github. Puis de merger cette version dans la branche dev (ou prod selon votre besoin). Enfin, de faire une release sur test.pypi (ou pi selon votre besoin).
 
 ### B. Mise à jour de la branche dev
 
