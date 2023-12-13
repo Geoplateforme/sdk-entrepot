@@ -1,4 +1,5 @@
-site_name: sdk_entrepot_gpf
+site_name: Documentation SDK Entrepôt
+use_directory_urls: True
 
 repo_url: https://github.com/Geoplateforme/sdk_entrepot
 repo_name: "Geoplateforme/sdk_entrepot"
@@ -7,13 +8,20 @@ edit_uri: ""
 theme:
   name: material
   language: fr
+  palette:
+    primary: white
+    accent: custom
+  logo: assets/images/logo.png
+  favicon: assets/images/favicon.ico
   features:
     - content.code.annotate
   icon:
     repo: fontawesome/brands/github
 
 extra_css:
-  - custom.css
+  - assets/css/extra.css
+  - assets/css/neoteroi.css
+  - assets/css/custom.css
 
 markdown_extensions:
   - toc:
@@ -47,6 +55,7 @@ plugins:
             filters: ["!^_[^_]", "!^__"]
             merge_init_into_class: true
 nav:
+  - Accueil Géoplateforme: https://geoplateforme.github.io
   - index.md
   - configuration.md
   - configuration_details.md
@@ -58,6 +67,7 @@ nav:
   - Tutoriels:
       - "Tutoriel 1 : publier une archive": tutoriel_1_archive.md
       - "Tutoriel 2 : publier un flux vecteur": tutoriel_2_flux_vecteur.md
+      - "Tutoriel 3 : publier un flux raster": tutoriel_3_flux_raster.md
   - Références:
       - sdk_entrepot_gpf.auth: reference/auth.md
       - sdk_entrepot_gpf.io: reference/io.md
@@ -68,3 +78,6 @@ nav:
 
 watch:
   - sdk_entrepot_gpf
+
+extra:
+    homepage: https://www.ign.fr/geoplateforme
