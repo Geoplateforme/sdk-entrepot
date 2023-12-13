@@ -1,0 +1,16 @@
+tooling:
+  - .github/**/*
+  - .gitignore
+  - pyproject.toml
+
+dependencies:
+
+documentation:
+  - docs/**/*
+
+enhancement:
+  - src/**/*
+  - pyproject.toml
+
+quality:
+  - tests/**/*
