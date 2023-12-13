@@ -378,12 +378,12 @@ class Main:
             upload.api_close()
             Config().om.info(f"La livraison {upload} viens d'être Fermée.", green_colored=True)
             # monitoring des tests :
-            Main.__monitoring_upload(upload, "Livraison {upload} fermée avec succès.", "Livraison {o_upload} fermée en erreur !", print)
+            Main.__monitoring_upload(upload, "Livraison {upload} fermée avec succès.", "Livraison {upload} fermée en erreur !", print)
             return
         # si STATUS_CHECKING : monitoring
         if upload["status"] == Upload.STATUS_CHECKING:
             Config().om.info(f"La livraison {upload} est fermé, les tests sont en cours.")
-            Main.__monitoring_upload(upload, "Livraison {upload} fermée avec succès.", "Livraison {o_upload} fermée en erreur !", print)
+            Main.__monitoring_upload(upload, "Livraison {upload} fermée avec succès.", "Livraison {upload} fermée en erreur !", print)
             return
         # si ferme OK ou KO : warning
         if upload["status"] in [Upload.STATUS_CLOSED, Upload.STATUS_UNSTABLE]:
