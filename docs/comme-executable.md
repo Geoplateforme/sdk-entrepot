@@ -6,7 +6,7 @@ Pensez à [créer un fichier de configuration](configuration.md) indiquant au mi
 
 ## Vérification de la configuration
 
-Un bon moyen de vérifier que la configuration est correcte est de s'authentifier via l'exécutable :
+Un bon moyen de vérifier que la configuration est correcte est de s'authentifier via l'exécutable (commande `auth`) :
 
 ```sh
 # Le fichier de configuration est directement trouvé s'il est
@@ -26,9 +26,9 @@ Authentification réussie.
 
 Dans la configuration, vous devez indiquer l'identifiant du datastore à utiliser.
 
-Si vous ne le connaissez pas, il est possible de lister les communautés auxquelles vous participez et, pour chacune d'elle, le datastore qui lui est associé.
+Si vous ne le connaissez pas, il est possible de lister les communautés auxquelles vous participez et, pour chacune d'elles, le datastore qui lui est associé.
 
-Commande pour lister les communautés auxquelles vous appartenez :
+La commande `me` permet de lister les communautés auxquelles vous appartenez :
 
 ```sh
 python -m sdk_entrepot_gpf me
@@ -40,18 +40,18 @@ Cela devrait renvoyer :
 Vos informations :
   * email : prenom.nom@me.io
   * nom : Prénom Nom
-  * votre id : 100000000000000000000024
+  * votre id : 11111111111111111111
 
 Vous êtes membre de 1 communauté(s) :
 
   * communauté « Bac à sable » :
-      - id de la communauté : 200000000000000000000024
-      - id du datastore : 300000000000000000000024
+      - id de la communauté : 22222222222222222222
+      - id du datastore : 33333333333333333333
       - nom technique : bac-a-sable
       - droits : community, uploads, processings, datastore, stored_data, broadcast
 ```
 
-Dans cet exemple, l'identifiant du datastore à utiliser est `300000000000000000000024`.
+Dans cet exemple, l'identifiant du datastore à utiliser est `33333333333333333333`.
 
 !!! warning "Attention"
 
@@ -62,7 +62,7 @@ Dans cet exemple, l'identifiant du datastore à utiliser est `300000000000000000
 
 Vous pouvez afficher toute la configuration via une commande. Cela peut vous permettre d'avoir une liste exhaustive des paramètres disponibles et de vérifier que votre fichier de configuration a bien le dernier mot sur les paramètres à utiliser.
 
-Affichez la configuration :
+Affichez la configuration (commande `config`) :
 
 ```sh
 # Toute la configuration
@@ -75,15 +75,15 @@ python -m sdk_entrepot_gpf config -s store_authentification -o password
 
 ## Récupérer des jeux de données d'exemple
 
-Il est possible de récupérer des jeux de données d'exemple via l'exécutable.
+Il est possible de récupérer des jeux de données d'exemple via l'exécutable avec la commande `dataset`.
 
-Lancez la commande suivante pour lister les jeux disponibles :
+Lancez la commande `dataset` sans paramètre pour lister les jeux disponibles :
 
 ```sh
 python -m sdk_entrepot_gpf dataset
 ```
 
-Lancez la commande suivante pour extraire un jeu de donnée :
+Lancez la commande `dataset` en précisant le nom (`-n`) du jeu de données à extraire pour récupérer un jeu de données :
 
 ```sh
 python -m sdk_entrepot_gpf dataset -n 1_dataset_vector
@@ -98,7 +98,7 @@ Pour envoyer des données, vous devez générer un [fichier descripteur de livra
 
 C'est un fichier au format JSON permettant de décrire les données à livrer et les livraisons à créer.
 
-Ensuite, vous pouvez simplement livrer des données :
+Ensuite, vous pouvez simplement livrer des données avec la commande `upload` :
 
 ```sh
 python -m sdk_entrepot_gpf upload -f mon_fichier_descripteur.json
@@ -132,3 +132,4 @@ Vous pouvez maintenant livrer et publier vos données en utilisant le module com
 
 * [Tutoriel 1 : héberger une archive pour la rendre téléchargeable](tutoriel_1_archive.md)
 * [Tutoriel 2 : téléverser des données vecteur les publier en flux](tutoriel_2_flux_vecteur.md)
+* [Tutoriel 3 : téléverser des données raster les publier en flux](tutoriel_3_flux_raster.md)

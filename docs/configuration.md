@@ -44,7 +44,7 @@ password=PASSWORD
 datastore=DATASTORE_ID_TO_MODIFY
 ```
 
-Explication sur les paramètres :
+Explications sur les paramètres :
 
 * `store_authentification` : paramètres concernant l'authentification sur la Géoplateforme :
     * `client_id` : votre groupe d’appartenance ;
@@ -53,11 +53,11 @@ Explication sur les paramètres :
 * `store_api` : paramètres concernant votre Entrepôt sur la Géoplateforme :
     * `datastore` : l'identifiant du datastore principal de travail (optionnel, voir ci-dessous).
 
-Dans la configuration, vous devez indiquer l'identifiant du datastore à utiliser. Celui est lié à la communauté à laquelle vous appartenez.
+Dans la configuration, vous pouvez indiquer l'identifiant du datastore à utiliser. Celui-ci est lié à la communauté à laquelle vous appartenez.
 
 Si vous ne le faites pas, vous devrez le préciser à l'appel des fonctions ou des commandes qui interagissent avec un datastore.
 
-Si vous ne savez pas quoi mettre, il est possible de lister les communautés auxquelles vous participez et, pour chacune d'elle, le datastore qui lui est associé. Cela vous permet de récupérer cet identifiant.
+Si vous ne savez pas quoi mettre, il est possible de lister les communautés auxquelles vous participez et, pour chacune d'elles, le datastore qui lui est associé. Cela vous permet de récupérer cet identifiant.
 
 La commande pour lister les communautés auxquelles vous appartenez est la suivante :
 
@@ -71,22 +71,23 @@ Cela devrait renvoyer :
 Vos informations :
   * email : prenom.nom@me.io
   * nom : Prénom Nom
-  * votre id : 100000000000000000000024
+  * votre id : 11111111111111111111
 
 Vous êtes membre de 1 communauté(s) :
 
   * communauté « Bac à sable » :
-      - id de la communauté : 200000000000000000000024
-      - id du datastore : 300000000000000000000024
+      - id de la communauté : 22222222222222222222
+      - id du datastore : 33333333333333333333
       - nom technique : bac-a-sable
       - droits : community, uploads, processings, datastore, stored_data, broadcast
 ```
 
-Dans cet exemple, l'identifiant du datastore à utiliser est `300000000000000000000024`.
+Dans cet exemple, l'identifiant du datastore à utiliser est `33333333333333333333`.
 
 !!! warning "Attention"
 
     Cela ne fonctionnera que si les autres paramètres (nom d'utilisateur, mot de passe et urls) sont corrects.
+
 
 ## Utilisations
 
@@ -125,7 +126,7 @@ Pour cela, il faut ajouter deux lignes dans le fichier de configuration. Voici u
 ```ini
 [store_authentification]
 # L'url de récupération du token d'authentification (cf. doc)
-token_url= https://sso-qua.priv.geopf.fr/realms/geoplateforme/protocol/openid-connect/token
+token_url=https://sso-qua.priv.geopf.fr/realms/geoplateforme/protocol/openid-connect/token
 # Autres paramètres à conserver (client_id, ...)
 
 [store_api]
@@ -134,7 +135,7 @@ root_url=https://data-qua.priv.geopf.fr/api
 # Autres paramètres à conserver (datastore, ...)
 ```
 
-Explication sur les paramètres :
+Explications sur les paramètres :
 
 * `store_authentification` : paramètres concernant l'authentification sur la Géoplateforme :
     * `token_url` : URL pour récupérer le jeton d'authentification (consulter la doc de l'API si nécessaire) ;
@@ -156,7 +157,7 @@ client_id=ID_TO_MODIFY
 client_secret=SECRET_TO_MODIFY
 ```
 
-Explication sur les paramètres :
+Explications sur les paramètres :
 
 * `store_authentification` : paramètres concernant l'authentification sur la Géoplateforme :
     * `grant_type` : type de l'authentification (`password` si on a un couple login/password ou `client_credentials` si on a un couple `client_id`/`client_secret`) ;

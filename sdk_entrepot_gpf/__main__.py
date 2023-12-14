@@ -6,7 +6,7 @@ import sys
 import argparse
 import traceback
 from pathlib import Path
-from typing import Callable, List, Optional, Sequence
+from typing import Any, Callable, Dict, List, Optional, Sequence, Union
 import shutil
 
 import sdk_entrepot_gpf
@@ -14,6 +14,7 @@ from sdk_entrepot_gpf.Errors import GpfSdkError
 from sdk_entrepot_gpf.auth.Authentifier import Authentifier
 from sdk_entrepot_gpf.helper.JsonHelper import JsonHelper
 from sdk_entrepot_gpf.helper.PrintLogHelper import PrintLogHelper
+from sdk_entrepot_gpf.io.Color import Color
 from sdk_entrepot_gpf.io.Errors import ConflictError
 from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
 from sdk_entrepot_gpf.workflow.Workflow import Workflow
@@ -286,6 +287,111 @@ class Main:
             Config().om.error(message_ko.format(upload=upload))
         return b_res
 
+    @staticmethod
+    def upload_from_descriptor_file(file: Union[Path, str], behavior: Optional[str] = None, datastore: Optional[str] = None) -> Dict[str, Any]:
+        """réalisation des livraison décrite par le fichier
+
+        Args:
+            file (Union[Path, str]): chemin du ficher descripteur de livraison
+            behavior (Optional[str]): comportement dans le cas où une livraison de même nom existe, comportment par défaut su None
+            datastore (Optional[str]): datastore à utilisé, datastore par défaut si None
+
+        Returns:
+            Dict[str, Any]: dictionnaire avec le résultat des livraisons :
+                "ok" : liste des livraisons sans problèmes,
+                "upload_fail": dictionnaire nom livraison : erreur remonté lors de la livraison
+                "check_fail": liste des livraisons dont les vérification ont échouée
+        """
+        o_dfu = DescriptorFileReader(Path(file))
+        s_behavior = str(behavior).upper() if behavior is not None else None
+
+        l_uploads: List[Upload] = []  # liste des uploads lancées
+        d_upload_fail: Dict[str, Exception] = {}  # dictionnaire upload : erreur des uploads qui ont fail
+        l_check_ko: List[Upload] = []  # liste des uploads dont les vérifications plantes
+
+        # on fait toutes les livraisons
+        Config().om.info(f"LIVRAISONS : ({len(o_dfu.datasets)})", green_colored=True)
+        for o_dataset in o_dfu.datasets:
+            s_nom = o_dataset.upload_infos["name"]
+            Config().om.info(f"{Color.BLUE} * {s_nom}{Color.END}")
+            try:
+                o_ua = UploadAction(o_dataset, behavior=s_behavior)
+                o_upload = o_ua.run(datastore)
+                l_uploads.append(o_upload)
+            except Exception as e:
+                s_nom = o_dataset.upload_infos["name"]
+                d_upload_fail[s_nom] = e
+                Config().om.error(f"livraison {s_nom} : {e}")
+
+        # vérification des livraisons
+        Config().om.info("Fin des livraisons.", green_colored=True)
+        Config().om.info("Suivi des vérifications :", green_colored=True)
+        l_check_ko = []
+        l_check_ok = []
+        for o_upload in l_uploads:
+            Config().om.info(f"{Color.BLUE} * {o_upload}{Color.END}")
+            b_res = Main.__monitoring_upload(o_upload, "Livraison {upload} créée avec succès.", "Livraison {upload} créée en erreur !", print)
+            if b_res:
+                l_check_ok.append(o_upload)
+            else:
+                l_check_ko.append(o_upload)
+        Config().om.info("Fin des vérifications.", green_colored=True)
+
+        return {
+            "ok": l_check_ok,
+            "upload_fail": d_upload_fail,
+            "check_fail": l_check_ko,
+        }
+
+    @staticmethod
+    def open_upload(upload: Upload) -> None:
+        """réouverture d'une livraison
+
+        Args:
+            upload (Upload): livraison à ouvrir
+
+        Raises:
+            GpfSdkError: impossible d'ouvrir la livraison
+        """
+        if upload.is_open():
+            Config().om.warning(f"La livraison {upload} est déjà ouverte.")
+            return
+        if upload["status"] in [Upload.STATUS_CLOSED, Upload.STATUS_UNSTABLE]:
+            upload.api_open()
+            Config().om.info(f"La livraison {upload} viens d'être rouverte.", green_colored=True)
+            return
+        raise GpfSdkError(f"La livraison {upload} n'est pas dans un état permettant de d'ouvrir la livraison ({upload['status']}).")
+
+    @staticmethod
+    def close_upload(upload: Upload) -> None:
+        """fermeture d'une livraison
+
+        Args:
+            upload (Upload): livraison à fermé
+
+        Raises:
+            GpfSdkError: impossible de fermer la livraison
+        """
+        # si ouverte : on ferme puis monitoring
+        if upload.is_open():
+            # fermeture de l'upload
+            upload.api_close()
+            Config().om.info(f"La livraison {upload} viens d'être Fermée.", green_colored=True)
+            # monitoring des tests :
+            Main.__monitoring_upload(upload, "Livraison {upload} fermée avec succès.", "Livraison {upload} fermée en erreur !", print)
+            return
+        # si STATUS_CHECKING : monitoring
+        if upload["status"] == Upload.STATUS_CHECKING:
+            Config().om.info(f"La livraison {upload} est fermé, les tests sont en cours.")
+            Main.__monitoring_upload(upload, "Livraison {upload} fermée avec succès.", "Livraison {upload} fermée en erreur !", print)
+            return
+        # si ferme OK ou KO : warning
+        if upload["status"] in [Upload.STATUS_CLOSED, Upload.STATUS_UNSTABLE]:
+            Config().om.warning(f"La livraison {upload} est déjà fermée, status : {upload['status']}")
+            return
+        # autre : action impossible
+        raise GpfSdkError(f"La livraison {upload} n'est pas dans un état permettant de fermer la livraison ({upload['status']}).")
+
     def upload(self) -> None:
         """Création/Gestion des Livraison (Upload).
         Si un fichier descriptor est précisé, on effectue la livraison.
@@ -293,47 +399,32 @@ class Main:
         Sinon on liste les Livraisons avec éventuellement des filtres.
         """
         if self.o_args.file is not None:
-            p_file = Path(self.o_args.file)
-            o_dfu = DescriptorFileReader(p_file)
-            for o_dataset in o_dfu.datasets:
-                s_behavior = str(self.o_args.behavior).upper() if self.o_args.behavior is not None else None
-                o_ua = UploadAction(o_dataset, behavior=s_behavior)
-                o_upload = o_ua.run(self.o_args.datastore)
-                self.__monitoring_upload(o_upload, "Livraison {upload} créée avec succès.", "Livraison {upload} créée en erreur !", print)
+            # on livre les données selon le ficher descripteur donné
+            d_res = self.upload_from_descriptor_file(self.o_args.file, self.o_args.behavior, self.o_args.datastore)
+            # Affichage du bilan
+            Config().om.info("-" * 100)
+            if d_res["upload_fail"] or d_res["check_fail"]:
+                Config().om.info("RÉCAPITULATIF DES PROBLÈMES :", green_colored=True)
+                if d_res["upload_fail"]:
+                    Config().om.error(f"{len(d_res['upload_fail'])} livraisons échoués :\n" + "\n".join([f" * {s_nom} : {e_error}" for s_nom, e_error in d_res["upload_fail"].items()]))
+                if d_res["check_fail"]:
+                    Config().om.error(f"{len(d_res['check_fail'])} vérifications de livraisons échoués :\n" + "\n".join([f" * {o_upload}" for o_upload in d_res["check_fail"]]))
+                Config().om.error(
+                    f"BILAN : {len(d_res['ok'])} livraisons effectué sans erreur, {len(d_res['upload_fail'])} livraisons échouées, {len(d_res['check_fail'])} vérifications de livraisons échouées"
+                )
+                sys.exit(1)
+            else:
+                Config().om.info(f"BILAN : les {len(d_res['ok'])} livraisons se sont bien passées", green_colored=True)
+
         elif self.o_args.id is not None:
             o_upload = Upload.api_get(self.o_args.id, datastore=self.datastore)
             if self.o_args.open:
-                if o_upload.is_open():
-                    Config().om.warning(f"La livraison {o_upload} est déjà ouverte.")
-                    return
-                if o_upload["status"] in [Upload.STATUS_CLOSED, Upload.STATUS_UNSTABLE]:
-                    o_upload.api_open()
-                    Config().om.info(f"La livraison {o_upload} viens d'être rouverte.", green_colored=True)
-                    return
-                raise GpfSdkError(f"La livraison {o_upload} n'est pas dans un état permettant de d'ouvrir la livraison ({o_upload['status']}).")
-            if self.o_args.close:
-                # si ouverte : on ferme puis monitoring
-                if o_upload.is_open():
-                    # fermeture de l'upload
-                    o_upload.api_close()
-                    Config().om.info(f"La livraison {o_upload} viens d'être Fermée.", green_colored=True)
-                    # monitoring des tests :
-                    self.__monitoring_upload(o_upload, "Livraison {upload} fermée avec succès.", "Livraison {o_upload} fermée en erreur !", print)
-                    return
-                # si STATUS_CHECKING : monitoring
-                if o_upload["status"] == Upload.STATUS_CHECKING:
-                    Config().om.info(f"La livraison {o_upload} est fermé, les tests sont en cours.")
-                    self.__monitoring_upload(o_upload, "Livraison {upload} fermée avec succès.", "Livraison {o_upload} fermée en erreur !", print)
-                    return
-                # si ferme OK ou KO : warning
-                if o_upload["status"] in [Upload.STATUS_CLOSED, Upload.STATUS_UNSTABLE]:
-                    Config().om.warning(f"La livraison {o_upload} est déjà fermée, status : {o_upload['status']}")
-                    return
-                # autre : action impossible
-                raise GpfSdkError(f"La livraison {o_upload} n'est pas dans un état permettant de fermer la livraison ({o_upload['status']}).")
-
-            # affichage
-            Config().om.info(o_upload.to_json(indent=3))
+                self.open_upload(o_upload)
+            elif self.o_args.close:
+                self.close_upload(o_upload)
+            else:
+                # affichage
+                Config().om.info(o_upload.to_json(indent=3))
         else:
             d_infos_filter = StoreEntity.filter_dict_from_str(self.o_args.infos)
             d_tags_filter = StoreEntity.filter_dict_from_str(self.o_args.tags)

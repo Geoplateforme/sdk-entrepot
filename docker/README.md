@@ -5,7 +5,7 @@
 Récupérez le cod du dépôt :
 
 ```sh
-git clone https://github.com/ignf-sidc/ignf-gpf-sdk.git
+git clone https://github.com/Geoplateforme/sdk_entrepot.git
 ```
 
 Créez dans ce dossier un fichier `.env` contenant :
@@ -15,7 +15,7 @@ Créez dans ce dossier un fichier `.env` contenant :
 * le prefix pour nommer le conteneur.
 
 ```sh
-cd ignf-gpf-sdk/docker
+cd sdk_entrepot_gpf/docker
 vim .env
 ```
 

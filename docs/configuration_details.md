@@ -4,7 +4,7 @@ Comme indiqué dans la page précédente, la majorité de la configuration est d
 
 Cette page présente de manière exhaustive toutes les propriétés de configuration existante par section, cela est utile si jamais vous souhaitez avoir une utilisation avancée de ce module ou que les spécifications de l'API changent.
 
-Le fichier de configuration par défaut utilisé est accessible ici : [sdk_entrepot_gpf/_conf/default.ini](https://github.com/ignf-sidc/ignf-gpf-sdk/blob/prod/sdk_entrepot_gpf/_conf/default.ini)
+Le fichier de configuration par défaut utilisé est accessible ici : [sdk_entrepot_gpf/_conf/default.ini](https://github.com/Geoplateforme/sdk_entrepot/blob/prod/sdk_entrepot_gpf/_conf/default.ini)
 
 ## Section `logging`
 
@@ -278,7 +278,7 @@ Les chaînes capturées doivent être nommées :
 Configuration de la regex de détection de l'appel à un résolveur.
 
 * Type : str
-* Valeur par défaut : `(?P<param>{(?P<resolver_name>[a-z_]+)\.(?P<to_solve>.*)})`
+* Valeur par défaut : `(?P<param>(\["|{"?)(?P<resolver_name>[a-z_]+)(\.|": *"|", *")(?P<to_solve>[^"{}]*?({[^}]+}[^"{}]*?)*)("\]|"?}))`
 
 Les chaînes capturées doivent être nommées :
 

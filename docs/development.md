@@ -90,20 +90,20 @@ Pour automatiser dans VSCode : [doc ici](https://code.visualstudio.com/docs/pyth
   - `o_` : object​
 - Programmation typée (vérifiée avec mypy; [memo type](https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html))
 - Toutes les classes et fonctions doivent être documentées.
-- Utilisation de pathlib.Path et non de os.path​
+- Utilisation de `pathlib.Path` et non de `os.path​`.
 - Gérer l'affichage des messages avec `Config().om​`, ne pas utiliser de `print()` ou autre logger.
-  - Config().om.debug("message")
-  - Config().om.info("message")
-  - Config().om.warning("message")
-  - Config().om.error("message")
-  - Config().om.critical("message")
+  - `Config().om.debug("message")`
+  - `Config().om.info("message")`
+  - `Config().om.warning("message")`
+  - `Config().om.error("message")`
+  - `Config().om.critical("message")`
 - Configuration centralisée via la classe Config()​ (cf. [Utilisation comme module Python](comme-module.md))
 
 ## Déploiement des versions dev et prod sur PyPI
 
 ### A. Principe
 
-Le principe est de mettre à jour une version de code dans gitHub. Puis, de merger cette version dans la branche dev (ou prod selon votre besoin). Enfin, de faire une release sur test.pypi (ou pi selon votre besoin).
+Le principe est de mettre à jour une version de code dans Github. Puis de merger cette version dans la branche dev (ou prod selon votre besoin). Enfin, de faire une release sur test.pypi (ou pi selon votre besoin).
 
 ### B. Mise à jour de la branche dev
 
@@ -119,7 +119,7 @@ Puis il faut résoudre ou faire les pull request avec la branche dev en fonction
 
 ### Création de la pre-release sur test.pypi
 
-Pour publier une nouvelle version, qui va être ensuite publiée comme librairie sur PyPi, il faut [créer une (pre)-release](https://github.com/ignf-sidc/ignf-gpf-sdk/releases/new) :
+Pour publier une nouvelle version, qui va être ensuite publiée comme librairie sur PyPi, il faut [créer une (pre)-release](https://github.com/Geoplateforme/sdk_entrepot/releases/new) :
 
 - créez une release de test sur la branche **dev** versionnée selon le modèle `tx.y.z` (ex : t1.2.3) pour déployer une nouvelle version du module en test :
   - choose a tag : taper "t0.1.10" et cliquer sur "Create new tag".
@@ -136,7 +136,7 @@ Puis il faut résoudre ou faire les pull request avec la branche prod en fonctio
 
 ### Création de la pre-release sur pypi
 
-Pour publier une nouvelle version, qui va être ensuite publiée comme librairie sur PyPi, il faut [créer une (pre)-release](https://github.com/ignf-sidc/ignf-gpf-sdk/releases/new) :
+Pour publier une nouvelle version, qui va être ensuite publiée comme librairie sur PyPi, il faut [créer une (pre)-release](https://github.com/Geoplateforme/sdk_entrepot/releases/new) :
 
 - créez une release sur la branche **prod** versionnée selon le modèle `vx.y.z` (ex : v1.2.3) pour déployer une nouvelle version du module en production :
   - choose a tag : taper "v0.1.10" et cliquer sur "Create new tag".
@@ -147,7 +147,7 @@ Pour publier une nouvelle version, qui va être ensuite publiée comme librairie
 
 ### Publication sur PyPI à la main si besoin
 
-La publication du package sur PyPI est automatique sur Github grâce aux actions [CI Dev](https://github.com/ignf-sidc/ignf-gpf-sdk/actions/workflows/ci-dev.yml) et [CI Prod](https://github.com/ignf-sidc/ignf-gpf-sdk/actions/workflows/ci-prod.yml) :
+La publication du package sur PyPI est automatique sur Github grâce aux actions [CI Dev](https://github.com/Geoplateforme/sdk_entrepot/actions/workflows/ci-dev.yml) et [CI Prod](https://github.com/Geoplateforme/sdk_entrepot/actions/workflows/ci-prod.yml) :
 
 Si besoin, voici les commandes pour effectuer à la main la publication :
 
