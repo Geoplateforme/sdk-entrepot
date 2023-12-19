@@ -7,7 +7,7 @@ from sdk_entrepot_gpf.io.Dataset import Dataset
 from sdk_entrepot_gpf.Errors import GpfSdkError
 
 
-class DescriptorFileReader:
+class UploadDescriptorFileReader:
     """Classe permettant de lire et de valider le fichier descripteur de livraison.
 
     Attributes:

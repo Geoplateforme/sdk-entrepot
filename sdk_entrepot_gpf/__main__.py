@@ -22,7 +22,7 @@ from sdk_entrepot_gpf.workflow.resolver.GlobalResolver import GlobalResolver
 from sdk_entrepot_gpf.workflow.resolver.StoreEntityResolver import StoreEntityResolver
 from sdk_entrepot_gpf.workflow.action.UploadAction import UploadAction
 from sdk_entrepot_gpf.io.Config import Config
-from sdk_entrepot_gpf.io.DescriptorFileReader import DescriptorFileReader
+from sdk_entrepot_gpf.io.UploadDescriptorFileReader import UploadDescriptorFileReader
 from sdk_entrepot_gpf import store
 from sdk_entrepot_gpf.store.Offering import Offering
 from sdk_entrepot_gpf.store.Configuration import Configuration
@@ -302,7 +302,7 @@ class Main:
                 "upload_fail": dictionnaire nom livraison : erreur remonté lors de la livraison
                 "check_fail": liste des livraisons dont les vérification ont échouée
         """
-        o_dfu = DescriptorFileReader(Path(file))
+        o_dfu = UploadDescriptorFileReader(Path(file))
         s_behavior = str(behavior).upper() if behavior is not None else None
 
         l_uploads: List[Upload] = []  # liste des uploads lancées
