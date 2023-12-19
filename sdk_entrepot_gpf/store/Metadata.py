@@ -1,5 +1,4 @@
 from typing import List, Optional
-import requests
 
 from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
 from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
@@ -20,12 +19,12 @@ class Metadata(CreatedByUploadFileInterface, DownloadInterface, PartialEditInter
     _entity_title = "métadonnée"
 
     @staticmethod
-    def publish(file_identifiers: List[str], endpoint: str, datastore: Optional[str] = None) -> None:
+    def publish(file_identifiers: List[str], endpoint_id: str, datastore: Optional[str] = None) -> None:
         """Publie des métadonnées selon leurs fileIdentifier sur un point d'accès METADATA
 
         Args:
             fileIdentifier (List[str]): liste des fileIdentifier des métadonnées à publier
-            endpoint (str): id du endpoint METADATA
+            endpoint_id (str): id du endpoint METADATA
             datastore (Optional[str], optional): Identifiant du datastore
         """
 
@@ -36,17 +35,17 @@ class Metadata(CreatedByUploadFileInterface, DownloadInterface, PartialEditInter
         ApiRequester().route_request(
             s_route,
             route_params={"datastore": datastore},
-            params={"file_identifiers": file_identifiers, "endpoint": endpoint},
+            params={"file_identifiers": file_identifiers, "endpoint": endpoint_id},
             method=ApiRequester.POST,
         )
 
     @staticmethod
-    def unpublish(file_identifiers: List[str], endpoint: str, datastore: Optional[str] = None) -> None:
+    def unpublish(file_identifiers: List[str], endpoint_id: str, datastore: Optional[str] = None) -> None:
         """Dépublication des métadonnées selon leurs fileIdentifier sur un point d'accès METADATA
 
         Args:
             fileIdentifier (List[str]): liste des fileIdentifier des métadonnées à publier
-            endpoint (str): id du endpoint METADATA
+            endpoint_id (str): id du endpoint METADATA
             datastore (Optional[str], optional): Identifiant du datastore
         """
 
@@ -57,6 +56,6 @@ class Metadata(CreatedByUploadFileInterface, DownloadInterface, PartialEditInter
         ApiRequester().route_request(
             s_route,
             route_params={"datastore": datastore},
-            params={"file_identifiers": file_identifiers, "endpoint": endpoint},
+            params={"file_identifiers": file_identifiers, "endpoint": endpoint_id},
             method=ApiRequester.POST,
         )
