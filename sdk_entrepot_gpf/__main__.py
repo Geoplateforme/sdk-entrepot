@@ -292,7 +292,7 @@ class Main:
         """réalisation des livraison décrite par le fichier
 
         Args:
-            file (Union[Path, str]): chemin du ficher descripteur de livraison
+            file (Union[Path, str]): chemin du fichier descripteur de livraison
             behavior (Optional[str]): comportement dans le cas où une livraison de même nom existe, comportment par défaut su None
             datastore (Optional[str]): datastore à utilisé, datastore par défaut si None
 
@@ -399,7 +399,7 @@ class Main:
         Sinon on liste les Livraisons avec éventuellement des filtres.
         """
         if self.o_args.file is not None:
-            # on livre les données selon le ficher descripteur donné
+            # on livre les données selon le fichier descripteur donné
             d_res = self.upload_from_descriptor_file(self.o_args.file, self.o_args.behavior, self.o_args.datastore)
             # Affichage du bilan
             Config().om.info("-" * 100)
