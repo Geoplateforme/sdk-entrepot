@@ -169,6 +169,11 @@ class Main:
         o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin vers le fichier descriptor dont on veut effectuer la livraison)")
         o_sub_parser.add_argument("--infos", "-i", type=str, default=None, help="Filtrer les livraisons selon les infos")
         o_sub_parser.add_argument("--id", type=str, default=None, help="Affiche l'annexe demandée")
+        o_sub_parser.add_argument("--publish", action="store_true", help="publication de l'annexe (uniquement avec --id)")
+        o_sub_parser.add_argument("--unpublish", action="store_true", help="dépublication de l'annexe (uniquement avec --id)")
+        o_sub_parser.add_argument("--publish-by-label", type=str, default=None, help="publication des annexes portant les labels donnés (ex: label1,label2)")
+        o_sub_parser.add_argument("--unpublish-by-label", type=str, default=None, help="dépublication des annexes portant les labels donnés (ex: label1,label2)")
+
         # Parser pour static
         o_sub_parser = o_sub_parsers.add_parser("static", help="Fichiers statiques", epilog="TODO", formatter_class=argparse.RawTextHelpFormatter)
         o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin vers le fichier descriptor dont on veut effectuer la livraison)")
@@ -647,8 +652,31 @@ class Main:
             self._display_bilan_upload_file(d_res)
         elif self.o_args.id is not None:
             o_annexe = Annexe.api_get(self.o_args.id, datastore=self.datastore)
-            # affichage
-            Config().om.info(o_annexe.to_json(indent=3))
+            if self.o_args.publish:
+                if o_annexe["published"]:
+                    Config().om.info(f"L'annexe ({o_annexe}) est déjà publiée.")
+                else:
+                    # modification de la publication
+                    o_annexe.api_partial_edit({"published": True})
+                    Config().om.info(f"L'annexe ({o_annexe}) viens d'être publiée.")
+            elif self.o_args.unpublish:
+                if not o_annexe["published"]:
+                    Config().om.info(f"L'annexe ({o_annexe}) est déjà dépubliée.")
+                else:
+                    # modification de la publication
+                    o_annexe.api_partial_edit({"published": False})
+                    Config().om.info(f"L'annexe ({o_annexe}) viens d'être dépubliée.")
+            else:
+                # affichage
+                Config().om.info(o_annexe.to_json(indent=3))
+        elif self.o_args.publish_by_label is not None:
+            l_labels = self.o_args.publish_by_label.split(",")
+            i_nb = Annexe.publish_by_label(l_labels, datastore=self.datastore)
+            Config().om.info(f"{i_nb} annexe(s) viennent d'être publié.")
+        elif self.o_args.unpublish_by_label is not None:
+            l_labels = self.o_args.unpublish_by_label.split(",")
+            i_nb = Annexe.unpublish_by_label(l_labels, datastore=self.datastore)
+            Config().om.info(f"{i_nb} annexe(s) viennent d'être dépublié.")
         else:
             # on liste toutes les annexes selon les filtres
             d_infos_filter = StoreEntity.filter_dict_from_str(self.o_args.infos)
