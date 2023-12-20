@@ -15,8 +15,11 @@ from sdk_entrepot_gpf.auth.Authentifier import Authentifier
 from sdk_entrepot_gpf.helper.JsonHelper import JsonHelper
 from sdk_entrepot_gpf.helper.PrintLogHelper import PrintLogHelper
 from sdk_entrepot_gpf.io.Color import Color
+from sdk_entrepot_gpf.io.DescriptorFileReader import DescriptorFileReader
 from sdk_entrepot_gpf.io.Errors import ConflictError
 from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
+from sdk_entrepot_gpf.store.Annexe import Annexe
+from sdk_entrepot_gpf.store.Static import Static
 from sdk_entrepot_gpf.workflow.Workflow import Workflow
 from sdk_entrepot_gpf.workflow.resolver.GlobalResolver import GlobalResolver
 from sdk_entrepot_gpf.workflow.resolver.StoreEntityResolver import StoreEntityResolver
@@ -72,6 +75,12 @@ class Main:
             self.workflow()
         elif self.o_args.task == "delete":
             self.delete()
+        elif self.o_args.task == "annexe":
+            self.annexe()
+        elif self.o_args.task == "static":
+            self.static()
+        elif self.o_args.task == "metadata":
+            self.metadata()
 
     @staticmethod
     def parse_args(args: Optional[Sequence[str]] = None) -> argparse.Namespace:
@@ -129,7 +138,7 @@ class Main:
         s_epilog_workflow = """Quatre types de lancement :
         * liste des exemples de workflow disponibles : `` (aucun arguments)
         * Récupération d'un workflow exemple : `--name NAME`
-        * Vérification de la structure du ficher workflow et affichage des étapes : `--file FILE`
+        * Vérification de la structure du fichier workflow et affichage des étapes : `--file FILE`
         * Lancement l'une étape d'un workflow: `--file FILE --step STEP [--behavior BEHAVIOR]`
         """
         o_sub_parser = o_sub_parsers.add_parser("workflow", help="Workflow", epilog=s_epilog_workflow, formatter_class=argparse.RawTextHelpFormatter)
@@ -154,6 +163,16 @@ class Main:
         o_sub_parser.add_argument("--id", type=str, required=True, help="Identifiant de l'entité à supprimer")
         o_sub_parser.add_argument("--cascade", action="store_true", help="Action à effectuer si l'exécution de traitement existe déjà")
         o_sub_parser.add_argument("--force", action="store_true", help="Mode forcé, les suppressions sont faites sans aucune interaction")
+
+        # Parser pour annexes
+        o_sub_parser = o_sub_parsers.add_parser("annexe", help="Annexes", epilog="TODO", formatter_class=argparse.RawTextHelpFormatter)
+        o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin vers le fichier descriptor dont on veut effectuer la livraison)")
+        # Parser pour static
+        o_sub_parser = o_sub_parsers.add_parser("static", help="Fichiers statiques", epilog="TODO", formatter_class=argparse.RawTextHelpFormatter)
+        o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin vers le fichier descriptor dont on veut effectuer la livraison)")
+        # Parser pour metadata
+        o_sub_parser = o_sub_parsers.add_parser("metadata", help="Métadonnées", epilog="TODO", formatter_class=argparse.RawTextHelpFormatter)
+        o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin vers le fichier descriptor dont on veut effectuer la livraison)")
 
         return o_parser.parse_args(args)
 
@@ -597,6 +616,147 @@ class Main:
             o_entity.delete_cascade(f_delete)
         else:
             StoreEntity.delete_liste_entities([o_entity], f_delete)
+
+    @staticmethod
+    def _display_bilan_upload_file(d_res: Dict[str, Any]) -> None:
+        """Affichage du bilan pour le téléversement de fichiers (annexe, static, metadata)
+
+        Args:
+            d_res (Dict[str, Any]): dictionnaire de résultat {'ok': liste des livraisons ok, 'upload_fail': dictionnaire 'fichier': erreur}
+        """
+        if d_res["upload_fail"]:
+            Config().om.info("RÉCAPITULATIF DES PROBLÈMES :", green_colored=True)
+            if d_res["upload_fail"]:
+                Config().om.error(f"{len(d_res['upload_fail'])} téléversements échoués :\n" + "\n".join([f" * {s_nom} : {e_error}" for s_nom, e_error in d_res["upload_fail"].items()]))
+            Config().om.error(f"BILAN : {len(d_res['ok'])} téléversements effectués sans erreur, {len(d_res['upload_fail'])} téléversements échouées")
+            sys.exit(1)
+        else:
+            Config().om.info(f"BILAN : les {len(d_res['ok'])} téléversements se sont bien passées", green_colored=True)
+
+    def annexe(self):
+        """Gestion des annexes"""
+        if self.o_args.file is not None:
+            # on livre les données selon le fichier descripteur donné
+            d_res = self.upload_annexe_from_descriptor_file(self.o_args.file, self.o_args.datastore)
+            self._display_bilan_upload_file(d_res)
+
+    @staticmethod
+    def upload_annexe_from_descriptor_file(file: Union[Path, str], datastore: Optional[str] = None) -> Dict[str, Any]:
+        """réalisation des livraison décrite par le fichier
+
+        Args:
+            file (Union[Path, str]): chemin du fichier descripteur de livraison
+            datastore (Optional[str]): datastore à utilisé, datastore par défaut si None
+
+        Returns:
+            Dict[str, Any]: dictionnaire avec le résultat des livraisons :
+                "ok" : liste des livraisons sans problèmes,
+                "upload_fail": dictionnaire nom livraison : erreur remonté lors de la livraison
+                "check_fail": liste des livraisons dont les vérification ont échouée
+        """
+        o_dfu = DescriptorFileReader(Path(file), "annexe")
+
+        l_uploads: List[Annexe] = []  # liste des uploads effectué
+        d_upload_fail: Dict[str, Exception] = {}  # dictionnaire "fichier archive" : erreur des uploads qui ont fail
+
+        # on fait toutes les livraisons
+        Config().om.info(f"LIVRAISONS DES ARCHIVES : ({len(o_dfu.data)})", green_colored=True)
+        for d_data in o_dfu.data:
+            s_nom = d_data["file"]
+            Config().om.info(f"{Color.BLUE} * {s_nom}{Color.END}")
+            try:
+                o_upload = Annexe.api_create(d_data, route_params={"datastore": datastore})
+                l_uploads.append(o_upload)
+            except Exception as e:
+                d_upload_fail[s_nom] = e
+                Config().om.error(f"livraison {s_nom} : {e}")
+
+        # vérification des livraisons
+        Config().om.info("Fin des livraisons.", green_colored=True)
+        return {"ok": l_uploads, "upload_fail": d_upload_fail}
+
+    def static(self):
+        """Gestion des fichiers statics"""
+        if self.o_args.file is not None:
+            # on livre les données selon le fichier descripteur donné
+            d_res = self.upload_static_from_descriptor_file(self.o_args.file, self.o_args.datastore)
+            self._display_bilan_upload_file(d_res)
+
+    @staticmethod
+    def upload_static_from_descriptor_file(file: Union[Path, str], datastore: Optional[str] = None) -> Dict[str, Any]:
+        """réalisation des livraison décrite par le fichier
+
+        Args:
+            file (Union[Path, str]): chemin du fichier descripteur de livraison
+            datastore (Optional[str]): datastore à utilisé, datastore par défaut si None
+
+        Returns:
+            Dict[str, Any]: dictionnaire avec le résultat des livraisons :
+                "ok" : liste des livraisons sans problèmes,
+                "upload_fail": dictionnaire nom livraison : erreur remonté lors de la livraison
+        """
+        o_dfu = DescriptorFileReader(Path(file), "static")
+
+        l_uploads: List[Static] = []  # liste des uploads effectué
+        d_upload_fail: Dict[str, Exception] = {}  # dictionnaire "fichier statique" : erreur des uploads qui ont fail
+
+        # on fait toutes les livraisons
+        Config().om.info(f"LIVRAISONS DES FICHIERS STATIQUES : ({len(o_dfu.data)})", green_colored=True)
+        for d_data in o_dfu.data:
+            s_nom = d_data["file"]
+            Config().om.info(f"{Color.BLUE} * {s_nom}{Color.END}")
+            try:
+                o_upload = Static.api_create(d_data, route_params={"datastore": datastore})
+                l_uploads.append(o_upload)
+            except Exception as e:
+                d_upload_fail[s_nom] = e
+                Config().om.error(f"livraison {s_nom} : {e}")
+
+        # vérification des livraisons
+        Config().om.info("Fin des livraisons.", green_colored=True)
+        return {"ok": l_uploads, "upload_fail": d_upload_fail}
+
+    def metadata(self):
+        """Gestion des metadata"""
+        if self.o_args.file is not None:
+            # on livre les données selon le fichier descripteur donné
+            d_res = self.upload_metadata_from_descriptor_file(self.o_args.file, self.o_args.datastore)
+            self._display_bilan_upload_file(d_res)
+
+    @staticmethod
+    def upload_metadata_from_descriptor_file(file: Union[Path, str], datastore: Optional[str] = None) -> Dict[str, Any]:
+        """réalisation des livraison décrite par le fichier
+
+        Args:
+            file (Union[Path, str]): chemin du fichier descripteur de livraison
+            datastore (Optional[str]): datastore à utilisé, datastore par défaut si None
+
+        Returns:
+            Dict[str, Any]: dictionnaire avec le résultat des livraisons :
+                "ok" : liste des livraisons sans problèmes,
+                "upload_fail": dictionnaire nom livraison : erreur remonté lors de la livraison
+        """
+        raise NotImplementedError()
+        o_dfu = UploadDescriptorFileReader(Path(file))  # TODO : modifier
+
+        l_uploads: List[Metadata] = []  # liste des uploads effectué
+        d_upload_fail: Dict[str, Exception] = {}  # dictionnaire "fichier statique" : erreur des uploads qui ont fail
+
+        # on fait toutes les livraisons
+        Config().om.info(f"LIVRAISONS DES FICHIERS MÉTADONNÉES : ({len(o_dfu.datasets)})", green_colored=True)
+        for o_dataset in o_dfu.datasets:  # TODO : modifier
+            s_nom = o_dataset.upload_infos["file"]
+            Config().om.info(f"{Color.BLUE} * {s_nom}{Color.END}")
+            try:
+                o_upload = Metadata.api_create(o_dataset, route_params={"datastore": datastore})
+                l_uploads.append(o_upload)
+            except Exception as e:
+                d_upload_fail[s_nom] = e
+                Config().om.error(f"livraison {s_nom} : {e}")
+
+        # vérification des livraisons
+        Config().om.info("Fin des livraisons.", green_colored=True)
+        return {"ok": l_uploads, "upload_fail": d_upload_fail}
 
 
 if __name__ == "__main__":
