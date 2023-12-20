@@ -49,7 +49,7 @@ class Upload(TagInterface, CommentInterface, SharingInterface, EventInterface, P
             file_path,
             s_file_key,
             route_params={"datastore": self.datastore, self._entity_name: self.id},
-            params={"path": api_path},
+            params={"path": api_path + "/" + file_path.name},
             method=ApiRequester.POST,
         )
 
