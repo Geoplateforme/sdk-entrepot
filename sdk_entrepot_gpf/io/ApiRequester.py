@@ -210,6 +210,7 @@ class ApiRequester(metaclass=Singleton):
             "method": method,
             "headers": d_headers,
             "proxies": self.__proxy,
+            "params": params,
         }
         if files:
             d_fields = {**files}
