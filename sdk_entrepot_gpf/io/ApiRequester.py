@@ -210,11 +210,10 @@ class ApiRequester(metaclass=Singleton):
             "method": method,
             "headers": d_headers,
             "proxies": self.__proxy,
+            "params": params,
         }
         if files:
             d_fields = {**files}
-            if params:
-                d_fields.update(params)
             o_me = MultipartEncoder(fields=d_fields)
             d_headers["content-type"] = o_me.content_type
             # Execution de la requête
