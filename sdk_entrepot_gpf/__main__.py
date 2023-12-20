@@ -167,12 +167,18 @@ class Main:
         # Parser pour annexes
         o_sub_parser = o_sub_parsers.add_parser("annexe", help="Annexes", epilog="TODO", formatter_class=argparse.RawTextHelpFormatter)
         o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin vers le fichier descriptor dont on veut effectuer la livraison)")
+        o_sub_parser.add_argument("--infos", "-i", type=str, default=None, help="Filtrer les livraisons selon les infos")
+        o_sub_parser.add_argument("--id", type=str, default=None, help="Affiche l'annexe demandée")
         # Parser pour static
         o_sub_parser = o_sub_parsers.add_parser("static", help="Fichiers statiques", epilog="TODO", formatter_class=argparse.RawTextHelpFormatter)
         o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin vers le fichier descriptor dont on veut effectuer la livraison)")
+        o_sub_parser.add_argument("--infos", "-i", type=str, default=None, help="Filtrer les livraisons selon les infos")
+        o_sub_parser.add_argument("--id", type=str, default=None, help="Affiche du fichier demandée")
         # Parser pour metadata
         o_sub_parser = o_sub_parsers.add_parser("metadata", help="Métadonnées", epilog="TODO", formatter_class=argparse.RawTextHelpFormatter)
         o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin vers le fichier descriptor dont on veut effectuer la livraison)")
+        o_sub_parser.add_argument("--infos", "-i", type=str, default=None, help="Filtrer les livraisons selon les infos")
+        o_sub_parser.add_argument("--id", type=str, default=None, help="Affiche du ficher métadonnée demandée")
 
         return o_parser.parse_args(args)
 
@@ -639,6 +645,16 @@ class Main:
             # on livre les données selon le fichier descripteur donné
             d_res = self.upload_annexe_from_descriptor_file(self.o_args.file, self.o_args.datastore)
             self._display_bilan_upload_file(d_res)
+        elif self.o_args.id is not None:
+            o_annexe = Annexe.api_get(self.o_args.id, datastore=self.datastore)
+            # affichage
+            Config().om.info(o_annexe.to_json(indent=3))
+        else:
+            # on liste toutes les annexes selon les filtres
+            d_infos_filter = StoreEntity.filter_dict_from_str(self.o_args.infos)
+            l_annexes = Annexe.api_list(infos_filter=d_infos_filter, datastore=self.datastore)
+            for o_annexe in l_annexes:
+                Config().om.info(f"{o_annexe}")
 
     @staticmethod
     def upload_annexe_from_descriptor_file(file: Union[Path, str], datastore: Optional[str] = None) -> Dict[str, Any]:
@@ -681,6 +697,16 @@ class Main:
             # on livre les données selon le fichier descripteur donné
             d_res = self.upload_static_from_descriptor_file(self.o_args.file, self.o_args.datastore)
             self._display_bilan_upload_file(d_res)
+        elif self.o_args.id is not None:
+            o_static = Static.api_get(self.o_args.id, datastore=self.datastore)
+            # affichage
+            Config().om.info(o_static.to_json(indent=3))
+        else:
+            # on liste toutes les fichiers static selon les filtres
+            d_infos_filter = StoreEntity.filter_dict_from_str(self.o_args.infos)
+            l_statics = Static.api_list(infos_filter=d_infos_filter, datastore=self.datastore)
+            for o_static in l_statics:
+                Config().om.info(f"{o_static}")
 
     @staticmethod
     def upload_static_from_descriptor_file(file: Union[Path, str], datastore: Optional[str] = None) -> Dict[str, Any]:
@@ -722,6 +748,18 @@ class Main:
             # on livre les données selon le fichier descripteur donné
             d_res = self.upload_metadata_from_descriptor_file(self.o_args.file, self.o_args.datastore)
             self._display_bilan_upload_file(d_res)
+        elif self.o_args.id is not None:
+            raise NotImplementedError()
+            o_metadata = Metadata.api_get(self.o_args.id, datastore=self.datastore)
+            # affichage
+            Config().om.info(o_metadata.to_json(indent=3))
+        else:
+            raise NotImplementedError()
+            # on liste toutes les fichiers métadonnées selon les filtres
+            d_infos_filter = StoreEntity.filter_dict_from_str(self.o_args.infos)
+            l_metadatas = Metadata.api_list(infos_filter=d_infos_filter, datastore=self.datastore)
+            for o_metadata in l_metadatas:
+                Config().om.info(f"{o_metadata}")
 
     @staticmethod
     def upload_metadata_from_descriptor_file(file: Union[Path, str], datastore: Optional[str] = None) -> Dict[str, Any]:
@@ -737,14 +775,14 @@ class Main:
                 "upload_fail": dictionnaire nom livraison : erreur remonté lors de la livraison
         """
         raise NotImplementedError()
-        o_dfu = UploadDescriptorFileReader(Path(file))  # TODO : modifier
+        o_dfu = DescriptorFileReader(Path(file), "metadata")
 
         l_uploads: List[Metadata] = []  # liste des uploads effectué
         d_upload_fail: Dict[str, Exception] = {}  # dictionnaire "fichier statique" : erreur des uploads qui ont fail
 
         # on fait toutes les livraisons
-        Config().om.info(f"LIVRAISONS DES FICHIERS MÉTADONNÉES : ({len(o_dfu.datasets)})", green_colored=True)
-        for o_dataset in o_dfu.datasets:  # TODO : modifier
+        Config().om.info(f"LIVRAISONS DES FICHIERS MÉTADONNÉES : ({len(o_dfu.data)})", green_colored=True)
+        for o_dataset in o_dfu.data:
             s_nom = o_dataset.upload_infos["file"]
             Config().om.info(f"{Color.BLUE} * {s_nom}{Color.END}")
             try:
