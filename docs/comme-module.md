@@ -130,3 +130,5 @@ La première étape consiste à charger le fichier de workflow et à instancier 
 p_workflow = Path("mon_workflow.jsonc").absolute()
 o_workflow = Workflow(p_workflow.stem, JsonHelper.load(p_workflow))
 ```
+
+*Rédaction en cours...*
