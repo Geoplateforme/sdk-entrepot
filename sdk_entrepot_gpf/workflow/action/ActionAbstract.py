@@ -73,6 +73,7 @@ class ActionAbstract(ABC):
             self.__definition_dict = json.loads(s_resolved_definition)
             Config().om.info(f"Résolution de l'action '{self.workflow_context}-{self.index}' : terminée")
         except json.decoder.JSONDecodeError as e_json:
+            Config().om.debug(f"resolved action: {s_resolved_definition}")
             raise StepActionError(f"Action '{self.workflow_context}-{self.index}' non valide après résolution : {e_json}") from e_json
 
     @abstractmethod
