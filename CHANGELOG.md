@@ -2,6 +2,10 @@
 
 ## v0.1.19
 
+### [Added]
+
+* Classe Metadata + configuration associée et tests
+
 ### [Changed]
 
 * Résolution des workflows :
