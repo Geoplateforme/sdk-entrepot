@@ -109,21 +109,21 @@ class GlobalResolverTestCase(GpfTestCase):
         self.assertEqual(GlobalResolver().resolve("{profession.sailor}"), "John")
         self.assertEqual(GlobalResolver().resolve("{localization.Jacques_country}_{profession.sailor}"), "France_John")
         # Comme liste (pour insérer une string)
-        self.assertEqual(GlobalResolver().resolve('["localization","Jacques_country"]'), "France")
+        self.assertEqual(GlobalResolver().resolve('["_localization_","Jacques_country"]'), "France")
         # Comme dict (pour insérer une string)
-        self.assertEqual(GlobalResolver().resolve('{"localization":"Jacques_country"}'), "France")
+        self.assertEqual(GlobalResolver().resolve('{"_localization_":"Jacques_country"}'), "France")
         # Comme liste (pour insérer une liste)
-        self.assertEqual(GlobalResolver().resolve('["localization","city"]'), "['Paris', 'London']")
+        self.assertEqual(GlobalResolver().resolve('["_localization_","city"]'), "['Paris', 'London']")
         # Comme dict (pour insérer un dict)
-        self.assertEqual(GlobalResolver().resolve('{"localization":"store"}'), "{'Paris': 'Champs-Elysée', 'London': 'rue_Londres'}")
+        self.assertEqual(GlobalResolver().resolve('{"_localization_":"store"}'), "{'Paris': 'Champs-Elysée', 'London': 'rue_Londres'}")
         # Cas avancés : deux résolutions l'une dans l'autre
         # Comme string
         self.assertEqual(GlobalResolver().resolve("{localization.{profession.sailor}_country}"), "England")
         self.assertEqual(GlobalResolver().resolve("{localization.{profession.chef}_city}"), "Paris")
         # Comme liste (pour insérer une string)
-        self.assertEqual(GlobalResolver().resolve('["localization","{profession.sailor}_country"]'), "England")
+        self.assertEqual(GlobalResolver().resolve('["_localization_","{profession.sailor}_country"]'), "England")
         # Comme dict (pour insérer une string)
-        self.assertEqual(GlobalResolver().resolve('{"localization":"{profession.sailor}_country"}'), "England")
+        self.assertEqual(GlobalResolver().resolve('{"_localization_":"{profession.sailor}_country"}'), "England")
         # Cas erreur :
         with self.assertRaises(ResolverNotFoundError) as o_arc:
             GlobalResolver().resolve("{resolver_not_found.foo}")

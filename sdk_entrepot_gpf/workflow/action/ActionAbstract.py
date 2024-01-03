@@ -65,7 +65,7 @@ class ActionAbstract(ABC):
         """
         Config().om.info(f"Résolution de l'action '{self.workflow_context}-{self.index}'...")
         # Pour faciliter la résolution, on repasse la définition de l'action en json
-        s_definition = str(json.dumps(self.__definition_dict, indent=4, ensure_ascii=False))
+        s_definition = str(json.dumps(self.__definition_dict, ensure_ascii=False))
         # lancement des résolveurs
         s_resolved_definition = GlobalResolver().resolve(s_definition)
         # on repasse en json
@@ -73,6 +73,7 @@ class ActionAbstract(ABC):
             self.__definition_dict = json.loads(s_resolved_definition)
             Config().om.info(f"Résolution de l'action '{self.workflow_context}-{self.index}' : terminée")
         except json.decoder.JSONDecodeError as e_json:
+            Config().om.debug(f"resolved action: {s_resolved_definition}")
             raise StepActionError(f"Action '{self.workflow_context}-{self.index}' non valide après résolution : {e_json}") from e_json
 
     @abstractmethod
