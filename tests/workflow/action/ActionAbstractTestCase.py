@@ -50,7 +50,7 @@ class ActionAbstractTestCase(GpfTestCase):
             o_action = ConcreteAction("nom", d_definition, None)
             o_action.resolve()
             assert o_action.definition_dict == d_resolved_dico
-            o_mock_resolve.assert_called_once_with(str(json.dumps(d_definition, indent=4)))
+            o_mock_resolve.assert_called_once_with(str(json.dumps(d_definition)))
 
     def test_get_filters(self) -> None:
         """Test de get_filters."""
