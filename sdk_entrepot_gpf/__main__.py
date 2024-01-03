@@ -19,6 +19,7 @@ from sdk_entrepot_gpf.io.DescriptorFileReader import DescriptorFileReader
 from sdk_entrepot_gpf.io.Errors import ConflictError
 from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
 from sdk_entrepot_gpf.store.Annexe import Annexe
+from sdk_entrepot_gpf.store.Metadata import Metadata
 from sdk_entrepot_gpf.store.Static import Static
 from sdk_entrepot_gpf.workflow.Workflow import Workflow
 from sdk_entrepot_gpf.workflow.resolver.GlobalResolver import GlobalResolver
@@ -179,6 +180,7 @@ class Main:
         o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin vers le fichier descriptor dont on veut effectuer la livraison)")
         o_sub_parser.add_argument("--infos", "-i", type=str, default=None, help="Filtrer les livraisons selon les infos")
         o_sub_parser.add_argument("--id", type=str, default=None, help="Affiche du fichier demandée")
+
         # Parser pour metadata
         o_sub_parser = o_sub_parsers.add_parser("metadata", help="Métadonnées", epilog="TODO", formatter_class=argparse.RawTextHelpFormatter)
         o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin vers le fichier descriptor dont on veut effectuer la livraison)")
@@ -779,12 +781,10 @@ class Main:
             d_res = self.upload_metadata_from_descriptor_file(self.o_args.file, self.o_args.datastore)
             self._display_bilan_upload_file(d_res)
         elif self.o_args.id is not None:
-            raise NotImplementedError()
             o_metadata = Metadata.api_get(self.o_args.id, datastore=self.datastore)
             # affichage
             Config().om.info(o_metadata.to_json(indent=3))
         else:
-            raise NotImplementedError()
             # on liste toutes les fichiers métadonnées selon les filtres
             d_infos_filter = StoreEntity.filter_dict_from_str(self.o_args.infos)
             l_metadatas = Metadata.api_list(infos_filter=d_infos_filter, datastore=self.datastore)
@@ -804,7 +804,6 @@ class Main:
                 "ok" : liste des livraisons sans problèmes,
                 "upload_fail": dictionnaire nom livraison : erreur remonté lors de la livraison
         """
-        raise NotImplementedError()
         o_dfu = DescriptorFileReader(Path(file), "metadata")
 
         l_uploads: List[Metadata] = []  # liste des uploads effectué
