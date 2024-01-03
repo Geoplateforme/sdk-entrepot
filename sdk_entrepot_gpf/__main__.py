@@ -713,6 +713,7 @@ class Main:
                 l_uploads.append(o_upload)
             except Exception as e:
                 d_upload_fail[s_nom] = e
+                Config().om.debug(traceback.format_exc())
                 Config().om.error(f"livraison {s_nom} : {e}")
 
         # vérification des livraisons
@@ -764,6 +765,7 @@ class Main:
                 l_uploads.append(o_upload)
             except Exception as e:
                 d_upload_fail[s_nom] = e
+                Config().om.debug(traceback.format_exc())
                 Config().om.error(f"livraison {s_nom} : {e}")
 
         # vérification des livraisons
@@ -818,6 +820,7 @@ class Main:
                 l_uploads.append(o_upload)
             except Exception as e:
                 d_upload_fail[s_nom] = e
+                Config().om.debug(traceback.format_exc())
                 Config().om.error(f"livraison {s_nom} : {e}")
 
         # vérification des livraisons
