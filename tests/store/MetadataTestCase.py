@@ -11,16 +11,16 @@ class MetadataTestCase(GpfTestCase):
     cmd : python3 -m unittest -b tests.store.MetadataTestCase
     """
 
-    def test_publish_by_label(self) -> None:
-        "Vérifie le bon fonctionnement de publish_by_label."
+    def test_publish(self) -> None:
+        "Vérifie le bon fonctionnement de publish."
         l_file = ["a", "b", "c"]
         s_endpoint_id = "hdsfkhdlfh"
 
-        for s_datastore in [None, "publish_by_label"]:
+        for s_datastore in [None, "publish"]:
             # On mock la fonction route_request, on veut vérifier qu'elle est appelée avec les bons params
             o_response = GpfTestCase.get_response()
             with patch.object(ApiRequester, "route_request", return_value=o_response) as o_mock_request:
-                # on appelle la fonction à tester : publish_by_label
+                # on appelle la fonction à tester : publish
                 Metadata.publish(l_file, s_endpoint_id, s_datastore)
 
                 # on vérifie que route_request est appelé correctement
@@ -31,16 +31,16 @@ class MetadataTestCase(GpfTestCase):
                     method=ApiRequester.POST,
                 )
 
-    def test_unpublish_by_label(self) -> None:
-        "Vérifie le bon fonctionnement de unpublish_by_label."
+    def test_unpublish(self) -> None:
+        "Vérifie le bon fonctionnement de unpublish."
         l_file = ["a", "b", "c"]
         s_endpoint_id = "hdsfkhdlfh"
 
-        for s_datastore in [None, "unpublish_by_label"]:
+        for s_datastore in [None, "unpublish"]:
             # On mock la fonction route_request, on veut vérifier qu'elle est appelée avec les bons params
             o_response = GpfTestCase.get_response()
             with patch.object(ApiRequester, "route_request", return_value=o_response) as o_mock_request:
-                # on appelle la fonction à tester : unpublish_by_label
+                # on appelle la fonction à tester : unpublish
                 Metadata.unpublish(l_file, s_endpoint_id, s_datastore)
 
                 # on vérifie que route_request est appelé correctement
