@@ -4,6 +4,8 @@ on:
     branches: [prod]
     tags:
       - 'v*'
+  pull-request:
+    branches: [prod]
 
 jobs:
   tests:
