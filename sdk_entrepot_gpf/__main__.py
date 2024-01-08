@@ -15,14 +15,18 @@ from sdk_entrepot_gpf.auth.Authentifier import Authentifier
 from sdk_entrepot_gpf.helper.JsonHelper import JsonHelper
 from sdk_entrepot_gpf.helper.PrintLogHelper import PrintLogHelper
 from sdk_entrepot_gpf.io.Color import Color
+from sdk_entrepot_gpf.io.DescriptorFileReader import DescriptorFileReader
 from sdk_entrepot_gpf.io.Errors import ConflictError
 from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
+from sdk_entrepot_gpf.store.Annexe import Annexe
+from sdk_entrepot_gpf.store.Metadata import Metadata
+from sdk_entrepot_gpf.store.Static import Static
 from sdk_entrepot_gpf.workflow.Workflow import Workflow
 from sdk_entrepot_gpf.workflow.resolver.GlobalResolver import GlobalResolver
 from sdk_entrepot_gpf.workflow.resolver.StoreEntityResolver import StoreEntityResolver
 from sdk_entrepot_gpf.workflow.action.UploadAction import UploadAction
 from sdk_entrepot_gpf.io.Config import Config
-from sdk_entrepot_gpf.io.DescriptorFileReader import DescriptorFileReader
+from sdk_entrepot_gpf.io.UploadDescriptorFileReader import UploadDescriptorFileReader
 from sdk_entrepot_gpf import store
 from sdk_entrepot_gpf.store.Offering import Offering
 from sdk_entrepot_gpf.store.Configuration import Configuration
@@ -72,9 +76,15 @@ class Main:
             self.workflow()
         elif self.o_args.task == "delete":
             self.delete()
+        elif self.o_args.task == "annexe":
+            self.annexe()
+        elif self.o_args.task == "static":
+            self.static()
+        elif self.o_args.task == "metadata":
+            self.metadata()
 
     @staticmethod
-    def parse_args(args: Optional[Sequence[str]] = None) -> argparse.Namespace:
+    def parse_args(args: Optional[Sequence[str]] = None) -> argparse.Namespace:  # pylint:disable=too-many-statements
         """Parse les paramètres utilisateurs.
 
         Args:
@@ -129,7 +139,7 @@ class Main:
         s_epilog_workflow = """Quatre types de lancement :
         * liste des exemples de workflow disponibles : `` (aucun arguments)
         * Récupération d'un workflow exemple : `--name NAME`
-        * Vérification de la structure du ficher workflow et affichage des étapes : `--file FILE`
+        * Vérification de la structure du fichier workflow et affichage des étapes : `--file FILE`
         * Lancement l'une étape d'un workflow: `--file FILE --step STEP [--behavior BEHAVIOR]`
         """
         o_sub_parser = o_sub_parsers.add_parser("workflow", help="Workflow", epilog=s_epilog_workflow, formatter_class=argparse.RawTextHelpFormatter)
@@ -154,6 +164,52 @@ class Main:
         o_sub_parser.add_argument("--id", type=str, required=True, help="Identifiant de l'entité à supprimer")
         o_sub_parser.add_argument("--cascade", action="store_true", help="Action à effectuer si l'exécution de traitement existe déjà")
         o_sub_parser.add_argument("--force", action="store_true", help="Mode forcé, les suppressions sont faites sans aucune interaction")
+
+        # Parser pour annexes
+        s_epilog_annexe = """quatre types de lancement :
+        * livraison d'annexes : `-f FICHIER`
+        * liste des annexes, avec filtre en option : `[--info filtre1=valeur1,filtre2=valeur2]`
+        * détail d'une annexe, avec option publication/dépublication : `--id ID [--publish|--unpublish]`
+        * publication /dépublication par label : `--publish-by-label label1,lable2` et `--unpublish-by-label label1,lable2`
+        """
+        o_sub_parser = o_sub_parsers.add_parser("annexe", help="Annexes", epilog=s_epilog_annexe, formatter_class=argparse.RawTextHelpFormatter)
+        o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin vers le fichier descriptor dont on veut effectuer la livraison)")
+        o_sub_parser.add_argument("--infos", "-i", type=str, default=None, help="Filtrer les livraisons selon les infos")
+        o_sub_parser.add_argument("--id", type=str, default=None, help="Affiche l'annexe demandée")
+        o_sub_parser.add_argument("--publish", action="store_true", help="publication de l'annexe (uniquement avec --id)")
+        o_sub_parser.add_argument("--unpublish", action="store_true", help="dépublication de l'annexe (uniquement avec --id)")
+        o_sub_parser.add_argument("--publish-by-label", type=str, default=None, help="publication des annexes portant les labels donnés (ex: label1,label2)")
+        o_sub_parser.add_argument("--unpublish-by-label", type=str, default=None, help="dépublication des annexes portant les labels donnés (ex: label1,label2)")
+
+        # Parser pour static
+        s_epilog_static = """trois types de lancement :
+        * livraison de fichiers statics : `-f FICHIER`
+        * liste des fichiers statics, avec filtre en option : `[--info filtre1=valeur1,filtre2=valeur2]`
+        * détail d'un ficher static : `--id ID`
+        """
+        o_sub_parser = o_sub_parsers.add_parser("static", help="Fichiers statiques", epilog=s_epilog_static, formatter_class=argparse.RawTextHelpFormatter)
+        o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin vers le fichier descriptor dont on veut effectuer la livraison)")
+        o_sub_parser.add_argument("--infos", "-i", type=str, default=None, help="Filtrer les livraisons selon les infos")
+        o_sub_parser.add_argument("--id", type=str, default=None, help="Affiche du fichier demandée")
+
+        # Parser pour metadata
+        s_epilog_metadata = """quatre types de lancement :
+        * livraison d'une metadonnées : `-f FICHIER`
+        * liste des metadonnées, avec filtre en option : `[--info filtre1=valeur1,filtre2=valeur2]` ``
+        * détail d'une metadonnée : `--id ID`
+        * publication /dépublication : `--publish NOM_FICHIER [NOM_FICHIER] --id-endpoint ID_ENDPOINT` et `--unpublish NOM_FICHIER [NOM_FICHIER] --id-endpoint ID_ENDPOINT`
+        """
+        o_sub_parser = o_sub_parsers.add_parser("metadata", help="Métadonnées", epilog=s_epilog_metadata, formatter_class=argparse.RawTextHelpFormatter)
+        o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin vers le fichier descriptor dont on veut effectuer la livraison)")
+        o_sub_parser.add_argument("--infos", "-i", type=str, default=None, help="Filtrer les livraisons selon les infos")
+        o_sub_parser.add_argument("--id", type=str, default=None, help="Affiche du fichier métadonnée demandée")
+        o_sub_parser.add_argument("--id-endpoint", type=str, default=None, metavar="ID_ENDPOINT", help="endpoint sur le quel est fait la publication ou la dépublication")
+        o_sub_parser.add_argument(
+            "--publish", type=str, action="extend", nargs="+", default=None, metavar=("NOM_FICHIER"), help="publie les métadonnées listées sur le endpoint donné par --id-endpoint"
+        )
+        o_sub_parser.add_argument(
+            "--unpublish", type=str, action="extend", nargs="+", default=None, metavar=("NOM_FICHIER"), help="dépublie les métadonnées listées sur le endpoint donné par --id-endpoint"
+        )
 
         return o_parser.parse_args(args)
 
@@ -292,7 +348,7 @@ class Main:
         """réalisation des livraison décrite par le fichier
 
         Args:
-            file (Union[Path, str]): chemin du ficher descripteur de livraison
+            file (Union[Path, str]): chemin du fichier descripteur de livraison
             behavior (Optional[str]): comportement dans le cas où une livraison de même nom existe, comportment par défaut su None
             datastore (Optional[str]): datastore à utilisé, datastore par défaut si None
 
@@ -302,7 +358,7 @@ class Main:
                 "upload_fail": dictionnaire nom livraison : erreur remonté lors de la livraison
                 "check_fail": liste des livraisons dont les vérification ont échouée
         """
-        o_dfu = DescriptorFileReader(Path(file))
+        o_dfu = UploadDescriptorFileReader(Path(file))
         s_behavior = str(behavior).upper() if behavior is not None else None
 
         l_uploads: List[Upload] = []  # liste des uploads lancées
@@ -399,7 +455,7 @@ class Main:
         Sinon on liste les Livraisons avec éventuellement des filtres.
         """
         if self.o_args.file is not None:
-            # on livre les données selon le ficher descripteur donné
+            # on livre les données selon le fichier descripteur donné
             d_res = self.upload_from_descriptor_file(self.o_args.file, self.o_args.behavior, self.o_args.datastore)
             # Affichage du bilan
             Config().om.info("-" * 100)
@@ -597,6 +653,210 @@ class Main:
             o_entity.delete_cascade(f_delete)
         else:
             StoreEntity.delete_liste_entities([o_entity], f_delete)
+
+    @staticmethod
+    def _display_bilan_upload_file(d_res: Dict[str, Any]) -> None:
+        """Affichage du bilan pour le téléversement de fichiers (annexe, static, metadata)
+
+        Args:
+            d_res (Dict[str, Any]): dictionnaire de résultat {'ok': liste des livraisons ok, 'upload_fail': dictionnaire 'fichier': erreur}
+        """
+        if d_res["upload_fail"]:
+            Config().om.info("RÉCAPITULATIF DES PROBLÈMES :", green_colored=True)
+            if d_res["upload_fail"]:
+                Config().om.error(f"{len(d_res['upload_fail'])} téléversements échoués :\n" + "\n".join([f" * {s_nom} : {e_error}" for s_nom, e_error in d_res["upload_fail"].items()]))
+            Config().om.error(f"BILAN : {len(d_res['ok'])} téléversements effectués sans erreur, {len(d_res['upload_fail'])} téléversements échouées")
+            sys.exit(1)
+        else:
+            Config().om.info(f"BILAN : les {len(d_res['ok'])} téléversements se sont bien passées", green_colored=True)
+
+    def annexe(self) -> None:
+        """Gestion des annexes"""
+        if self.o_args.file is not None:
+            # on livre les données selon le fichier descripteur donné
+            d_res = self.upload_annexe_from_descriptor_file(self.o_args.file, self.o_args.datastore)
+            self._display_bilan_upload_file(d_res)
+        elif self.o_args.id is not None:
+            o_annexe = Annexe.api_get(self.o_args.id, datastore=self.datastore)
+            if self.o_args.publish:
+                if o_annexe["published"]:
+                    Config().om.info(f"L'annexe ({o_annexe}) est déjà publiée.")
+                    return
+                # modification de la publication
+                o_annexe.api_partial_edit({"published": str(True)})
+                Config().om.info(f"L'annexe ({o_annexe}) viens d'être publiée.")
+            elif self.o_args.unpublish:
+                if not o_annexe["published"]:
+                    Config().om.info(f"L'annexe ({o_annexe}) est déjà dépubliée.")
+                    return
+                # modification de la publication
+                o_annexe.api_partial_edit({"published": str(False)})
+                Config().om.info(f"L'annexe ({o_annexe}) viens d'être dépubliée.")
+            else:
+                # affichage
+                Config().om.info(o_annexe.to_json(indent=3))
+        elif self.o_args.publish_by_label is not None:
+            l_labels = self.o_args.publish_by_label.split(",")
+            i_nb = Annexe.publish_by_label(l_labels, datastore=self.datastore)
+            Config().om.info(f"{i_nb} annexe(s) viennent d'être publié.")
+        elif self.o_args.unpublish_by_label is not None:
+            l_labels = self.o_args.unpublish_by_label.split(",")
+            i_nb = Annexe.unpublish_by_label(l_labels, datastore=self.datastore)
+            Config().om.info(f"{i_nb} annexe(s) viennent d'être dépublié.")
+        else:
+            # on liste toutes les annexes selon les filtres
+            d_infos_filter = StoreEntity.filter_dict_from_str(self.o_args.infos)
+            l_annexes = Annexe.api_list(infos_filter=d_infos_filter, datastore=self.datastore)
+            for o_annexe in l_annexes:
+                Config().om.info(f"{o_annexe}")
+
+    @staticmethod
+    def upload_annexe_from_descriptor_file(file: Union[Path, str], datastore: Optional[str] = None) -> Dict[str, Any]:
+        """réalisation des livraison décrite par le fichier
+
+        Args:
+            file (Union[Path, str]): chemin du fichier descripteur de livraison
+            datastore (Optional[str]): datastore à utilisé, datastore par défaut si None
+
+        Returns:
+            Dict[str, Any]: dictionnaire avec le résultat des livraisons :
+                "ok" : liste des livraisons sans problèmes,
+                "upload_fail": dictionnaire nom livraison : erreur remonté lors de la livraison
+                "check_fail": liste des livraisons dont les vérification ont échouée
+        """
+        o_dfu = DescriptorFileReader(Path(file), "annexe")
+
+        l_uploads: List[Annexe] = []  # liste des uploads effectué
+        d_upload_fail: Dict[str, Exception] = {}  # dictionnaire "fichier archive" : erreur des uploads qui ont fail
+
+        # on fait toutes les livraisons
+        Config().om.info(f"LIVRAISONS DES ARCHIVES : ({len(o_dfu.data)})", green_colored=True)
+        for d_data in o_dfu.data:
+            s_nom = d_data["file"]
+            Config().om.info(f"{Color.BLUE} * {s_nom}{Color.END}")
+            try:
+                o_upload = Annexe.api_create(d_data, route_params={"datastore": datastore})
+                l_uploads.append(o_upload)
+            except Exception as e:
+                d_upload_fail[s_nom] = e
+                Config().om.debug(traceback.format_exc())
+                Config().om.error(f"livraison {s_nom} : {e}")
+
+        # vérification des livraisons
+        Config().om.info("Fin des livraisons.", green_colored=True)
+        return {"ok": l_uploads, "upload_fail": d_upload_fail}
+
+    def static(self) -> None:
+        """Gestion des fichiers statics"""
+        if self.o_args.file is not None:
+            # on livre les données selon le fichier descripteur donné
+            d_res = self.upload_static_from_descriptor_file(self.o_args.file, self.o_args.datastore)
+            self._display_bilan_upload_file(d_res)
+        elif self.o_args.id is not None:
+            o_static = Static.api_get(self.o_args.id, datastore=self.datastore)
+            # affichage
+            Config().om.info(o_static.to_json(indent=3))
+        else:
+            # on liste toutes les fichiers static selon les filtres
+            d_infos_filter = StoreEntity.filter_dict_from_str(self.o_args.infos)
+            l_statics = Static.api_list(infos_filter=d_infos_filter, datastore=self.datastore)
+            for o_static in l_statics:
+                Config().om.info(f"{o_static}")
+
+    @staticmethod
+    def upload_static_from_descriptor_file(file: Union[Path, str], datastore: Optional[str] = None) -> Dict[str, Any]:
+        """réalisation des livraison décrite par le fichier
+
+        Args:
+            file (Union[Path, str]): chemin du fichier descripteur de livraison
+            datastore (Optional[str]): datastore à utilisé, datastore par défaut si None
+
+        Returns:
+            Dict[str, Any]: dictionnaire avec le résultat des livraisons :
+                "ok" : liste des livraisons sans problèmes,
+                "upload_fail": dictionnaire nom livraison : erreur remonté lors de la livraison
+        """
+        o_dfu = DescriptorFileReader(Path(file), "static")
+
+        l_uploads: List[Static] = []  # liste des uploads effectué
+        d_upload_fail: Dict[str, Exception] = {}  # dictionnaire "fichier statique" : erreur des uploads qui ont fail
+
+        # on fait toutes les livraisons
+        Config().om.info(f"LIVRAISONS DES FICHIERS STATIQUES : ({len(o_dfu.data)})", green_colored=True)
+        for d_data in o_dfu.data:
+            s_nom = d_data["file"]
+            Config().om.info(f"{Color.BLUE} * {s_nom}{Color.END}")
+            try:
+                o_upload = Static.api_create(d_data, route_params={"datastore": datastore})
+                l_uploads.append(o_upload)
+            except Exception as e:
+                d_upload_fail[s_nom] = e
+                Config().om.debug(traceback.format_exc())
+                Config().om.error(f"livraison {s_nom} : {e}")
+
+        # vérification des livraisons
+        Config().om.info("Fin des livraisons.", green_colored=True)
+        return {"ok": l_uploads, "upload_fail": d_upload_fail}
+
+    def metadata(self) -> None:
+        """Gestion des metadata"""
+        if self.o_args.file is not None:
+            # on livre les données selon le fichier descripteur donné
+            d_res = self.upload_metadata_from_descriptor_file(self.o_args.file, self.o_args.datastore)
+            self._display_bilan_upload_file(d_res)
+        elif self.o_args.id is not None:
+            o_metadata = Metadata.api_get(self.o_args.id, datastore=self.datastore)
+            # affichage
+            Config().om.info(o_metadata.to_json(indent=3))
+        elif (self.o_args.publish or self.o_args.unpublish) and self.o_args.id_endpoint is None:
+            raise GpfSdkError("Pour pubiler/depublier les métadonnées il faut définir --id-endpoint")
+        elif self.o_args.publish is not None:
+            Metadata.publish(self.o_args.publish, self.o_args.id_endpoint, self.o_args.datastore)
+            Config().om.info(f"Les métadonnées ont été publié sur le endpoint {self.o_args.id_endpoint}")
+        elif self.o_args.unpublish is not None:
+            Metadata.unpublish(self.o_args.unpublish, self.o_args.id_endpoint, self.o_args.datastore)
+            Config().om.info(f"Les métadonnées ont été dépublié sur le endpoint {self.o_args.id_endpoint}")
+        else:
+            # on liste toutes les fichiers métadonnées selon les filtres
+            d_infos_filter = StoreEntity.filter_dict_from_str(self.o_args.infos)
+            l_metadatas = Metadata.api_list(infos_filter=d_infos_filter, datastore=self.datastore)
+            for o_metadata in l_metadatas:
+                Config().om.info(f"{o_metadata}")
+
+    @staticmethod
+    def upload_metadata_from_descriptor_file(file: Union[Path, str], datastore: Optional[str] = None) -> Dict[str, Any]:
+        """réalisation des livraison décrite par le fichier
+
+        Args:
+            file (Union[Path, str]): chemin du fichier descripteur de livraison
+            datastore (Optional[str]): datastore à utilisé, datastore par défaut si None
+
+        Returns:
+            Dict[str, Any]: dictionnaire avec le résultat des livraisons :
+                "ok" : liste des livraisons sans problèmes,
+                "upload_fail": dictionnaire nom livraison : erreur remonté lors de la livraison
+        """
+        o_dfu = DescriptorFileReader(Path(file), "metadata")
+
+        l_uploads: List[Metadata] = []  # liste des uploads effectué
+        d_upload_fail: Dict[str, Exception] = {}  # dictionnaire "fichier statique" : erreur des uploads qui ont fail
+
+        # on fait toutes les livraisons
+        Config().om.info(f"LIVRAISONS DES FICHIERS MÉTADONNÉES : ({len(o_dfu.data)})", green_colored=True)
+        for d_data in o_dfu.data:
+            s_nom = d_data["file"]
+            Config().om.info(f"{Color.BLUE} * {s_nom}{Color.END}")
+            try:
+                o_upload = Metadata.api_create(d_data, route_params={"datastore": datastore})
+                l_uploads.append(o_upload)
+            except Exception as e:
+                d_upload_fail[s_nom] = e
+                Config().om.debug(traceback.format_exc())
+                Config().om.error(f"livraison {s_nom} : {e}")
+
+        # vérification des livraisons
+        Config().om.info("Fin des livraisons.", green_colored=True)
+        return {"ok": l_uploads, "upload_fail": d_upload_fail}
 
 
 if __name__ == "__main__":

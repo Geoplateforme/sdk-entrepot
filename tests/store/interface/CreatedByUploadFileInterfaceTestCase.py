@@ -20,10 +20,9 @@ class CreatedByUploadFileInterfaceTestCase(GpfTestCase):
     def test_api_create(self) -> None:
         "Vérifie le bon fonctionnement de api_create."
         p_file = Path("rep/file")
-        s_api_path = "path/dans_api"
         d_res_data = {"base": "data"}
         s_key_file = "file"
-        d_data = {**d_res_data, "file": p_file, "api_path": s_api_path}
+        d_data: Dict[str, Any] = {**d_res_data, "file": p_file}
         o_response = self.get_response(json={"_id": "123456789"})
 
         for s_datastore in [None, "api_create"]:
@@ -42,19 +41,18 @@ class CreatedByUploadFileInterfaceTestCase(GpfTestCase):
                         p_file,
                         s_key_file,
                         route_params=d_route_params,
-                        params={"path": s_api_path},
                         method=ApiRequester.POST,
-                        data=d_res_data,
+                        params=d_res_data,
                     )
-                    o_mock_config.assert_any_call("store_entity", "create_file_key")
+                    o_mock_config.assert_any_call("store_entity", "create_file_key", "file")
                     self.assertIsInstance(o_entity, CreatedByUploadFileInterface)
                     self.assertEqual(o_entity.id, "123456789")
                     self.assertEqual(o_entity.datastore, s_datastore)
 
         # problème de paramétrage :
-        s_message = 'Entité créée par l\'upload d\'un fichier, les clefs "file": Path("chemin fichier") et "api_path": "nom fichier" sont obligatoires dans data'
+        s_message = 'Entité créée par l\'upload d\'un fichier, les clefs "file": Path("chemin fichier") est obligatoire dans data'
 
-        l_data: List[Dict[str, Any]] = [{}, {"file": p_file}, {"api_path": s_api_path}]
+        l_data: List[Dict[str, Any]] = [{}, {"path": "path/dans_api"}]
         for d_data in l_data:
             with self.assertRaises(StoreEntityError) as o_arc:
                 CreatedByUploadFileInterface.api_create(d_data, d_route_params)

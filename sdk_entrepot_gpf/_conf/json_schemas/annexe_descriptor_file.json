@@ -1,0 +1,43 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "title": "Schéma JSON pour un fichier descripteur de livraison pour les annexes",
+    "description": "",
+    "type": "object",
+    "required": [
+        "annexe"
+    ],
+    "properties": {
+        "annexe": {
+            "type": "array",
+            "minLength": 1,
+            "items": {
+                "type": "object",
+                "required": [
+                    "file",
+                    "paths"
+                ],
+                "properties": {
+                    "file": {
+                        "type": "string"
+                    },
+                    "paths": {
+                        "type": "array",
+                        "minLength": 1,
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "published": {
+                        "type": "boolean"
+                    },
+                    "labels": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -35,7 +35,7 @@ class Metadata(CreatedByUploadFileInterface, DownloadInterface, PartialEditInter
         ApiRequester().route_request(
             s_route,
             route_params={"datastore": datastore},
-            params={"file_identifiers": file_identifiers, "endpoint": endpoint_id},
+            data={"file_identifiers": file_identifiers, "endpoint": endpoint_id},
             method=ApiRequester.POST,
         )
 
@@ -56,6 +56,6 @@ class Metadata(CreatedByUploadFileInterface, DownloadInterface, PartialEditInter
         ApiRequester().route_request(
             s_route,
             route_params={"datastore": datastore},
-            params={"file_identifiers": file_identifiers, "endpoint": endpoint_id},
+            data={"file_identifiers": file_identifiers, "endpoint": endpoint_id},
             method=ApiRequester.POST,
         )

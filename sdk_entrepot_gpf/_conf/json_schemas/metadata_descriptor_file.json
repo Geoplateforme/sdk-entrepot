@@ -1,0 +1,33 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "title": "Schéma JSON pour un fichier descripteur de livraison pour les métadonnées",
+    "description": "",
+    "type": "object",
+    "required": [
+        "metadata"
+    ],
+    "properties": {
+        "metadata": {
+            "type": "array",
+            "minLength": 1,
+            "items": {
+                "type": "object",
+                "required": [
+                    "file"
+                ],
+                "properties": {
+                    "file": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "INSPIRE",
+                            "ISOAP"
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

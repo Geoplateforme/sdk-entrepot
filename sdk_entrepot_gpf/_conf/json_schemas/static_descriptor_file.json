@@ -1,0 +1,43 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "title": "Schéma JSON pour un fichier descripteur de livraison pour les fichiers statiques",
+    "description": "",
+    "type": "object",
+    "required": [
+        "static"
+    ],
+    "properties": {
+        "static": {
+            "type": "array",
+            "minLength": 1,
+            "items": {
+                "type": "object",
+                "required": [
+                    "file",
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "file": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "GEOSERVER-FTL",
+                            "GEOSERVER-STYLE",
+                            "ROK4-STYLE",
+                            "DERIVATION-SQL"
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}
