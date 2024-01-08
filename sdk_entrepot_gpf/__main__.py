@@ -166,7 +166,13 @@ class Main:
         o_sub_parser.add_argument("--force", action="store_true", help="Mode forcé, les suppressions sont faites sans aucune interaction")
 
         # Parser pour annexes
-        o_sub_parser = o_sub_parsers.add_parser("annexe", help="Annexes", epilog="TODO", formatter_class=argparse.RawTextHelpFormatter)
+        s_epilog_annexe = """quatre types de lancement :
+        * livraison d'annexes : `-f FICHIER`
+        * liste des annexes, avec filtre en option : `[--info filtre1=valeur1,filtre2=valeur2]`
+        * détail d'une annexe, avec option publication/dépublication : `--id ID [--publish|--unpublish]`
+        * publication /dépublication par label : `--publish-by-label label1,lable2` et `--unpublish-by-label label1,lable2`
+        """
+        o_sub_parser = o_sub_parsers.add_parser("annexe", help="Annexes", epilog=s_epilog_annexe, formatter_class=argparse.RawTextHelpFormatter)
         o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin vers le fichier descriptor dont on veut effectuer la livraison)")
         o_sub_parser.add_argument("--infos", "-i", type=str, default=None, help="Filtrer les livraisons selon les infos")
         o_sub_parser.add_argument("--id", type=str, default=None, help="Affiche l'annexe demandée")
@@ -176,13 +182,24 @@ class Main:
         o_sub_parser.add_argument("--unpublish-by-label", type=str, default=None, help="dépublication des annexes portant les labels donnés (ex: label1,label2)")
 
         # Parser pour static
-        o_sub_parser = o_sub_parsers.add_parser("static", help="Fichiers statiques", epilog="TODO", formatter_class=argparse.RawTextHelpFormatter)
+        s_epilog_static = """trois types de lancement :
+        * livraison de fichiers statics : `-f FICHIER`
+        * liste des fichiers statics, avec filtre en option : `[--info filtre1=valeur1,filtre2=valeur2]`
+        * détail d'un ficher static : `--id ID`
+        """
+        o_sub_parser = o_sub_parsers.add_parser("static", help="Fichiers statiques", epilog=s_epilog_static, formatter_class=argparse.RawTextHelpFormatter)
         o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin vers le fichier descriptor dont on veut effectuer la livraison)")
         o_sub_parser.add_argument("--infos", "-i", type=str, default=None, help="Filtrer les livraisons selon les infos")
         o_sub_parser.add_argument("--id", type=str, default=None, help="Affiche du fichier demandée")
 
         # Parser pour metadata
-        o_sub_parser = o_sub_parsers.add_parser("metadata", help="Métadonnées", epilog="TODO", formatter_class=argparse.RawTextHelpFormatter)
+        s_epilog_metadata = """quatre types de lancement :
+        * livraison d'une metadonnées : `-f FICHIER`
+        * liste des metadonnées, avec filtre en option : `[--info filtre1=valeur1,filtre2=valeur2]` ``
+        * détail d'une metadonnée : `--id ID`
+        * publication /dépublication : `--publish NOM_FICHIER [NOM_FICHIER] --id-endpoint ID_ENDPOINT` et `--unpublish NOM_FICHIER [NOM_FICHIER] --id-endpoint ID_ENDPOINT`
+        """
+        o_sub_parser = o_sub_parsers.add_parser("metadata", help="Métadonnées", epilog=s_epilog_metadata, formatter_class=argparse.RawTextHelpFormatter)
         o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin vers le fichier descriptor dont on veut effectuer la livraison)")
         o_sub_parser.add_argument("--infos", "-i", type=str, default=None, help="Filtrer les livraisons selon les infos")
         o_sub_parser.add_argument("--id", type=str, default=None, help="Affiche du fichier métadonnée demandée")
