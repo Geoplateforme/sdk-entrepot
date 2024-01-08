@@ -185,7 +185,14 @@ class Main:
         o_sub_parser = o_sub_parsers.add_parser("metadata", help="Métadonnées", epilog="TODO", formatter_class=argparse.RawTextHelpFormatter)
         o_sub_parser.add_argument("--file", "-f", type=str, default=None, help="Chemin vers le fichier descriptor dont on veut effectuer la livraison)")
         o_sub_parser.add_argument("--infos", "-i", type=str, default=None, help="Filtrer les livraisons selon les infos")
-        o_sub_parser.add_argument("--id", type=str, default=None, help="Affiche du ficher métadonnée demandée")
+        o_sub_parser.add_argument("--id", type=str, default=None, help="Affiche du fichier métadonnée demandée")
+        o_sub_parser.add_argument("--id-endpoint", type=str, default=None, metavar="ID_ENDPOINT", help="endpoint sur le quel est fait la publication ou la dépublication")
+        o_sub_parser.add_argument(
+            "--publish", type=str, action="extend", nargs="+", default=None, metavar=("NOM_FICHIER"), help="publie les métadonnées listées sur le endpoint donné par --id-endpoint"
+        )
+        o_sub_parser.add_argument(
+            "--unpublish", type=str, action="extend", nargs="+", default=None, metavar=("NOM_FICHIER"), help="dépublie les métadonnées listées sur le endpoint donné par --id-endpoint"
+        )
 
         return o_parser.parse_args(args)
 
@@ -774,7 +781,7 @@ class Main:
         Config().om.info("Fin des livraisons.", green_colored=True)
         return {"ok": l_uploads, "upload_fail": d_upload_fail}
 
-    def metadata(self):
+    def metadata(self) -> None:
         """Gestion des metadata"""
         if self.o_args.file is not None:
             # on livre les données selon le fichier descripteur donné
@@ -784,6 +791,14 @@ class Main:
             o_metadata = Metadata.api_get(self.o_args.id, datastore=self.datastore)
             # affichage
             Config().om.info(o_metadata.to_json(indent=3))
+        elif (self.o_args.publish or self.o_args.unpublish) and self.o_args.id_endpoint is None:
+            raise GpfSdkError("Pour pubiler/depublier les métadonnées il faut définir --id-endpoint")
+        elif self.o_args.publish is not None:
+            Metadata.publish(self.o_args.publish, self.o_args.id_endpoint, self.o_args.datastore)
+            Config().om.info(f"Les métadonnées ont été publié sur le endpoint {self.o_args.id_endpoint}")
+        elif self.o_args.unpublish is not None:
+            Metadata.unpublish(self.o_args.unpublish, self.o_args.id_endpoint, self.o_args.datastore)
+            Config().om.info(f"Les métadonnées ont été dépublié sur le endpoint {self.o_args.id_endpoint}")
         else:
             # on liste toutes les fichiers métadonnées selon les filtres
             d_infos_filter = StoreEntity.filter_dict_from_str(self.o_args.infos)
@@ -811,11 +826,11 @@ class Main:
 
         # on fait toutes les livraisons
         Config().om.info(f"LIVRAISONS DES FICHIERS MÉTADONNÉES : ({len(o_dfu.data)})", green_colored=True)
-        for o_dataset in o_dfu.data:
-            s_nom = o_dataset.upload_infos["file"]
+        for d_data in o_dfu.data:
+            s_nom = d_data["file"]
             Config().om.info(f"{Color.BLUE} * {s_nom}{Color.END}")
             try:
-                o_upload = Metadata.api_create(o_dataset, route_params={"datastore": datastore})
+                o_upload = Metadata.api_create(d_data, route_params={"datastore": datastore})
                 l_uploads.append(o_upload)
             except Exception as e:
                 d_upload_fail[s_nom] = e
