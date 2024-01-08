@@ -84,7 +84,7 @@ class Main:
             self.metadata()
 
     @staticmethod
-    def parse_args(args: Optional[Sequence[str]] = None) -> argparse.Namespace:
+    def parse_args(args: Optional[Sequence[str]] = None) -> argparse.Namespace:  # pylint:disable=too-many-statements
         """Parse les paramètres utilisateurs.
 
         Args:
@@ -653,7 +653,7 @@ class Main:
         else:
             Config().om.info(f"BILAN : les {len(d_res['ok'])} téléversements se sont bien passées", green_colored=True)
 
-    def annexe(self):
+    def annexe(self) -> None:
         """Gestion des annexes"""
         if self.o_args.file is not None:
             # on livre les données selon le fichier descripteur donné
@@ -664,17 +664,17 @@ class Main:
             if self.o_args.publish:
                 if o_annexe["published"]:
                     Config().om.info(f"L'annexe ({o_annexe}) est déjà publiée.")
-                else:
-                    # modification de la publication
-                    o_annexe.api_partial_edit({"published": True})
-                    Config().om.info(f"L'annexe ({o_annexe}) viens d'être publiée.")
+                    return
+                # modification de la publication
+                o_annexe.api_partial_edit({"published": str(True)})
+                Config().om.info(f"L'annexe ({o_annexe}) viens d'être publiée.")
             elif self.o_args.unpublish:
                 if not o_annexe["published"]:
                     Config().om.info(f"L'annexe ({o_annexe}) est déjà dépubliée.")
-                else:
-                    # modification de la publication
-                    o_annexe.api_partial_edit({"published": False})
-                    Config().om.info(f"L'annexe ({o_annexe}) viens d'être dépubliée.")
+                    return
+                # modification de la publication
+                o_annexe.api_partial_edit({"published": str(False)})
+                Config().om.info(f"L'annexe ({o_annexe}) viens d'être dépubliée.")
             else:
                 # affichage
                 Config().om.info(o_annexe.to_json(indent=3))
@@ -729,7 +729,7 @@ class Main:
         Config().om.info("Fin des livraisons.", green_colored=True)
         return {"ok": l_uploads, "upload_fail": d_upload_fail}
 
-    def static(self):
+    def static(self) -> None:
         """Gestion des fichiers statics"""
         if self.o_args.file is not None:
             # on livre les données selon le fichier descripteur donné
