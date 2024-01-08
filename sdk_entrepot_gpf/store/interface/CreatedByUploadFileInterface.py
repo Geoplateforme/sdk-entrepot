@@ -17,7 +17,7 @@ class CreatedByUploadFileInterface(StoreEntity):
         """Crée une nouvelle entité dans l'API.
 
         Args:
-            data: Données nécessaires pour la création. Dont "file": Path("chemin fichier") et "api_path": "nom fichier"
+            data: Données nécessaires pour la création. Dont "file": Path("chemin fichier") (obligatoire)
             route_params: Paramètres de résolution de la route.
 
         Returns:
