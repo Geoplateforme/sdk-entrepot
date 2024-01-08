@@ -27,7 +27,7 @@ class MetadataTestCase(GpfTestCase):
                 o_mock_request.assert_called_once_with(
                     "metadata_publish",
                     route_params={"datastore": s_datastore},
-                    params={"file_identifiers": l_file, "endpoint": s_endpoint_id},
+                    data={"file_identifiers": l_file, "endpoint": s_endpoint_id},
                     method=ApiRequester.POST,
                 )
 
@@ -47,6 +47,6 @@ class MetadataTestCase(GpfTestCase):
                 o_mock_request.assert_called_once_with(
                     "metadata_unpublish",
                     route_params={"datastore": s_datastore},
-                    params={"file_identifiers": l_file, "endpoint": s_endpoint_id},
+                    data={"file_identifiers": l_file, "endpoint": s_endpoint_id},
                     method=ApiRequester.POST,
                 )
