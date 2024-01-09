@@ -32,8 +32,9 @@ Voici un exemple de ce que cela peut donner :
 
 ```ini
 [store_authentification]
-# Groupe d’appartenance
-client_id=gpf-warehouses
+# Information pourra accéder au d'authentification. Normalement déjà défini dans sdk_entrepot_gpf/_conf/default.ini
+client_id=gpf-warehouse
+client_secret=BK2G7Vvkn7UDc8cV7edbCnHdYminWVw2
 # Votre login
 login=LOGIN
 # Votre mot de passe
@@ -47,7 +48,7 @@ datastore=DATASTORE_ID_TO_MODIFY
 Explications sur les paramètres :
 
 * `store_authentification` : paramètres concernant l'authentification sur la Géoplateforme :
-    * `client_id` : votre groupe d’appartenance ;
+    * `client_id` et `client_secret` Information pourra accéder au d'authentification, valeur récupérer depuis le swagger de l'API de la geoplatforme au moment de l'authentification. C'est valeur sont normalement gérer dans la configuration par défaut `sdk_entrepot_gpf/_conf/default.ini`.
     * `login` : votre nom d'utilisateur ;
     * `password` : votre mot de passe ;
 * `store_api` : paramètres concernant votre Entrepôt sur la Géoplateforme :
