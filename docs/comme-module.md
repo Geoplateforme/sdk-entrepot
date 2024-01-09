@@ -24,12 +24,12 @@ Cela sera plus simple d'un point de vue Python mais moins modulaire.
 Voici un exemple de code Python permettant de le faire (à lancer après le chargement de la config !) :
 
 ```py
-# Importation des classes DescriptorFileReader et UploadAction
-from sdk_entrepot_gpf.io.DescriptorFileReader import DescriptorFileReader
+# Importation des classes UploadDescriptorFileReader et UploadAction
+from sdk_entrepot_gpf.io.UploadDescriptorFileReader import UploadDescriptorFileReader
 from sdk_entrepot_gpf.workflow.action.UploadAction import UploadAction
 
-# Instanciation d'une DescriptorFileReader
-descriptor_file_reader = DescriptorFileReader(p_descriptor)
+# Instanciation d'une UploadDescriptorFileReader
+descriptor_file_reader = UploadDescriptorFileReader(p_descriptor)
 
 # Instanciation d'une UploadAction à partir du Reader
 o_upload_action = UploadAction(o_dataset, behavior=s_behavior)

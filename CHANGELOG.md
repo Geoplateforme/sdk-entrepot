@@ -5,6 +5,8 @@
 ### [Added]
 
 * Classe Metadata + configuration associée et tests
+* Classe DescriptorFileReader pour la livraisons des fichiers static, metadata et annexe
+* Main: gestion des fichiers static, metadata et annexe (upload, liste, détail, publication et dépublication)
 
 ### [Changed]
 
@@ -12,6 +14,11 @@
     * `ActionAbstract` : si l'action après résolution n'est plus un JSON valide, on log le texte obtenue en niveau debug ;
     * `ActionAbstract` : on n'indente pas le JSON avant résolution
     * Regex resolver : ajout de `_` avant et après le nom du résolveur si format list ou dict.
+* renommage DescriptorFileReader en UploadDescriptorFileReader
+
+### [Fixed]
+
+* Bug de config pour les URL des fichiers statics
 
 ## v0.1.18
 
