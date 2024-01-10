@@ -48,7 +48,7 @@ datastore=DATASTORE_ID_TO_MODIFY
 Explications sur les paramètres :
 
 * `store_authentification` : paramètres concernant l'authentification sur la Géoplateforme :
-    * `client_id` et `client_secret` Information pourra accéder au d'authentification, valeur récupérer depuis le swagger de l'API de la geoplatforme au moment de l'authentification. C'est valeur sont normalement gérer dans la configuration par défaut `sdk_entrepot_gpf/_conf/default.ini`.
+    * `client_id` et `client_secret` : informations pour récupérer le token d'authentification, valeurs récupérées depuis le Swagger de l'API de la Géoplateforme au moment de l'authentification. Ces valeurs sont normalement gérées dans la configuration par défaut `sdk_entrepot_gpf/_conf/default.ini`.
     * `login` : votre nom d'utilisateur ;
     * `password` : votre mot de passe ;
 * `store_api` : paramètres concernant votre Entrepôt sur la Géoplateforme :
