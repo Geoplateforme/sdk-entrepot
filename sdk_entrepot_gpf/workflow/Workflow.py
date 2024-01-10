@@ -244,9 +244,9 @@ class Workflow:
         if definition_dict["type"] == "processing-execution":
             return ProcessingExecutionAction(workflow_context, definition_dict, parent_action, behavior=behavior)
         if definition_dict["type"] == "configuration":
-            return ConfigurationAction(workflow_context, definition_dict, parent_action)
+            return ConfigurationAction(workflow_context, definition_dict, parent_action, behavior=behavior)
         if definition_dict["type"] == "offering":
-            return OfferingAction(workflow_context, definition_dict, parent_action)
+            return OfferingAction(workflow_context, definition_dict, parent_action, behavior=behavior)
         raise WorkflowError(f"Aucune correspondance pour ce type d'action : {definition_dict['type']}")
 
     @staticmethod
