@@ -864,10 +864,12 @@ if __name__ == "__main__":
         Main()
         sys.exit(0)
     except GpfSdkError as e_gpf_api_error:
+        Config().om.debug(traceback.format_exc())
         Config().om.critical(e_gpf_api_error.message)
     except ConflictError:
         # gestion "globale" des ConflictError (ConfigurationAction et OfferingAction
         # possèdent chacune leur propre gestion)
+        Config().om.debug(traceback.format_exc())
         Config().om.critical("La requête envoyée à l'Entrepôt génère un conflit. N'avez-vous pas déjà effectué l'action que vous essayez de faire ?")
     except Exception as e_exception:
         Config().om.critical("Erreur non spécifiée :")
