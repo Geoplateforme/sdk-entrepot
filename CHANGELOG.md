@@ -15,6 +15,7 @@
     * `ActionAbstract` : on n'indente pas le JSON avant résolution
     * Regex resolver : ajout de `_` avant et après le nom du résolveur si format list ou dict.
 * renommage DescriptorFileReader en UploadDescriptorFileReader
+* valeur définie dans la configuration pour `client_secret` et `client_id` et mise à jour de la documentation
 
 ### [Fixed]
 
