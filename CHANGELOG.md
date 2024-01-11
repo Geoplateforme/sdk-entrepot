@@ -15,10 +15,15 @@
     * `ActionAbstract` : on n'indente pas le JSON avant résolution
     * Regex resolver : ajout de `_` avant et après le nom du résolveur si format list ou dict.
 * renommage DescriptorFileReader en UploadDescriptorFileReader
+* conservation de NotFoundError lors de ApiRequester.url_request()
+* ApiRequester.url_request(): suppression de l'affichage automatique des erreurs
+* main meilleur gestion globale des erreurs
+* Attente la suppression des offres (non instantanée) pour éviter bug avec -b DELETE #57 et suppression en cascade.
 
 ### [Fixed]
 
 * Bug de config pour les URL des fichiers statics
+* Bug absence de transmission des behavior venant de la commande pour ConfigurationAction et OfferingAction
 
 ## v0.1.18
 
