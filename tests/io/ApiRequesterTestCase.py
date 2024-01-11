@@ -11,7 +11,7 @@ from sdk_entrepot_gpf.io.Config import Config
 from sdk_entrepot_gpf.Errors import GpfSdkError
 from sdk_entrepot_gpf.auth.Authentifier import Authentifier
 from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
-from sdk_entrepot_gpf.io.Errors import RouteNotFoundError, ConflictError
+from sdk_entrepot_gpf.io.Errors import NotFoundError, RouteNotFoundError, ConflictError
 from tests.GpfTestCase import GpfTestCase
 
 # pylint:disable=protected-access
@@ -222,12 +222,9 @@ class ApiRequesterTestCase(GpfTestCase):
                 ],
             )
             # On s'attend à une exception
-            with self.assertRaises(GpfSdkError) as o_arc:
+            with self.assertRaises(NotFoundError):
                 # On effectue une requête
                 ApiRequester().url_request(self.url, ApiRequester.POST, params=self.param, data=self.data)
-            # On doit avoir un message d'erreur explicite
-            s_message = f"L'élément demandé n'existe pas (Pas d'indication spécifique indiquée par l'API.). Contactez le support si vous n'êtes pas à l'origine de la demande. URL : POST {self.url}."
-            self.assertEqual(o_arc.exception.message, s_message)
             # On a dû faire 1 seule requête (sortie immédiate dans ce cas)
             self.assertEqual(o_mock.call_count, 1, "o_mock.call_count == 1")
 

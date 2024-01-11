@@ -310,11 +310,7 @@ class WorkflowTestCase(GpfTestCase):
                     self.assertIsInstance(o_action_generated, expected_type)
                     for s_class_name, o_mock in d_mock.items():
                         if expected_type.__name__ == s_class_name:
-                            # Le comportement n'est transmis que pour les ProcessingExecutionAction (pour le moment)
-                            if isinstance(o_action_generated, ProcessingExecutionAction):
-                                o_mock.assert_called_once_with(name, dico_def, parent, behavior=behavior)
-                            else:
-                                o_mock.assert_called_once_with(name, dico_def, parent)
+                            o_mock.assert_called_once_with(name, dico_def, parent, behavior=behavior)
                         else:
                             o_mock.assert_not_called()
 

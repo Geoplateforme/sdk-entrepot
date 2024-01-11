@@ -20,7 +20,7 @@ class Offering(PartialEditInterface, StoreEntity):
     VISIBILITY_REFERENCED = "REFERENCED"
     VISIBILITY_PUBLIC = "PUBLIC"
 
-    def api_delete(self):
+    def api_delete(self) -> None:
         # on effectue la suppression normale
         super().api_delete()
         # attente que la suppression soit faite
