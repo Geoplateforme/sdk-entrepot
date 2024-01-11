@@ -133,9 +133,8 @@ class ApiRequester(metaclass=Singleton):
                 # On fait la requête
                 return self.__url_request(url, method, params=params, data=data, files=files, header=header)
             except NotFoundError as e_error:
-                # Si l'entité n'est pas trouvée, on ne retente pas, on sort directement en erreur
-                s_message = f"L'élément demandé n'existe pas ({e_error.message}). Contactez le support si vous n'êtes pas à l'origine de la demande. URL : {method} {e_error.url}."
-                raise GpfSdkError(s_message) from e_error
+                # S'il on a un 404, on ne retente pas, on ne fait rien. On propage l'erreur.
+                raise e_error
 
             except (requests.HTTPError, requests.URLRequired) as e_error:
                 # S'il y a une erreur d'URL, on ne retente pas, on indique de contacter le support
