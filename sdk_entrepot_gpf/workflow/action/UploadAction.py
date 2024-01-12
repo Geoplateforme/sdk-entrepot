@@ -3,6 +3,7 @@ from typing import Any, Callable, Dict, List, Optional
 
 
 from sdk_entrepot_gpf.Errors import GpfSdkError
+from sdk_entrepot_gpf.store.CheckExecution import CheckExecution
 from sdk_entrepot_gpf.store.Upload import Upload
 from sdk_entrepot_gpf.io.Dataset import Dataset
 from sdk_entrepot_gpf.io.Config import Config
@@ -258,13 +259,29 @@ class UploadAction:
                 if ctrl_c_action is None or ctrl_c_action():
                     # on doit arrêter les vérifications :
                     # si les vérifications sont déjà terminées, on ne fait rien => transmission de l'interruption
-                    if b_success is not None:
+                    d_checks = upload.api_list_checks()
+                    if 0 == len(d_checks["asked"]) == len(d_checks["in_progress"]):
                         Config().om.warning("vérifications déjà terminées.")
                         raise
 
                     # arrêt des vérifications
                     Config().om.warning("Ctrl+C : vérifications en cours d’interruption, veuillez attendre...")
-                    upload.api_close()
+                    # suppression des vérifications non terminées
+                    for d_check_exec in d_checks["in_progress"]:
+                        CheckExecution(d_check_exec, upload.datastore).api_delete()
+                    for d_check_exec in d_checks["asked"]:
+                        # on doit attendre que l'exécution soit lancée pour n'annulée
+                        o_check_exec = CheckExecution.api_get(d_check_exec["_id"], upload.datastore)
+                        # on attend que l'exécution soit lancée
+                        while o_check_exec["status"] == "WAITING":
+                            time.sleep(1)
+                            o_check_exec.api_update()
+                        if o_check_exec["status"] == "PROGRESS":
+                            o_check_exec.api_delete()
+
+                    # On rouvre la livraison
+                    upload.api_open()
+
                     # enfin, transmission de l'interruption
                     raise
 
