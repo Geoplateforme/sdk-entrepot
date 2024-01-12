@@ -7,6 +7,7 @@
 * Classe Metadata + configuration associée et tests
 * Classe DescriptorFileReader pour la livraisons des fichiers static, metadata et annexe
 * Main: gestion des fichiers static, metadata et annexe (upload, liste, détail, publication et dépublication)
+* Main: fonction ctrl_c_upload() pour la gestion du Ctrl+C pendant le monitoring des vérifications
 
 ### [Changed]
 
@@ -20,6 +21,7 @@
 ### [Fixed]
 
 * Bug de config pour les URL des fichiers statics
+* Gestion du Ctrl+C pendant le monitoring des vérification, suppression des vérifications non fini et réouverture de la livraison
 
 ## v0.1.18
 
