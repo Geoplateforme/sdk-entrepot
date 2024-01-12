@@ -18,8 +18,8 @@
 * valeur définie dans la configuration pour `client_secret` et `client_id` et mise à jour de la documentation
 * conservation de NotFoundError lors de ApiRequester.url_request()
 * ApiRequester.url_request(): suppression de l'affichage automatique des erreurs
-* main meilleur gestion globale des erreurs
-* Attente la suppression des offres (non instantanée) pour éviter bug avec -b DELETE #57 et suppression en cascade.
+* main : meilleure gestion globale des erreurs
+* Attente à la suppression des offres (non instantanée) pour éviter bug avec -b DELETE #57 et suppression en cascade.
 
 ### [Fixed]
 
