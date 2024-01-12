@@ -386,7 +386,7 @@ class Main:
         l_check_ok = []
         for o_upload in l_uploads:
             Config().om.info(f"{Color.BLUE} * {o_upload}{Color.END}")
-            b_res = Main.__monitoring_upload(o_upload, "Livraison {upload} créée avec succès.", "Livraison {upload} créée en erreur !", print)
+            b_res = Main.__monitoring_upload(o_upload, "Livraison {upload} créée avec succès.", "Livraison {upload} créée en erreur !", print, Main.ctrl_c_upload)
             if b_res:
                 l_check_ok.append(o_upload)
             else:
@@ -434,12 +434,12 @@ class Main:
             upload.api_close()
             Config().om.info(f"La livraison {upload} viens d'être Fermée.", green_colored=True)
             # monitoring des tests :
-            Main.__monitoring_upload(upload, "Livraison {upload} fermée avec succès.", "Livraison {upload} fermée en erreur !", print)
+            Main.__monitoring_upload(upload, "Livraison {upload} fermée avec succès.", "Livraison {upload} fermée en erreur !", print, Main.ctrl_c_upload)
             return
         # si STATUS_CHECKING : monitoring
         if upload["status"] == Upload.STATUS_CHECKING:
             Config().om.info(f"La livraison {upload} est fermé, les tests sont en cours.")
-            Main.__monitoring_upload(upload, "Livraison {upload} fermée avec succès.", "Livraison {upload} fermée en erreur !", print)
+            Main.__monitoring_upload(upload, "Livraison {upload} fermée avec succès.", "Livraison {upload} fermée en erreur !", print, Main.ctrl_c_upload)
             return
         # si ferme OK ou KO : warning
         if upload["status"] in [Upload.STATUS_CLOSED, Upload.STATUS_UNSTABLE]:
@@ -541,6 +541,37 @@ class Main:
 
         # on arrête le traitement
         Config().om.info("\t 'a' : sortir et <Arrêter> le traitement [par défaut]")
+        return True
+
+    @staticmethod
+    def ctrl_c_upload() -> bool:
+        """fonction callback pour la gestion du ctrl-C
+        Renvoie un booléen d'arrêt de traitement. Si True, on doit arrêter le traitement.
+        """
+        # issues/9 :
+        # sortie => sortie du monitoring, ne pas arrêter le traitement
+        # stopper l’exécution de traitement => stopper le traitement (et donc le monitoring) [par défaut] (raise une erreur d'interruption volontaire)
+        # ignorer / "erreur de manipulation" => reprendre le suivi
+        s_reponse = "rien"
+        while s_reponse not in ["a", "s", "c", ""]:
+            Config().om.info(
+                "Vous avez taper ctrl-C. Que souhaitez-vous faire ?\n\
+                                \t* 'a' : pour sortir et <Arrêter> les vérifications [par défaut]\n\
+                                \t* 's' : pour sortir <Sans arrêter> les vérifications\n\
+                                \t* 'c' : pour annuler et <Continuer> les vérifications"
+            )
+            s_reponse = input().lower()
+
+        if s_reponse == "s":
+            Config().om.info("\t 's' : sortir <Sans arrêter> les vérifications")
+            sys.exit(0)
+
+        if s_reponse == "c":
+            Config().om.info("\t 'c' : annuler et <Continuer> les vérifications")
+            return False
+
+        # on arrête le traitement
+        Config().om.info("\t 'a' : sortir et <Arrêter> les vérifications [par défaut]")
         return True
 
     def workflow(self) -> None:
