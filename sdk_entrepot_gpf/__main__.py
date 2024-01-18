@@ -16,7 +16,7 @@ from sdk_entrepot_gpf.helper.JsonHelper import JsonHelper
 from sdk_entrepot_gpf.helper.PrintLogHelper import PrintLogHelper
 from sdk_entrepot_gpf.io.Color import Color
 from sdk_entrepot_gpf.io.DescriptorFileReader import DescriptorFileReader
-from sdk_entrepot_gpf.io.Errors import ConflictError
+from sdk_entrepot_gpf.io.Errors import ConflictError, NotFoundError
 from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
 from sdk_entrepot_gpf.store.Annexe import Annexe
 from sdk_entrepot_gpf.store.Metadata import Metadata
@@ -895,11 +895,18 @@ if __name__ == "__main__":
         Main()
         sys.exit(0)
     except GpfSdkError as e_gpf_api_error:
+        Config().om.debug(traceback.format_exc())
         Config().om.critical(e_gpf_api_error.message)
-    except ConflictError:
+    except NotFoundError as e_error:
+        # gestion "globale" des NotFoundError
+        Config().om.debug(traceback.format_exc())
+        Config().om.critical(f"L'élément demandé n'existe pas ({e_error.message}). Contactez le support si vous n'êtes pas à l'origine de la demande. URL : {e_error.method} {e_error.url}.")
+    except ConflictError as e_error:
         # gestion "globale" des ConflictError (ConfigurationAction et OfferingAction
         # possèdent chacune leur propre gestion)
+        Config().om.debug(traceback.format_exc())
         Config().om.critical("La requête envoyée à l'Entrepôt génère un conflit. N'avez-vous pas déjà effectué l'action que vous essayez de faire ?")
+        Config().om.error(e_error.message)
     except Exception as e_exception:
         Config().om.critical("Erreur non spécifiée :")
         Config().om.error(traceback.format_exc())

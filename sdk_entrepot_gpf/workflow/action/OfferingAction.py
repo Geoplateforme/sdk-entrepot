@@ -1,7 +1,7 @@
 import time
 from typing import Any, Dict, Optional
-from sdk_entrepot_gpf.Errors import GpfSdkError
 
+from sdk_entrepot_gpf.Errors import GpfSdkError
 from sdk_entrepot_gpf.store.Offering import Offering
 from sdk_entrepot_gpf.store.Configuration import Configuration
 from sdk_entrepot_gpf.workflow.Errors import StepActionError
@@ -74,6 +74,7 @@ class OfferingAction(ActionAbstract):
                 Config().om.warning(f"Une donnée offre équivalente à {o_offering} va être supprimée puis recréée.")
                 # Suppression de la donnée stockée
                 o_offering.api_delete()
+                Config().om.debug("Offre supprimée.")
                 # on force à None pour que la création soit faite
                 self.__offering = None
             # Comportement "on continue l'exécution"

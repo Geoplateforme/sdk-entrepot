@@ -17,11 +17,17 @@
     * Regex resolver : ajout de `_` avant et après le nom du résolveur si format list ou dict.
 * renommage DescriptorFileReader en UploadDescriptorFileReader
 * valeur définie dans la configuration pour `client_secret` et `client_id` et mise à jour de la documentation
+* conservation de NotFoundError lors de ApiRequester.url_request()
+* ApiRequester.url_request(): suppression de l'affichage automatique des erreurs
+* main : meilleure gestion globale des erreurs
+* Attente à la suppression des offres (non instantanée) pour éviter bug avec -b DELETE #57 et suppression en cascade.
 
 ### [Fixed]
 
 * Bug de config pour les URL des fichiers statics
+* Bug absence de transmission des behavior venant de la commande pour ConfigurationAction et OfferingAction
 * Gestion du Ctrl+C pendant le monitoring des vérification, suppression des vérifications non fini et réouverture de la livraison
+
 
 ## v0.1.18
 
