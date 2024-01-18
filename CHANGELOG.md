@@ -1,5 +1,13 @@
 # CHANGE LOG
 
+## v0.1.20
+
+### [Added]
+
+### [Changed]
+
+### [Fixed]
+
 ## v0.1.19
 
 ### [Added]
@@ -27,7 +35,6 @@
 * Bug de config pour les URL des fichiers statics
 * Bug absence de transmission des behavior venant de la commande pour ConfigurationAction et OfferingAction
 * Gestion du Ctrl+C pendant le monitoring des vérification, suppression des vérifications non fini et réouverture de la livraison
-
 
 ## v0.1.18
 
