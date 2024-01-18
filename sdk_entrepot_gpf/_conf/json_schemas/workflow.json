@@ -39,7 +39,8 @@
                                             "enum": [
                                                 "processing-execution",
                                                 "configuration",
-                                                "offering"
+                                                "offering",
+                                                "synchronize-offering"
                                             ]
                                         },
                                         "url_parameters": {
