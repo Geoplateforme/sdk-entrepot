@@ -243,6 +243,14 @@ class StoreEntity(ABC):
                     raise StoreEntityError(s_error_message)
         return d_filter
 
+    def get_liste_deletable_cascade(self) -> List["StoreEntity"]:
+        """liste les entités à supprimé lors d'une suppression en cascade
+
+        Returns:
+            List[StoreEntity]: liste des entités qui seront supprimé
+        """
+        return [self]
+
     def delete_cascade(self, before_delete: Optional[Callable[[List["StoreEntity"]], List["StoreEntity"]]] = None) -> None:
         """Suppression en cascade d'une entité en supprimant les entités liées (qui vont dépendre du type de l'entité, donc cf. les classes filles).
 
@@ -250,8 +258,8 @@ class StoreEntity(ABC):
             before_delete (Optional[Callable[[List[StoreEntity]], List[StoreEntity]]], optional): fonction à lancer avant la suppression (entrée : liste des entités à supprimer,
                 sortie : liste définitive des entités à supprimer). Defaults to None.
         """
-        # suppression d'une configuration : offres puis configuration
-        self.delete_liste_entities([self], before_delete)
+        l_entities: List[StoreEntity] = self.get_liste_deletable_cascade()
+        self.delete_liste_entities(l_entities, before_delete)
 
     @staticmethod
     def delete_liste_entities(l_entities: List["StoreEntity"], before_delete: Optional[Callable[[List["StoreEntity"]], List["StoreEntity"]]] = None) -> None:
