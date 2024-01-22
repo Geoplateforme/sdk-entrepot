@@ -670,7 +670,7 @@ class Main:
 
         if self.o_args.type in Main.DELETABLE_TYPES:
             # récupération de l'entité de base
-            o_entity = store.TYPE__ENTITY[self.o_args.type].api_get(self.o_args.id)
+            o_entity = store.TYPE__ENTITY[self.o_args.type].api_get(self.o_args.id, self.o_args.datastore)
         else:
             raise GpfSdkError(f"Type {self.o_args.type} non reconnu. Types valides : {', '.join(Main.DELETABLE_TYPES)}")
 
