@@ -10,6 +10,7 @@ from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
 from sdk_entrepot_gpf.workflow.Errors import WorkflowError
 from sdk_entrepot_gpf.io.Config import Config
 from sdk_entrepot_gpf.workflow.action.ActionAbstract import ActionAbstract
+from sdk_entrepot_gpf.workflow.action.DeleteAction import DeleteAction
 from sdk_entrepot_gpf.workflow.action.ProcessingExecutionAction import ProcessingExecutionAction
 from sdk_entrepot_gpf.workflow.action.ConfigurationAction import ConfigurationAction
 from sdk_entrepot_gpf.workflow.action.OfferingAction import OfferingAction
@@ -241,6 +242,8 @@ class Workflow:
         Returns:
             instance permettant de lancer l'action
         """
+        if definition_dict["type"] == "delete-entity":
+            return DeleteAction(workflow_context, definition_dict, parent_action)
         if definition_dict["type"] == "processing-execution":
             return ProcessingExecutionAction(workflow_context, definition_dict, parent_action, behavior=behavior)
         if definition_dict["type"] == "configuration":
