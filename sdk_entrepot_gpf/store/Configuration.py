@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Dict, List
 
 from sdk_entrepot_gpf.store.Offering import Offering
 from sdk_entrepot_gpf.store.StoreEntity import StoreEntity

@@ -22,15 +22,13 @@ from sdk_entrepot_gpf.store.Annexe import Annexe
 from sdk_entrepot_gpf.store.Metadata import Metadata
 from sdk_entrepot_gpf.store.Static import Static
 from sdk_entrepot_gpf.workflow.Workflow import Workflow
+from sdk_entrepot_gpf.workflow.action.DeleteAction import DeleteAction
 from sdk_entrepot_gpf.workflow.resolver.GlobalResolver import GlobalResolver
 from sdk_entrepot_gpf.workflow.resolver.StoreEntityResolver import StoreEntityResolver
 from sdk_entrepot_gpf.workflow.action.UploadAction import UploadAction
 from sdk_entrepot_gpf.io.Config import Config
 from sdk_entrepot_gpf.io.UploadDescriptorFileReader import UploadDescriptorFileReader
 from sdk_entrepot_gpf import store
-from sdk_entrepot_gpf.store.Offering import Offering
-from sdk_entrepot_gpf.store.Configuration import Configuration
-from sdk_entrepot_gpf.store.StoredData import StoredData
 from sdk_entrepot_gpf.store.Upload import Upload
 from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
 from sdk_entrepot_gpf.store.ProcessingExecution import ProcessingExecution
@@ -40,8 +38,6 @@ from sdk_entrepot_gpf.workflow.resolver.UserResolver import UserResolver
 
 class Main:
     """Classe d'entrée pour utiliser la lib comme binaire."""
-
-    DELETABLE_TYPES = [Upload.entity_name(), StoredData.entity_name(), Configuration.entity_name(), Offering.entity_name()]
 
     def __init__(self) -> None:
         """Constructeur."""
@@ -160,7 +156,7 @@ class Main:
 
         # Parser pour delete
         o_sub_parser = o_sub_parsers.add_parser("delete", help="Delete")
-        o_sub_parser.add_argument("--type", choices=Main.DELETABLE_TYPES, required=True, help="Type de l'entité à supprimer")
+        o_sub_parser.add_argument("--type", choices=DeleteAction.DELETABLE_TYPES, required=True, help="Type de l'entité à supprimer")
         o_sub_parser.add_argument("--id", type=str, required=True, help="Identifiant de l'entité à supprimer")
         o_sub_parser.add_argument("--cascade", action="store_true", help="Action à effectuer si l'exécution de traitement existe déjà")
         o_sub_parser.add_argument("--force", action="store_true", help="Mode forcé, les suppressions sont faites sans aucune interaction")
@@ -649,6 +645,7 @@ class Main:
 
     def delete(self) -> None:
         """suppression d'une entité par son type et son id"""
+        # TODO: passé à l'utilisation de DeleteAction
 
         def question_before_delete(l_delete: List[StoreEntity]) -> List[StoreEntity]:
             Config().om.info("suppression de :")
@@ -668,11 +665,11 @@ class Main:
                 Config().om.info(str(o_entity), green_colored=True)
             return l_delete
 
-        if self.o_args.type in Main.DELETABLE_TYPES:
+        if self.o_args.type in DeleteAction.DELETABLE_TYPES:
             # récupération de l'entité de base
             o_entity = store.TYPE__ENTITY[self.o_args.type].api_get(self.o_args.id, self.o_args.datastore)
         else:
-            raise GpfSdkError(f"Type {self.o_args.type} non reconnu. Types valides : {', '.join(Main.DELETABLE_TYPES)}")
+            raise GpfSdkError(f"Type {self.o_args.type} non reconnu. Types valides : {', '.join(DeleteAction.DELETABLE_TYPES)}")
 
         # choix de la fonction exécuté avant la suppression
         ## force : juste affichage
