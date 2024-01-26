@@ -4,6 +4,8 @@
 
 ### [Added]
 
+* DeleteAction : suppression des upload, stored_data, configuration et offering dans un workflow
+
 ### [Changed]
 
 ### [Fixed]
