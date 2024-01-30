@@ -1,4 +1,5 @@
 import time
+from typing import List
 from sdk_entrepot_gpf.io.Errors import NotFoundError
 from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
 from sdk_entrepot_gpf.store.interface.PartialEditInterface import PartialEditInterface
@@ -45,3 +46,15 @@ class Offering(PartialEditInterface, StoreEntity):
 
         # Mise à jour du stockage local (_store_api_dict)
         self.api_update()
+
+    def get_url(self) -> List[str]:
+        """récupération de la liste des URL
+
+        Returns:
+            List[str]: liste des URL
+        """
+        if len(self["urls"]) > 0 and isinstance(self["urls"][0], dict):
+            # si les url sont récupérées sous forme de dict on affiche l'url uniquement
+            return [str(d_url["url"]) for d_url in self["urls"]]
+        # directement sous forme de liste de texte
+        return [str(url) for url in self["urls"]]
