@@ -19,14 +19,14 @@ class SynchronizeOfferingAction(ActionAbstract):
     """
 
     def _find_offerings(self, datastore: Optional[str] = None) -> List[Offering]:
-        """recherche de la liste des offerings à traiter
+        """Recherche de la liste des offerings à traiter
 
         Args:
-            datastore (Optional[str], optional): Datastore à utilisé. Defaults to None.
+            datastore (Optional[str], optional): Datastore à utiliser. Defaults to None.
 
         Raises:
             StepActionError: Impossible de trouver l'offre (uniquement avec "entity_id")
-            StepActionError: Action mal paramétrer : il faut obligatoirement "entity_id" ou "filter_infos"
+            StepActionError: Action mal paramétrée : il faut obligatoirement "entity_id" ou "filter_infos"
 
         Returns:
             List[Offering]: Liste des offres à synchroniser
@@ -73,20 +73,20 @@ class SynchronizeOfferingAction(ActionAbstract):
             datastore (Optional[str], optional): surcharge du datastore, sinon utilisation de celui par défaut. Defaults to None.
 
         Raises:
-            StepActionError: Aucune offres trouvé pour la synchronisation
-            StepActionError: Plusieurs offres trouvé pour la synchronisation (uniquement si "if_multi" == "error")
-            StepActionError: La synchronisation d'au moins une offre est terminé en erreur
+            StepActionError: Aucune offre trouvée pour la synchronisation
+            StepActionError: Plusieurs offres trouvées pour la synchronisation (uniquement si "if_multi" == "error")
+            StepActionError: La synchronisation d'au moins une offre est terminée en erreur
         """
         Config().om.info("Synchronisation d'une offre...")
         # récupération des offres
         l_offering = self._find_offerings(datastore)
         # gestion des cas particuliers
         if len(l_offering) == 0:
-            raise StepActionError("Aucune offres trouvé pour la synchronisation")
+            raise StepActionError("Aucune offre trouvée pour la synchronisation")
         if len(l_offering) > 1:
             if self.definition_dict.get("if_multi") == "error":
                 # On sort en erreur
-                raise StepActionError(f"Plusieurs offres trouvé pour la synchronisation : {l_offering}")
+                raise StepActionError(f"Plusieurs offres trouvées pour la synchronisation : {l_offering}")
             if self.definition_dict.get("if_multi") == "first":
                 # on ne synchronise que le 1er élément trouvé
                 l_offering = [l_offering[0]]
@@ -101,7 +101,7 @@ class SynchronizeOfferingAction(ActionAbstract):
                 # synchronisation (l'offre met du temps à synchroniser donc on lance tout puis on fera le suivi)
                 o_offering.api_synchronize()
             except NotFoundError as e:
-                s_message = f"Impossible de trouvé l'offre {o_offering}. Elle a été supprimée ?"
+                s_message = f"Impossible de trouver l'offre {o_offering}. A-elle été supprimée ?"
                 Config().om.error(s_message)
                 Config().om.debug(str(e))
                 l_errors.append(s_message)
@@ -134,4 +134,4 @@ class SynchronizeOfferingAction(ActionAbstract):
                 Config().om.debug(f"Status : '{s_status}', on attend ...")
                 time.sleep(1)
         if l_errors:
-            raise StepActionError("La synchronisation d'au moins une offre est terminé en erreur \n * " + "\n * ".join(l_errors))
+            raise StepActionError("La synchronisation d'au moins une offre est terminée en erreur \n * " + "\n * ".join(l_errors))

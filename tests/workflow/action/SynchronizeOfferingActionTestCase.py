@@ -115,7 +115,7 @@ class SynchronizeOfferingActionTestCase(GpfTestCase):
         with patch.object(SynchronizeOfferingAction, "_find_offerings", return_value=[]) as o_mock_find:
             with self.assertRaises(StepActionError) as o_err:
                 o_action.run(s_datastore)
-            self.assertEqual("Aucune offres trouvé pour la synchronisation", o_err.exception.message)
+            self.assertEqual("Aucune offre trouvée pour la synchronisation", o_err.exception.message)
             o_mock_find.assert_called_once_with(s_datastore)
 
         # plusieurs résultat et "if_multi" == "error"
@@ -125,7 +125,7 @@ class SynchronizeOfferingActionTestCase(GpfTestCase):
         with patch.object(SynchronizeOfferingAction, "_find_offerings", return_value=l_offering) as o_mock_find:
             with self.assertRaises(StepActionError) as o_err:
                 o_action.run(s_datastore)
-            self.assertEqual(f"Plusieurs offres trouvé pour la synchronisation : {l_offering}", o_err.exception.message)
+            self.assertEqual(f"Plusieurs offres trouvées pour la synchronisation : {l_offering}", o_err.exception.message)
             o_mock_find.assert_called_once_with(s_datastore)
 
         # Différentes erreurs lors de la synchronisation
@@ -142,7 +142,7 @@ class SynchronizeOfferingActionTestCase(GpfTestCase):
         o_mock_2 = MagicMock()
         o_mock_2.api_synchronize.side_effect = NotFoundError("", "", {}, {}, "erreur type NotFoundError")
         l_offering.append(o_mock_2)
-        l_errors.append(f"Impossible de trouvé l'offre {o_mock_2}. Elle a été supprimée ?")
+        l_errors.append(f"Impossible de trouver l'offre {o_mock_2}. A-elle été supprimée ?")
         # Offering.STATUS_UNSTABLE
         o_mock_3 = MagicMock()
         o_mock_3.api_synchronize.return_value = None
@@ -173,7 +173,7 @@ class SynchronizeOfferingActionTestCase(GpfTestCase):
         with patch.object(SynchronizeOfferingAction, "_find_offerings", return_value=l_offering) as o_mock_find:
             with self.assertRaises(StepActionError) as o_err:
                 o_action.run(s_datastore)
-            self.assertEqual("La synchronisation d'au moins une offre est terminé en erreur \n * " + "\n * ".join(l_errors), o_err.exception.message)
+            self.assertEqual("La synchronisation d'au moins une offre est terminée en erreur \n * " + "\n * ".join(l_errors), o_err.exception.message)
             o_mock_find.assert_called_once_with(s_datastore)
 
     def test_run_ok(self) -> None:
