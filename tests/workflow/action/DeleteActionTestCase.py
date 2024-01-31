@@ -57,7 +57,7 @@ class DeleteActionTestCase(GpfTestCase):
             with patch.object(c_classe, "api_list", return_value=[]) as o_mock_api_list:
                 with self.assertRaises(StepActionError) as o_err:
                     o_action_delete.run(s_datastore)
-            self.assertEqual("Aucune entité trouvé pour la suppression", o_err.exception.message)
+            self.assertEqual("Aucune entité trouvée pour la suppression", o_err.exception.message)
             o_mock_api_list.assert_called_once_with(d_action.get("filter_infos"), d_action.get("filter_infos"), datastore=s_datastore)
 
             # rien trouvé avec "entity_id"
@@ -66,7 +66,7 @@ class DeleteActionTestCase(GpfTestCase):
             with patch.object(c_classe, "api_get", side_effect=NotFoundError("", "", None, None, "")) as o_mock_api_list:
                 with self.assertRaises(StepActionError) as o_err:
                     o_action_delete.run(s_datastore)
-            self.assertEqual("Aucune entité trouvé pour la suppression", o_err.exception.message)
+            self.assertEqual("Aucune entité trouvée pour la suppression", o_err.exception.message)
             o_mock_api_list.assert_called_once_with(s_entity_id, datastore=s_datastore)
 
         d_action = {"type": "delete-entity", "entity_type": "offering", "filter_infos": {}, "if_multi": "error"}
@@ -75,7 +75,7 @@ class DeleteActionTestCase(GpfTestCase):
         with patch.object(Offering, "api_list", return_value=l_entities) as o_mock_api_list:
             with self.assertRaises(StepActionError) as o_err:
                 o_action_delete.run(s_datastore)
-        self.assertEqual(f"Plusieurs entités trouvé pour la suppression : {l_entities}", o_err.exception.message)
+        self.assertEqual(f"Plusieurs entités trouvées pour la suppression : {l_entities}", o_err.exception.message)
         o_mock_api_list.assert_called_once_with(d_action.get("filter_infos"), d_action.get("filter_infos"), datastore=s_datastore)
 
     def test_run_ok(self) -> None:  # pylint: disable=too-many-locals,too-many-statements

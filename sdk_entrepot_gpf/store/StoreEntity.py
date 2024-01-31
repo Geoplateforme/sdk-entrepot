@@ -244,7 +244,7 @@ class StoreEntity(ABC):
         return d_filter
 
     def get_liste_deletable_cascade(self) -> List["StoreEntity"]:
-        """liste les entités à supprimé lors d'une suppression en cascade
+        """liste les entités à supprimer lors d'une suppression en cascade
 
         Returns:
             List[StoreEntity]: liste des entités qui seront supprimé

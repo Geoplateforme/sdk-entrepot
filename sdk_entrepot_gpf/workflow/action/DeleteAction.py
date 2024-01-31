@@ -25,18 +25,18 @@ class DeleteAction(ActionAbstract):
 
     @staticmethod
     def question_before_delete(l_delete: List[StoreEntity]) -> List[StoreEntity]:
-        """question posé avant que la suppression soit effectuée
+        """question posée avant que la suppression soit effectuée
 
         Args:
-            l_delete (List[StoreEntity]): liste des entités à supprimé
+            l_delete (List[StoreEntity]): liste des entités à supprimer
 
         Returns:
-            List[StoreEntity]: liste final des entités à supprimé
+            List[StoreEntity]: liste final des entités à supprimer
         """
         Config().om.info("suppression de :")
         for o_entity in l_delete:
             Config().om.info(str(o_entity), green_colored=True)
-        Config().om.info("Voulez-vous effectué la suppression ? (oui/NON)")
+        Config().om.info("Voulez-vous effectuer la suppression ? (oui/NON)")
         s_rep = input()
         # si la réponse ne correspond pas à oui on sort
         if s_rep.lower() not in ["oui", "o", "yes", "y"]:
@@ -50,7 +50,7 @@ class DeleteAction(ActionAbstract):
             raise StepActionError('La clef "entity_type" est obligatoire pour cette action')
         if self.definition_dict["entity_type"] not in DeleteAction.DELETABLE_TYPES:
             raise StepActionError(f"Type {self.definition_dict['entity_type']} non reconnu. Types valides : {', '.join(DeleteAction.DELETABLE_TYPES)}")
-        # Recherche de la/ les entité à supprimé
+        # Recherche de la/ les entité à supprimer
         l_entities = []
         if self.definition_dict.get("entity_id"):
             ## si id => on recherche directement
@@ -66,11 +66,11 @@ class DeleteAction(ActionAbstract):
             raise StepActionError('Il faut au moins une des clefs suivantes : "entity_id", "filter_infos", "filter_tags" pour cette action.')
 
         if len(l_entities) == 0 and not self.definition_dict.get("not_found_ok"):
-            raise StepActionError("Aucune entité trouvé pour la suppression")
+            raise StepActionError("Aucune entité trouvée pour la suppression")
         if len(l_entities) > 1:
             if self.definition_dict.get("if_multi") == "error":
                 # On sort en erreur
-                raise StepActionError(f"Plusieurs entités trouvé pour la suppression : {l_entities}")
+                raise StepActionError(f"Plusieurs entités trouvées pour la suppression : {l_entities}")
             if self.definition_dict.get("if_multi") == "first":
                 # on ne supprime que le 1er élément trouvé
                 l_entities = [l_entities[0]]
