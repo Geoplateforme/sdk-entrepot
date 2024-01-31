@@ -36,6 +36,7 @@
                                         "type": {
                                             "type": "string",
                                             "enum": [
+                                                "delete-entity",
                                                 "processing-execution",
                                                 "configuration",
                                                 "offering",
