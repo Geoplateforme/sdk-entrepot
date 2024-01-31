@@ -4,6 +4,10 @@
 
 ### [Added]
 
+* ajout fonction Offering.api_synchronize() : synchronisation de l'offre avec la configuration
+* ajout de la fonction Offering.get_url() : récupération de la liste des url d'une offre
+* ajout de l'action `SynchronizeOfferingAction` : synchronisation de l'offre avec la configuration depuis un workflow
+
 ### [Changed]
 
 ### [Fixed]
