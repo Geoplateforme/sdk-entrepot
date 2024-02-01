@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Any, Dict
 from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
 from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
 
@@ -22,3 +22,14 @@ class FullEditInterface(StoreEntity):
 
         # Mise à jour du stockage local (_store_api_dict)
         self.api_update()
+
+    def edit(self, data_edit: Dict[str, Any]) -> None:
+        """Mise à jour totale de l'entité
+
+        Args:
+            data_edit (Dict[str, Any]): nouvelles valeurs de propriétés
+        """
+        # fusion des dictionnaire actuelle et nouveau
+        d_data = {**data_edit, **self.get_store_properties()}
+
+        self.api_full_edit(d_data)
