@@ -30,6 +30,6 @@ class FullEditInterface(StoreEntity):
             data_edit (Dict[str, Any]): nouvelles valeurs de propriétés
         """
         # fusion des dictionnaire actuelle et nouveau
-        d_data = {**data_edit, **self.get_store_properties()}
+        d_data = {**self.get_store_properties(), **data_edit}
 
         self.api_full_edit(d_data)

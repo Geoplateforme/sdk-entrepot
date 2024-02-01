@@ -290,7 +290,7 @@ class StoreEntity(ABC):
             data_edit (Dict[str, Any]): nouvelles valeurs de propriétés
         """
 
-        raise StoreEntityError("Il est impossible de mettre à jour cette entité")
+        raise StoreEntityError("Il est impossible d'éditer cette entité.")
 
     ##############################################################
     # Récupération du JSON
