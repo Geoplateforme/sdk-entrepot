@@ -57,7 +57,7 @@ class ActionAbstract(ABC):
     def parent_action(self) -> Optional["ActionAbstract"]:
         return self.__parent_action
 
-    def resolve(self) -> None:
+    def resolve(self, **kwargs: Dict[str, Any]) -> None:
         """Résout la définition de l'action.
 
         L'action peut faire référence à des entités via des filtres, on
@@ -67,7 +67,7 @@ class ActionAbstract(ABC):
         # Pour faciliter la résolution, on repasse la définition de l'action en json
         s_definition = str(json.dumps(self.__definition_dict, ensure_ascii=False))
         # lancement des résolveurs
-        s_resolved_definition = GlobalResolver().resolve(s_definition)
+        s_resolved_definition = GlobalResolver().resolve(s_definition, **kwargs)
         # on repasse en json
         try:
             self.__definition_dict = json.loads(s_resolved_definition)

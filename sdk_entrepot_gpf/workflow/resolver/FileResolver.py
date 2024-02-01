@@ -1,6 +1,7 @@
 import re
 import json
 from pathlib import Path
+from typing import Any, Dict
 
 from sdk_entrepot_gpf.io.Config import Config
 from sdk_entrepot_gpf.workflow.resolver.AbstractResolver import AbstractResolver
@@ -133,7 +134,7 @@ class FileResolver(AbstractResolver):
             raise ResolveFileInvalidError(self.name, string_to_solve)
         return s_data
 
-    def resolve(self, string_to_solve: str) -> str:
+    def resolve(self, string_to_solve: str, **kwargs: Dict[str, Any]) -> str:
         """Fonction permettant de renvoyer sous forme de string la résolution
         des paramètres de fichier passés en entrée.
 

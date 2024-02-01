@@ -24,7 +24,7 @@ class DictResolver(AbstractResolver):
         super().__init__(name)
         self.__key_value: Dict[str, Any] = key_value
 
-    def resolve(self, string_to_solve: str) -> str:
+    def resolve(self, string_to_solve: str, **kwargs: Dict[str, Any]) -> str:
         # La chaîne à résoudre est en fait la clé, donc il suffit de renvoyer la valeur associée
         if string_to_solve in self.__key_value:
             return str(self.__key_value[string_to_solve])
