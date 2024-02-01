@@ -13,7 +13,7 @@ from sdk_entrepot_gpf import store
 from sdk_entrepot_gpf.workflow.Errors import StepActionError
 
 
-class UpdateAction(ActionAbstract):
+class EditAction(ActionAbstract):
     """Classe dédiée à la Mise à jour des entités.
 
     Attributes:
@@ -28,8 +28,8 @@ class UpdateAction(ActionAbstract):
         Config().om.info("Suppression...")
         if "entity_type" not in self.definition_dict:
             raise StepActionError('La clef "entity_type" est obligatoire pour cette action')
-        if self.definition_dict["entity_type"] not in UpdateAction.UPDATABLE_TYPES:
-            raise StepActionError(f"Type {self.definition_dict['entity_type']} non reconnu. Types valides : {', '.join(UpdateAction.UPDATABLE_TYPES)}")
+        if self.definition_dict["entity_type"] not in EditAction.UPDATABLE_TYPES:
+            raise StepActionError(f"Type {self.definition_dict['entity_type']} non reconnu. Types valides : {', '.join(EditAction.UPDATABLE_TYPES)}")
         if not self.definition_dict.get("entity_id"):
             raise StepActionError('La clef "entity_id" est obligatoire pour cette action.')
         o_entity: StoreEntity = store.TYPE__ENTITY[self.definition_dict["entity_type"]].api_get(self.definition_dict["entity_id"], datastore=datastore)
@@ -40,7 +40,15 @@ class UpdateAction(ActionAbstract):
 
         # ajout des tags si possible
         if self.definition_dict.get("tags") and isinstance(o_entity, TagInterface):
+            Config().om.info(f"ajout des {len(self.definition_dict['tags'])} tags...")
             o_entity.api_add_tags(self.definition_dict["tags"])
+            Config().om.info(f"les {len(self.definition_dict['tags'])} tags ont été ajoutés avec succès.")
         # ajout des commentaires si possible
         if self.definition_dict.get("comments") and isinstance(o_entity, CommentInterface):
-            o_entity.api_add_comment(self.definition_dict["comments"])
+            l_actual_comments = [d_comment["text"] for d_comment in o_entity.api_list_comments() if d_comment]
+            Config().om.info(f"Ajout des {len(self.definition_dict['comments'])} commentaires...")
+            for s_comment in self.definition_dict["comments"]:
+                # si le commentaire n'existe pas déjà on l'ajoute
+                if s_comment not in l_actual_comments:
+                    o_entity.api_add_comment({"text": s_comment})
+            Config().om.info(f"les {len(self.definition_dict['comments'])} commentaires ont été ajoutés avec succès.")
