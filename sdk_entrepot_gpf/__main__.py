@@ -28,7 +28,6 @@ from sdk_entrepot_gpf.workflow.resolver.StoreEntityResolver import StoreEntityRe
 from sdk_entrepot_gpf.workflow.action.UploadAction import UploadAction
 from sdk_entrepot_gpf.io.Config import Config
 from sdk_entrepot_gpf.io.UploadDescriptorFileReader import UploadDescriptorFileReader
-from sdk_entrepot_gpf import store
 from sdk_entrepot_gpf.store.Upload import Upload
 from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
 from sdk_entrepot_gpf.store.ProcessingExecution import ProcessingExecution
@@ -645,42 +644,16 @@ class Main:
 
     def delete(self) -> None:
         """suppression d'une entité par son type et son id"""
-        # TODO: passé à l'utilisation de DeleteAction
-
-        def question_before_delete(l_delete: List[StoreEntity]) -> List[StoreEntity]:
-            Config().om.info("suppression de :")
-            for o_entity in l_delete:
-                Config().om.info(str(o_entity), green_colored=True)
-            Config().om.info("Voulez-vous effectué la suppression ? (oui/NON)")
-            s_rep = input()
-            # si la réponse ne correspond pas à oui on sort
-            if s_rep.lower() not in ["oui", "o", "yes", "y"]:
-                Config().om.info("La suppression est annulée.")
-                return []
-            return l_delete
-
-        def print_before_delete(l_delete: List[StoreEntity]) -> List[StoreEntity]:
-            Config().om.info("suppression de :")
-            for o_entity in l_delete:
-                Config().om.info(str(o_entity), green_colored=True)
-            return l_delete
-
-        if self.o_args.type in DeleteAction.DELETABLE_TYPES:
-            # récupération de l'entité de base
-            o_entity = store.TYPE__ENTITY[self.o_args.type].api_get(self.o_args.id, self.o_args.datastore)
-        else:
-            raise GpfSdkError(f"Type {self.o_args.type} non reconnu. Types valides : {', '.join(DeleteAction.DELETABLE_TYPES)}")
-
-        # choix de la fonction exécuté avant la suppression
-        ## force : juste affichage
-        ## sinon : question d'acceptation de la suppression
-        f_delete = print_before_delete if self.o_args.force else question_before_delete
-
-        # suppression
-        if self.o_args.cascade:
-            o_entity.delete_cascade(f_delete)
-        else:
-            StoreEntity.delete_liste_entities([o_entity], f_delete)
+        # création du workflow pour l'action de suppression
+        d_action = {
+            "type": "delete-entity",
+            "entity_type": self.o_args.type,
+            "entity_id": self.o_args.id,
+            "cascade": self.o_args.cascade,
+            "confirm": not self.o_args.force,
+        }
+        o_action_delete = DeleteAction("contexte", d_action)
+        o_action_delete.run(self.o_args.datastore)
 
     @staticmethod
     def _display_bilan_upload_file(d_res: Dict[str, Any]) -> None:
