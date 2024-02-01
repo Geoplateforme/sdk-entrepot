@@ -13,7 +13,7 @@ from sdk_entrepot_gpf.workflow.Errors import StepActionError
 
 
 class DeleteAction(ActionAbstract):
-    """Classe dédiée à la création des Offering.
+    """Classe dédiée à la suppression des entités.
 
     Attributes:
         __workflow_context (str): nom du contexte du workflow
