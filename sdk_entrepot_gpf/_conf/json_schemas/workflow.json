@@ -86,6 +86,9 @@
                                                 "all",
                                                 "error"
                                             ]
+                                        },
+                                        "confirm": {
+                                            "type": "boolean"
                                         }
                                     }
                                 }
