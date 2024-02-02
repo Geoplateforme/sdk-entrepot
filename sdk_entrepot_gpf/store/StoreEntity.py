@@ -283,6 +283,15 @@ class StoreEntity(ABC):
             time.sleep(1)
         Config().om.info("Suppression effectuée.", green_colored=True)
 
+    def edit(self, data_edit: Dict[str, Any]) -> None:
+        """Mise à jour de l'entité
+
+        Args:
+            data_edit (Dict[str, Any]): nouvelles valeurs de propriétés
+        """
+
+        raise StoreEntityError("Il est impossible d'éditer cette entité.")
+
     ##############################################################
     # Récupération du JSON
     ##############################################################

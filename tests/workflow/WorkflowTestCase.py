@@ -13,8 +13,11 @@ from sdk_entrepot_gpf.workflow.Errors import WorkflowError
 from sdk_entrepot_gpf.workflow.Workflow import Workflow
 from sdk_entrepot_gpf.workflow.action.ActionAbstract import ActionAbstract
 from sdk_entrepot_gpf.workflow.action.ConfigurationAction import ConfigurationAction
+from sdk_entrepot_gpf.workflow.action.DeleteAction import DeleteAction
+from sdk_entrepot_gpf.workflow.action.EditAction import EditAction
 from sdk_entrepot_gpf.workflow.action.OfferingAction import OfferingAction
 from sdk_entrepot_gpf.workflow.action.ProcessingExecutionAction import ProcessingExecutionAction
+from sdk_entrepot_gpf.workflow.action.SynchronizeOfferingAction import SynchronizeOfferingAction
 
 from tests.GpfTestCase import GpfTestCase
 
@@ -284,7 +287,15 @@ class WorkflowTestCase(GpfTestCase):
             {**d_args, "step_name": "mise-en-base", "callback": callback, "behavior": "DELETE"}, d_workflow, [None], monitoring_until_end=["SUCCESS", "SUCCESS"], output_type="stored_data"
         )
 
-    def run_generation(self, expected_type: Type[ActionAbstract], name: str, dico_def: Dict[str, Any], parent: Optional[ActionAbstract] = None, behavior: Optional[str] = None) -> None:
+    def run_generation(
+        self,
+        expected_type: Type[ActionAbstract],
+        name: str,
+        dico_def: Dict[str, Any],
+        parent: Optional[ActionAbstract] = None,
+        behavior: Optional[str] = None,
+        with_beavior: bool = True,
+    ) -> None:
         """lancement de la commande de génération
 
         Args:
@@ -300,19 +311,25 @@ class WorkflowTestCase(GpfTestCase):
             print("new - ", workflow_context, definition_dict, parent_action, behavior)
 
         d_mock = {}
-
-        with patch.object(ProcessingExecutionAction, "__init__", wraps=new_init) as d_mock["ProcessingExecutionAction"]:
-            with patch.object(ConfigurationAction, "__init__", wraps=new_init) as d_mock["ConfigurationAction"]:
-                with patch.object(OfferingAction, "__init__", wraps=new_init) as d_mock["OfferingAction"]:
-                    # exécution
-                    o_action_generated = Workflow.generate(name, dico_def, parent, behavior=behavior)
-                    # tests
-                    self.assertIsInstance(o_action_generated, expected_type)
-                    for s_class_name, o_mock in d_mock.items():
-                        if expected_type.__name__ == s_class_name:
-                            o_mock.assert_called_once_with(name, dico_def, parent, behavior=behavior)
-                        else:
-                            o_mock.assert_not_called()
+        # fmt: off
+        with patch.object(DeleteAction, "__init__", wraps=new_init) as d_mock["DeleteAction"], \
+        patch.object(ProcessingExecutionAction, "__init__", wraps=new_init) as d_mock["ProcessingExecutionAction"], \
+        patch.object(ConfigurationAction, "__init__", wraps=new_init) as d_mock["ConfigurationAction"], \
+        patch.object(OfferingAction, "__init__", wraps=new_init) as d_mock["OfferingAction"], \
+        patch.object(SynchronizeOfferingAction, "__init__", wraps=new_init) as d_mock["SynchronizeOfferingAction"], \
+        patch.object(EditAction, "__init__", wraps=new_init) as d_mock["EditAction"]:
+            # fmt: on
+            # exécution
+            o_action_generated = Workflow.generate(name, dico_def, parent, behavior=behavior)
+            # tests
+            self.assertIsInstance(o_action_generated, expected_type)
+            for s_class_name, o_mock in d_mock.items():
+                if expected_type.__name__ == s_class_name and with_beavior:
+                    o_mock.assert_called_once_with(name, dico_def, parent, behavior=behavior)
+                elif expected_type.__name__ == s_class_name and not with_beavior:
+                    o_mock.assert_called_once_with(name, dico_def, parent)
+                else:
+                    o_mock.assert_not_called()
 
     def test_generate(self) -> None:
         """test de generate"""
@@ -330,6 +347,13 @@ class WorkflowTestCase(GpfTestCase):
         # test type offering
         self.run_generation(OfferingAction, "name", {"type": "offering"}, None, behavior="DELETE")
         self.run_generation(OfferingAction, "name", {"type": "offering"}, o_mock_parent)
+
+        # test type delete-entity
+        self.run_generation(DeleteAction, "name", {"type": "delete-entity"}, o_mock_parent, with_beavior=False)
+        # test type synchronize-offering
+        self.run_generation(SynchronizeOfferingAction, "name", {"type": "synchronize-offering"}, o_mock_parent, with_beavior=False)
+        # test type edit-entity
+        self.run_generation(EditAction, "name", {"type": "edit-entity"}, o_mock_parent, with_beavior=False)
 
     def test_open_workflow(self) -> None:
         """Test de la fonction open_workflow."""
