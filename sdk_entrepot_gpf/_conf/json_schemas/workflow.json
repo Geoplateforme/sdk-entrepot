@@ -39,6 +39,7 @@
                                                 "delete-entity",
                                                 "processing-execution",
                                                 "configuration",
+                                                "copie-configuration",
                                                 "offering",
                                                 "synchronize-offering"
                                             ]
