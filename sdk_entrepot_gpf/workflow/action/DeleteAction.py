@@ -46,13 +46,13 @@ class DeleteAction(ActionAbstract):
 
     @staticmethod
     def print_before_delete(l_delete: List[StoreEntity]) -> List[StoreEntity]:
-        """affichage avant que la suppression soit effectuée
+        """Affichage avant que la suppression soit effectuée
 
         Args:
-            l_delete (List[StoreEntity]): liste des entités à supprimé
+            l_delete (List[StoreEntity]): liste des entités à supprimer
 
         Returns:
-            List[StoreEntity]: liste final des entités à supprimé
+            List[StoreEntity]: liste finale des entités à supprimer
         """
         Config().om.info("suppression de :")
         for o_entity in l_delete:
