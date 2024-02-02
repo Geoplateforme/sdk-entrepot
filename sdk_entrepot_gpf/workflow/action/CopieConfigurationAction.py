@@ -16,9 +16,9 @@ class CopieConfigurationAction(ConfigurationAction):
     """
 
     def run(self, datastore: Optional[str] = None) -> None:
-        # test d'on a bien les nouvelles valeur de name et layer_name
+        # test d'on a bien les nouvelles valeurs de name et layer_name dans body_parameters
         if "body_parameters" not in self.definition_dict or "layer_name" not in self.definition_dict["body_parameters"] or "name" not in self.definition_dict["body_parameters"]:
-            raise StepActionError('Les clef "name" et "layer_name" sont obligatoire dans "body_parameters"')
+            raise StepActionError('Les clefs "name" et "layer_name" sont obligatoires dans "body_parameters"')
 
         Config().om.info("Récupération du paramétrage de l'ancienne configuration...")
         # on récupère la configuration à copier

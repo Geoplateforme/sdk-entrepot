@@ -28,7 +28,7 @@ class CopieConfigurationActionTestCase(GpfTestCase):
             o_action = CopieConfigurationAction("contexte", d_definition, None, "CONTINUE")
             with self.assertRaises(StepActionError) as o_mock_err:
                 o_action.run("datastore")
-            self.assertEqual('Les clef "name" et "layer_name" sont obligatoire dans "body_parameters"', o_mock_err.exception.message)
+            self.assertEqual('Les clefs "name" et "layer_name" sont obligatoires dans "body_parameters"', o_mock_err.exception.message)
 
         d_definition = {"url_parameters": {"configuration": "123"}, "body_parameters": {"layer_name": "nouveau layer_name", "name": "nouveau name"}}
         o_action = CopieConfigurationAction("contexte", d_definition, None, "CONTINUE")
