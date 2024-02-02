@@ -1,14 +1,11 @@
-from typing import Any, Dict, List, Optional
-
+from typing import Dict, Any, List
 from unittest.mock import patch, MagicMock
-from sdk_entrepot_gpf.Errors import GpfSdkError
-from sdk_entrepot_gpf.io.Errors import ConflictError
 
 from sdk_entrepot_gpf.store.Configuration import Configuration
 from sdk_entrepot_gpf.workflow.Errors import StepActionError
-from sdk_entrepot_gpf.workflow.action.ActionAbstract import ActionAbstract
 from sdk_entrepot_gpf.workflow.action.CopieConfigurationAction import CopieConfigurationAction
 from sdk_entrepot_gpf.workflow.action.ConfigurationAction import ConfigurationAction
+
 from tests.GpfTestCase import GpfTestCase
 
 
@@ -26,7 +23,8 @@ class CopieConfigurationActionTestCase(GpfTestCase):
     def test_run(self) -> None:
         """test de run"""
         # manque des paramétres
-        for d_definition in [{}, {"body_parameters": {}}, {"body_parameters": {"name": "nouveau name"}}, {"body_parameters": {"layer_name": "nouveau layer_name"}}]:
+        l_dict_definition: List[Dict[str, Any]] = [{}, {"body_parameters": {}}, {"body_parameters": {"name": "nouveau name"}}, {"body_parameters": {"layer_name": "nouveau layer_name"}}]
+        for d_definition in l_dict_definition:
             o_action = CopieConfigurationAction("contexte", d_definition, None, "CONTINUE")
             with self.assertRaises(StepActionError) as o_mock_err:
                 o_action.run("datastore")

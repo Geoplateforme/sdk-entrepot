@@ -233,7 +233,9 @@ class Workflow:
         return list(self.__raw_definition_dict["workflow"]["steps"].keys())
 
     @staticmethod
-    def generate(workflow_context: str, definition_dict: Dict[str, Any], parent_action: Optional[ActionAbstract] = None, behavior: Optional[str] = None) -> ActionAbstract:
+    def generate(  # pylint: disable=too-many-return-statements
+        workflow_context: str, definition_dict: Dict[str, Any], parent_action: Optional[ActionAbstract] = None, behavior: Optional[str] = None
+    ) -> ActionAbstract:
         """Génération de la bonne action selon le type indiqué dans la représentation du workflow.
 
         Args:
