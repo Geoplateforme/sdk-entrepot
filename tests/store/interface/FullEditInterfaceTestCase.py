@@ -45,3 +45,16 @@ class FullEditInterfaceTestCase(GpfTestCase):
                     data=d_full_modified_api_data,
                 )
                 o_mock_update.assert_called_once_with()
+
+    def test_edit(self) -> None:
+        """test de edit"""
+        d_edit = {"key": "val", "comm_key": "edit"}
+        d_entity = {"_id": "1", "comm_key": "origine"}
+        d_fusion = {**d_entity, **d_edit}
+
+        print(d_fusion)
+
+        o_entity = FullEditInterface({"_id": "1"})
+        with patch.object(FullEditInterface, "api_full_edit", return_value=None) as o_mock_api_edit:
+            o_entity.edit(d_edit)
+            o_mock_api_edit.assert_called_once_with(d_fusion)
