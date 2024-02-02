@@ -51,4 +51,4 @@ class EditAction(ActionAbstract):
                 # si le commentaire n'existe pas déjà on l'ajoute
                 if s_comment not in l_actual_comments:
                     o_entity.api_add_comment({"text": s_comment})
-            Config().om.info(f"les {len(self.definition_dict['comments'])} commentaires ont été ajoutés avec succès.")
+            Config().om.info(f"Les {len(self.definition_dict['comments'])} commentaires ont été ajoutés avec succès.")

@@ -4,7 +4,7 @@
 
 ### [Added]
 
-* DeleteAction : suppression des upload, stored_data, configuration et offering dans un workflow # 63
+* DeleteAction : suppression des upload, stored_data, configuration et offering dans un workflow #63
 * EditAction : édition(modification) des upload, stored_data, configuration et offering dans un workflow (entité + tags + commentaires) #66
 * Offering #58 :
     * ajout fonction Offering.api_synchronize() : synchronisation de l'offre avec la configuration
@@ -15,7 +15,7 @@
 
 * Workflow : ajout des actions DeleteAction, EditAction, SynchronizeOfferingAction
 * StoreEntity: ajout de `edit()` permettant de gérer l'édition des entités si possible. Ici impossible de mettre à jour les entités.
-* PartialEditInterface: surcharge de `edit()` pour permettre l’édition partiel
+* PartialEditInterface: surcharge de `edit()` pour permettre l’édition partielle
 * FullEditInterface: surcharge de `edit()` pour permettre l’édition complète
 
 ### [Fixed]
