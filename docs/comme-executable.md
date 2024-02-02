@@ -36,7 +36,7 @@ python -m sdk_entrepot_gpf me
 
 Cela devrait renvoyer :
 
-```
+```txt
 Vos informations :
   * email : prenom.nom@me.io
   * nom : Prénom Nom
@@ -53,10 +53,8 @@ Vous êtes membre de 1 communauté(s) :
 
 Dans cet exemple, l'identifiant du datastore à utiliser est `33333333333333333333`.
 
-!!! warning "Attention"
-
-    Cela ne fonctionnera que si les autres paramètres (nom d'utilisateur, mot de passe et urls) sont corrects.
-
+> [!WARNING]
+> Cela ne fonctionnera que si les autres paramètres (nom d'utilisateur, mot de passe et urls) sont corrects.
 
 ## Afficher toute la configuration
 
@@ -91,7 +89,6 @@ python -m sdk_entrepot_gpf dataset -n 1_dataset_vector
 
 Les données seront extraites dans le dossier courant, vous pouvez préciser la destination avec le paramètre `--folder` (ou `-f`).
 
-
 ## Envoyer des données
 
 Pour envoyer des données, vous devez générer un [fichier descripteur de livraison](upload_descriptor.md).
@@ -104,8 +101,7 @@ Ensuite, vous pouvez simplement livrer des données avec la commande `upload` :
 python -m sdk_entrepot_gpf upload -f mon_fichier_descripteur.json
 ```
 
-Les jeux de données d'exemple sont fournis avec le fichier descripteur (voir [Récupérer des jeux de données d'exemple](#recuperer-des-jeux-de-donnees-dexemple)).
-
+Les jeux de données d'exemple sont fournis avec le fichier descripteur (voir [Récupérer des jeux de données d'exemple](#récupérer-des-jeux-de-données-dexemple)).
 
 ## Réaliser des traitements et publier des données
 
@@ -124,7 +120,6 @@ Ensuite, vous pouvez simplement lancer une étape :
 ```sh
 python -m sdk_entrepot_gpf workflow -f mon_workflow.json -s mon_étape
 ```
-
 
 ## Tutoriels
 
