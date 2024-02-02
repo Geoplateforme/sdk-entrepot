@@ -25,7 +25,7 @@ class GlobalResolver(metaclass=Singleton):
         """Ajoute un résolveur à la liste."""
         self.__resolvers[resolver.name] = resolver
 
-    def resolve(self, string_to_solve_global: str, **kwargs: Dict[str, Any]) -> str:
+    def resolve(self, string_to_solve_global: str, **kwargs: Any) -> str:
         """Résout la chaîne à traiter et retourne la chaîne obtenue.
 
         Résout TOUT le paramétrage trouvé.
@@ -39,6 +39,7 @@ class GlobalResolver(metaclass=Singleton):
         Returns:
             chaîne résolue
         """
+
         # à laisser ici pour avoir la valeur de kwargs
         def resolve_group(match: Match[str]) -> str:
             """Résout la chaîne trouvé par la regex et permet de la remplacer.
@@ -84,5 +85,3 @@ class GlobalResolver(metaclass=Singleton):
     @property
     def regex(self) -> Pattern[str]:
         return self.__regex
-
-    @staticmethod

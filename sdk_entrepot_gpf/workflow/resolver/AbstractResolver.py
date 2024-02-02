@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict
+from typing import Any
 
 
 class AbstractResolver(ABC):
@@ -17,7 +17,7 @@ class AbstractResolver(ABC):
         self.__name: str = name
 
     @abstractmethod
-    def resolve(self, string_to_solve: str, **kwargs: Dict[str, Any]) -> str:
+    def resolve(self, string_to_solve: str, **kwargs: Any) -> str:
         """Résout la chaîne à traiter et retourne la chaîne obtenue.
 
         Args:

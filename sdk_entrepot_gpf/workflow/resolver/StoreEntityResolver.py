@@ -46,7 +46,7 @@ class StoreEntityResolver(AbstractResolver):
         super().__init__(name)
         self.__regex: Pattern[str] = re.compile(Config().get_str("workflow_resolution_regex", "store_entity_regex"))
 
-    def resolve(self, string_to_solve: str, **kwargs: Dict[str, Any]) -> str:
+    def resolve(self, string_to_solve: str, **kwargs: Any) -> str:
         # On parse la chaîne à résoudre
         o_result = self.regex.search(string_to_solve)
         if o_result is None:
@@ -62,7 +62,12 @@ class StoreEntityResolver(AbstractResolver):
         # On récupère le type de StoreEntity demandé
         s_entity_type = str(d_groups["entity_type"])
         # On liste les éléments API via la fonction de classe
-        l_entities = self.__key_to_cls[s_entity_type].api_list(infos_filter=d_filter_infos, tags_filter=d_filter_tags, page=1, datastore=kwargs.get("datastore"))
+        l_entities = self.__key_to_cls[s_entity_type].api_list(
+            infos_filter=d_filter_infos,
+            tags_filter=d_filter_tags,
+            page=1,
+            datastore=kwargs.get("datastore"),
+        )
         # Si on a aucune entité trouvée
         if len(l_entities) == 0:
             raise NoEntityFoundError(self.name, string_to_solve)

@@ -57,7 +57,7 @@ class ActionAbstract(ABC):
     def parent_action(self) -> Optional["ActionAbstract"]:
         return self.__parent_action
 
-    def resolve(self, **kwargs: Dict[str, Any]) -> None:
+    def resolve(self, **kwargs: Any) -> None:
         """Résout la définition de l'action.
 
         L'action peut faire référence à des entités via des filtres, on
