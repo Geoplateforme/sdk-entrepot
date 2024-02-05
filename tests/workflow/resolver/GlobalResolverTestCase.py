@@ -136,7 +136,7 @@ class GlobalResolverTestCase(GpfTestCase):
         self.assertEqual(GlobalResolver().resolve('{"_localization_":"{profession.sailor}_country"}'), "England")
         # Cas mock : validation valeur résolue + propagation des clefs valeurs (key/datastore ici)
         self.assertEqual(GlobalResolver().resolve("{mock_resolver.string_to_solve}", key="value", datastore="datastore_id"), "magic_resolved")
-        GlobalResolver().resolvers["mock_resolver"].resolve.assert_called_once_with(
+        GlobalResolver().resolvers["mock_resolver"].resolve.assert_called_once_with(  # type:ignore
             "string_to_solve",
             key="value",
             datastore="datastore_id",
