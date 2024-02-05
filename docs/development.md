@@ -112,6 +112,7 @@ Pour effectuer un déploiement de la librairie `sdk_entrepot_gpf`, il faut d'abo
 ```py
 __version__ = <x.y.z>
 ```
+
 Par exemple, on a "0.1.9". On va donc écrire "0.1.10".
 Commiter en précisant le numéro de version dans le message de commit.
 
