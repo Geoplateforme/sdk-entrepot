@@ -48,9 +48,11 @@ class ActionAbstractTestCase(GpfTestCase):
         # on mock GlobalResolver
         with patch.object(GlobalResolver, "resolve", return_value=str(json.dumps(d_resolved_dico))) as o_mock_resolve:
             o_action = ConcreteAction("nom", d_definition, None)
-            o_action.resolve()
+            # On ajout des couples clef-valeur...
+            o_action.resolve(key="value", datastore="datastore_id")
             assert o_action.definition_dict == d_resolved_dico
-            o_mock_resolve.assert_called_once_with(str(json.dumps(d_definition)))
+            # Qui doivent être transmis à la résolution
+            o_mock_resolve.assert_called_once_with(str(json.dumps(d_definition)), key="value", datastore="datastore_id")
 
     def test_get_filters(self) -> None:
         """Test de get_filters."""
