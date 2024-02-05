@@ -13,7 +13,7 @@ from sdk_entrepot_gpf.workflow.Errors import StepActionError
 
 
 class DeleteAction(ActionAbstract):
-    """Classe dédiée à la création des Offering.
+    """Classe dédiée à la suppression des entités.
 
     Attributes:
         __workflow_context (str): nom du contexte du workflow
@@ -44,6 +44,21 @@ class DeleteAction(ActionAbstract):
             return []
         return l_delete
 
+    @staticmethod
+    def print_before_delete(l_delete: List[StoreEntity]) -> List[StoreEntity]:
+        """Affichage avant que la suppression soit effectuée
+
+        Args:
+            l_delete (List[StoreEntity]): liste des entités à supprimer
+
+        Returns:
+            List[StoreEntity]: liste finale des entités à supprimer
+        """
+        Config().om.info("suppression de :")
+        for o_entity in l_delete:
+            Config().om.info(str(o_entity), green_colored=True)
+        return l_delete
+
     def run(self, datastore: Optional[str] = None) -> None:
         Config().om.info("Suppression...")
         if "entity_type" not in self.definition_dict:
@@ -57,7 +72,6 @@ class DeleteAction(ActionAbstract):
             try:
                 l_entities.append(store.TYPE__ENTITY[self.definition_dict["entity_type"]].api_get(self.definition_dict["entity_id"], datastore=datastore))
             except NotFoundError:
-                # sera gérer plus bas
                 pass
         elif "filter_infos" in self.definition_dict or "filter_tags" in self.definition_dict:
             ## par liste des éléments
@@ -76,13 +90,16 @@ class DeleteAction(ActionAbstract):
                 l_entities = [l_entities[0]]
             # on les supprimera tous
 
-        # suppression
-        if self.definition_dict.get("cascade"):
+        # récupération des entités en cascades si demandé
+        if self.definition_dict.get("cascade", False):
             Config().om.info("Suppression en cascade, recherche des entités à supprimer ...")
             l_entities_cascade = []
-            ## suppression des entités en cascades
             for o_entity in l_entities:
                 l_entities_cascade += o_entity.get_liste_deletable_cascade()
             l_entities = l_entities_cascade
-        ## suppression
-        StoreEntity.delete_liste_entities(l_entities, self.question_before_delete)
+
+        # choix de la fonction d'affichage.
+        o_before_delete = self.question_before_delete if self.definition_dict.get("confirm", True) else self.print_before_delete
+
+        # suppression
+        StoreEntity.delete_liste_entities(l_entities, o_before_delete)

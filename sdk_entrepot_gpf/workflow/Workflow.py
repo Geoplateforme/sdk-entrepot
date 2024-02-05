@@ -10,7 +10,9 @@ from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
 from sdk_entrepot_gpf.workflow.Errors import WorkflowError
 from sdk_entrepot_gpf.io.Config import Config
 from sdk_entrepot_gpf.workflow.action.ActionAbstract import ActionAbstract
+from sdk_entrepot_gpf.workflow.action.CopieConfigurationAction import CopieConfigurationAction
 from sdk_entrepot_gpf.workflow.action.DeleteAction import DeleteAction
+from sdk_entrepot_gpf.workflow.action.EditAction import EditAction
 from sdk_entrepot_gpf.workflow.action.ProcessingExecutionAction import ProcessingExecutionAction
 from sdk_entrepot_gpf.workflow.action.ConfigurationAction import ConfigurationAction
 from sdk_entrepot_gpf.workflow.action.OfferingAction import OfferingAction
@@ -231,7 +233,9 @@ class Workflow:
         return list(self.__raw_definition_dict["workflow"]["steps"].keys())
 
     @staticmethod
-    def generate(workflow_context: str, definition_dict: Dict[str, Any], parent_action: Optional[ActionAbstract] = None, behavior: Optional[str] = None) -> ActionAbstract:
+    def generate(  # pylint: disable=too-many-return-statements
+        workflow_context: str, definition_dict: Dict[str, Any], parent_action: Optional[ActionAbstract] = None, behavior: Optional[str] = None
+    ) -> ActionAbstract:
         """Génération de la bonne action selon le type indiqué dans la représentation du workflow.
 
         Args:
@@ -249,10 +253,14 @@ class Workflow:
             return ProcessingExecutionAction(workflow_context, definition_dict, parent_action, behavior=behavior)
         if definition_dict["type"] == "configuration":
             return ConfigurationAction(workflow_context, definition_dict, parent_action, behavior=behavior)
+        if definition_dict["type"] == "copie-configuration":
+            return CopieConfigurationAction(workflow_context, definition_dict, parent_action, behavior=behavior)
         if definition_dict["type"] == "offering":
             return OfferingAction(workflow_context, definition_dict, parent_action, behavior=behavior)
         if definition_dict["type"] == "synchronize-offering":
             return SynchronizeOfferingAction(workflow_context, definition_dict, parent_action)
+        if definition_dict["type"] == "edit-entity":
+            return EditAction(workflow_context, definition_dict, parent_action)
         raise WorkflowError(f"Aucune correspondance pour ce type d'action : {definition_dict['type']}")
 
     @staticmethod

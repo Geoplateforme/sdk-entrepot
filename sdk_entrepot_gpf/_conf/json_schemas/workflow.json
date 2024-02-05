@@ -39,6 +39,7 @@
                                                 "delete-entity",
                                                 "processing-execution",
                                                 "configuration",
+                                                "copie-configuration",
                                                 "offering",
                                                 "synchronize-offering"
                                             ]
@@ -86,6 +87,9 @@
                                                 "all",
                                                 "error"
                                             ]
+                                        },
+                                        "confirm": {
+                                            "type": "boolean"
                                         }
                                     }
                                 }

@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Any, Dict
 from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
 from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
 
@@ -22,3 +22,11 @@ class PartialEditInterface(StoreEntity):
 
         # Mise à jour du stockage local (_store_api_dict)
         self.api_update()
+
+    def edit(self, data_edit: Dict[str, Any]) -> None:
+        """Mise à jour partiel de l'entité
+
+        Args:
+            data_edit (Dict[str, Any]): nouvelles valeurs de propriétés
+        """
+        self.api_partial_edit(data_edit)
