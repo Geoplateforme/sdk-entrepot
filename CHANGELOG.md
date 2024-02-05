@@ -12,7 +12,11 @@
 
 ### [Changed]
 
+* GlobalREsolver et Resolver : il est possible d'ajouter des couples clefs-valeurs dans la fonction `resolve()` de GlobalResolver et ils sont transmis aux résolveurs. Cela permet de base de résoudre la récupération d'entités (#68).
+
 ### [Fixed]
+
+* #68 : le datastore est transmis au moment de la résolution ce qui corriger le problème.
 
 ## v0.1.19
 
