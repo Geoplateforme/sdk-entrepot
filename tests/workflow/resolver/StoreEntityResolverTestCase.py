@@ -116,19 +116,22 @@ class StoreEntityResolverTestCase(GpfTestCase):
 
         # On mock la fonction api_list, on veut vérifier qu'elle est appelée avec les bons param
         with patch.object(StoreEntity, "api_list", return_value=l_uploads) as o_mock_api_list:
-            s_result = o_store_entity_resolver.resolve(
-                "upload.infos._id [INFOS(name=start_%), TAGS(k_tag=v_tag)]",
-                datastore="datastore_1",  # On précise un datastore
-            )
-            # Vérifications o_mock_api_list
-            o_mock_api_list.assert_called_once_with(
-                infos_filter={"name": "start_%"},
-                tags_filter={"k_tag": "v_tag"},
-                page=1,
-                datastore="datastore_1",  # Il est bien transmis
-            )
-            # Vérification id récupérée
-            self.assertEqual(s_result, "upload_1")
+            with patch.object(StoreEntity, "api_update", return_value=None) as o_mock_api_update:
+                s_result = o_store_entity_resolver.resolve(
+                    "upload.infos._id [INFOS(name=start_%), TAGS(k_tag=v_tag)]",
+                    datastore="datastore_1",  # On précise un datastore
+                )
+                # Vérifications o_mock_api_list
+                o_mock_api_list.assert_called_once_with(
+                    infos_filter={"name": "start_%"},
+                    tags_filter={"k_tag": "v_tag"},
+                    page=1,
+                    datastore="datastore_1",  # Il est bien transmis
+                )
+                # Vérification id récupérée
+                self.assertEqual(s_result, "upload_1")
+                # Vérification maj entité via appel de api_update
+                o_mock_api_update.assert_called_once_with()
 
     def test_resolve_endpoint(self) -> None:
         """Vérifie le bon fonctionnement de la fonction resolve pour un endpoint."""
