@@ -4,7 +4,20 @@ Les résolveur sont des outils permettant de compléter les workflow en remplaç
 
 ## Utilisation
 
- => TODO
+Le nom d'un résolveur est donné à son initialisation. Il est possible d'avoir plusieurs résolveurs d'un même type.
+
+A l'utilisation comme un exécutable, il y a 2 résolveurs d’instancier :
+
+* `user` : un [UserResolver](UserResolver)
+* `store_entity` : un [StoreEntityResolver](StoreEntityResolver)
+
+A l'utilisation comme module, il y a aucun résolveurs d’instancier de base. Il faut déclarer dans le programme la création des résolveurs et les ajouté au `GlobalResolver`.
+
+Dans le fichier de workflow, pour utiliser le résolveur il faut ajouté le paterne permettant d'activé le résolveur selon le type de donnée attendu :
+
+* Texte : `"{nom_du_resolveur.nom_de_la_clef}"`
+* Liste: `["_nom_du_resolveur_", "nom_de_la_clef"]` ou `["_nom_du_resolveur.nom_de_la_clef"]`
+* Dictionnaire : `{"_nom_du_resolveur_": "nom_de_la_clef"}`
 
 ## résolveur de base
 
@@ -61,6 +74,12 @@ Permet de résoudre des paramètres faisant référence à des fichiers : ce ré
 
 Ce fichier peut être un fichier texte basique, une liste au format JSON ou un dictionnaire au format JSON.
 
+Structure particulière pour l'utilisation de ce résolveur (`{fichier}` chemin relatif du fichier selon le Path donné à l’initialisation):
+
+* récupération de texte : `{nom_resolver}.str({fichier})`
+* récupération d'une liste : `{nom_resolver}.list({fichier})`
+* récupération d'un dictionnaire : `{nom_resolver}.dict({fichier})`
+
 Exemple :
 
 ```python
@@ -97,7 +116,81 @@ print(GlobalResolver().resolve(text))
 
 ### StoreEntityResolver
 
+Permet de résoudre des paramètres faisant référence à une entité sur la GPF.
+Utilisation du pattern `store_entity_regex` de la configuration.
+
+La structure est légèrement différente: `{nom_résolveur}.{entity_type}.{field_type}.{field} ([INFOS ({key}={val}, [...])], [TAGS ({key}={val}, [...])])`
+
+avec :
+
+* `entity_type` : type de l'entité à récupérer, une des valeur suivante : upload|stored_data|processing_execution|offering|processing|configuration|endpoint|static|datastore
+* `field_type` : `tags` pour récupérer la valeur d'un tag, `infos` pour récupérer un valeur du dictionnaire décrivant l'entité.
+* `field`: si `tags` nom du tag dont on veux la valeur, si `infos` clef du dictionnaire dont on veux la valeur
+* `INFOS ({key}={val}, ...)` : (optionnel) filtre sur les entité hors tag, voir la doc de la requête de liste des entités pour savoir les clef possibles
+* `TAGS ({key}={val}, ...)` : (optionnel) filtre sur les tags
+
+Si on a plusieurs résultat le premier résultat est utilisé.
+
+Exemple (fonctionne après la livraison des données du [tutoriel 2 pour les flux vecteur](tutoriel_2_flux_vecteur.md) ) :
+
+```python
+from sdk_entrepot_gpf.workflow.resolver.StoreEntityResolver import StoreEntityResolver
+from sdk_entrepot_gpf.workflow.resolver.GlobalResolver import GlobalResolver
+from sdk_entrepot_gpf.io.Config import Config
+
+# configuration
+Config().read("config.ini")
+
+# initialisation
+file_resolver = StoreEntityResolver("store_entity")
+GlobalResolver().add_resolver(file_resolver)
+
+# texte à résoudre
+text = """
+id d'un traitement par son nom  >{store_entity.processing.infos._id [INFOS(name=Intégration de données vecteur livrées en base)]}<
+id d'un upload par son nom >{store_entity.upload.infos._id [INFOS(name=EXAMPLE_DATASET_VECTOR)]}<
+id d'un upload par son nom et tag >{store_entity.upload.infos._id [INFOS(name=EXAMPLE_DATASET_VECTOR), TAGS(tuto=oui)]}<
+valeur du tag "tuto" d'un upload par son nom >{store_entity.upload.tags.tuto [INFOS(name=EXAMPLE_DATASET_VECTOR)]}<
+"""
+
+# resolution
+print(GlobalResolver().resolve(text))
+## affichage
+#    id d'un traitement par son nom  >0de8c60b-9938-4be9-aa36-9026b77c3c96<
+#    id d'un upload par son nom >a2703a39-d3d5-48f2-8372-bbabfc08cdf4<
+#    id d'un upload par son nom et tag >a2703a39-d3d5-48f2-8372-bbabfc08cdf4<
+#    valeur du tag "tuto" d'un upload par son nom >oui<
+
+```
 
 ### UserResolver
 
+Permet de résoudre des paramètres avec les informations sur l'utilisateur authentifié. Les informations disponibles sont celle de [/users/me](https://data.geopf.fr/api/swagger-ui/index.html#/Utilisateurs/get)
+
+Classe dérivé de DictRevolver, la plu-value sur la classe DictRevolver est que les info de l'utilisateur sont directement récupérées par le constructeur de la classe.
+
+```python
+from sdk_entrepot_gpf.workflow.resolver.UserResolver import UserResolver
+from sdk_entrepot_gpf.workflow.resolver.GlobalResolver import GlobalResolver
+from sdk_entrepot_gpf.io.Config import Config
+
+# configuration
+Config().read("config.ini")
+
+# initialisation
+file_resolver = UserResolver("user")
+GlobalResolver().add_resolver(file_resolver)
+
+# texte à résoudre
+text = """
+nom de l'utilisateur >{user.last_name}<
+prénom de l'utilisateur >{user.first_name}<
+"""
+
+# resolution
+print(GlobalResolver().resolve(text))
+```
+
 ## créer son résolveur
+
+***en cours de rédaction***
