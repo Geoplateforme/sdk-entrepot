@@ -40,7 +40,7 @@ b_status = UploadAction.monitor_until_end(o_upload, Livraison.callback_check)
 ```
 
 > [!NOTE]
-> Vous pouvez préciser l'id d'un autre datastore s'il ne faut pas utiliser celui indiquer en configuration :
+> Vous pouvez préciser l'id d'un autre datastore s'il ne faut pas utiliser celui indiqué en configuration :
 >
 > ```py
 > # On crée la livraison en précisant un datastore spécifique
@@ -90,7 +90,7 @@ upload.api_close()
 ```
 
 > [!NOTE]
-> Vous pouvez préciser l'id d'un autre datastore s'il ne faut pas utiliser celui indiquer en configuration :
+> Vous pouvez préciser l'id d'un autre datastore s'il ne faut pas utiliser celui indiqué en configuration :
 >
 > ```py
 > # Création d'une livraison en précisant un datastore spécifique

@@ -1,29 +1,29 @@
 # Workflows
 
-Le fichier workflow est un fichier au format JSON permettant de décrire les actions à réaliser sur des données stocké où livrée.
+Le fichier workflow est un fichier au format JSON permettant de décrire les actions à réaliser sur des données stockées où livrées.
 
-Certaines valeur du workflow peuvent être compléter avec un système de résolution permettant notamment d'utiliser le nom des entité pour trouvé leur ID. Pour plus d'information consulter la [page dédiée](resolveurs.md)
+Certaines valeurs du workflow peuvent être complétées avec un système de résolution permettant notamment d'utiliser le nom des entités pour trouver leur ID. Pour plus d'informations consulter la [page dédiée au résolveurs](resolveurs.md).
 
 Les actions sont les suivantes :
 
-* lancer une processing exécution
-* configurer une flux
-* configurer une offre
-* supprimer une entité de type upload, stored_data, configuration et offering
-* modifier une entité de type upload, stored_data, configuration et offering
-* copier une configuration (création d'une nouvelle configuration en reprenant les paramètres de la précédente)
-* synchroniser une offre (mettre à jour avec la donnée stocker et l'offre)
+* lancer un traitement (càd créer une processing exécution) ;
+* configurer un géoservice (càd créer une configuration) ;
+* publier un géoservice (càd créer une offering) ;
+* supprimer une entité de type upload, stored_data, configuration ou offering ;
+* modifier une entité de type upload, stored_data, configuration ou offering ;
+* copier une configuration (création d'une nouvelle configuration en reprenant les paramètres non précisés de la précédente) ;
+* synchroniser une offre (mettre à jour avec la donnée stockée et une offering).
 
 ## Définition
 
-Le fichier doit contenir un dictionnaire `workflow`. Qui contiens deux clef :
+Le fichier doit contenir un dictionnaire `workflow`. Qui contient deux clefs :
 
 * `datastore`: (optionnel) uuid du datastore à utiliser pour le workflow.
-* `step`: (obligatoire) dictionnaire des étapes à lancer.
-  * la clef sera le nom de l'étape qui servira à l'a lancer.
-  * sa valeur est un dictionnaire décriant l'étape
-    * `actions` : (obligatoire) listes des actions lancée, la liste sera exécuter dans l'ordre. Le dictionnaire décrivant l'action depend du type d'action à lancer, la clef `type` permet de définir le type d'action à effectué (description plus bas).
-    * `parents` : (obligatoire) liste des étapes devant précéder celle lancé. Pour une actions sans dépendances la liste doit être vide
+* `step`: (obligatoire) dictionnaire des étapes à lancer ;
+  * la clef sera le nom de l'étape qui servira à la lancer ;
+  * sa valeur est un dictionnaire décriant l'étape :
+    * `actions` : (obligatoire) listes des actions à lancer, la liste sera exécutée dans l'ordre. Le dictionnaire décrivant l'action dépend du type d'action à lancer, la clef `type` permet de définir le type d'action à effectuer (description plus bas) ;
+    * `parents` : (obligatoire) liste des étapes devant précéder celle-ci. Pour une actions sans dépendances la liste doit être vide.
 
 ce qui donne :
 
@@ -48,33 +48,34 @@ Ce workflow permet de lancé 2 étapes `etape 1` et `etape 2`.
 
 Les actions possibles sont les suivante :
 
-* [exécuter un traitement](exécuter un traitement)
-* [configurer d'un flux](configurer d'un flux)
-* [publier un flux](publier un flux)
-* [supprimer une entité](supprimer une entité)
-* [modifier une entité](modifier une entité)
-* [copier une configuration](copier une configuration)
-* [synchroniser une publication](synchroniser une publication)
+* [exécuter un traitement](Exécuter un traitement)
+* [configurer d'un flux](Configurer d'un flux)
+* [publier un flux](Publier un flux)
+* [supprimer une entité](Supprimer une entité)
+* [modifier une entité](Modifier une entité)
+* [copier une configuration](Copier une configuration)
+* [synchroniser une publication](Synchroniser une publication)
 
-### exécuter un traitement
+### Exécuter un traitement
 
 * `type`: `processing-execution`
-* `body_parameters`: dictionnaire paramétrant l’exécution:
-  * `processing`: id du traitement à utilisé
+* `body_parameters`: dictionnaire paramétrant l’exécution :
+  * `processing`: id du traitement à utiliser
   * `inputs` : dictionnaire décrivant la/les données d'entrée (se référer à la documentation du traitement)
   * `output`: dictionnaire décrivant la sortie du traitement (se référer à la documentation du traitement)
-  * `parameters`: dictionnaire des paramètres à utilisé pour le traitement(se référer à la documentation du traitement)
-* `comments` : liste des commentaires à ajouté à la donnée en sortie (si mise à jour : les commentaires déjà présent en sont pas ajouté).
-* `tags` : tags à ajouté à la donnée en sortie (clef-valeur) (si mise à jour : les commentaires déjà présent en sont pas ajouté).
+  * `parameters`: dictionnaire des paramètres à utiliser pour le traitement (se référer à la documentation du traitement)
+* `comments` : liste des commentaires à ajouter à la donnée en sortie (si mise à jour : les commentaires déjà présents ne sont pas ajoutés).
+* `tags` : tags à ajouter à la donnée en sortie (clef-valeur) (si mise à jour : les tags déjà présents ne sont pas ajoutés).
 
 La liste des traitement est disponible ici : [/datastores/{datastore}/processings
 ](https://data.geopf.fr/api/swagger-ui/index.html#/Traitements/getAll_4).
+
 Le détail d'un traitement est disponible ici : [/datastores/{datastore}/processings/{processing}](https://data.geopf.fr/api/swagger-ui/index.html#/Traitements/get_6)
 
-### configurer d'un flux
+### Configurer d'un flux
 
 * `type`*: `configuration`
-* `body_parameters`*: dictionnaire paramétrant la configuration:
+* `body_parameters`*: dictionnaire paramétrant la configuration :
   * `type`*: type du flux (WMS-VECTOR, WFS, WMTS-TMS, WMS-RASTER, DOWNLOAD, ITINERARY-ISOCURVE, ALTIMETRY, SEARCH, VECTOR-TMS)
   * `name`*: Nom de la configuration
   * `layer_name`*: Nom technique de la ressource. Ce nom doit être unique sur la plateforme pour un type de configuration donné. Uniquement des caractères alphanumériques, tiret, tiret bas, point (pattern: ^[A-Za-z0-9_\-.]+$)
@@ -87,8 +88,8 @@ Le détail d'un traitement est disponible ici : [/datastores/{datastore}/process
     * `url`*: l'URL d'accès au logo
     * `width`*: la largeur du logo
     * `height`*: la hauteur du logo
-* `comments` : liste des commentaires à ajouté à la configuration.
-* `tags` : tags à ajouté à la configuration (clef-valeur).
+* `comments` : liste des commentaires à ajouter à la configuration.
+* `tags` : tags à ajouter à la configuration (clef-valeur).
 
 type_infos selon le flux :
 
@@ -99,13 +100,13 @@ type_infos selon le flux :
   * `south`*
   * `east`*
   * `north`*
-* `used_data`*: liste de dictionnaire :
+* `used_data`*: liste de dictionnaires :
   * `stored_data`*: Identifiant de la donnée stockée
   * `relations`*: liste de dictionnaire décrivant la relation :
     * `native_name`*: Nom de la table
     * `public_name`: Nom public de la table
     * `title`*: Titre
-    * `keywords`: Liste de mots clés (doivent être unique)
+    * `keywords`: Liste de mots clés (doivent être uniques)
     * `abstract`*: Description
 
 #### WMTS-TMS
@@ -116,7 +117,7 @@ type_infos selon le flux :
   * `east`*
   * `north`*
 * `title`*: titre
-* `keywords`: Liste de mots clés (doivent être unique)
+* `keywords`: Liste de mots clés (doivent être uniques)
 * `styles`: lists des identifiants des fichiers statiques de style Rok4
 * `used_data`*: liste de dictionnaire :
   * `bottom_level`*:niveau minimum
@@ -131,7 +132,7 @@ type_infos selon le flux :
 
 #### VECTOR-TMS
 
-* `used_data`*: liste de dictionnaire :
+* `used_data`*: liste de dictionnaires :
   * `stored_data`*: Identifiant de la donnée stockée
   * `relations`*: liste de dictionnaire décrivant la relation :
     * `native_name`*: Nom de la table
@@ -146,7 +147,7 @@ type_infos selon le flux :
   * `east`*
   * `north`*
 * `title`*: titre
-* `keywords`: Liste de mots clés (doivent être unique)
+* `keywords`: Liste de mots clés (doivent être uniques)
 * `abstract`*: Description
 * `used_data`*: liste de dictionnaire :
   * `stored_data`*: Identifiant de la donnée stockée
@@ -163,7 +164,7 @@ type_infos selon le flux :
   * `east`*
   * `north`*
 * `title`*: titre
-* `keywords`: Liste de mots clés (doivent être unique)
+* `keywords`: Liste de mots clés (doivent être uniques)
 * `styles`: lists des identifiants des fichiers statiques de style Rok4
 * `used_data`*: liste de dictionnaire :
   * `bottom_level`*:niveau minimum
@@ -182,12 +183,12 @@ type_infos selon le flux :
 #### DOWNLOAD
 
 * `title`*: titre
-* `keywords`: Liste de mots clés (doivent être unique)
+* `keywords`: Liste de mots clés (doivent être uniques)
 * `abstract`*: Description
 * `used_data`*: liste de dictionnaire :
   * `sub_name`*: nom
   * `title`: titre
-  * `keywords`: Liste de mots clés (doivent être unique)
+  * `keywords`: Liste de mots clés (doivent être uniques)
   * `format`: format
   `zone`: zone
   * `stored_data`*: Identifiant de la donnée stockée
@@ -265,20 +266,20 @@ type_infos selon le flux :
     * `default`: boolean
   * `stored_data`*: Identifiant de la donnée stockée
 
-### publier un flux
+### Publier un flux
 
 * `type`*: `offering`
 * `url_parameters`: dictionnaire :
   * `configuration`: uuid de la configuration que l'on veux publier
 * `body_parameters`*: dictionnaire paramétrant l'offre:
   * `visibility`: niveau de visibilité [ PRIVATE, REFERENCED, PUBLIC ] (default: PRIVATE)
-  * `endpoint`*: uuid du endpoint à utilisé
+  * `endpoint`*: uuid du endpoint à utiliser
   * `open`: boolean
   * `permissions`: liste des uuid des permissions
 
-### supprimer une entité
+### Supprimer une entité
 
-possibilité de supprimer des entités de type : upload, stored_data, configuration et offering.
+Possibilité de supprimer des entités de type : upload, stored_data, configuration et offering.
 
 * suppression par ID de l'entité :
 
@@ -291,12 +292,12 @@ possibilité de supprimer des entités de type : upload, stored_data, configurat
     "entity_id": "{uuid}",
     // Suppression en cascade autorisée ou pas ? par défaut à false
     "cascade": true,
-    // Ok si non trouvés ? par défaut à true
+    // Ok si non trouvée ? par défaut à true
     "not_found_ok": true,
 }
 ```
 
-* suppression par filtre sur la liste
+* suppression par filtre sur la liste :
 
 ```jsonc
 {
@@ -308,16 +309,16 @@ possibilité de supprimer des entités de type : upload, stored_data, configurat
     "filter_tags": { ... },
     // Suppression en cascade autorisée ou pas ? par défaut à false
     "cascade": true,
-    // Ok si non trouvés ? par défaut à true
+    // Ok si non trouvée ? par défaut à true
     "not_found_ok": true,
     // Que faire plusieurs résultats ?  first => uniquement 1er de la liste; all => on prend tout (défaut); error => sortie en erreur du programme
     "if_multi": "first|all|error",
 }
 ```
 
-### modifier une entité
+### Modifier une entité
 
-Possibilité de supprimer une entité de type : upload, stored_data, configuration et offering.
+Possibilité de modifier une entité de type : upload, stored_data, configuration et offering.
 
 Correspond au requête PUT et PATCH de l'[api géoplatforme](https://data.geopf.fr/api/swagger-ui/index.html)
 
@@ -348,7 +349,7 @@ Pour le `body_parameters` se référer à la documentation API GPF:
 * offering *(partiel)*: PATCH [/datastores/{datastore}/offerings/{offering}](https://data.geopf.fr/api/swagger-ui/index.html#/Configurations%20et%20publications/update_4)
   * Il est possible de modifier la visibilité d'une offre afin qu'elle apparaisse dans les catalogues ou qu'on puisse donner des permissions, ou au contraire qu'elle en disparaisse. On peut également désactiver une offre pour en couper la consommation rapidement, sans déconfigurer les permissions
 
-### copier une configuration
+### Copier une configuration
 
 Création d'une configuration à partir d'une configuration déjà existante
 
@@ -371,7 +372,7 @@ Création d'une configuration à partir d'une configuration déjà existante
 }
 ```
 
-### synchroniser une publication
+### Synchroniser une publication
 
 Synchronisation d'une ou plusieurs offres avec leur configuration et stored-data.
 
@@ -403,20 +404,20 @@ Pour "filter_infos" voir les filtres possibles pour la requête [/datastores/{da
 
 ## Exemple
 
-### actions de base
+### Actions de base
 
-Pour les actions de base (processing-execution, configuration, offre) des workflow tutoriels sont disponibles dans [sdk_entrepot_gpf/_data/workflows/](../sdk_entrepot_gpf/_data/workflows/):
+Pour les actions de base (processing-execution, configuration, offre) des workflows des tutoriels sont disponibles dans [sdk_entrepot_gpf/_data/workflows/](../sdk_entrepot_gpf/_data/workflows/) :
 
-* archivage [generic_archive.jsonc](../sdk_entrepot_gpf/_data/workflows/generic_archive.jsonc) (traitement d'une archive, configuration et offre pour un flux Download). [Tutoriel](tutoriel_1_archive.md)
-* flux vecteur [generic_vecteur.jsonc](../sdk_entrepot_gpf/_data/workflows/generic_vecteur.jsonc) (traitement d'une mise en base, configuration et offre pour un flux WFS, configuration et offre pour un flux WMS vecteur, traitement de création de pyramide, configuration et offre pour un flux TMS) [Tutoriel](./tutoriel_2_flux_vecteur.md)
-* flux raster [generic_raster.jsonc](../sdk_entrepot_gpf/_data/workflows/generic_raster.jsonc) (traitement de création d'une pyramide, configuration et offre pour un flux WMS, configuration et offre pour un flux WMTS) [Tutoriel](./tutoriel_3_flux_raster.md)
-* mise an place d'une pyramide par join cache [generic_joincache.jsonc](sdk_entrepot_gpf/_data/workflows/generic_joincache.jsonc) (traitement création de pyramides, traitement de fusion de pyramides, traitement de mise à jour d'une pyramide, configuration et offre pour un flux WMS raster, configuration et offre pour un flux WMTS)
+* archivage [generic_archive.jsonc](../sdk_entrepot_gpf/_data/workflows/generic_archive.jsonc) (traitement d'une archive, configuration et offre pour un géoservice Téléchargement). [Tutoriel](tutoriel_1_archive.md) ;
+* flux vecteur [generic_vecteur.jsonc](../sdk_entrepot_gpf/_data/workflows/generic_vecteur.jsonc) (traitement d'une mise en base, configuration et offre pour un géoservice Flux WFS, configuration et offre pour un flux WMS vecteur, traitement de création de pyramide, configuration et offre pour un flux TMS) [Tutoriel](./tutoriel_2_flux_vecteur.md) ;
+* flux raster [generic_raster.jsonc](../sdk_entrepot_gpf/_data/workflows/generic_raster.jsonc) (traitement de création d'une pyramide, configuration et offre pour un flux WMS, configuration et offre pour un flux WMTS) [Tutoriel](./tutoriel_3_flux_raster.md) ;
+* mise en place d'une pyramide par "joincache" [generic_joincache.jsonc](sdk_entrepot_gpf/_data/workflows/generic_joincache.jsonc) (traitement création de pyramides, traitement de fusion de pyramides, traitement de mise à jour d'une pyramide, configuration et offre pour un flux WMS raster, configuration et offre pour un flux WMTS) ;
 * mise à jour d'un base de donnée [generic_maj_bdd.jsonc](sdk_entrepot_gpf/_data/workflows/generic_maj_bdd.jsonc) (traitement de mise en base création + mise à jour, configuration et offre pour un flux WMS)
-* création d'une pyramise rasteur à partir un flux WMS vecteur (moissonnage) [generic_moissonnage.jsonc](sdk_entrepot_gpf/_data/workflows/generic_moissonnage.jsonc) (traitement de mise en base, configuration et offre pour un flux WMS vecteur, traitement de moissonnage, configuration et offre pour un flux WMS raster)
+* création d'une pyramise rasteur à partir un flux WMS vecteur (moissonnage) [generic_moissonnage.jsonc](sdk_entrepot_gpf/_data/workflows/generic_moissonnage.jsonc) (traitement de mise en base, configuration et offre pour un flux WMS vecteur, traitement de moissonnage, configuration et offre pour un flux WMS raster) ;
 
 ## Exécution du workflow
 
-### comme exécutable
+### Via l'utilisation du SDK comme exécutable
 
 * Lister les étapes disponibles et valider votre workflow :
 
@@ -430,9 +431,9 @@ python -m sdk_entrepot_gpf workflow -f mon_workflow.json
 python -m sdk_entrepot_gpf workflow -f mon_workflow.json -s mon_étape
 ```
 
-### comme module
+### Via l'utilisation du SDK comme module
 
-Exemple de code complet permettant de valider et d'afficher les étapes du workflow. et lancer l'étape "etape 1"
+Exemple de code complet permettant de valider et d'afficher les étapes du workflow et de lancer l'étape "etape 1" :
 
 ```py
 from sdk_entrepot_gpf.io.Config import Config

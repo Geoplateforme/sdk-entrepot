@@ -1,19 +1,19 @@
 # Résolveur
 
-Les résolveur sont des outils permettant de compléter les workflow en remplaçant un pattern par la valeur calculée.
+Les résolveurs sont des outils permettant de compléter les workflows en remplaçant un pattern par la valeur calculée.
 
 ## Utilisation
 
 Le nom d'un résolveur est donné à son initialisation. Il est possible d'avoir plusieurs résolveurs d'un même type.
 
-A l'utilisation comme un exécutable, il y a 2 résolveurs d’instancier :
+A l'utilisation du SDK comme un exécutable, il y a 2 résolveurs d’instanciés :
 
 * `user` : un [UserResolver](UserResolver)
 * `store_entity` : un [StoreEntityResolver](StoreEntityResolver)
 
-A l'utilisation comme module, il y a aucun résolveurs d’instancier de base. Il faut déclarer dans le programme la création des résolveurs et les ajouté au `GlobalResolver`.
+A l'utilisation comme module, il n'y a aucun résolveurs d’instancié de base. Il faut instancier des résolveurs dans le programme et les ajouter au `GlobalResolver`.
 
-Dans le fichier de workflow, pour utiliser le résolveur il faut ajouté le paterne permettant d'activé le résolveur selon le type de donnée attendu :
+Dans le fichier de workflow, pour utiliser le résolveur il faut ajouter le pattern permettant d'activer le résolveur selon le type de donnée attendu :
 
 * Texte : `"{nom_du_resolveur.nom_de_la_clef}"`
 * Liste: `["_nom_du_resolveur_", "nom_de_la_clef"]` ou `["_nom_du_resolveur.nom_de_la_clef"]`
@@ -21,12 +21,12 @@ Dans le fichier de workflow, pour utiliser le résolveur il faut ajouté le pate
 
 ## résolveur de base
 
-Il y a 4 résolveur de base
+Il y a 4 résolveurs de base :
 
-* [DictResolver](DictResolver): permet d'insérer les valeur contenu dans une dictionnaire
-* [FileResolver](FileResolver): insert les valeurs contenu dans un fichier
-* [StoreEntityResolver](StoreEntityResolver): récupère des informations sur les entités depuis la GPF
-* [UserResolver](UserResolver): récupère des informations de l'utilisateur courant.
+* [DictResolver](DictResolver): permet d'insérer les valeurs contenues dans un dictionnaire ;
+* [FileResolver](FileResolver): insère les valeurs contenues dans un fichier ;
+* [StoreEntityResolver](StoreEntityResolver): récupère des informations sur les entités depuis la GPF ;
+* [UserResolver](UserResolver): récupère des informations de l'utilisateur courant depuis la GPF.
 
 ### DictResolver
 
@@ -46,7 +46,7 @@ dictionnaire = {
     "ajout_dict": {"key1": "val1", "key2": "val2"},
 }
 
-# initialisation
+# initialisation (instanciation du résolveur + ajout)
 dict_resolver = DictResolver("my_dict", dictionnaire)
 GlobalResolver().add_resolver(dict_resolver)
 
@@ -74,11 +74,11 @@ Permet de résoudre des paramètres faisant référence à des fichiers : ce ré
 
 Ce fichier peut être un fichier texte basique, une liste au format JSON ou un dictionnaire au format JSON.
 
-Structure particulière pour l'utilisation de ce résolveur (`{fichier}` chemin relatif du fichier selon le Path donné à l’initialisation):
+A l'utilisation de ce résolveur, il faut indiquer le chemin du fichier à insérer relativement au chemin indiqué à l'instanciation du résolveur :
 
-* récupération de texte : `{nom_resolver}.str({fichier})`
-* récupération d'une liste : `{nom_resolver}.list({fichier})`
-* récupération d'un dictionnaire : `{nom_resolver}.dict({fichier})`
+* récupération de texte : `{nom_resolver}.str({chemin_fichier})`
+* récupération d'une liste : `{nom_resolver}.list({chemin_fichier})`
+* récupération d'un dictionnaire : `{nom_resolver}.dict({chemin_fichier})`
 
 Exemple :
 
@@ -95,7 +95,7 @@ from sdk_entrepot_gpf.workflow.resolver.GlobalResolver import GlobalResolver
 ## dictionnaire: "dict.json"
 # * contenu => {"k1":"v1", "k2":"v2"}
 
-# initialisation
+# initialisation (le résolveur s'appelle "fichier" et cherche les fichiers relativement au répertoire courant)
 file_resolver = FileResolver("fichiers", Path("."))
 GlobalResolver().add_resolver(file_resolver)
 
@@ -123,13 +123,13 @@ La structure est légèrement différente: `{nom_résolveur}.{entity_type}.{fiel
 
 avec :
 
-* `entity_type` : type de l'entité à récupérer, une des valeur suivante : upload|stored_data|processing_execution|offering|processing|configuration|endpoint|static|datastore
-* `field_type` : `tags` pour récupérer la valeur d'un tag, `infos` pour récupérer un valeur du dictionnaire décrivant l'entité.
-* `field`: si `tags` nom du tag dont on veux la valeur, si `infos` clef du dictionnaire dont on veux la valeur
-* `INFOS ({key}={val}, ...)` : (optionnel) filtre sur les entité hors tag, voir la doc de la requête de liste des entités pour savoir les clef possibles
-* `TAGS ({key}={val}, ...)` : (optionnel) filtre sur les tags
+* `entity_type` : type de l'entité à récupérer, une des valeurs suivantes : `upload|stored_data|processing_execution|offering|processing|configuration|endpoint|static|datastore` ;
+* `field_type` : `tags` pour récupérer la valeur d'un tag, `infos` pour récupérer une valeur du dictionnaire décrivant l'entité ;
+* `field`: si `tags` nom du tag dont on veux la valeur, si `infos` clef du dictionnaire dont on veux la valeur ;
+* `INFOS ({key}={val}, ...)` : (optionnel) filtre sur les entités hors tag, voir la doc de la requête de liste des entités pour savoir les clefs possibles ;
+* `TAGS ({key}={val}, ...)` : (optionnel) filtre sur les tags (s'il y a des tags sur cette entité).
 
-Si on a plusieurs résultat le premier résultat est utilisé.
+Si on a plusieurs résultats le premier résultat est utilisé.
 
 Exemple (fonctionne après la livraison des données du [tutoriel 2 pour les flux vecteur](tutoriel_2_flux_vecteur.md) ) :
 
@@ -165,9 +165,9 @@ print(GlobalResolver().resolve(text))
 
 ### UserResolver
 
-Permet de résoudre des paramètres avec les informations sur l'utilisateur authentifié. Les informations disponibles sont celle de [/users/me](https://data.geopf.fr/api/swagger-ui/index.html#/Utilisateurs/get)
+Permet de résoudre des paramètres avec les informations sur l'utilisateur authentifié. Les informations disponibles sont celles renvoyée par la route [/users/me](https://data.geopf.fr/api/swagger-ui/index.html#/Utilisateurs/get).
 
-Classe dérivé de DictRevolver, la plu-value sur la classe DictRevolver est que les info de l'utilisateur sont directement récupérées par le constructeur de la classe.
+Classe dérivée de DictRevolver, la plu-value sur la classe DictRevolver est que les infos de l'utilisateur sont directement récupérées par le constructeur de la classe.
 
 ```python
 from sdk_entrepot_gpf.workflow.resolver.UserResolver import UserResolver
@@ -191,6 +191,10 @@ prénom de l'utilisateur >{user.first_name}<
 print(GlobalResolver().resolve(text))
 ```
 
-## créer son résolveur
+## Créer son résolveur
 
-***en cours de rédaction***
+Pour créer votre résolveur, vous devez créer une classe qui hérite de la classe `AbstractResolver`.
+
+Dans le constructeur de votre classe, il faudra implémenter les tâches qui doivent être effectuées une fois. Par exemple, de récupérer les informations de l'utilisateur (qui, à priori, ne changent pas à chaque résolution).
+
+Dans la fonction `resolve` de votre classe, il faudra implémenter la résolution du paramétrage à partir de la string `string_to_solve` avant de retourner la valeur résolue.
