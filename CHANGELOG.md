@@ -6,6 +6,7 @@
 
 * DeleteAction : suppression des upload, stored_data, configuration et offering dans un workflow #63
 * EditAction : édition(modification) des upload, stored_data, configuration et offering dans un workflow (entité + tags + commentaires) #66
+* CopieConfigurationAction: création d'une configuration à partir d'une configuration déjà existante #67
 * Offering #58 :
     * ajout fonction Offering.api_synchronize() : synchronisation de l'offre avec la configuration
     * ajout de la fonction Offering.get_url() : récupération de la liste des urls d'une offre
