@@ -10,6 +10,7 @@
     * ajout fonction Offering.api_synchronize() : synchronisation de l'offre avec la configuration
     * ajout de la fonction Offering.get_url() : récupération de la liste des urls d'une offre
     * ajout de l'action `SynchronizeOfferingAction` : synchronisation de l'offre avec la configuration depuis un workflow
+* Documentation sur les [workflow](./docs/workflow.md) et les [résolveurs](./docs/resolveurs.md)
 
 ### [Changed]
 
@@ -19,6 +20,8 @@
 * FullEditInterface: surcharge de `edit()` pour permettre l’édition complète
 
 ### [Fixed]
+
+* StoreEntityResolver: avant utilisation de l'entité, récupération de toutes ses informations
 
 ## v0.1.19
 
