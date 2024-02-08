@@ -140,9 +140,11 @@ class FileResolver(AbstractResolver):
 
         Args:
             string_to_solve (str): chaîne à résoudre (type de fichier à traiter et chemin)
+            kwargs (Any): paramètres supplémentaires.
 
         Raises:
-            ResolverError: si le type n'est pas reconnu
+            ResolverError: si la chaîne à résoudre est incorrecte
+            ResolverError: si le type de donnée n'est pas str/list/dict
 
         Returns:
             le contenu du fichier en entrée sous forme de string

@@ -32,6 +32,7 @@ class GlobalResolver(metaclass=Singleton):
 
         Args:
             string_to_solve_global (str): chaîne globale à résoudre
+            kwargs (Any): paramètres supplémentaires.
 
         Raises:
             ResolverNotFoundError: levée si un résolveur demandé n'est pas trouvé

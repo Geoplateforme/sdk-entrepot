@@ -25,6 +25,20 @@ class DictResolver(AbstractResolver):
         self.__key_value: Dict[str, Any] = key_value
 
     def resolve(self, string_to_solve: str, **kwargs: Any) -> str:
+        """La chaîne à résoudre doit correspondre à une clef du dictionnaire.
+
+        Args:
+            string_to_solve (str): chaîne à résoudre.
+            kwargs (Any): paramètres supplémentaires.
+
+        Returns:
+
+        Raises:
+            ResolverError: levée si aucune clef ne correspond à la chaîne
+
+        Returns:
+            str: chaîne résolue
+        """
         # La chaîne à résoudre est en fait la clé, donc il suffit de renvoyer la valeur associée
         if string_to_solve in self.__key_value:
             return str(self.__key_value[string_to_solve])

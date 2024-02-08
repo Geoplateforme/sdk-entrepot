@@ -47,6 +47,20 @@ class StoreEntityResolver(AbstractResolver):
         self.__regex: Pattern[str] = re.compile(Config().get_str("workflow_resolution_regex", "store_entity_regex"))
 
     def resolve(self, string_to_solve: str, **kwargs: Any) -> str:
+        """Résolution en listant les entités de l'API.
+
+        Args:
+            string_to_solve (str): chaîne à résoudre (type de l'entité, attribut à récupérer)
+            kwargs (Any): paramètres supplémentaires (datastore).
+
+        Raises:
+            ResolverError: si la chaîne à résoudre n'est pas parsable
+            NoEntityFoundError: si aucune entité n'est trouvée
+            ResolverError: si aucune information n'est retournée
+
+        Returns:
+            l'attribut demandé de l'entité demandée
+        """
         # On parse la chaîne à résoudre
         o_result = self.regex.search(string_to_solve)
         if o_result is None:

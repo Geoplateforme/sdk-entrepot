@@ -12,4 +12,13 @@ class DumbResolver(AbstractResolver):
     """
 
     def resolve(self, string_to_solve: str, **kwargs: Any) -> str:
+        """Résolution bête : on retourne la chaîne à résoudre.
+
+        Args:
+            string_to_solve (str): chaîne à résoudre.
+            kwargs (Any): paramètres supplémentaires.
+
+        Returns:
+            str: chaîne résolue
+        """
         return string_to_solve

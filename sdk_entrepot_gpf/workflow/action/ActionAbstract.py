@@ -62,6 +62,12 @@ class ActionAbstract(ABC):
 
         L'action peut faire référence à des entités via des filtres, on
         veut donc résoudre ces éléments afin de soumettre une requête valide à l'API.
+
+        Args:
+            kwargs (Any): paramètres supplémentaires.
+
+        Raises:
+            StepActionError: _description_
         """
         Config().om.info(f"Résolution de l'action '{self.workflow_context}-{self.index}'...")
         # Pour faciliter la résolution, on repasse la définition de l'action en json

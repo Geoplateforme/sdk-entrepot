@@ -28,6 +28,18 @@ class UserResolver(AbstractResolver):
         self.__user_data: Dict[str, Any] = o_response.json()
 
     def resolve(self, string_to_solve: str, **kwargs: Any) -> Any:
+        """Récupération de l'utilisateur courant et récupération d'une des ces informations.
+
+        Args:
+            string_to_solve (str): chaîne à résoudre (attribut du JSON retourné)
+            kwargs (Any): paramètres supplémentaires.
+
+        Raises:
+            ResolveUserError: si l'attribut demandé n'existe pas
+
+        Returns:
+            valeur de l'attribut
+        """
         # La chaîne à résoudre est en fait la clé, donc il suffit de renvoyer la valeur associée
         if string_to_solve in self.__user_data:
             return str(self.__user_data[string_to_solve])

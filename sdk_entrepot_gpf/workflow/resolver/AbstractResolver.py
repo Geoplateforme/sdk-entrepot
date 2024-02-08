@@ -22,6 +22,7 @@ class AbstractResolver(ABC):
 
         Args:
             string_to_solve (str): chaîne à résoudre
+            kwargs (Any): paramètres supplémentaires.
 
         Returns:
             chaîne résolue
