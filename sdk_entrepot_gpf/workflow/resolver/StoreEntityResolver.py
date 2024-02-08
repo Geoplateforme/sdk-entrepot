@@ -87,6 +87,7 @@ class StoreEntityResolver(AbstractResolver):
             raise NoEntityFoundError(self.name, string_to_solve)
         # Sinon on regarde ce qu'on doit envoyer
         o_entity = l_entities[0]
+        o_entity.api_update()
         s_selected_field = d_groups["selected_field"]
         # On doit envoyer une info ?
         if d_groups["selected_field_type"] == "infos":

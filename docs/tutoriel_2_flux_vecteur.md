@@ -1,6 +1,6 @@
 # Tutoriel 2 : publier un flux vecteur
 
-La Géoplateforme permet d'héberger des flux vecteur pour permettre à vos utilisateurd de les télécharger/utiliser.
+La Géoplateforme permet d'héberger des flux vecteur pour permettre à vos utilisateurs de les télécharger/utiliser.
 
 Pour cela, vous devez téléverser des données « vecteur » sur lesquelles la Géoplateforme va effectuer des traitements.
 

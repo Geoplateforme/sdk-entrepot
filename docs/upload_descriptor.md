@@ -8,22 +8,22 @@ Le fichier doit contenir une liste de `datasets`. Chaque *dataset* représente u
 
 * la liste des dossiers à téléverser (attribut `data_dirs`) : les chemins **relatifs** vers les dossiers à téléverser ;
 * les informations de la livraison à créer :
-    * Nom (attribut `name`) : nom de la livraison (afin que vous puissiez l'identifier, choix libre) ;
-    * Description (attribut `description`) : description de la livraison (choix libre) ;
-    * Projection (attribut `srs`) : le code EPSG des données (ex : `EPSG:2154`) ;
-    * Type (attribut `type`) : le type des données livrées. Le type de la livraison conditionne les types de fichiers de données qui seront attendus et les traitements qui pourront prendre en entrée cette livraison. Rien n'interdit de déposer des données avec des extensions incohérentes avec le type de livraison, mais elles ne seront potentiellement pas prises en compte par les vérifications et les traitements.
-        * `RASTER` -> PNG, TIFF, JPEG, JPEG2000 ;
-        * `VECTOR` -> SHP, CSV, GeoJSON ;
-        * `ARCHIVE` -> Tout type de fichiers ;
+  * Nom (attribut `name`) : nom de la livraison (afin que vous puissiez l'identifier, choix libre) ;
+  * Description (attribut `description`) : description de la livraison (choix libre) ;
+  * Projection (attribut `srs`) : le code EPSG des données (ex : `EPSG:2154`) ;
+  * Type (attribut `type`) : le type des données livrées. Le type de la livraison conditionne les types de fichiers de données qui seront attendus et les traitements qui pourront prendre en entrée cette livraison. Rien n'interdit de déposer des données avec des extensions incohérentes avec le type de livraison, mais elles ne seront potentiellement pas prises en compte par les vérifications et les traitements.
+    * `RASTER` -> PNG, TIFF, JPEG, JPEG2000 ;
+    * `VECTOR` -> SHP, CSV, GeoJSON ;
+    * `ARCHIVE` -> Tout type de fichiers ;
 * les commentaires et les tags à ajouter à la livraison :
-    * `comments` : liste des commentaires à ajouter ;
-    * `tags` : liste des tags à ajouter (clef-valeur).
+  * `comments` : liste des commentaires à ajouter ;
+  * `tags` : liste des tags à ajouter (clef-valeur).
 
 ## Exemple avec un dataset
 
 Nous souhaitons livrer les données suivantes :
 
-```
+```txt
 CANTON
 ├── CANTON.cpg
 ├── CANTON.dbf
@@ -34,7 +34,7 @@ CANTON
 
 Voici le fichier descripteur de livraison que l'on pourrait utiliser :
 
-```
+```json
 {
     "datasets": [
         {
@@ -62,7 +62,7 @@ Voici le fichier descripteur de livraison que l'on pourrait utiliser :
 
 Nous souhaitons livrer les données suivantes :
 
-```
+```txt
 ├── TABLE
 │   ├── tableau_assemblage.cpg
 │   ├── tableau_assemblage.dbf
@@ -80,7 +80,7 @@ Nous avons deux types de données différents (vecteur et raster). Nous devons d
 
 Voici le fichier descripteur de livraison que l'on pourrait utiliser :
 
-```
+```json
 {
     "datasets": [
         {

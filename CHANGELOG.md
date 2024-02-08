@@ -11,6 +11,7 @@
     * ajout fonction Offering.api_synchronize() : synchronisation de l'offre avec la configuration
     * ajout de la fonction Offering.get_url() : récupération de la liste des urls d'une offre
     * ajout de l'action `SynchronizeOfferingAction` : synchronisation de l'offre avec la configuration depuis un workflow
+* Documentation sur les [workflow](./docs/workflow.md) et les [résolveurs](./docs/resolveurs.md)
 
 ### [Changed]
 
@@ -23,6 +24,8 @@
 ### [Fixed]
 
 * #68 : le datastore est transmis au moment de la résolution ce qui corriger le problème.
+* StoreEntityResolver: avant l'utilisation de l'entité, récupération de toutes ses informations
+* Endpoint: neutralisation des fonctions inutilisables
 
 ## v0.1.19
 
