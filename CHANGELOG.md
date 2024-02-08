@@ -22,6 +22,7 @@
 ### [Fixed]
 
 * StoreEntityResolver: avant utilisation de l'entité, récupération de toutes ses informations
+* Endpoint: neutralisation des fonction inutilisable
 
 ## v0.1.19
 
