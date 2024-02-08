@@ -2,6 +2,7 @@ from unittest.mock import patch
 
 from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
 from sdk_entrepot_gpf.store.Endpoint import Endpoint
+from sdk_entrepot_gpf.store.Errors import StoreEntityError
 
 from tests.GpfTestCase import GpfTestCase
 
@@ -74,3 +75,48 @@ class EndpointTestCase(GpfTestCase):
             self.assertEqual(len(l_endpoints), 1)
             self.assertIsInstance(l_endpoints[0], Endpoint)
             self.assertEqual(l_endpoints[0].id, "endpoint_2")
+
+    def test_api_create(self) -> None:
+        """Vérifie le bon fonctionnement de api_create."""
+        with self.assertRaises(StoreEntityError) as o_arc:
+            Endpoint.api_create(None)
+        self.assertEqual("Impossible de créer un Endpoint", o_arc.exception.message)
+
+    def test_api_delete(self) -> None:
+        """Vérifie le bon fonctionnement de api_delete."""
+        with self.assertRaises(StoreEntityError) as o_arc:
+            Endpoint({}).api_delete()
+        self.assertEqual("Impossible de supprimer un Endpoint", o_arc.exception.message)
+
+    def test_api_get(self) -> None:
+        """Vérifie le bon fonctionnement de api_get."""
+        # Extrait de la requête "datastore" de l'API
+        s_datastore = "datastore"
+        l_endpoint = [
+            Endpoint(
+                {
+                    "_id": "endpoint_1",
+                    "name": "Service WMTS",
+                    "type": "WMTS-TMS",
+                },
+                s_datastore,
+            ),
+            Endpoint(
+                {
+                    "_id": "endpoint_2",
+                    "name": "Service de téléchargement",
+                    "type": "DOWNLOAD",
+                },
+                s_datastore,
+            ),
+        ]
+        with patch.object(Endpoint, "api_list", return_value=l_endpoint) as o_mock_api_list:
+            o_endpoint = Endpoint.api_get("endpoint_2", datastore=s_datastore)
+            self.assertEqual(o_endpoint, l_endpoint[1])
+            o_mock_api_list.assert_called_once_with(datastore=s_datastore)
+
+        s_id = "pas dans la liste"
+        with patch.object(Endpoint, "api_list", return_value=l_endpoint) as o_mock_api_list:
+            with self.assertRaises(StoreEntityError) as o_arc:
+                Endpoint.api_get(s_id, datastore=s_datastore)
+            self.assertEqual(f"le endpoint {s_id} est introuvable", o_arc.exception.message)
