@@ -15,6 +15,7 @@
 
 ### [Changed]
 
+* GlobalREsolver et Resolver : il est possible d'ajouter des couples clefs-valeurs dans la fonction `resolve()` de GlobalResolver et ils sont transmis aux résolveurs. Cela permet de base de résoudre la récupération d'entités (#68).
 * Workflow : ajout des actions DeleteAction, EditAction, SynchronizeOfferingAction
 * StoreEntity: ajout de `edit()` permettant de gérer l'édition des entités si possible. Ici impossible de mettre à jour les entités.
 * PartialEditInterface: surcharge de `edit()` pour permettre l’édition partielle
@@ -22,6 +23,7 @@
 
 ### [Fixed]
 
+* #68 : le datastore est transmis au moment de la résolution ce qui corriger le problème.
 * StoreEntityResolver: avant l'utilisation de l'entité, récupération de toutes ses informations
 * Endpoint: neutralisation des fonctions inutilisables
 

@@ -92,8 +92,6 @@ class Workflow:
         for d_action_raw in d_step_definition["actions"]:
             # création de l'action
             o_action = Workflow.generate(step_name, d_action_raw, o_parent_action, behavior)
-            # résolution
-            o_action.resolve()
             # choix du datastore
             ## par défaut datastore du workflow, si None il sera récupérer dans la configuration
             s_use_datastore = self.__datastore
@@ -104,6 +102,8 @@ class Workflow:
                 # datastore dans l'étape
                 s_use_datastore = o_action.definition_dict["datastore"]
 
+            # résolution
+            o_action.resolve(datastore=s_use_datastore)
             # exécution de l'action
             Config().om.info(f"Exécution de l'action '{o_action.workflow_context}-{o_action.index}'...")
             o_action.run(s_use_datastore)
