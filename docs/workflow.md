@@ -46,15 +46,15 @@ ce qui donne :
 
 Ce workflow permet de lancé 2 étapes `etape 1` et `etape 2`.
 
-Les actions possibles sont les suivante :
+Les actions possibles sont les suivantes :
 
-* [exécuter un traitement](Exécuter un traitement)
-* [configurer d'un flux](Configurer d'un flux)
-* [publier un flux](Publier un flux)
-* [supprimer une entité](Supprimer une entité)
-* [modifier une entité](Modifier une entité)
-* [copier une configuration](Copier une configuration)
-* [synchroniser une publication](Synchroniser une publication)
+* [exécuter un traitement](#executer-un-traitement)
+* [configurer un flux](#configurer-un-flux)
+* [publier un flux](#publier-un-flux)
+* [supprimer une entité](#supprimer-une-entite)
+* [modifier une entité](#modifier-une-entite)
+* [copier une configuration](#copier-une-configuration)
+* [synchroniser une publication](#synchroniser-une-publication)
 
 ### Exécuter un traitement
 
@@ -72,7 +72,7 @@ La liste des traitement est disponible ici : [/datastores/{datastore}/processing
 
 Le détail d'un traitement est disponible ici : [/datastores/{datastore}/processings/{processing}](https://data.geopf.fr/api/swagger-ui/index.html#/Traitements/get_6)
 
-### Configurer d'un flux
+### Configurer un flux
 
 * `type`*: `configuration`
 * `body_parameters`*: dictionnaire paramétrant la configuration :
@@ -283,7 +283,7 @@ Possibilité de supprimer des entités de type : upload, stored_data, configurat
 
 * suppression par ID de l'entité :
 
-```jsonc
+```json
 {
     "type": "delete-entity",
     // Type de l'entité à supprimer (upload, stored_data, configuration, offering)
@@ -299,7 +299,7 @@ Possibilité de supprimer des entités de type : upload, stored_data, configurat
 
 * suppression par filtre sur la liste :
 
-```jsonc
+```json
 {
     "type": "delete-entity",
     // Type de l'entité à supprimer (upload, stored_data, configuration, offering)
@@ -320,9 +320,9 @@ Possibilité de supprimer des entités de type : upload, stored_data, configurat
 
 Possibilité de modifier une entité de type : upload, stored_data, configuration et offering.
 
-Correspond au requête PUT et PATCH de l'[api géoplatforme](https://data.geopf.fr/api/swagger-ui/index.html)
+Correspond aux requêtes PUT et PATCH de l'[API Entrepôt](https://data.geopf.fr/api/swagger-ui/index.html).
 
-```jsonc
+```json
 {
     "type": "edit-entity",
     // Type de l'entité à modifier : (upload, stored_data, configuration, offering)
@@ -340,20 +340,20 @@ Correspond au requête PUT et PATCH de l'[api géoplatforme](https://data.geopf.
 
 Pour le `body_parameters` se référer à la documentation API GPF:
 
-* upload *(partiel)* : PATCH [/datastores/{datastore}/uploads/{upload}](https://data.geopf.fr/api/swagger-ui/index.html#/Livraisons%20et%20v%C3%A9rifications/update_2)
+* upload *(partielle)* : PATCH [/datastores/{datastore}/uploads/{upload}](https://data.geopf.fr/api/swagger-ui/index.html#/Livraisons%20et%20v%C3%A9rifications/update_2)
   * Seul le nom de la livraison, sa description et sa visibilité sont modifiables, et uniquement par le propriétaire. Les autres informations, comme le type de la livraison, sont figées.
-* stored_data *(partiel)* : PATCH [/datastores/{datastore}/stored_data/{stored_data}](https://data.geopf.fr/api/swagger-ui/index.html#/Donn%C3%A9es%20stock%C3%A9es/update_3)
+* stored_data *(partielle)* : PATCH [/datastores/{datastore}/stored_data/{stored_data}](https://data.geopf.fr/api/swagger-ui/index.html#/Donn%C3%A9es%20stock%C3%A9es/update_3)
   * Seul le nom de la donnée et sa visibilité sont modifiables, et uniquement par le propriétaire. Les autres informations, comme le type de la donnée, sont figées pour une donnée.
 * configuration *(totale)* : PUT [/datastores/{datastore}/configurations/{configuration}](https://data.geopf.fr/api/swagger-ui/index.html#/Configurations%20et%20publications/update_1)
   * Si la configuration est liée à des offres en cours de publication, la modification n'est pas possible. Si la configuration est liée à des offres publiées, les modifications sont répercutées sur les serveurs de diffusion. Le nom technique et le type ne sont pas modifiable.
-* offering *(partiel)*: PATCH [/datastores/{datastore}/offerings/{offering}](https://data.geopf.fr/api/swagger-ui/index.html#/Configurations%20et%20publications/update_4)
+* offering *(partielle)*: PATCH [/datastores/{datastore}/offerings/{offering}](https://data.geopf.fr/api/swagger-ui/index.html#/Configurations%20et%20publications/update_4)
   * Il est possible de modifier la visibilité d'une offre afin qu'elle apparaisse dans les catalogues ou qu'on puisse donner des permissions, ou au contraire qu'elle en disparaisse. On peut également désactiver une offre pour en couper la consommation rapidement, sans déconfigurer les permissions
 
 ### Copier une configuration
 
 Création d'une configuration à partir d'une configuration déjà existante
 
-```jsonc
+```json
 {
     "type": "copy-configuration",
     "url_parameters" : {
@@ -378,7 +378,7 @@ Synchronisation d'une ou plusieurs offres avec leur configuration et stored-data
 
 * Mise à jour selon ID de l'offre
 
-```jsonc
+```json
 {
   "type": "synchronize-offering",
   // Id de l'entité à supprimer (erreur remontée par l'API si l'entité n'existe pas)
@@ -388,7 +388,7 @@ Synchronisation d'une ou plusieurs offres avec leur configuration et stored-data
 
 * suppression par filtrage sur la liste des offres, possibilité de synchroniser plusieurs offres en même temps
 
-```jsonc
+```json
 {
   "type": "synchronize-offering",
   // Ou Critères pour la retrouver
@@ -406,14 +406,14 @@ Pour "filter_infos" voir les filtres possibles pour la requête [/datastores/{da
 
 ### Actions de base
 
-Pour les actions de base (processing-execution, configuration, offre) des workflows des tutoriels sont disponibles dans [sdk_entrepot_gpf/_data/workflows/](../sdk_entrepot_gpf/_data/workflows/) :
+Pour les actions de base (processing-execution, configuration, offre) des workflows des tutoriels sont disponibles dans [sdk_entrepot_gpf/_data/workflows/](https://github.com/Geoplateforme/sdk-entrepot/tree/prod/sdk_entrepot_gpf/_data/workflows/) :
 
-* archivage [generic_archive.jsonc](../sdk_entrepot_gpf/_data/workflows/generic_archive.jsonc) (traitement d'une archive, configuration et offre pour un géoservice Téléchargement). [Tutoriel](tutoriel_1_archive.md) ;
-* flux vecteur [generic_vecteur.jsonc](../sdk_entrepot_gpf/_data/workflows/generic_vecteur.jsonc) (traitement d'une mise en base, configuration et offre pour un géoservice Flux WFS, configuration et offre pour un flux WMS vecteur, traitement de création de pyramide, configuration et offre pour un flux TMS) [Tutoriel](./tutoriel_2_flux_vecteur.md) ;
-* flux raster [generic_raster.jsonc](../sdk_entrepot_gpf/_data/workflows/generic_raster.jsonc) (traitement de création d'une pyramide, configuration et offre pour un flux WMS, configuration et offre pour un flux WMTS) [Tutoriel](./tutoriel_3_flux_raster.md) ;
-* mise en place d'une pyramide par "joincache" [generic_joincache.jsonc](sdk_entrepot_gpf/_data/workflows/generic_joincache.jsonc) (traitement création de pyramides, traitement de fusion de pyramides, traitement de mise à jour d'une pyramide, configuration et offre pour un flux WMS raster, configuration et offre pour un flux WMTS) ;
-* mise à jour d'un base de donnée [generic_maj_bdd.jsonc](sdk_entrepot_gpf/_data/workflows/generic_maj_bdd.jsonc) (traitement de mise en base création + mise à jour, configuration et offre pour un flux WMS)
-* création d'une pyramise rasteur à partir un flux WMS vecteur (moissonnage) [generic_moissonnage.jsonc](sdk_entrepot_gpf/_data/workflows/generic_moissonnage.jsonc) (traitement de mise en base, configuration et offre pour un flux WMS vecteur, traitement de moissonnage, configuration et offre pour un flux WMS raster) ;
+* archivage [generic_archive.jsonc](https://github.com/Geoplateforme/sdk-entrepot/tree/prod/sdk_entrepot_gpf/_data/workflows/generic_archive.jsonc) (traitement d'une archive, configuration et offre pour un géoservice Téléchargement). [Tutoriel](tutoriel_1_archive.md) ;
+* flux vecteur [generic_vecteur.jsonc](https://github.com/Geoplateforme/sdk-entrepot/tree/prod/sdk_entrepot_gpf/_data/workflows/generic_vecteur.jsonc) (traitement d'une mise en base, configuration et offre pour un géoservice Flux WFS, configuration et offre pour un flux WMS vecteur, traitement de création de pyramide, configuration et offre pour un flux TMS) [Tutoriel](./tutoriel_2_flux_vecteur.md) ;
+* flux raster [generic_raster.jsonc](https://github.com/Geoplateforme/sdk-entrepot/tree/prod/sdk_entrepot_gpf/_data/workflows/generic_raster.jsonc) (traitement de création d'une pyramide, configuration et offre pour un flux WMS, configuration et offre pour un flux WMTS) [Tutoriel](./tutoriel_3_flux_raster.md) ;
+* mise en place d'une pyramide par "joincache" [generic_joincache.jsonc](https://github.com/Geoplateforme/sdk-entrepot/tree/prod/sdk_entrepot_gpf/_data/workflows/generic_joincache.jsonc) (traitement création de pyramides, traitement de fusion de pyramides, traitement de mise à jour d'une pyramide, configuration et offre pour un flux WMS raster, configuration et offre pour un flux WMTS) ;
+* mise à jour d'un base de donnée [generic_maj_bdd.jsonc](https://github.com/Geoplateforme/sdk-entrepot/tree/prod/sdk_entrepot_gpf/_data/workflows/generic_maj_bdd.jsonc) (traitement de mise en base création + mise à jour, configuration et offre pour un flux WMS)
+* création d'une pyramise rasteur à partir un flux WMS vecteur (moissonnage) [generic_moissonnage.jsonc](https://github.com/Geoplateforme/sdk-entrepot/tree/prod/sdk_entrepot_gpf/_data/workflows/generic_moissonnage.jsonc) (traitement de mise en base, configuration et offre pour un flux WMS vecteur, traitement de moissonnage, configuration et offre pour un flux WMS raster) ;
 
 ## Exécution du workflow
 

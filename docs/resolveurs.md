@@ -8,8 +8,8 @@ Le nom d'un résolveur est donné à son initialisation. Il est possible d'avoir
 
 A l'utilisation du SDK comme un exécutable, il y a 2 résolveurs d’instanciés :
 
-* `user` : un [UserResolver](UserResolver)
-* `store_entity` : un [StoreEntityResolver](StoreEntityResolver)
+* `user` : un [UserResolver](reference/workflow/resolver.md/#sdk_entrepot_gpf.workflow.resolver.UserResolver.UserResolver)
+* `store_entity` : un [StoreEntityResolver](reference/workflow/resolver.md/#sdk_entrepot_gpf.workflow.resolver.StoreEntityResolver.StoreEntityResolver)
 
 A l'utilisation comme module, il n'y a aucun résolveurs d’instancié de base. Il faut instancier des résolveurs dans le programme et les ajouter au `GlobalResolver`.
 
@@ -23,10 +23,10 @@ Dans le fichier de workflow, pour utiliser le résolveur il faut ajouter le patt
 
 Il y a 4 résolveurs de base :
 
-* [DictResolver](DictResolver): permet d'insérer les valeurs contenues dans un dictionnaire ;
-* [FileResolver](FileResolver): insère les valeurs contenues dans un fichier ;
-* [StoreEntityResolver](StoreEntityResolver): récupère des informations sur les entités depuis la GPF ;
-* [UserResolver](UserResolver): récupère des informations de l'utilisateur courant depuis la GPF.
+* [DictResolver](reference/workflow/resolver.md/#sdk_entrepot_gpf.workflow.resolver.DictResolver.DictResolver): permet d'insérer les valeurs contenues dans un dictionnaire ;
+* [FileResolver](reference/workflow/resolver.md/#sdk_entrepot_gpf.workflow.resolver.FileResolver.FileResolver): insère les valeurs contenues dans un fichier ;
+* [StoreEntityResolver](reference/workflow/resolver.md/#sdk_entrepot_gpf.workflow.resolver.StoreEntityResolver.StoreEntityResolver): récupère des informations sur les entités depuis la GPF ;
+* [UserResolver](reference/workflow/resolver.md/#sdk_entrepot_gpf.workflow.resolver.UserResolver.UserResolver): récupère des informations de l'utilisateur courant depuis la GPF.
 
 ### DictResolver
 

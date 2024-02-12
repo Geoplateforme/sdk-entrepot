@@ -64,6 +64,7 @@ nav:
   - upload_descriptor.md
   - workflow.md
   - development.md
+  - resolveurs.md
   - Tutoriels:
       - "Tutoriel 1 : publier une archive": tutoriel_1_archive.md
       - "Tutoriel 2 : publier un flux vecteur": tutoriel_2_flux_vecteur.md
