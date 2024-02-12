@@ -1,0 +1,1725 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../upload_descriptor/">
+      
+      
+        <link rel="next" href="../development/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.11">
+    
+    
+      
+        <title>Workflows - Documentation SDK Entrepôt</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.fad675c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../assets/css/extra.css">
+    
+      <link rel="stylesheet" href="../assets/css/neoteroi.css">
+    
+      <link rel="stylesheet" href="../assets/css/custom.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="custom">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#workflows" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="https://www.ign.fr/geoplateforme" title="Documentation SDK Entrepôt" class="md-header__button md-logo" aria-label="Documentation SDK Entrepôt" data-md-component="logo">
+      
+  <img src="../assets/images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documentation SDK Entrepôt
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Workflows
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Geoplateforme/sdk_entrepot" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Geoplateforme/sdk_entrepot
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://www.ign.fr/geoplateforme" title="Documentation SDK Entrepôt" class="md-nav__button md-logo" aria-label="Documentation SDK Entrepôt" data-md-component="logo">
+      
+  <img src="../assets/images/logo.png" alt="logo">
+
+    </a>
+    Documentation SDK Entrepôt
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Geoplateforme/sdk_entrepot" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Geoplateforme/sdk_entrepot
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://geoplateforme.github.io" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Accueil Géoplateforme
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SDK Python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration_details/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    La configuration en détails
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../comme-executable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Utilisation comme exécutable
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../comme-module/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Utilisation comme module Python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../upload_descriptor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Fichier descripteur de livraison
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Workflows
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Workflows
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Définition
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Définition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#executer-un-traitement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exécuter un traitement
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configurer-un-flux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configurer un flux
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configurer un flux">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      WFS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wmts-tms" class="md-nav__link">
+    <span class="md-ellipsis">
+      WMTS-TMS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector-tms" class="md-nav__link">
+    <span class="md-ellipsis">
+      VECTOR-TMS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wms-vector" class="md-nav__link">
+    <span class="md-ellipsis">
+      WMS-VECTOR
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wms-raster" class="md-nav__link">
+    <span class="md-ellipsis">
+      WMS-RASTER
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#download" class="md-nav__link">
+    <span class="md-ellipsis">
+      DOWNLOAD
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#altimetry" class="md-nav__link">
+    <span class="md-ellipsis">
+      ALTIMETRY
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search" class="md-nav__link">
+    <span class="md-ellipsis">
+      SEARCH
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#itinerary-isocurve" class="md-nav__link">
+    <span class="md-ellipsis">
+      ITINERARY-ISOCURVE
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#publier-un-flux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Publier un flux
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supprimer-une-entite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supprimer une entité
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modifier-une-entite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modifier une entité
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#copier-une-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Copier une configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synchroniser-une-publication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Synchroniser une publication
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exemple" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exemple
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exemple">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#actions-de-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      Actions de base
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#execution-du-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exécution du workflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exécution du workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-lutilisation-du-sdk-comme-executable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Via l'utilisation du SDK comme exécutable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#via-lutilisation-du-sdk-comme-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      Via l'utilisation du SDK comme module
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Développement
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../resolveurs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Résolveur
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Tutoriels
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            Tutoriels
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutoriel_1_archive/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tutoriel 1 : publier une archive
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutoriel_2_flux_vecteur/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tutoriel 2 : publier un flux vecteur
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutoriel_3_flux_raster/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tutoriel 3 : publier un flux raster
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Références
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            Références
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/auth/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.auth
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/io/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.io
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/store/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.store
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/workflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.workflow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/workflow/action/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.workflow.action
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/workflow/resolver/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.workflow.resolver
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Définition
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Définition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#executer-un-traitement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exécuter un traitement
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configurer-un-flux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configurer un flux
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configurer un flux">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      WFS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wmts-tms" class="md-nav__link">
+    <span class="md-ellipsis">
+      WMTS-TMS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector-tms" class="md-nav__link">
+    <span class="md-ellipsis">
+      VECTOR-TMS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wms-vector" class="md-nav__link">
+    <span class="md-ellipsis">
+      WMS-VECTOR
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wms-raster" class="md-nav__link">
+    <span class="md-ellipsis">
+      WMS-RASTER
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#download" class="md-nav__link">
+    <span class="md-ellipsis">
+      DOWNLOAD
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#altimetry" class="md-nav__link">
+    <span class="md-ellipsis">
+      ALTIMETRY
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search" class="md-nav__link">
+    <span class="md-ellipsis">
+      SEARCH
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#itinerary-isocurve" class="md-nav__link">
+    <span class="md-ellipsis">
+      ITINERARY-ISOCURVE
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#publier-un-flux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Publier un flux
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supprimer-une-entite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supprimer une entité
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modifier-une-entite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modifier une entité
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#copier-une-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Copier une configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synchroniser-une-publication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Synchroniser une publication
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exemple" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exemple
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exemple">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#actions-de-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      Actions de base
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#execution-du-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exécution du workflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exécution du workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-lutilisation-du-sdk-comme-executable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Via l'utilisation du SDK comme exécutable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#via-lutilisation-du-sdk-comme-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      Via l'utilisation du SDK comme module
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="workflows">Workflows<a class="headerlink" href="#workflows" title="Permanent link">#</a></h1>
+<p>Le fichier workflow est un fichier au format JSON permettant de décrire les actions à réaliser sur des données stockées où livrées.</p>
+<p>Certaines valeurs du workflow peuvent être complétées avec un système de résolution permettant notamment d'utiliser le nom des entités pour trouver leur ID. Pour plus d'informations consulter la <a href="../resolveurs/">page dédiée au résolveurs</a>.</p>
+<p>Les actions sont les suivantes :</p>
+<ul>
+<li>lancer un traitement (càd créer une processing exécution) ;</li>
+<li>configurer un géoservice (càd créer une configuration) ;</li>
+<li>publier un géoservice (càd créer une offering) ;</li>
+<li>supprimer une entité de type upload, stored_data, configuration ou offering ;</li>
+<li>modifier une entité de type upload, stored_data, configuration ou offering ;</li>
+<li>copier une configuration (création d'une nouvelle configuration en reprenant les paramètres non précisés de la précédente) ;</li>
+<li>synchroniser une offre (mettre à jour avec la donnée stockée et une offering).</li>
+</ul>
+<h2 id="definition">Définition<a class="headerlink" href="#definition" title="Permanent link">#</a></h2>
+<p>Le fichier doit contenir un dictionnaire <code>workflow</code>. Qui contient deux clefs :</p>
+<ul>
+<li><code>datastore</code>: (optionnel) uuid du datastore à utiliser pour le workflow.</li>
+<li><code>step</code>: (obligatoire) dictionnaire des étapes à lancer ;</li>
+<li>la clef sera le nom de l'étape qui servira à la lancer ;</li>
+<li>sa valeur est un dictionnaire décriant l'étape :<ul>
+<li><code>actions</code> : (obligatoire) listes des actions à lancer, la liste sera exécutée dans l'ordre. Le dictionnaire décrivant l'action dépend du type d'action à lancer, la clef <code>type</code> permet de définir le type d'action à effectuer (description plus bas) ;</li>
+<li><code>parents</code> : (obligatoire) liste des étapes devant précéder celle-ci. Pour une actions sans dépendances la liste doit être vide.</li>
+</ul>
+</li>
+</ul>
+<p>ce qui donne :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;workflow&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">&quot;steps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">      </span><span class="nt">&quot;etape 1&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">        </span><span class="nt">&quot;actions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">],</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">        </span><span class="nt">&quot;parents&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="p">},</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">      </span><span class="nt">&quot;etape 2&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">        </span><span class="nt">&quot;actions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">],</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">        </span><span class="nt">&quot;parents&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">      </span><span class="p">}</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="p">}</span>
+</code></pre></div>
+<p>Ce workflow permet de lancé 2 étapes <code>etape 1</code> et <code>etape 2</code>.</p>
+<p>Les actions possibles sont les suivantes :</p>
+<ul>
+<li><a href="#executer-un-traitement">exécuter un traitement</a></li>
+<li><a href="#configurer-un-flux">configurer un flux</a></li>
+<li><a href="#publier-un-flux">publier un flux</a></li>
+<li><a href="#supprimer-une-entite">supprimer une entité</a></li>
+<li><a href="#modifier-une-entite">modifier une entité</a></li>
+<li><a href="#copier-une-configuration">copier une configuration</a></li>
+<li><a href="#synchroniser-une-publication">synchroniser une publication</a></li>
+</ul>
+<h3 id="executer-un-traitement">Exécuter un traitement<a class="headerlink" href="#executer-un-traitement" title="Permanent link">#</a></h3>
+<ul>
+<li><code>type</code>: <code>processing-execution</code></li>
+<li><code>body_parameters</code>: dictionnaire paramétrant l’exécution :</li>
+<li><code>processing</code>: id du traitement à utiliser</li>
+<li><code>inputs</code> : dictionnaire décrivant la/les données d'entrée (se référer à la documentation du traitement)</li>
+<li><code>output</code>: dictionnaire décrivant la sortie du traitement (se référer à la documentation du traitement)</li>
+<li><code>parameters</code>: dictionnaire des paramètres à utiliser pour le traitement (se référer à la documentation du traitement)</li>
+<li><code>comments</code> : liste des commentaires à ajouter à la donnée en sortie (si mise à jour : les commentaires déjà présents ne sont pas ajoutés).</li>
+<li><code>tags</code> : tags à ajouter à la donnée en sortie (clef-valeur) (si mise à jour : les tags déjà présents ne sont pas ajoutés).</li>
+</ul>
+<p>La liste des traitement est disponible ici : <a href="https://data.geopf.fr/api/swagger-ui/index.html#/Traitements/getAll_4">/datastores/{datastore}/processings
+</a>.</p>
+<p>Le détail d'un traitement est disponible ici : <a href="https://data.geopf.fr/api/swagger-ui/index.html#/Traitements/get_6">/datastores/{datastore}/processings/{processing}</a></p>
+<h3 id="configurer-un-flux">Configurer un flux<a class="headerlink" href="#configurer-un-flux" title="Permanent link">#</a></h3>
+<ul>
+<li><code>type</code>*: <code>configuration</code></li>
+<li><code>body_parameters</code>*: dictionnaire paramétrant la configuration :</li>
+<li><code>type</code>*: type du flux (WMS-VECTOR, WFS, WMTS-TMS, WMS-RASTER, DOWNLOAD, ITINERARY-ISOCURVE, ALTIMETRY, SEARCH, VECTOR-TMS)</li>
+<li><code>name</code>*: Nom de la configuration</li>
+<li><code>layer_name</code>*: Nom technique de la ressource. Ce nom doit être unique sur la plateforme pour un type de configuration donné. Uniquement des caractères alphanumériques, tiret, tiret bas, point (pattern: ^[A-Za-z0-9_-.]+$)</li>
+<li><code>type_infos</code>* : description des données à utiliser (dépend du flux)</li>
+<li><code>attribution</code>: (optionnel) Métadonnées liées au propriétaire de la configuration<ul>
+<li><code>title</code>*: Nom du propriétaire</li>
+<li><code>url</code>*: URL vers le site du propriétaire</li>
+<li><code>logo</code>: Dictionnaire décrivant le logo du propriétaire</li>
+<li><code>format</code>*: le format (mime-type) du logo (pattern: <code>\w+/[-+.\w]+</code>, example: <code>image/jpeg</code>)</li>
+<li><code>url</code>*: l'URL d'accès au logo</li>
+<li><code>width</code>*: la largeur du logo</li>
+<li><code>height</code>*: la hauteur du logo</li>
+</ul>
+</li>
+<li><code>comments</code> : liste des commentaires à ajouter à la configuration.</li>
+<li><code>tags</code> : tags à ajouter à la configuration (clef-valeur).</li>
+</ul>
+<p>type_infos selon le flux :</p>
+<h4 id="wfs">WFS<a class="headerlink" href="#wfs" title="Permanent link">#</a></h4>
+<ul>
+<li><code>bbox</code>: dictionnaire Bounding box :</li>
+<li><code>west</code>*</li>
+<li><code>south</code>*</li>
+<li><code>east</code>*</li>
+<li><code>north</code>*</li>
+<li><code>used_data</code>*: liste de dictionnaires :</li>
+<li><code>stored_data</code>*: Identifiant de la donnée stockée</li>
+<li><code>relations</code>*: liste de dictionnaire décrivant la relation :<ul>
+<li><code>native_name</code>*: Nom de la table</li>
+<li><code>public_name</code>: Nom public de la table</li>
+<li><code>title</code>*: Titre</li>
+<li><code>keywords</code>: Liste de mots clés (doivent être uniques)</li>
+<li><code>abstract</code>*: Description</li>
+</ul>
+</li>
+</ul>
+<h4 id="wmts-tms">WMTS-TMS<a class="headerlink" href="#wmts-tms" title="Permanent link">#</a></h4>
+<ul>
+<li><code>bbox</code>: dictionnaire Bounding box :</li>
+<li><code>west</code>*</li>
+<li><code>south</code>*</li>
+<li><code>east</code>*</li>
+<li><code>north</code>*</li>
+<li><code>title</code>*: titre</li>
+<li><code>keywords</code>: Liste de mots clés (doivent être uniques)</li>
+<li><code>styles</code>: lists des identifiants des fichiers statiques de style Rok4</li>
+<li><code>used_data</code>*: liste de dictionnaire :</li>
+<li><code>bottom_level</code>*:niveau minimum</li>
+<li><code>top_level</code>*: niveau maximum</li>
+<li><code>stored_data</code>*: Identifiant de la donnée stockée</li>
+<li><code>abstract</code>*: Description</li>
+<li><code>getfeatureinfo</code>: Dictionnaire décrivant la ressource cible du GetFeatureInfo. Une des structure suivante :</li>
+<li>avec la stored data, dictionnaire :<ul>
+<li><code>stored_data</code>*: Indique si on va utiliser directement la donnée stockée</li>
+</ul>
+</li>
+<li>avec une url, dictionnaire :<ul>
+<li><code>server_url</code>* url utiliser pour le GetFeatureInfo</li>
+</ul>
+</li>
+</ul>
+<h4 id="vector-tms">VECTOR-TMS<a class="headerlink" href="#vector-tms" title="Permanent link">#</a></h4>
+<ul>
+<li><code>used_data</code>*: liste de dictionnaires :</li>
+<li><code>stored_data</code>*: Identifiant de la donnée stockée</li>
+<li><code>relations</code>*: liste de dictionnaire décrivant la relation :<ul>
+<li><code>native_name</code>*: Nom de la table</li>
+<li><code>public_name</code>: Nom public de la table</li>
+<li><code>abstract</code>*: Description</li>
+</ul>
+</li>
+</ul>
+<h4 id="wms-vector">WMS-VECTOR<a class="headerlink" href="#wms-vector" title="Permanent link">#</a></h4>
+<ul>
+<li><code>bbox</code>: dictionnaire Bounding box :</li>
+<li><code>west</code>*</li>
+<li><code>south</code>*</li>
+<li><code>east</code>*</li>
+<li><code>north</code>*</li>
+<li><code>title</code>*: titre</li>
+<li><code>keywords</code>: Liste de mots clés (doivent être uniques)</li>
+<li><code>abstract</code>*: Description</li>
+<li><code>used_data</code>*: liste de dictionnaire :</li>
+<li><code>stored_data</code>*: Identifiant de la donnée stockée</li>
+<li><code>relations</code>*: liste de dictionnaire décrivant la relation :<ul>
+<li><code>name</code>*: Nom de la table</li>
+<li><code>style</code>*: uuid du statiques de style</li>
+<li><code>ftl</code>: uuid de ?????</li>
+</ul>
+</li>
+</ul>
+<h4 id="wms-raster">WMS-RASTER<a class="headerlink" href="#wms-raster" title="Permanent link">#</a></h4>
+<ul>
+<li><code>bbox</code>: dictionnaire Bounding box :</li>
+<li><code>west</code>*</li>
+<li><code>south</code>*</li>
+<li><code>east</code>*</li>
+<li><code>north</code>*</li>
+<li><code>title</code>*: titre</li>
+<li><code>keywords</code>: Liste de mots clés (doivent être uniques)</li>
+<li><code>styles</code>: lists des identifiants des fichiers statiques de style Rok4</li>
+<li><code>used_data</code>*: liste de dictionnaire :</li>
+<li><code>bottom_level</code>*:niveau minimum</li>
+<li><code>top_level</code>*: niveau maximum</li>
+<li><code>stored_data</code>*: Identifiant de la donnée stockée</li>
+<li><code>interpolation</code>: Interpolation utilisée pour les conversions de résolution : [ NEAREST-NEIGHBOUR, LINEAR, BICUBIC, LANCZOS2, LANCZOS3, LANCZOS4 ] (default: BICUBIC)</li>
+<li><code>bottom_resolution</code>: Résolution minimale de la couche</li>
+<li><code>top_resolution</code>: Résolution maximale de la couche</li>
+<li><code>abstract</code>*: Description</li>
+<li><code>getfeatureinfo</code>: Dictionnaire décrivant la ressource cible du GetFeatureInfo. Une des structure suivante :</li>
+<li>avec la stored data, dictionnaire :<ul>
+<li><code>stored_data</code>*: Indique si on va utiliser directement la donnée stockée</li>
+</ul>
+</li>
+<li>avec une url, dictionnaire :<ul>
+<li><code>server_url</code>* url utiliser pour le GetFeatureInfo</li>
+</ul>
+</li>
+</ul>
+<h4 id="download">DOWNLOAD<a class="headerlink" href="#download" title="Permanent link">#</a></h4>
+<ul>
+<li><code>title</code>*: titre</li>
+<li><code>keywords</code>: Liste de mots clés (doivent être uniques)</li>
+<li><code>abstract</code>*: Description</li>
+<li><code>used_data</code>*: liste de dictionnaire :</li>
+<li><code>sub_name</code>*: nom</li>
+<li><code>title</code>: titre</li>
+<li><code>keywords</code>: Liste de mots clés (doivent être uniques)</li>
+<li><code>format</code>: format
+  <code>zone</code>: zone</li>
+<li><code>stored_data</code>*: Identifiant de la donnée stockée</li>
+<li><code>abstract</code>*: Description</li>
+</ul>
+<h4 id="altimetry">ALTIMETRY<a class="headerlink" href="#altimetry" title="Permanent link">#</a></h4>
+<ul>
+<li><code>bbox</code>: dictionnaire Bounding box</li>
+<li><code>west</code>*</li>
+<li><code>south</code>*</li>
+<li><code>east</code>*</li>
+<li><code>north</code>*</li>
+<li><code>title</code>*: Titre</li>
+<li><code>keywords</code>:liste des mots clés</li>
+<li><code>abstract</code>*: Description</li>
+<li><code>used_data</code>*: liste de dictionnaire :</li>
+<li><code>title</code>*: Titre</li>
+<li><code>bbox</code>: dictionnaire Bounding box<ul>
+<li><code>west</code>*</li>
+<li><code>south</code>*</li>
+<li><code>east</code>*</li>
+<li><code>north</code>*</li>
+</ul>
+</li>
+<li><code>source</code>*: Informations sur la source des données. Une des solution suivante<ul>
+<li>valeur fixe :</li>
+<li><code>value</code>*: Valeur unique pour la source des données</li>
+<li>Mapping entre les valeurs de la pyramide et les valeurs effectivement renvoyées</li>
+<li><code>mapping</code>: dictionnaire :<ul>
+<li><code>&lt; * &gt;</code>: Mapping entre les valeurs de la pyramide et les valeurs effectivement renvoyées</li>
+</ul>
+</li>
+<li><code>stored_data</code>*: Identifiant de la donnée stockée</li>
+</ul>
+</li>
+<li><code>accuracy</code>* Informations sur la source des données. Une des solution suivante<ul>
+<li>valeur fixe:</li>
+<li><code>value</code>*: Valeur unique pour la source des données</li>
+<li>Mapping entre les valeurs de la pyramide et les valeurs effectivement renvoyées</li>
+<li><code>mapping</code>: dictionnaire :<ul>
+<li><code>&lt; * &gt;</code>: Mapping entre les valeurs de la pyramide et les valeurs effectivement renvoyées</li>
+</ul>
+</li>
+<li><code>stored_data</code>*: Identifiant de la donnée stockée</li>
+</ul>
+</li>
+<li>`stored_data*: Identifiant de la donnée stockée</li>
+</ul>
+<h4 id="search">SEARCH<a class="headerlink" href="#search" title="Permanent link">#</a></h4>
+<ul>
+<li><code>title</code>*: Titre</li>
+<li><code>keywords</code>:liste des mots clés</li>
+<li><code>abstract</code>*: Description</li>
+<li><code>used_data</code>*: liste de dictionnaire :</li>
+<li><code>stored_data</code>*: Identifiant de la donnée stockée</li>
+</ul>
+<h4 id="itinerary-isocurve">ITINERARY-ISOCURVE<a class="headerlink" href="#itinerary-isocurve" title="Permanent link">#</a></h4>
+<ul>
+<li><code>bbox</code>: dictionnaire Bounding box</li>
+<li><code>west</code>*</li>
+<li><code>south</code>*</li>
+<li><code>east</code>*</li>
+<li><code>north</code>*</li>
+<li><code>title</code>*: Titre</li>
+<li><code>keywords</code>:liste des mots clés</li>
+<li><code>abstract</code>*: Description</li>
+<li><code>limits</code>: dictionnaire décrivant les limites pour les calculs d'itinéraire (nombre d'étapes et de contraintes) et d'isochrone (durée et distance)</li>
+<li><code>steps</code>: Nombre d'étapes maximal pour le service d'itinéraire (maximum: 25, minimum: 0, default: 16)</li>
+<li><code>constraints</code>: Nombre de contraintes maximal pour le service d'itinéraire (maximum: 6, minimum: 0, default: 3)</li>
+<li><code>duration</code>: Durée maximale pour le calcul d'isochrone (maximum: 86400, minimum: 0, default: 43200)</li>
+<li><code>distance</code>: Distance maximale pour le calcul d'isochrone (maximum: 2000000, minimum: 0, default: 1000000)</li>
+<li><code>constraints</code>: Dictionnaire de définition des contraintes pour la configuration (pas d'information sur le contenu dans la documentation API GPF)</li>
+<li><code>srss</code>: liste des projections</li>
+<li><code>used_data</code>* dictionnaire :</li>
+<li><code>profile</code>*: Profil de graphe à utiliser (e.g. voiture ou piéton)</li>
+<li><code>optimization</code>*: Optimisation de graphe à utiliser (e.g. plus court ou plus rapide)</li>
+<li><code>cost_column</code>: Colonne de coût (pour stored data de type GRAPHE-DB)</li>
+<li><code>reverse_cost_column</code>: Colonne de coût inverse (pour stored data de type GRAPHE-DB)</li>
+<li><code>cost_type</code>: Type de coût [ time, distance ]</li>
+<li><code>costing</code>: Méthode de calcul de coût (pour stored data de type GRAPHE-VALHALLA) [ auto, auto_shorter, pedestrian ]</li>
+<li><code>attributes</code>: liste dictionnaire des Attributs retournés par l'API:<ul>
+<li><code>table_name</code>: Nom de la table</li>
+<li><code>native_name</code>*: Nom de l'attribut dans la table</li>
+<li><code>public_name</code>*: Nom de l'attribut vu du service (pattern: ^[A-Za-z0-9_-]+$)</li>
+<li><code>default</code>: boolean</li>
+</ul>
+</li>
+<li><code>stored_data</code>*: Identifiant de la donnée stockée</li>
+</ul>
+<h3 id="publier-un-flux">Publier un flux<a class="headerlink" href="#publier-un-flux" title="Permanent link">#</a></h3>
+<ul>
+<li><code>type</code>*: <code>offering</code></li>
+<li><code>url_parameters</code>: dictionnaire :</li>
+<li><code>configuration</code>: uuid de la configuration que l'on veux publier</li>
+<li><code>body_parameters</code>*: dictionnaire paramétrant l'offre:</li>
+<li><code>visibility</code>: niveau de visibilité [ PRIVATE, REFERENCED, PUBLIC ] (default: PRIVATE)</li>
+<li><code>endpoint</code>*: uuid du endpoint à utiliser</li>
+<li><code>open</code>: boolean</li>
+<li><code>permissions</code>: liste des uuid des permissions</li>
+</ul>
+<h3 id="supprimer-une-entite">Supprimer une entité<a class="headerlink" href="#supprimer-une-entite" title="Permanent link">#</a></h3>
+<p>Possibilité de supprimer des entités de type : upload, stored_data, configuration et offering.</p>
+<ul>
+<li>suppression par ID de l'entité :</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;delete-entity&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="c1">// Type de l&#39;entité à supprimer (upload, stored_data, configuration, offering)</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nt">&quot;entity_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;configuration&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="c1">// Id de l&#39;entité à supprimer</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nt">&quot;entity_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{uuid}&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="c1">// Suppression en cascade autorisée ou pas ? par défaut à false</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nt">&quot;cascade&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="c1">// Ok si non trouvée ? par défaut à true</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="nt">&quot;not_found_ok&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="p">}</span>
+</code></pre></div>
+<ul>
+<li>suppression par filtre sur la liste :</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;delete-entity&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="c1">// Type de l&#39;entité à supprimer (upload, stored_data, configuration, offering)</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nt">&quot;entity_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;configuration&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="c1">// Critères pour filtrer filter_infos et/ou filter_tags</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nt">&quot;filter_infos&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="nt">&quot;filter_tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="c1">// Suppression en cascade autorisée ou pas ? par défaut à false</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="nt">&quot;cascade&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="c1">// Ok si non trouvée ? par défaut à true</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="nt">&quot;not_found_ok&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="c1">// Que faire plusieurs résultats ?  first =&gt; uniquement 1er de la liste; all =&gt; on prend tout (défaut); error =&gt; sortie en erreur du programme</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="nt">&quot;if_multi&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;first|all|error&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="modifier-une-entite">Modifier une entité<a class="headerlink" href="#modifier-une-entite" title="Permanent link">#</a></h3>
+<p>Possibilité de modifier une entité de type : upload, stored_data, configuration et offering.</p>
+<p>Correspond aux requêtes PUT et PATCH de l'<a href="https://data.geopf.fr/api/swagger-ui/index.html">API Entrepôt</a>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;edit-entity&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="c1">// Type de l&#39;entité à modifier : (upload, stored_data, configuration, offering)</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="nt">&quot;entity_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;configuration&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="c1">// Id de l&#39;entité à modifier</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="nt">&quot;entity_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{uuid}&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="c1">// Optionnel si non présent requête n&#39;ai pas lancée ( =&gt; mise à jour des tags et commentaires uniquement), si l&#39;entité hérite de FullEditInterface (mise à jour totale) =&gt; fusion des informations récupérées sur l&#39;API (GET) et de celle fournies, sinon on envoie que celles fournies</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="nt">&quot;body_parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="c1">// Optionnel : Liste des tags ajoutés à l&#39;entité (uniquement si la classe hérite de TagInterface)</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="nt">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="c1">// Optionnel : Liste des commentaires à ajouter (uniquement si la classe hérite de CommentInterface)</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="nt">&quot;comments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="p">}</span>
+</code></pre></div>
+<p>Pour le <code>body_parameters</code> se référer à la documentation API GPF:</p>
+<ul>
+<li>upload <em>(partielle)</em> : PATCH <a href="https://data.geopf.fr/api/swagger-ui/index.html#/Livraisons%20et%20v%C3%A9rifications/update_2">/datastores/{datastore}/uploads/{upload}</a></li>
+<li>Seul le nom de la livraison, sa description et sa visibilité sont modifiables, et uniquement par le propriétaire. Les autres informations, comme le type de la livraison, sont figées.</li>
+<li>stored_data <em>(partielle)</em> : PATCH <a href="https://data.geopf.fr/api/swagger-ui/index.html#/Donn%C3%A9es%20stock%C3%A9es/update_3">/datastores/{datastore}/stored_data/{stored_data}</a></li>
+<li>Seul le nom de la donnée et sa visibilité sont modifiables, et uniquement par le propriétaire. Les autres informations, comme le type de la donnée, sont figées pour une donnée.</li>
+<li>configuration <em>(totale)</em> : PUT <a href="https://data.geopf.fr/api/swagger-ui/index.html#/Configurations%20et%20publications/update_1">/datastores/{datastore}/configurations/{configuration}</a></li>
+<li>Si la configuration est liée à des offres en cours de publication, la modification n'est pas possible. Si la configuration est liée à des offres publiées, les modifications sont répercutées sur les serveurs de diffusion. Le nom technique et le type ne sont pas modifiable.</li>
+<li>offering <em>(partielle)</em>: PATCH <a href="https://data.geopf.fr/api/swagger-ui/index.html#/Configurations%20et%20publications/update_4">/datastores/{datastore}/offerings/{offering}</a></li>
+<li>Il est possible de modifier la visibilité d'une offre afin qu'elle apparaisse dans les catalogues ou qu'on puisse donner des permissions, ou au contraire qu'elle en disparaisse. On peut également désactiver une offre pour en couper la consommation rapidement, sans déconfigurer les permissions</li>
+</ul>
+<h3 id="copier-une-configuration">Copier une configuration<a class="headerlink" href="#copier-une-configuration" title="Permanent link">#</a></h3>
+<p>Création d'une configuration à partir d'une configuration déjà existante</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;copy-configuration&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nt">&quot;url_parameters&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">        </span><span class="c1">// Id de la configuration à copier</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">        </span><span class="nt">&quot;configuration&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{uuid}&quot;</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="c1">// nouveau name et layer_name de la configuration à créer le layer_name n&#39;est plus modifiable pas la suite)</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="nt">&quot;body_parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">        </span><span class="nt">&quot;layer_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="c1">// optionnel : Liste des tags ajoutés à la nouvelle configuration, (ne sont pas récupérer depuis la configuration source)</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="nt">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;key_tag&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;val_tag&quot;</span><span class="p">},</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span><span class="c1">// optionnel : Liste des commentaires à ajouter à la nouvelle configuration, (ne sont pas récupérer depuis la configuration source)</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">    </span><span class="nt">&quot;comments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="synchroniser-une-publication">Synchroniser une publication<a class="headerlink" href="#synchroniser-une-publication" title="Permanent link">#</a></h3>
+<p>Synchronisation d'une ou plusieurs offres avec leur configuration et stored-data.</p>
+<ul>
+<li>Mise à jour selon ID de l'offre</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;synchronize-offering&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="c1">// Id de l&#39;entité à supprimer (erreur remontée par l&#39;API si l&#39;entité n&#39;existe pas)</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">&quot;entity_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{uuid}&quot;</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">}</span>
+</code></pre></div>
+<ul>
+<li>suppression par filtrage sur la liste des offres, possibilité de synchroniser plusieurs offres en même temps</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;synchronize-offering&quot;</span><span class="p">,</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="c1">// Ou Critères pour la retrouver</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="nt">&quot;filter_infos&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span><span class="c1">// optionnel : Que faire plusieurs résultats ?  first =&gt; uniquement 1er de la liste; all =&gt; on prend tout (défaut); error =&gt; sortie en erreur du programme</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">  </span><span class="nt">&quot;if_multi&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;first|all|error&quot;</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="p">}</span>
+</code></pre></div>
+<p>Si aucun résultat, on sort en erreur.</p>
+<p>Pour "filter_infos" voir les filtres possibles pour la requête <a href="https://data.geopf.fr/api/swagger-ui/index.html#/Configurations%20et%20publications/getAll_6">/datastores/{datastore}/offerings</a>. Si on a <code>"configuration" : "{uuid}"</code> c'est la requête  <a href="https://data.geopf.fr/api/swagger-ui/index.html#/Configurations%20et%20publications/getOfferings">/datastores/{datastore}/configurations/{configuration}/offerings</a> qui sera utilisée dans l'attente que la filtration sur les configurations soit possible.</p>
+<h2 id="exemple">Exemple<a class="headerlink" href="#exemple" title="Permanent link">#</a></h2>
+<h3 id="actions-de-base">Actions de base<a class="headerlink" href="#actions-de-base" title="Permanent link">#</a></h3>
+<p>Pour les actions de base (processing-execution, configuration, offre) des workflows des tutoriels sont disponibles dans <a href="https://github.com/Geoplateforme/sdk-entrepot/tree/prod/sdk_entrepot_gpf/_data/workflows/">sdk_entrepot_gpf/_data/workflows/</a> :</p>
+<ul>
+<li>archivage <a href="https://github.com/Geoplateforme/sdk-entrepot/tree/prod/sdk_entrepot_gpf/_data/workflows/generic_archive.jsonc">generic_archive.jsonc</a> (traitement d'une archive, configuration et offre pour un géoservice Téléchargement). <a href="../tutoriel_1_archive/">Tutoriel</a> ;</li>
+<li>flux vecteur <a href="https://github.com/Geoplateforme/sdk-entrepot/tree/prod/sdk_entrepot_gpf/_data/workflows/generic_vecteur.jsonc">generic_vecteur.jsonc</a> (traitement d'une mise en base, configuration et offre pour un géoservice Flux WFS, configuration et offre pour un flux WMS vecteur, traitement de création de pyramide, configuration et offre pour un flux TMS) <a href="../tutoriel_2_flux_vecteur/">Tutoriel</a> ;</li>
+<li>flux raster <a href="https://github.com/Geoplateforme/sdk-entrepot/tree/prod/sdk_entrepot_gpf/_data/workflows/generic_raster.jsonc">generic_raster.jsonc</a> (traitement de création d'une pyramide, configuration et offre pour un flux WMS, configuration et offre pour un flux WMTS) <a href="../tutoriel_3_flux_raster/">Tutoriel</a> ;</li>
+<li>mise en place d'une pyramide par "joincache" <a href="https://github.com/Geoplateforme/sdk-entrepot/tree/prod/sdk_entrepot_gpf/_data/workflows/generic_joincache.jsonc">generic_joincache.jsonc</a> (traitement création de pyramides, traitement de fusion de pyramides, traitement de mise à jour d'une pyramide, configuration et offre pour un flux WMS raster, configuration et offre pour un flux WMTS) ;</li>
+<li>mise à jour d'un base de donnée <a href="https://github.com/Geoplateforme/sdk-entrepot/tree/prod/sdk_entrepot_gpf/_data/workflows/generic_maj_bdd.jsonc">generic_maj_bdd.jsonc</a> (traitement de mise en base création + mise à jour, configuration et offre pour un flux WMS)</li>
+<li>création d'une pyramise rasteur à partir un flux WMS vecteur (moissonnage) <a href="https://github.com/Geoplateforme/sdk-entrepot/tree/prod/sdk_entrepot_gpf/_data/workflows/generic_moissonnage.jsonc">generic_moissonnage.jsonc</a> (traitement de mise en base, configuration et offre pour un flux WMS vecteur, traitement de moissonnage, configuration et offre pour un flux WMS raster) ;</li>
+</ul>
+<h2 id="execution-du-workflow">Exécution du workflow<a class="headerlink" href="#execution-du-workflow" title="Permanent link">#</a></h2>
+<h3 id="via-lutilisation-du-sdk-comme-executable">Via l'utilisation du SDK comme exécutable<a class="headerlink" href="#via-lutilisation-du-sdk-comme-executable" title="Permanent link">#</a></h3>
+<ul>
+<li>Lister les étapes disponibles et valider votre workflow :</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>python<span class="w"> </span>-m<span class="w"> </span>sdk_entrepot_gpf<span class="w"> </span>workflow<span class="w"> </span>-f<span class="w"> </span>mon_workflow.json
+</code></pre></div>
+<ul>
+<li>lancer une étape :</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>python<span class="w"> </span>-m<span class="w"> </span>sdk_entrepot_gpf<span class="w"> </span>workflow<span class="w"> </span>-f<span class="w"> </span>mon_workflow.json<span class="w"> </span>-s<span class="w"> </span>mon_étape
+</code></pre></div>
+<h3 id="via-lutilisation-du-sdk-comme-module">Via l'utilisation du SDK comme module<a class="headerlink" href="#via-lutilisation-du-sdk-comme-module" title="Permanent link">#</a></h3>
+<p>Exemple de code complet permettant de valider et d'afficher les étapes du workflow et de lancer l'étape "etape 1" :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span> <span class="nn">sdk_entrepot_gpf.io.Config</span> <span class="kn">import</span> <span class="n">Config</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># Importation de la classe JsonHelper</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kn">from</span> <span class="nn">sdk_entrepot_gpf.helper.JsonHelper</span> <span class="kn">import</span> <span class="n">JsonHelper</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Importation des classes Workflow, GlobalResolver et StoreEntityResolver</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="kn">from</span> <span class="nn">sdk_entrepot_gpf.workflow.Workflow</span> <span class="kn">import</span> <span class="n">Workflow</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="kn">from</span> <span class="nn">sdk_entrepot_gpf.workflow.resolver.GlobalResolver</span> <span class="kn">import</span> <span class="n">GlobalResolver</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="kn">from</span> <span class="nn">sdk_entrepot_gpf.workflow.resolver.StoreEntityResolver</span> <span class="kn">import</span> <span class="n">StoreEntityResolver</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="c1"># initialisation de la configuration, adapté le nom si besoin</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;config.ini&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="c1"># initialisation du Workflow avec le fichier &quot;mon_workflow.jsonc&quot;</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="n">p_workflow</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;mon_workflow.jsonc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="n">o_workflow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">p_workflow</span><span class="o">.</span><span class="n">stem</span><span class="p">,</span> <span class="n">JsonHelper</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">p_workflow</span><span class="p">))</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="c1"># validation et liste des étapes</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="c1">## validation</span>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">om</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Validation du workflow...&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="n">l_errors</span> <span class="o">=</span> <span class="n">o_workflow</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="k">if</span> <span class="n">l_errors</span><span class="p">:</span>
+<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>    <span class="n">s_errors</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   * &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">l_errors</span><span class="p">)</span>
+<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>    <span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">om</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">l_errors</span><span class="p">)</span><span class="si">}</span><span class="s2"> erreurs ont été trouvées dans le workflow.&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>    <span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">om</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Liste des erreurs :</span><span class="se">\n</span><span class="s2">   * </span><span class="si">{</span><span class="n">s_errors</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>    <span class="k">raise</span> <span class="n">GpfSdkError</span><span class="p">(</span><span class="s2">&quot;Workflow invalide.&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a><span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">om</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Le workflow est valide.&quot;</span><span class="p">,</span> <span class="n">green_colored</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>
+<a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a><span class="c1">## Affichage des étapes disponibles et des parents</span>
+<a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a><span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">om</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Liste des étapes disponibles et de leurs parents :&quot;</span><span class="p">,</span> <span class="n">green_colored</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a><span class="n">l_steps</span> <span class="o">=</span> <span class="n">o_workflow</span><span class="o">.</span><span class="n">get_all_steps</span><span class="p">()</span>
+<a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a><span class="k">for</span> <span class="n">s_step</span> <span class="ow">in</span> <span class="n">l_steps</span><span class="p">:</span>
+<a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a>    <span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">om</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   * </span><span class="si">{</span><span class="n">s_step</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a>
+<a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a><span class="c1"># exécution d&#39;une étape</span>
+<a id="__codelineno-9-35" name="__codelineno-9-35" href="#__codelineno-9-35"></a>
+<a id="__codelineno-9-36" name="__codelineno-9-36" href="#__codelineno-9-36"></a><span class="c1">## définition des résolveurs</span>
+<a id="__codelineno-9-37" name="__codelineno-9-37" href="#__codelineno-9-37"></a><span class="n">GlobalResolver</span><span class="p">()</span><span class="o">.</span><span class="n">add_resolver</span><span class="p">(</span><span class="n">StoreEntityResolver</span><span class="p">(</span><span class="s2">&quot;store_entity&quot;</span><span class="p">))</span>
+<a id="__codelineno-9-38" name="__codelineno-9-38" href="#__codelineno-9-38"></a><span class="n">GlobalResolver</span><span class="p">()</span><span class="o">.</span><span class="n">add_resolver</span><span class="p">(</span><span class="n">UserResolver</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">))</span>
+<a id="__codelineno-9-39" name="__codelineno-9-39" href="#__codelineno-9-39"></a>
+<a id="__codelineno-9-40" name="__codelineno-9-40" href="#__codelineno-9-40"></a><span class="c1">## OPTIONNEL:  le comportement si l&#39;entité à créer existe déjà (si None, valeur de la configuration)</span>
+<a id="__codelineno-9-41" name="__codelineno-9-41" href="#__codelineno-9-41"></a><span class="n">s_behavior</span> <span class="o">=</span> <span class="s2">&quot;STOP&quot;</span>
+<a id="__codelineno-9-42" name="__codelineno-9-42" href="#__codelineno-9-42"></a>
+<a id="__codelineno-9-43" name="__codelineno-9-43" href="#__codelineno-9-43"></a><span class="c1">## on lance le monitoring de l&#39;étape en précisant la gestion du ctrl-C</span>
+<a id="__codelineno-9-44" name="__codelineno-9-44" href="#__codelineno-9-44"></a><span class="n">o_workflow</span><span class="o">.</span><span class="n">run_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">o_args</span><span class="o">.</span><span class="n">step</span><span class="p">,</span> <span class="n">behavior</span><span class="o">=</span><span class="n">s_behavior</span><span class="p">,</span> <span class="n">datastore</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">datastore</span><span class="p">)</span>
+</code></pre></div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.annotate"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6c14ae12.min.js"></script>
+      
+    
+  </body>
+</html>

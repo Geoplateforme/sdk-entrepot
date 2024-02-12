@@ -1,0 +1,4961 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../auth/">
+      
+      
+        <link rel="next" href="../store/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.11">
+    
+    
+      
+        <title>sdk_entrepot_gpf.io - Documentation SDK Entrepôt</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.fad675c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../assets/css/extra.css">
+    
+      <link rel="stylesheet" href="../../assets/css/neoteroi.css">
+    
+      <link rel="stylesheet" href="../../assets/css/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="custom">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sdk_entrepot_gpfio" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="https://www.ign.fr/geoplateforme" title="Documentation SDK Entrepôt" class="md-header__button md-logo" aria-label="Documentation SDK Entrepôt" data-md-component="logo">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documentation SDK Entrepôt
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              sdk_entrepot_gpf.io
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Geoplateforme/sdk_entrepot" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Geoplateforme/sdk_entrepot
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://www.ign.fr/geoplateforme" title="Documentation SDK Entrepôt" class="md-nav__button md-logo" aria-label="Documentation SDK Entrepôt" data-md-component="logo">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    Documentation SDK Entrepôt
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Geoplateforme/sdk_entrepot" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Geoplateforme/sdk_entrepot
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://geoplateforme.github.io" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Accueil Géoplateforme
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SDK Python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration_details/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    La configuration en détails
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../comme-executable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Utilisation comme exécutable
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../comme-module/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Utilisation comme module Python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../upload_descriptor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Fichier descripteur de livraison
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../workflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Workflows
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Développement
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resolveurs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Résolveur
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Tutoriels
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            Tutoriels
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutoriel_1_archive/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tutoriel 1 : publier une archive
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutoriel_2_flux_vecteur/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tutoriel 2 : publier un flux vecteur
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutoriel_3_flux_raster/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tutoriel 3 : publier un flux raster
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Références
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            Références
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../auth/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.auth
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.io
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.io
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.ApiRequester.ApiRequester" class="md-nav__link">
+    <span class="md-ellipsis">
+      ApiRequester
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ApiRequester">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.ApiRequester.ApiRequester.range_next_page" class="md-nav__link">
+    <span class="md-ellipsis">
+      range_next_page()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.ApiRequester.ApiRequester.route_request" class="md-nav__link">
+    <span class="md-ellipsis">
+      route_request()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.ApiRequester.ApiRequester.route_upload_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      route_upload_file()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.ApiRequester.ApiRequester.url_request" class="md-nav__link">
+    <span class="md-ellipsis">
+      url_request()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Config.Config" class="md-nav__link">
+    <span class="md-ellipsis">
+      Config
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Config">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Config.Config.get" class="md-nav__link">
+    <span class="md-ellipsis">
+      get()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Config.Config.get_bool" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_bool()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Config.Config.get_float" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_float()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Config.Config.get_int" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_int()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Config.Config.get_parser" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_parser()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Config.Config.get_str" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_str()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Config.Config.get_temp" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_temp()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Config.Config.read" class="md-nav__link">
+    <span class="md-ellipsis">
+      read()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Dataset.Dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dataset
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.UploadDescriptorFileReader.UploadDescriptorFileReader" class="md-nav__link">
+    <span class="md-ellipsis">
+      UploadDescriptorFileReader
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.JsonConverter.JsonConverter" class="md-nav__link">
+    <span class="md-ellipsis">
+      JsonConverter
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="JsonConverter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.JsonConverter.JsonConverter.convert" class="md-nav__link">
+    <span class="md-ellipsis">
+      convert()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.JsonConverter.JsonConverter.dumps" class="md-nav__link">
+    <span class="md-ellipsis">
+      dumps()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.OutputManager.OutputManager" class="md-nav__link">
+    <span class="md-ellipsis">
+      OutputManager
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OutputManager">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.OutputManager.OutputManager.critical" class="md-nav__link">
+    <span class="md-ellipsis">
+      critical()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.OutputManager.OutputManager.debug" class="md-nav__link">
+    <span class="md-ellipsis">
+      debug()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.OutputManager.OutputManager.error" class="md-nav__link">
+    <span class="md-ellipsis">
+      error()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.OutputManager.OutputManager.info" class="md-nav__link">
+    <span class="md-ellipsis">
+      info()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.OutputManager.OutputManager.set_log_level" class="md-nav__link">
+    <span class="md-ellipsis">
+      set_log_level()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.OutputManager.OutputManager.warning" class="md-nav__link">
+    <span class="md-ellipsis">
+      warning()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Errors
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Errors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Errors.AbstractRequestError" class="md-nav__link">
+    <span class="md-ellipsis">
+      AbstractRequestError
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Errors.ApiError" class="md-nav__link">
+    <span class="md-ellipsis">
+      ApiError
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Errors.BadRequestError" class="md-nav__link">
+    <span class="md-ellipsis">
+      BadRequestError
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Errors.ConfigReaderError" class="md-nav__link">
+    <span class="md-ellipsis">
+      ConfigReaderError
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Errors.ConflictError" class="md-nav__link">
+    <span class="md-ellipsis">
+      ConflictError
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Errors.InternalServerError" class="md-nav__link">
+    <span class="md-ellipsis">
+      InternalServerError
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Errors.NotAuthorizedError" class="md-nav__link">
+    <span class="md-ellipsis">
+      NotAuthorizedError
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Errors.NotFoundError" class="md-nav__link">
+    <span class="md-ellipsis">
+      NotFoundError
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Errors.RouteNotFoundError" class="md-nav__link">
+    <span class="md-ellipsis">
+      RouteNotFoundError
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Errors.RoutingReaderError" class="md-nav__link">
+    <span class="md-ellipsis">
+      RoutingReaderError
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Errors.StatusCodeError" class="md-nav__link">
+    <span class="md-ellipsis">
+      StatusCodeError
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../store/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.store
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.workflow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workflow/action/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.workflow.action
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workflow/resolver/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.workflow.resolver
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.ApiRequester.ApiRequester" class="md-nav__link">
+    <span class="md-ellipsis">
+      ApiRequester
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ApiRequester">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.ApiRequester.ApiRequester.range_next_page" class="md-nav__link">
+    <span class="md-ellipsis">
+      range_next_page()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.ApiRequester.ApiRequester.route_request" class="md-nav__link">
+    <span class="md-ellipsis">
+      route_request()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.ApiRequester.ApiRequester.route_upload_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      route_upload_file()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.ApiRequester.ApiRequester.url_request" class="md-nav__link">
+    <span class="md-ellipsis">
+      url_request()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Config.Config" class="md-nav__link">
+    <span class="md-ellipsis">
+      Config
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Config">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Config.Config.get" class="md-nav__link">
+    <span class="md-ellipsis">
+      get()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Config.Config.get_bool" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_bool()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Config.Config.get_float" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_float()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Config.Config.get_int" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_int()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Config.Config.get_parser" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_parser()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Config.Config.get_str" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_str()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Config.Config.get_temp" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_temp()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Config.Config.read" class="md-nav__link">
+    <span class="md-ellipsis">
+      read()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Dataset.Dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dataset
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.UploadDescriptorFileReader.UploadDescriptorFileReader" class="md-nav__link">
+    <span class="md-ellipsis">
+      UploadDescriptorFileReader
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.JsonConverter.JsonConverter" class="md-nav__link">
+    <span class="md-ellipsis">
+      JsonConverter
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="JsonConverter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.JsonConverter.JsonConverter.convert" class="md-nav__link">
+    <span class="md-ellipsis">
+      convert()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.JsonConverter.JsonConverter.dumps" class="md-nav__link">
+    <span class="md-ellipsis">
+      dumps()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.OutputManager.OutputManager" class="md-nav__link">
+    <span class="md-ellipsis">
+      OutputManager
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OutputManager">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.OutputManager.OutputManager.critical" class="md-nav__link">
+    <span class="md-ellipsis">
+      critical()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.OutputManager.OutputManager.debug" class="md-nav__link">
+    <span class="md-ellipsis">
+      debug()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.OutputManager.OutputManager.error" class="md-nav__link">
+    <span class="md-ellipsis">
+      error()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.OutputManager.OutputManager.info" class="md-nav__link">
+    <span class="md-ellipsis">
+      info()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.OutputManager.OutputManager.set_log_level" class="md-nav__link">
+    <span class="md-ellipsis">
+      set_log_level()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.OutputManager.OutputManager.warning" class="md-nav__link">
+    <span class="md-ellipsis">
+      warning()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Errors
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Errors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Errors.AbstractRequestError" class="md-nav__link">
+    <span class="md-ellipsis">
+      AbstractRequestError
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Errors.ApiError" class="md-nav__link">
+    <span class="md-ellipsis">
+      ApiError
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Errors.BadRequestError" class="md-nav__link">
+    <span class="md-ellipsis">
+      BadRequestError
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Errors.ConfigReaderError" class="md-nav__link">
+    <span class="md-ellipsis">
+      ConfigReaderError
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Errors.ConflictError" class="md-nav__link">
+    <span class="md-ellipsis">
+      ConflictError
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Errors.InternalServerError" class="md-nav__link">
+    <span class="md-ellipsis">
+      InternalServerError
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Errors.NotAuthorizedError" class="md-nav__link">
+    <span class="md-ellipsis">
+      NotAuthorizedError
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Errors.NotFoundError" class="md-nav__link">
+    <span class="md-ellipsis">
+      NotFoundError
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Errors.RouteNotFoundError" class="md-nav__link">
+    <span class="md-ellipsis">
+      RouteNotFoundError
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Errors.RoutingReaderError" class="md-nav__link">
+    <span class="md-ellipsis">
+      RoutingReaderError
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.Errors.StatusCodeError" class="md-nav__link">
+    <span class="md-ellipsis">
+      StatusCodeError
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="sdk_entrepot_gpfio">sdk_entrepot_gpf.io<a class="headerlink" href="#sdk_entrepot_gpfio" title="Permanent link">#</a></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h2 id="sdk_entrepot_gpf.io.ApiRequester.ApiRequester" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">ApiRequester</span><span class="p">()</span></code>
+
+<a href="#sdk_entrepot_gpf.io.ApiRequester.ApiRequester" class="headerlink" title="Permanent link">#</a></h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>Classe singleton pour gérer l'enrobage des requêtes à l'API GPF : gestion du proxy, du HTTPS et des erreurs.</p>
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.ApiRequester.ApiRequester.range_next_page" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">range_next_page</span><span class="p">(</span><span class="n">content_range</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+<a href="#sdk_entrepot_gpf.io.ApiRequester.ApiRequester.range_next_page" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Fonction analysant le <code>Content-Range</code> d'une réponse pour indiquer s'il
+faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>content_range</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Content-Range renvoyé par l'API</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>length</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>nombre d'éléments déjà récupérés</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>bool</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>True s'il faut continuer, False sinon</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.ApiRequester.ApiRequester.route_request" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">route_request</span><span class="p">(</span><span class="n">route_name</span><span class="p">,</span> <span class="n">route_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.ApiRequester.ApiRequester.route_request" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Exécute une requête à l'API à partir du nom d'une route. La requête est retentée plusieurs fois s'il y a un problème.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>route_name</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Route à utiliser</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>route_params</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Paramètres obligatoires pour compléter la route.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>params</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Paramètres optionnels de l'URL.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>method</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>méthode de la requête.</p>
+            </div>
+          </td>
+          <td>
+                <code>&#39;GET&#39;</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>data</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Données de la requête.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>files</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Tuple">Tuple</span>[<span title="typing.Any">Any</span>]]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Liste des fichiers à envoyer {"file":('fichier.ext', File)}.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Raises:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Errors.RouteNotFoundError" href="#sdk_entrepot_gpf.io.Errors.RouteNotFoundError">RouteNotFoundError</a></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>levée si la route demandée n'est pas définie dans les paramètres</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Errors.InternalServerError" href="#sdk_entrepot_gpf.io.Errors.InternalServerError">InternalServerError</a></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>levée si erreur interne de l'API</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Errors.NotFoundError" href="#sdk_entrepot_gpf.io.Errors.NotFoundError">NotFoundError</a></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>levée si l'entité demandée n'est pas trouvée par l'API</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Errors.NotAuthorizedError" href="#sdk_entrepot_gpf.io.Errors.NotAuthorizedError">NotAuthorizedError</a></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>levée si l'action effectuée demande d'autres autorisations</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Errors.BadRequestError" href="#sdk_entrepot_gpf.io.Errors.BadRequestError">BadRequestError</a></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>levée si la requête envoyée n'est pas correcte</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Errors.StatusCodeError" href="#sdk_entrepot_gpf.io.Errors.StatusCodeError">StatusCodeError</a></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>levée si un "status code" non prévu est récupéré</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="requests.Response">Response</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>réponse vérifiée</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.ApiRequester.ApiRequester.route_upload_file" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">route_upload_file</span><span class="p">(</span><span class="n">route_name</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">file_key</span><span class="p">,</span> <span class="n">route_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.ApiRequester.ApiRequester.route_upload_file" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Exécute une requête à l'API à partir du nom d'une route. La requête est retentée plusieurs fois s'il y a un problème.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>route_name</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Route à utiliser</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>file_path</code></td>
+          <td>
+                <code><span title="pathlib.Path">Path</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Chemin du fichier à uploader</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>file_key</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>nom de la clef dans le dictionnaire</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>route_params</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Paramètres obligatoires pour compléter la route.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>params</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Paramètres optionnels de l'URL.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>method</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>méthode de la requête.</p>
+            </div>
+          </td>
+          <td>
+                <code>&#39;POST&#39;</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>data</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Données de la requête.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="requests.Response">Response</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>réponse vérifiée</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.ApiRequester.ApiRequester.url_request" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">url_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="p">{})</span></code>
+
+<a href="#sdk_entrepot_gpf.io.ApiRequester.ApiRequester.url_request" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Effectue une requête à l'API à partir d'une url. La requête est retentée plusieurs fois s'il y a un problème.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>url</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>url absolue de la requête</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>method</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>méthode de la requête</p>
+            </div>
+          </td>
+          <td>
+                <code>&#39;GET&#39;</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>params</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>paramètres de la requête (ajouté à l'url)</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>data</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Union">Union</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>], <span title="typing.List">List</span>[<span title="typing.Any">Any</span>]]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>contenue de la requête (ajouté au corp)</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>files</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Tuple">Tuple</span>[<span title="typing.Any">Any</span>]]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>fichiers à envoyer</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>header</code></td>
+          <td>
+                <code><span title="typing.Dict">Dict</span>[str, str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Header additionnel pour la requête</p>
+            </div>
+          </td>
+          <td>
+                <code>{}</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="requests.Response">Response</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>réponse si succès</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h2 id="sdk_entrepot_gpf.io.Config.Config" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">Config</span><span class="p">()</span></code>
+
+<a href="#sdk_entrepot_gpf.io.Config.Config" class="headerlink" title="Permanent link">#</a></h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>Lit le fichier de configuration (classe Singleton).
+Attributes:
+    __config_parser (configparser): ConfigParser
+    __ini_file_path (string): Chemin vers le fichier de configuration BaGI</p>
+  
+      <p>A l'instanciation, le fichier par défaut est lu.</p>
+<p>Il faudra ensuite surcharger les paramètres en lisant d'autres fichiers via la méthode <code>read</code>.</p>
+
+
+
+  <p><strong>Raises:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Errors.ConfigReaderError" href="#sdk_entrepot_gpf.io.Errors.ConfigReaderError">ConfigReaderError</a></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>levée si le fichier de configuration par défaut n'est pas trouvé</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.Config.Config.get" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get</span><span class="p">(</span><span class="n">section</span><span class="p">,</span> <span class="n">option</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.Config.Config.get" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Récupère la valeur associée au paramètre demandé.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>section</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>section du paramètre</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>option</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>option du paramètre</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>fallback</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>valeur par défaut.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Optional[str]: la valeur du paramètre</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.Config.Config.get_bool" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_bool</span><span class="p">(</span><span class="n">section</span><span class="p">,</span> <span class="n">option</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.Config.Config.get_bool" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Récupère la valeur associée au paramètre demandé, convertie en <code>bool</code>.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>section</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>section du paramètre</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>option</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>option du paramètre</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>fallback</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[bool]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>valeur par défaut.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>bool</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>la valeur du paramètre</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.Config.Config.get_float" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_float</span><span class="p">(</span><span class="n">section</span><span class="p">,</span> <span class="n">option</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.Config.Config.get_float" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Récupère la valeur associée au paramètre demandé, convertie en <code>float</code>.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>section</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>section du paramètre</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>option</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>option du paramètre</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>fallback</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[float]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>valeur par défaut.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>la valeur du paramètre</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.Config.Config.get_int" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_int</span><span class="p">(</span><span class="n">section</span><span class="p">,</span> <span class="n">option</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.Config.Config.get_int" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Récupère la valeur associée au paramètre demandé, convertie en <code>int</code>.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>section</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>section du paramètre</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>option</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>option du paramètre</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>fallback</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[int]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>valeur par défaut.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>la valeur du paramètre</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.Config.Config.get_parser" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_parser</span><span class="p">()</span></code>
+
+<a href="#sdk_entrepot_gpf.io.Config.Config.get_parser" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Retourne le config_parser.</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="configparser.ConfigParser">ConfigParser</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>le config parser</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.Config.Config.get_str" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_str</span><span class="p">(</span><span class="n">section</span><span class="p">,</span> <span class="n">option</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.Config.Config.get_str" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Récupère la valeur du paramètre demandé.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>section</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>section du paramètre</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>option</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>option du paramètre</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>fallback</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>valeur par défaut. Defaults to None.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Optional[str]: la valeur du paramètre</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.Config.Config.get_temp" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_temp</span><span class="p">()</span></code>
+
+<a href="#sdk_entrepot_gpf.io.Config.Config.get_temp" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Récupère le chemin racine du dossier temporaire à utiliser.</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="pathlib.Path">Path</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>chemin racine du dossier temporaire à utiliser</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.Config.Config.read" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">read</span><span class="p">(</span><span class="n">filenames</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.Config.Config.read" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Permet de surcharger la configuration en lisant un ou plusieurs nouveau(x) fichier(s) de configuration.</p>
+<p>Les derniers fichiers ont la priorité. Si un fichier n'est pas trouvé, aucune erreur n'est levée.
+La fonction retourne la liste des fichiers lus.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>filenames</code></td>
+          <td>
+                <code><span title="typing.Union">Union</span>[str, <span title="pathlib.Path">Path</span>, <span title="typing.Iterable">Iterable</span>[<span title="typing.Union">Union</span>[str, <span title="pathlib.Path">Path</span>]]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Chemin ou liste des chemins vers le ou les fichier(s) à lire</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="typing.List">List</span>[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>liste des fichiers trouvés et lus</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h2 id="sdk_entrepot_gpf.io.Dataset.Dataset" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">Dataset</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">p_root_dir</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.Dataset.Dataset" class="headerlink" title="Permanent link">#</a></h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>Classe portante les infos nécessaires à la création d'une livraison et issues du dataset.</p>
+
+
+
+  <p><strong>Attributes:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>__data_dirs</code></td>
+          <td>
+                <code><span title="typing.List">List</span>[<span title="pathlib.Path">Path</span>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Liste des dossiers à envoyer à l'API</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><code>__upload_infos</code></td>
+          <td>
+                <code><span title="typing.Dict">Dict</span>[str, str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Informations permettant de créer la livraison</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><code>__comments</code></td>
+          <td>
+                <code><span title="typing.List">List</span>[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Commentaires à ajouter à la livraison</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><code>__tags</code></td>
+          <td>
+                <code><span title="typing.Dict">Dict</span>[str, str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Tags à ajouter à la livraison</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><code>__data_files</code></td>
+          <td>
+                <code><span title="typing.List">List</span>[<span title="pathlib.Path">Path</span>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Liste des fichiers de donnée à importer sur l'entrepôt.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><code>__md5_files</code></td>
+          <td>
+                <code><span title="typing.List">List</span>[<span title="pathlib.Path">Path</span>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Liste des fichiers md5 à importer sur l'entrepôt.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><code>__root_dir</code></td>
+          <td>
+                <code><span title="pathlib.Path">Path</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Chemin racine du dataset (absolu ou relatif ?)</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+  
+      <p>Constructeur</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>dataset</code></td>
+          <td>
+                <code><span title="typing.Dict">Dict</span>[<span title="typing.Any">Any</span>, <span title="typing.Any">Any</span>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>dataset tel que dans le fichier descriptif de livraison</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>p_root_dir</code></td>
+          <td>
+                <code><span title="pathlib.Path">Path</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Chemin racine à partir duquel sont défini les data_dirs</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h2 id="sdk_entrepot_gpf.io.UploadDescriptorFileReader.UploadDescriptorFileReader" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">UploadDescriptorFileReader</span><span class="p">(</span><span class="n">descriptor_file_path</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.UploadDescriptorFileReader.UploadDescriptorFileReader" class="headerlink" title="Permanent link">#</a></h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>Classe permettant de lire et de valider le fichier descripteur de livraison.</p>
+
+
+
+  <p><strong>Attributes:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>__descriptor_dict</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="typing.Any">Any</span>, <span title="typing.Any">Any</span>]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Contenu du fichier descriptif</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><code>__datasets</code></td>
+          <td>
+                <code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Dataset.Dataset" href="#sdk_entrepot_gpf.io.Dataset.Dataset">Dataset</a>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Liste des datasets contenus dans le fichier descripteur de livraison</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><code>__parent_folder(path)</code></td>
+          <td>
+                <code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Dataset.Dataset" href="#sdk_entrepot_gpf.io.Dataset.Dataset">Dataset</a>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Chemin du dossier parent des données</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+  
+      <p>La classe est instanciée à partir du fichier descripteur de livraison.</p>
+<p>Les différents chemins indiqués sont alors vérifiés et les fichiers à téléverser sont listés.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>descriptor_file_path</code></td>
+          <td>
+                <code><span title="pathlib.Path">Path</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>chemin vers le fichier descripteur de livraison</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h2 id="sdk_entrepot_gpf.io.JsonConverter.JsonConverter" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">JsonConverter</span><span class="p">()</span></code>
+
+<a href="#sdk_entrepot_gpf.io.JsonConverter.JsonConverter" class="headerlink" title="Permanent link">#</a></h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>Classe de conversion des objects python en json. Le but est de convertir
+les objets qui ne sont pas nativement gérés par Python comme les dates.</p>
+  
+      <p>initialisation : liste des routes et adresse site</p>
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.JsonConverter.JsonConverter.convert" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">convert</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.JsonConverter.JsonConverter.convert" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Passe en string les objets non gérés nativement en JSON par Python.
+Ex : {"date": date(2020, 1, 1)} =&gt; {"date": "2020-01-01"}</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>data</code></td>
+          <td>
+                <code><span title="typing.Any">Any</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>données à envoyer à l'api avec des classes python</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>Any</code></td>          <td>
+                <code><span title="typing.Any">Any</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>données à envoyer à l'api sans classe python</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.JsonConverter.JsonConverter.dumps" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.JsonConverter.JsonConverter.dumps" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Cette fonction permet de convertir les classes python en string JSON.
+Pour le moment, sont traitées les dates, times, et datetimes.
+On utilise un "converter" spécialisé.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>data</code></td>
+          <td>
+                <code><span title="typing.Any">Any</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>données à envoyer à l'api avec des classes python</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>str</code></td>          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>JSON avec gestion des classes Python</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h2 id="sdk_entrepot_gpf.io.OutputManager.OutputManager" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">OutputManager</span><span class="p">(</span><span class="n">file_logger</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pattern_formater</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.OutputManager.OutputManager" class="headerlink" title="Permanent link">#</a></h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>Classe de gestion du log.</p>
+  
+      <p>La classe est instanciée à partir d'un fichier de log et d'un modèle de format de log.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>file_logger</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Chemin vers le fichier de log ou <code>None</code> si on ne veux pas de fichier de log.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>pattern_formater</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Modèle de format du log (cf doc
+<a href="https://docs.python.org/fr/3/library/logging.html#logging.Formatter">logging</a>) ou <code>None</code> si on veut le format par défaut.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.OutputManager.OutputManager.critical" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">critical</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">red_colored</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.OutputManager.OutputManager.critical" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Ajout d'un message de type critique (apparaît en rouge dans la console)
+Args:
+    message (str): message de type critique à journaliser
+    red_colored (bool, optional): indique si le message doit être écrit en rouge (par défaut True)</p>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.OutputManager.OutputManager.debug" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">debug</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.OutputManager.OutputManager.debug" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Ajout d'un message de type debug
+Args:
+    message (str): message de type debug à journaliser</p>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.OutputManager.OutputManager.error" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">error</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">red_colored</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.OutputManager.OutputManager.error" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Ajout d'un message de type erreur
+Args:
+    message (str): message de type erreur à journaliser
+    red_colored (bool, optional): indique si le message doit être écrit en rouge (par défaut False)</p>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.OutputManager.OutputManager.info" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">info</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">green_colored</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.OutputManager.OutputManager.info" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Ajout d'un message de type info</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>message</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>message de type info à journaliser</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>green_colored</code></td>
+          <td>
+                <code>bool</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>indique si le message doit être écrit en vert (par défaut False)</p>
+            </div>
+          </td>
+          <td>
+                <code>False</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.OutputManager.OutputManager.set_log_level" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">set_log_level</span><span class="p">(</span><span class="n">level</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.OutputManager.OutputManager.set_log_level" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Défini le niveau de log du logger.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>level</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>niveau de log (DEBUG, INFO, WARNING, ERROR ou CRITICAL)</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.OutputManager.OutputManager.warning" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">warning</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">yellow_colored</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.OutputManager.OutputManager.warning" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Ajout d'un message de type warning
+Args:
+    message (str): message de type warning à journaliser
+    yellow_colored (bool, optional): indique si le message doit être écrit en jaune (par défaut True)</p>
+
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div><h2 id="errors">Errors<a class="headerlink" href="#errors" title="Permanent link">#</a></h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.Errors.AbstractRequestError" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">AbstractRequestError</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.Errors.AbstractRequestError" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Errors.ApiError" href="#sdk_entrepot_gpf.io.Errors.ApiError">ApiError</a></code></p>
+
+  
+      <p>Erreur API : erreur générique et sans réponse lors d'une requête à l'API.</p>
+  
+      <p>Instanciée à partir de l'URL, la méthode, les paramètres et les données posant problème.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>url</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>url de la requête</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>method</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>méthode de la requête</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>params</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>paramètres de la requête</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>data</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Union">Union</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>], <span title="typing.List">List</span>[<span title="typing.Any">Any</span>]]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>données envoyées</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.Errors.ApiError" class="doc doc-heading">
+          <code>ApiError</code>
+
+
+<a href="#sdk_entrepot_gpf.io.Errors.ApiError" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code>Exception</code></p>
+
+  
+      <p>Erreur API : classe abstraite pour gérer les erreurs API en général.</p>
+
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.Errors.BadRequestError" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">BadRequestError</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.Errors.BadRequestError" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><span title="sdk_entrepot_gpf.io.Errors._WithResponseError">_WithResponseError</span></code></p>
+
+  
+      <p>Erreur API : mauvaise requête (contactez le support).</p>
+  
+      <p>Instanciée à partir de l'URL, la méthode, les paramètres et les données posant problème ainsi que la réponse de l'API.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>url</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>url de la requête</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>method</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>méthode de la requête</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>params</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>paramètres de la requête</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>data</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Union">Union</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>], <span title="typing.List">List</span>[<span title="typing.Any">Any</span>]]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>données envoyées</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>response</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>données reçues</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.Errors.ConfigReaderError" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">ConfigReaderError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.Errors.ConfigReaderError" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><span title="sdk_entrepot_gpf.Errors.GpfSdkError">GpfSdkError</span></code></p>
+
+  
+      <p>Erreur levée quand il y a un problème pendant la lecture du fichier de configuration par défaut.</p>
+
+
+
+  <p><strong>Attributes:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>__message</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>message décrivant le problème</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+  
+      <p>Constructor</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>message</code></td>
+          <td>
+                <code>str) </code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>message décrivant le problème</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.Errors.ConflictError" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">ConflictError</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.Errors.ConflictError" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><span title="sdk_entrepot_gpf.io.Errors._WithResponseError">_WithResponseError</span></code></p>
+
+  
+      <p>Erreur API : conflit au traitement de la requête (Est-ce que vous tentez de supprimer une ressource utilisée ?).</p>
+  
+      <p>Instanciée à partir de l'URL, la méthode, les paramètres et les données posant problème ainsi que la réponse de l'API.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>url</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>url de la requête</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>method</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>méthode de la requête</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>params</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>paramètres de la requête</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>data</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Union">Union</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>], <span title="typing.List">List</span>[<span title="typing.Any">Any</span>]]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>données envoyées</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>response</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>données reçues</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.Errors.InternalServerError" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">InternalServerError</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.Errors.InternalServerError" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Errors.AbstractRequestError" href="#sdk_entrepot_gpf.io.Errors.AbstractRequestError">AbstractRequestError</a></code></p>
+
+  
+      <p>Erreur API : erreur interne à l'API (contactez le support).</p>
+  
+      <p>Instanciée à partir de l'URL, la méthode, les paramètres et les données posant problème.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>url</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>url de la requête</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>method</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>méthode de la requête</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>params</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>paramètres de la requête</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>data</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Union">Union</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>], <span title="typing.List">List</span>[<span title="typing.Any">Any</span>]]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>données envoyées</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.Errors.NotAuthorizedError" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">NotAuthorizedError</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.Errors.NotAuthorizedError" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><span title="sdk_entrepot_gpf.io.Errors._WithResponseError">_WithResponseError</span></code></p>
+
+  
+      <p>Erreur API : action non autorisée.</p>
+  
+      <p>Instanciée à partir de l'URL, la méthode, les paramètres et les données posant problème ainsi que la réponse de l'API.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>url</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>url de la requête</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>method</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>méthode de la requête</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>params</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>paramètres de la requête</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>data</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Union">Union</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>], <span title="typing.List">List</span>[<span title="typing.Any">Any</span>]]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>données envoyées</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>response</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>données reçues</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.Errors.NotFoundError" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">NotFoundError</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.Errors.NotFoundError" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><span title="sdk_entrepot_gpf.io.Errors._WithResponseError">_WithResponseError</span></code></p>
+
+  
+      <p>Erreur API : entité non trouvée sur la Géoplateforme.</p>
+  
+      <p>Instanciée à partir de l'URL, la méthode, les paramètres et les données posant problème ainsi que la réponse de l'API.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>url</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>url de la requête</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>method</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>méthode de la requête</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>params</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>paramètres de la requête</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>data</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Union">Union</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>], <span title="typing.List">List</span>[<span title="typing.Any">Any</span>]]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>données envoyées</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>response</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>données reçues</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.Errors.RouteNotFoundError" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">RouteNotFoundError</span><span class="p">(</span><span class="n">route_name</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.Errors.RouteNotFoundError" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Errors.ApiError" href="#sdk_entrepot_gpf.io.Errors.ApiError">ApiError</a></code></p>
+
+  
+      <p>Route non trouvée (problème de configuration).</p>
+  
+      <p>Instanciée à partir du nom de la route non trouvée.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>route_name</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>nom de la route manquante</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.Errors.RoutingReaderError" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">RoutingReaderError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.Errors.RoutingReaderError" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><span title="sdk_entrepot_gpf.Errors.GpfSdkError">GpfSdkError</span></code></p>
+
+  
+      <p>Erreur levée quand il y a un problème pendant la lecture du fichier de configuration des routes.</p>
+
+
+
+  <p><strong>Attributes:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>__message</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>message décrivant le problème</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+  
+      <p>Constructor</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>message</code></td>
+          <td>
+                <code>str) </code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>message décrivant le problème</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.io.Errors.StatusCodeError" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">StatusCodeError</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">status_code</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.io.Errors.StatusCodeError" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><span title="sdk_entrepot_gpf.io.Errors._WithResponseError">_WithResponseError</span></code></p>
+
+  
+      <p>Erreur API : erreur avec un code de retour non prévu par une erreur explicite...</p>
+  
+      <p>Instanciée à partir de l'URL, la méthode, les paramètres et les données posant problème ainsi que la réponse et le code de retour de l'API.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>url</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>url de la requête</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>method</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>méthode de la requête</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>params</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>paramètres de la requête</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>data</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Union">Union</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>], <span title="typing.List">List</span>[<span title="typing.Any">Any</span>]]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>données envoyées</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>status_code</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>code de retour</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>response</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>données reçues</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.annotate"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.6c14ae12.min.js"></script>
+      
+    
+  </body>
+</html>

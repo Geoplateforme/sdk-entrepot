@@ -1,0 +1,1110 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../development/">
+      
+      
+        <link rel="next" href="../tutoriel_1_archive/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.11">
+    
+    
+      
+        <title>Résolveur - Documentation SDK Entrepôt</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.fad675c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../assets/css/extra.css">
+    
+      <link rel="stylesheet" href="../assets/css/neoteroi.css">
+    
+      <link rel="stylesheet" href="../assets/css/custom.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="custom">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#resolveur" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="https://www.ign.fr/geoplateforme" title="Documentation SDK Entrepôt" class="md-header__button md-logo" aria-label="Documentation SDK Entrepôt" data-md-component="logo">
+      
+  <img src="../assets/images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documentation SDK Entrepôt
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Résolveur
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Geoplateforme/sdk_entrepot" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Geoplateforme/sdk_entrepot
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://www.ign.fr/geoplateforme" title="Documentation SDK Entrepôt" class="md-nav__button md-logo" aria-label="Documentation SDK Entrepôt" data-md-component="logo">
+      
+  <img src="../assets/images/logo.png" alt="logo">
+
+    </a>
+    Documentation SDK Entrepôt
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Geoplateforme/sdk_entrepot" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Geoplateforme/sdk_entrepot
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://geoplateforme.github.io" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Accueil Géoplateforme
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SDK Python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration_details/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    La configuration en détails
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../comme-executable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Utilisation comme exécutable
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../comme-module/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Utilisation comme module Python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../upload_descriptor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Fichier descripteur de livraison
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Workflows
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Développement
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Résolveur
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Résolveur
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#utilisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Utilisation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resolveur-de-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      résolveur de base
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="résolveur de base">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dictresolver" class="md-nav__link">
+    <span class="md-ellipsis">
+      DictResolver
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fileresolver" class="md-nav__link">
+    <span class="md-ellipsis">
+      FileResolver
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storeentityresolver" class="md-nav__link">
+    <span class="md-ellipsis">
+      StoreEntityResolver
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#userresolver" class="md-nav__link">
+    <span class="md-ellipsis">
+      UserResolver
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creer-son-resolveur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Créer son résolveur
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Tutoriels
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            Tutoriels
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutoriel_1_archive/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tutoriel 1 : publier une archive
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutoriel_2_flux_vecteur/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tutoriel 2 : publier un flux vecteur
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutoriel_3_flux_raster/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tutoriel 3 : publier un flux raster
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Références
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            Références
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/auth/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.auth
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/io/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.io
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/store/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.store
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/workflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.workflow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/workflow/action/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.workflow.action
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/workflow/resolver/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.workflow.resolver
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#utilisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Utilisation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resolveur-de-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      résolveur de base
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="résolveur de base">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dictresolver" class="md-nav__link">
+    <span class="md-ellipsis">
+      DictResolver
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fileresolver" class="md-nav__link">
+    <span class="md-ellipsis">
+      FileResolver
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storeentityresolver" class="md-nav__link">
+    <span class="md-ellipsis">
+      StoreEntityResolver
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#userresolver" class="md-nav__link">
+    <span class="md-ellipsis">
+      UserResolver
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creer-son-resolveur" class="md-nav__link">
+    <span class="md-ellipsis">
+      Créer son résolveur
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="resolveur">Résolveur<a class="headerlink" href="#resolveur" title="Permanent link">#</a></h1>
+<p>Les résolveurs sont des outils permettant de compléter les workflows en remplaçant un pattern par la valeur calculée.</p>
+<h2 id="utilisation">Utilisation<a class="headerlink" href="#utilisation" title="Permanent link">#</a></h2>
+<p>Le nom d'un résolveur est donné à son initialisation. Il est possible d'avoir plusieurs résolveurs d'un même type.</p>
+<p>A l'utilisation du SDK comme un exécutable, il y a 2 résolveurs d’instanciés :</p>
+<ul>
+<li><code>user</code> : un <a href="../reference/workflow/resolver/#sdk_entrepot_gpf.workflow.resolver.UserResolver.UserResolver">UserResolver</a></li>
+<li><code>store_entity</code> : un <a href="../reference/workflow/resolver/#sdk_entrepot_gpf.workflow.resolver.StoreEntityResolver.StoreEntityResolver">StoreEntityResolver</a></li>
+</ul>
+<p>A l'utilisation comme module, il n'y a aucun résolveurs d’instancié de base. Il faut instancier des résolveurs dans le programme et les ajouter au <code>GlobalResolver</code>.</p>
+<p>Dans le fichier de workflow, pour utiliser le résolveur il faut ajouter le pattern permettant d'activer le résolveur selon le type de donnée attendu :</p>
+<ul>
+<li>Texte : <code>"{nom_du_resolveur.nom_de_la_clef}"</code></li>
+<li>Liste: <code>["_nom_du_resolveur_", "nom_de_la_clef"]</code> ou <code>["_nom_du_resolveur.nom_de_la_clef"]</code></li>
+<li>Dictionnaire : <code>{"_nom_du_resolveur_": "nom_de_la_clef"}</code></li>
+</ul>
+<h2 id="resolveur-de-base">résolveur de base<a class="headerlink" href="#resolveur-de-base" title="Permanent link">#</a></h2>
+<p>Il y a 4 résolveurs de base :</p>
+<ul>
+<li><a href="../reference/workflow/resolver/#sdk_entrepot_gpf.workflow.resolver.DictResolver.DictResolver">DictResolver</a>: permet d'insérer les valeurs contenues dans un dictionnaire ;</li>
+<li><a href="../reference/workflow/resolver/#sdk_entrepot_gpf.workflow.resolver.FileResolver.FileResolver">FileResolver</a>: insère les valeurs contenues dans un fichier ;</li>
+<li><a href="../reference/workflow/resolver/#sdk_entrepot_gpf.workflow.resolver.StoreEntityResolver.StoreEntityResolver">StoreEntityResolver</a>: récupère des informations sur les entités depuis la GPF ;</li>
+<li><a href="../reference/workflow/resolver/#sdk_entrepot_gpf.workflow.resolver.UserResolver.UserResolver">UserResolver</a>: récupère des informations de l'utilisateur courant depuis la GPF.</li>
+</ul>
+<h3 id="dictresolver">DictResolver<a class="headerlink" href="#dictresolver" title="Permanent link">#</a></h3>
+<p>Permet de résoudre des paramètres clé -&gt; valeur (pas de sous clef)</p>
+<p>Prend en initialisation le dictionnaire contenant les valeurs.</p>
+<p>Exemple :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">sdk_entrepot_gpf.workflow.resolver.DictResolver</span> <span class="kn">import</span> <span class="n">DictResolver</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">sdk_entrepot_gpf.workflow.resolver.GlobalResolver</span> <span class="kn">import</span> <span class="n">GlobalResolver</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">dictionnaire</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="s2">&quot;ajout_text&quot;</span><span class="p">:</span> <span class="s2">&quot;valeur 1&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="s2">&quot;ajout_liste&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;val 1&quot;</span><span class="p">,</span> <span class="s2">&quot;val 2&quot;</span><span class="p">],</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="s2">&quot;ajout_dict&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;key1&quot;</span><span class="p">:</span> <span class="s2">&quot;val1&quot;</span><span class="p">,</span> <span class="s2">&quot;key2&quot;</span><span class="p">:</span> <span class="s2">&quot;val2&quot;</span><span class="p">},</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">}</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># initialisation (instanciation du résolveur + ajout)</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">dict_resolver</span> <span class="o">=</span> <span class="n">DictResolver</span><span class="p">(</span><span class="s2">&quot;my_dict&quot;</span><span class="p">,</span> <span class="n">dictionnaire</span><span class="p">)</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="n">GlobalResolver</span><span class="p">()</span><span class="o">.</span><span class="n">add_resolver</span><span class="p">(</span><span class="n">dict_resolver</span><span class="p">)</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="c1"># texte à résoudre</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="s2">insertion de text ici &gt;</span><span class="si">{my_dict.ajout_text}</span><span class="s2">&lt;</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="s2">ici une liste &gt;[&quot;_my_dict.ajout_liste&quot;]&lt;</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="s2">ou une liste &gt;[&quot;_my_dict_&quot;,&quot;ajout_liste&quot;]&lt;</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="s2">ici un dictionnaire &gt;{&quot;_my_dict_&quot;: &quot;ajout_dict&quot;}&lt;</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="s2">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="c1"># resolution</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="nb">print</span><span class="p">(</span><span class="n">GlobalResolver</span><span class="p">()</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="c1">## affichage</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="c1">#    insertion de text ici &gt;valeur 1&lt;</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="c1">#    ici une liste &gt;[&#39;val 1&#39;, &#39;val 2&#39;]&lt;</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="c1">#    ou une liste &gt;[&#39;val 1&#39;, &#39;val 2&#39;]&lt;</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="c1">#    ici un dictionnaire &gt;{&#39;key1&#39;: &#39;val1&#39;, &#39;key2&#39;: &#39;val2&#39;}&lt;</span>
+</code></pre></div>
+<h3 id="fileresolver">FileResolver<a class="headerlink" href="#fileresolver" title="Permanent link">#</a></h3>
+<p>Permet de résoudre des paramètres faisant référence à des fichiers : ce résolveur permet d'insérer le contenu d'un fichier au moment de la résolution.</p>
+<p>Ce fichier peut être un fichier texte basique, une liste au format JSON ou un dictionnaire au format JSON.</p>
+<p>A l'utilisation de ce résolveur, il faut indiquer le chemin du fichier à insérer relativement au chemin indiqué à l'instanciation du résolveur :</p>
+<ul>
+<li>récupération de texte : <code>{nom_resolver}.str({chemin_fichier})</code></li>
+<li>récupération d'une liste : <code>{nom_resolver}.list({chemin_fichier})</code></li>
+<li>récupération d'un dictionnaire : <code>{nom_resolver}.dict({chemin_fichier})</code></li>
+</ul>
+<p>Exemple :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">sdk_entrepot_gpf.workflow.resolver.FileResolver</span> <span class="kn">import</span> <span class="n">FileResolver</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">from</span> <span class="nn">sdk_entrepot_gpf.workflow.resolver.GlobalResolver</span> <span class="kn">import</span> <span class="n">GlobalResolver</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># dans le répertoire courant on a les fichiers suivants</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1">## text simple: &quot;text.txt&quot;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># * contenu =&gt; &quot;coucou&quot;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1">## liste: &quot;liste.json&quot;</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># * contenu =&gt; [&quot;valeur 1&quot;, &quot;valeur 2&quot;]</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1">## dictionnaire: &quot;dict.json&quot;</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1"># * contenu =&gt; {&quot;k1&quot;:&quot;v1&quot;, &quot;k2&quot;:&quot;v2&quot;}</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1"># initialisation (le résolveur s&#39;appelle &quot;fichier&quot; et cherche les fichiers relativement au répertoire courant)</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="n">file_resolver</span> <span class="o">=</span> <span class="n">FileResolver</span><span class="p">(</span><span class="s2">&quot;fichiers&quot;</span><span class="p">,</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">))</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="n">GlobalResolver</span><span class="p">()</span><span class="o">.</span><span class="n">add_resolver</span><span class="p">(</span><span class="n">file_resolver</span><span class="p">)</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="c1"># texte à résoudre</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="s2">insertion de text ici &gt;{fichiers.str(text.txt)}&lt;</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="s2">ici une liste &gt;[&quot;_fichiers_&quot;,&quot;list(liste.json)&quot;]&lt;</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="s2">ici un dictionnaire &gt;{&quot;_fichiers_&quot;:&quot;dict(dict.json)&quot;}&lt;</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="s2">&quot;&quot;&quot;</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="c1"># resolution</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="nb">print</span><span class="p">(</span><span class="n">GlobalResolver</span><span class="p">()</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="c1">## affichage</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="c1">#   insertion de text ici &gt;coucou&lt;</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="c1">#   ici une liste &gt;[&quot;valeur 1&quot;, &quot;valeur 2&quot;]&lt;</span>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="c1">#   ici un dictionnaire &gt;{&quot;k1&quot;:&quot;v1&quot;, &quot;k2&quot;:&quot;v2&quot;}&lt;</span>
+</code></pre></div>
+<h3 id="storeentityresolver">StoreEntityResolver<a class="headerlink" href="#storeentityresolver" title="Permanent link">#</a></h3>
+<p>Permet de résoudre des paramètres faisant référence à une entité sur la GPF.
+Utilisation du pattern <code>store_entity_regex</code> de la configuration.</p>
+<p>La structure est légèrement différente: <code>{nom_résolveur}.{entity_type}.{field_type}.{field} ([INFOS ({key}={val}, [...])], [TAGS ({key}={val}, [...])])</code></p>
+<p>avec :</p>
+<ul>
+<li><code>entity_type</code> : type de l'entité à récupérer, une des valeurs suivantes : <code>upload|stored_data|processing_execution|offering|processing|configuration|endpoint|static|datastore</code> ;</li>
+<li><code>field_type</code> : <code>tags</code> pour récupérer la valeur d'un tag, <code>infos</code> pour récupérer une valeur du dictionnaire décrivant l'entité ;</li>
+<li><code>field</code>: si <code>tags</code> nom du tag dont on veux la valeur, si <code>infos</code> clef du dictionnaire dont on veux la valeur ;</li>
+<li><code>INFOS ({key}={val}, ...)</code> : (optionnel) filtre sur les entités hors tag, voir la doc de la requête de liste des entités pour savoir les clefs possibles ;</li>
+<li><code>TAGS ({key}={val}, ...)</code> : (optionnel) filtre sur les tags (s'il y a des tags sur cette entité).</li>
+</ul>
+<p>Si on a plusieurs résultats le premier résultat est utilisé.</p>
+<p>Exemple (fonctionne après la livraison des données du <a href="../tutoriel_2_flux_vecteur/">tutoriel 2 pour les flux vecteur</a> ) :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">sdk_entrepot_gpf.workflow.resolver.StoreEntityResolver</span> <span class="kn">import</span> <span class="n">StoreEntityResolver</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span> <span class="nn">sdk_entrepot_gpf.workflow.resolver.GlobalResolver</span> <span class="kn">import</span> <span class="n">GlobalResolver</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kn">from</span> <span class="nn">sdk_entrepot_gpf.io.Config</span> <span class="kn">import</span> <span class="n">Config</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># configuration</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;config.ini&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1"># initialisation</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="n">file_resolver</span> <span class="o">=</span> <span class="n">StoreEntityResolver</span><span class="p">(</span><span class="s2">&quot;store_entity&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="n">GlobalResolver</span><span class="p">()</span><span class="o">.</span><span class="n">add_resolver</span><span class="p">(</span><span class="n">file_resolver</span><span class="p">)</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1"># texte à résoudre</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="s2">id d&#39;un traitement par son nom  &gt;{store_entity.processing.infos._id [INFOS(name=Intégration de données vecteur livrées en base)]}&lt;</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="s2">id d&#39;un upload par son nom &gt;{store_entity.upload.infos._id [INFOS(name=EXAMPLE_DATASET_VECTOR)]}&lt;</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="s2">id d&#39;un upload par son nom et tag &gt;{store_entity.upload.infos._id [INFOS(name=EXAMPLE_DATASET_VECTOR), TAGS(tuto=oui)]}&lt;</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="s2">valeur du tag &quot;tuto&quot; d&#39;un upload par son nom &gt;{store_entity.upload.tags.tuto [INFOS(name=EXAMPLE_DATASET_VECTOR)]}&lt;</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="s2">&quot;&quot;&quot;</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="c1"># resolution</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="nb">print</span><span class="p">(</span><span class="n">GlobalResolver</span><span class="p">()</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="c1">## affichage</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="c1">#    id d&#39;un traitement par son nom  &gt;0de8c60b-9938-4be9-aa36-9026b77c3c96&lt;</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="c1">#    id d&#39;un upload par son nom &gt;a2703a39-d3d5-48f2-8372-bbabfc08cdf4&lt;</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="c1">#    id d&#39;un upload par son nom et tag &gt;a2703a39-d3d5-48f2-8372-bbabfc08cdf4&lt;</span>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="c1">#    valeur du tag &quot;tuto&quot; d&#39;un upload par son nom &gt;oui&lt;</span>
+</code></pre></div>
+<h3 id="userresolver">UserResolver<a class="headerlink" href="#userresolver" title="Permanent link">#</a></h3>
+<p>Permet de résoudre des paramètres avec les informations sur l'utilisateur authentifié. Les informations disponibles sont celles renvoyée par la route <a href="https://data.geopf.fr/api/swagger-ui/index.html#/Utilisateurs/get">/users/me</a>.</p>
+<p>Classe dérivée de DictRevolver, la plu-value sur la classe DictRevolver est que les infos de l'utilisateur sont directement récupérées par le constructeur de la classe.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span> <span class="nn">sdk_entrepot_gpf.workflow.resolver.UserResolver</span> <span class="kn">import</span> <span class="n">UserResolver</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span> <span class="nn">sdk_entrepot_gpf.workflow.resolver.GlobalResolver</span> <span class="kn">import</span> <span class="n">GlobalResolver</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">from</span> <span class="nn">sdk_entrepot_gpf.io.Config</span> <span class="kn">import</span> <span class="n">Config</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1"># configuration</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;config.ini&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="c1"># initialisation</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">file_resolver</span> <span class="o">=</span> <span class="n">UserResolver</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="n">GlobalResolver</span><span class="p">()</span><span class="o">.</span><span class="n">add_resolver</span><span class="p">(</span><span class="n">file_resolver</span><span class="p">)</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="c1"># texte à résoudre</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="s2">nom de l&#39;utilisateur &gt;</span><span class="si">{user.last_name}</span><span class="s2">&lt;</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="s2">prénom de l&#39;utilisateur &gt;</span><span class="si">{user.first_name}</span><span class="s2">&lt;</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="s2">&quot;&quot;&quot;</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="c1"># resolution</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="nb">print</span><span class="p">(</span><span class="n">GlobalResolver</span><span class="p">()</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+</code></pre></div>
+<h2 id="creer-son-resolveur">Créer son résolveur<a class="headerlink" href="#creer-son-resolveur" title="Permanent link">#</a></h2>
+<p>Pour créer votre résolveur, vous devez créer une classe qui hérite de la classe <code>AbstractResolver</code>.</p>
+<p>Dans le constructeur de votre classe, il faudra implémenter les tâches qui doivent être effectuées une fois. Par exemple, de récupérer les informations de l'utilisateur (qui, à priori, ne changent pas à chaque résolution).</p>
+<p>Dans la fonction <code>resolve</code> de votre classe, il faudra implémenter la résolution du paramétrage à partir de la string <code>string_to_solve</code> avant de retourner la valeur résolue.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.annotate"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6c14ae12.min.js"></script>
+      
+    
+  </body>
+</html>

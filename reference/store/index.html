@@ -1,0 +1,3690 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../io/">
+      
+      
+        <link rel="next" href="../workflow/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.11">
+    
+    
+      
+        <title>sdk_entrepot_gpf.store - Documentation SDK Entrepôt</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.fad675c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../assets/css/extra.css">
+    
+      <link rel="stylesheet" href="../../assets/css/neoteroi.css">
+    
+      <link rel="stylesheet" href="../../assets/css/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="custom">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sdk_entrepot_gpfstore" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="https://www.ign.fr/geoplateforme" title="Documentation SDK Entrepôt" class="md-header__button md-logo" aria-label="Documentation SDK Entrepôt" data-md-component="logo">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documentation SDK Entrepôt
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              sdk_entrepot_gpf.store
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Geoplateforme/sdk_entrepot" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Geoplateforme/sdk_entrepot
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://www.ign.fr/geoplateforme" title="Documentation SDK Entrepôt" class="md-nav__button md-logo" aria-label="Documentation SDK Entrepôt" data-md-component="logo">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    Documentation SDK Entrepôt
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Geoplateforme/sdk_entrepot" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Geoplateforme/sdk_entrepot
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://geoplateforme.github.io" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Accueil Géoplateforme
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SDK Python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration_details/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    La configuration en détails
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../comme-executable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Utilisation comme exécutable
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../comme-module/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Utilisation comme module Python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../upload_descriptor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Fichier descripteur de livraison
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../workflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Workflows
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Développement
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resolveurs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Résolveur
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Tutoriels
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            Tutoriels
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutoriel_1_archive/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tutoriel 1 : publier une archive
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutoriel_2_flux_vecteur/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tutoriel 2 : publier un flux vecteur
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutoriel_3_flux_raster/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tutoriel 3 : publier un flux raster
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Références
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            Références
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../auth/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.auth
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../io/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.io
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.store
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.store
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity" class="md-nav__link">
+    <span class="md-ellipsis">
+      StoreEntity
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="StoreEntity">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.datastore" class="md-nav__link">
+    <span class="md-ellipsis">
+      datastore
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.id" class="md-nav__link">
+    <span class="md-ellipsis">
+      id
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.api_create" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_create()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.api_delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_delete()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.api_get" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_get()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.api_list" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_list()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.api_update" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_update()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.delete_cascade" class="md-nav__link">
+    <span class="md-ellipsis">
+      delete_cascade()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.delete_liste_entities" class="md-nav__link">
+    <span class="md-ellipsis">
+      delete_liste_entities()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.edit" class="md-nav__link">
+    <span class="md-ellipsis">
+      edit()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.filter_dict_from_str" class="md-nav__link">
+    <span class="md-ellipsis">
+      filter_dict_from_str()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.get_liste_deletable_cascade" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_liste_deletable_cascade()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.get_store_properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_store_properties()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.to_json" class="md-nav__link">
+    <span class="md-ellipsis">
+      to_json()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoredData.StoredData" class="md-nav__link">
+    <span class="md-ellipsis">
+      StoredData
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="StoredData">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoredData.StoredData.get_liste_deletable_cascade" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_liste_deletable_cascade()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Upload.Upload" class="md-nav__link">
+    <span class="md-ellipsis">
+      Upload
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Upload">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Upload.Upload.api_close" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_close()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Upload.Upload.api_delete_data_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_delete_data_file()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Upload.Upload.api_delete_md5_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_delete_md5_file()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Upload.Upload.api_list_checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_list_checks()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Upload.Upload.api_open" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_open()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Upload.Upload.api_push_data_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_push_data_file()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Upload.Upload.api_push_md5_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_push_md5_file()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Upload.Upload.api_run_checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_run_checks()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Upload.Upload.api_tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_tree()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Upload.Upload.is_open" class="md-nav__link">
+    <span class="md-ellipsis">
+      is_open()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Check.Check" class="md-nav__link">
+    <span class="md-ellipsis">
+      Check
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.CheckExecution.CheckExecution" class="md-nav__link">
+    <span class="md-ellipsis">
+      CheckExecution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CheckExecution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.CheckExecution.CheckExecution.api_logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_logs()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Processing.Processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Processing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.ProcessingExecution.ProcessingExecution" class="md-nav__link">
+    <span class="md-ellipsis">
+      ProcessingExecution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ProcessingExecution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.ProcessingExecution.ProcessingExecution.launch" class="md-nav__link">
+    <span class="md-ellipsis">
+      launch
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.ProcessingExecution.ProcessingExecution.api_abort" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_abort()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.ProcessingExecution.ProcessingExecution.api_launch" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_launch()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.ProcessingExecution.ProcessingExecution.api_logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_logs()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Errors.StoreEntityError" class="md-nav__link">
+    <span class="md-ellipsis">
+      StoreEntityError
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.workflow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workflow/action/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.workflow.action
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workflow/resolver/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.workflow.resolver
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity" class="md-nav__link">
+    <span class="md-ellipsis">
+      StoreEntity
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="StoreEntity">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.datastore" class="md-nav__link">
+    <span class="md-ellipsis">
+      datastore
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.id" class="md-nav__link">
+    <span class="md-ellipsis">
+      id
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.api_create" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_create()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.api_delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_delete()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.api_get" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_get()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.api_list" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_list()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.api_update" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_update()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.delete_cascade" class="md-nav__link">
+    <span class="md-ellipsis">
+      delete_cascade()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.delete_liste_entities" class="md-nav__link">
+    <span class="md-ellipsis">
+      delete_liste_entities()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.edit" class="md-nav__link">
+    <span class="md-ellipsis">
+      edit()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.filter_dict_from_str" class="md-nav__link">
+    <span class="md-ellipsis">
+      filter_dict_from_str()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.get_liste_deletable_cascade" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_liste_deletable_cascade()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.get_store_properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_store_properties()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.to_json" class="md-nav__link">
+    <span class="md-ellipsis">
+      to_json()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoredData.StoredData" class="md-nav__link">
+    <span class="md-ellipsis">
+      StoredData
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="StoredData">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.StoredData.StoredData.get_liste_deletable_cascade" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_liste_deletable_cascade()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Upload.Upload" class="md-nav__link">
+    <span class="md-ellipsis">
+      Upload
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Upload">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Upload.Upload.api_close" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_close()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Upload.Upload.api_delete_data_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_delete_data_file()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Upload.Upload.api_delete_md5_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_delete_md5_file()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Upload.Upload.api_list_checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_list_checks()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Upload.Upload.api_open" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_open()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Upload.Upload.api_push_data_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_push_data_file()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Upload.Upload.api_push_md5_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_push_md5_file()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Upload.Upload.api_run_checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_run_checks()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Upload.Upload.api_tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_tree()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Upload.Upload.is_open" class="md-nav__link">
+    <span class="md-ellipsis">
+      is_open()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Check.Check" class="md-nav__link">
+    <span class="md-ellipsis">
+      Check
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.CheckExecution.CheckExecution" class="md-nav__link">
+    <span class="md-ellipsis">
+      CheckExecution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CheckExecution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.CheckExecution.CheckExecution.api_logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_logs()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Processing.Processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Processing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.ProcessingExecution.ProcessingExecution" class="md-nav__link">
+    <span class="md-ellipsis">
+      ProcessingExecution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ProcessingExecution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.ProcessingExecution.ProcessingExecution.launch" class="md-nav__link">
+    <span class="md-ellipsis">
+      launch
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.ProcessingExecution.ProcessingExecution.api_abort" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_abort()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.ProcessingExecution.ProcessingExecution.api_launch" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_launch()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.ProcessingExecution.ProcessingExecution.api_logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      api_logs()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.store.Errors.StoreEntityError" class="md-nav__link">
+    <span class="md-ellipsis">
+      StoreEntityError
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="sdk_entrepot_gpfstore">sdk_entrepot_gpf.store<a class="headerlink" href="#sdk_entrepot_gpfstore" title="Permanent link">#</a></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h2 id="sdk_entrepot_gpf.store.StoreEntity.StoreEntity" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">StoreEntity</span><span class="p">(</span><span class="n">store_api_dict</span><span class="p">,</span> <span class="n">datastore</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity" class="headerlink" title="Permanent link">#</a></h2>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><span title="abc.ABC">ABC</span></code></p>
+
+  
+      <p>Représentation Python d'une entité de l'entrepôt.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>store_api_dict</code></td>
+          <td>
+                <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Propriétés de l'entité telles que renvoyées par l'API</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+  
+      <p>Classe instanciée à partir de la représentation envoyée par l'API d'une entité.</p>
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.StoreEntity.StoreEntity.datastore" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">datastore</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.datastore" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Renvoie l'identifiant du datastore de l'entité</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>identifiant du datastore de l'entité None si non défini</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.StoreEntity.StoreEntity.id" class="doc doc-heading">
+          <code class="highlight language-python"><span class="nb">id</span><span class="p">:</span> <span class="nb">str</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.id" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Renvoie l'identifiant de l'entité.</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Identifiant de l'entité.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+  </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.StoreEntity.StoreEntity.api_create" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">api_create</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">route_params</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.api_create" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Crée une nouvelle entité dans l'API.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>data</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Données nécessaires pour la création.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>route_params</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Paramètres de résolution de la route.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.store.StoreEntity.StoreEntity" href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity">StoreEntity</a></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Entité créée</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.StoreEntity.StoreEntity.api_delete" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">api_delete</span><span class="p">()</span></code>
+
+<a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.api_delete" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Supprime l'entité de l'API.</p>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.StoreEntity.StoreEntity.api_get" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">api_get</span><span class="p">(</span><span class="n">id_</span><span class="p">,</span> <span class="n">datastore</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.api_get" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Récupère une entité depuis l'API.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>id_</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Identifiant de l'entité</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>datastore</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Identifiant du datastore</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.store.StoreEntity.StoreEntity" href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity">StoreEntity</a></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>L'entité instanciée correspondante</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.StoreEntity.StoreEntity.api_list" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">api_list</span><span class="p">(</span><span class="n">infos_filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tags_filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">datastore</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.api_list" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Liste les entités de l'API respectant les paramètres donnés.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>infos_filter</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, str]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Filtres sur les attributs sous la forme <code>{"nom_attribut": "valeur_attribut"}</code></p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>tags_filter</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, str]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Filtres sur les tags sous la forme <code>{"nom_tag": "valeur_tag"}</code></p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>page</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[int]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Numéro page à récupérer, toutes si None.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>datastore</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Identifiant du datastore</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.store.StoreEntity.StoreEntity" href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity">StoreEntity</a>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>liste des entités retournées par l'API</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.StoreEntity.StoreEntity.api_update" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">api_update</span><span class="p">()</span></code>
+
+<a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.api_update" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Met à jour l'instance Python représentant l'entité en récupérant les infos à jour sur l'API.
+Seules les informations Python sont modifiées, à ne pas confondre avec une fonction d'édition.</p>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.StoreEntity.StoreEntity.delete_cascade" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">delete_cascade</span><span class="p">(</span><span class="n">before_delete</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.delete_cascade" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Suppression en cascade d'une entité en supprimant les entités liées (qui vont dépendre du type de l'entité, donc cf. les classes filles).</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>before_delete</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Callable">Callable</span>[[<span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.store.StoreEntity.StoreEntity" href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity">StoreEntity</a>]], <span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.store.StoreEntity.StoreEntity" href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity">StoreEntity</a>]]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>fonction à lancer avant la suppression (entrée : liste des entités à supprimer,
+sortie : liste définitive des entités à supprimer). Defaults to None.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.StoreEntity.StoreEntity.delete_liste_entities" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">delete_liste_entities</span><span class="p">(</span><span class="n">l_entities</span><span class="p">,</span> <span class="n">before_delete</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+<a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.delete_liste_entities" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Suppression d'une liste d’entités. Exécution de <code>before_delete(l_entities)</code> avant la suppression, before_delete retourne la nouvelle liste des éléments à supprimer.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>l_entities</code></td>
+          <td>
+                <code>List[StoreEntity]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>liste des entités à supprimer</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>before_delete</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Callable">Callable</span>[[<span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.store.StoreEntity.StoreEntity" href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity">StoreEntity</a>]], <span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.store.StoreEntity.StoreEntity" href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity">StoreEntity</a>]]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>fonction à lancer avant la suppression (entrée : liste des entités à supprimer,
+sortie : liste définitive des entités à supprimer). Defaults to None.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.StoreEntity.StoreEntity.edit" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">edit</span><span class="p">(</span><span class="n">data_edit</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.edit" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Mise à jour de l'entité</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>data_edit</code></td>
+          <td>
+                <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>nouvelles valeurs de propriétés</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.StoreEntity.StoreEntity.filter_dict_from_str" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">filter_dict_from_str</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+<a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.filter_dict_from_str" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Les filtres basés les tags ou les propriétés sont écrits sous la forme <code>name=value,name=value</code>.
+Cette fonction transforme une liste de clés-valeurs sous cette forme en dictionnaire de la forme <code>{"name":"value","name":"value"}</code>.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>filters</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Liste de filtres ayant la forme <code>name=value,name=value</code></p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="typing.Dict">Dict</span>[str, str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Dictionnaire ayant la forme <code>{"name": "value", "name": "value"}</code></p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+<p><strong>Examples:</strong></p>
+    <p>Conversion classique :</p>
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">filter_dict_from_str</span><span class="p">(</span><span class="s2">&quot;name=value,name=value&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">{&#39;name&#39;:&#39;value&#39;,&#39;name&#39;:&#39;value&#39;}</span>
+</code></pre></div>
+    <p>Les espaces ne changent rien :</p>
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">filter_dict_from_str</span><span class="p">(</span><span class="s2">&quot;name = value , name= value&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">{&#39;name&#39;:&#39;value&#39;,&#39;name&#39;:&#39;value&#39;}</span>
+</code></pre></div>
+    <p>La valeur None renvoie un dictionnaire vide :</p>
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">filter_dict_from_str</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">{}</span>
+</code></pre></div>
+
+
+
+  <p><strong>Raises:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.store.Errors.StoreEntityError" href="#sdk_entrepot_gpf.store.Errors.StoreEntityError">StoreEntityError</a></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Levée si un filtre ne contient pas le caractère <code>=</code>.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.StoreEntity.StoreEntity.get_liste_deletable_cascade" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_liste_deletable_cascade</span><span class="p">()</span></code>
+
+<a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.get_liste_deletable_cascade" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>liste les entités à supprimer lors d'une suppression en cascade</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.store.StoreEntity.StoreEntity" href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity">StoreEntity</a>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>List[StoreEntity]: liste des entités qui seront supprimé</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.StoreEntity.StoreEntity.get_store_properties" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_store_properties</span><span class="p">()</span></code>
+
+<a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.get_store_properties" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Renvoie les propriétés de l'entité' telles que renvoyées par l'API.</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Propriétés de l'entité (sous la même forme que celle renvoyée par l'API)</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.StoreEntity.StoreEntity.to_json" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">to_json</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity.to_json" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Renvoie les propriétés de l'entité en JSON éventuellement indentées.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>indent</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[int]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Nombre d'espaces pour chaque indentation.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Propriétés de l'entité en JSON éventuellement indentées.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h2 id="sdk_entrepot_gpf.store.StoredData.StoredData" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">StoredData</span><span class="p">(</span><span class="n">store_api_dict</span><span class="p">,</span> <span class="n">datastore</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.store.StoredData.StoredData" class="headerlink" title="Permanent link">#</a></h2>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><span title="sdk_entrepot_gpf.store.interface.TagInterface.TagInterface">TagInterface</span></code>, <code><span title="sdk_entrepot_gpf.store.interface.CommentInterface.CommentInterface">CommentInterface</span></code>, <code><span title="sdk_entrepot_gpf.store.interface.SharingInterface.SharingInterface">SharingInterface</span></code>, <code><span title="sdk_entrepot_gpf.store.interface.EventInterface.EventInterface">EventInterface</span></code>, <code><span title="sdk_entrepot_gpf.store.interface.PartialEditInterface.PartialEditInterface">PartialEditInterface</span></code>, <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.store.StoreEntity.StoreEntity" href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity">StoreEntity</a></code></p>
+
+  
+      <p>Classe Python représentant l'entité StoredData (donnée stockée).</p>
+  
+      <p>Classe instanciée à partir de la représentation envoyée par l'API d'une entité.</p>
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.StoredData.StoredData.get_liste_deletable_cascade" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">get_liste_deletable_cascade</span><span class="p">()</span></code>
+
+<a href="#sdk_entrepot_gpf.store.StoredData.StoredData.get_liste_deletable_cascade" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>liste les entités à supprimer lors d'une suppression en cascade des configuration liées et des offres liées à chaque configuration.</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.store.StoreEntity.StoreEntity" href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity">StoreEntity</a>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>List[StoreEntity]: liste des entités qui seront supprimées</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h2 id="sdk_entrepot_gpf.store.Upload.Upload" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">Upload</span><span class="p">(</span><span class="n">store_api_dict</span><span class="p">,</span> <span class="n">datastore</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.store.Upload.Upload" class="headerlink" title="Permanent link">#</a></h2>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><span title="sdk_entrepot_gpf.store.interface.TagInterface.TagInterface">TagInterface</span></code>, <code><span title="sdk_entrepot_gpf.store.interface.CommentInterface.CommentInterface">CommentInterface</span></code>, <code><span title="sdk_entrepot_gpf.store.interface.SharingInterface.SharingInterface">SharingInterface</span></code>, <code><span title="sdk_entrepot_gpf.store.interface.EventInterface.EventInterface">EventInterface</span></code>, <code><span title="sdk_entrepot_gpf.store.interface.PartialEditInterface.PartialEditInterface">PartialEditInterface</span></code>, <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.store.StoreEntity.StoreEntity" href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity">StoreEntity</a></code></p>
+
+  
+      <p>Classe Python représentant l'entité Upload (livraison).</p>
+<p>Cette classe permet d'effectuer les actions spécifiques liées aux livraisons : déclaration,
+téléversement, fermeture, gestion des vérifications, etc.</p>
+  
+      <p>Classe instanciée à partir de la représentation envoyée par l'API d'une entité.</p>
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.Upload.Upload.api_close" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">api_close</span><span class="p">()</span></code>
+
+<a href="#sdk_entrepot_gpf.store.Upload.Upload.api_close" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Ferme la livraison.</p>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.Upload.Upload.api_delete_data_file" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">api_delete_data_file</span><span class="p">(</span><span class="n">api_path</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.store.Upload.Upload.api_delete_data_file" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Supprime un fichier de donnée de la Livraison.</p>
+<p>Retire <code>data/</code> de devant le chemin distant si jamais il le contient.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>api_path</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>chemin distant vers le fichier à supprimer</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.Upload.Upload.api_delete_md5_file" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">api_delete_md5_file</span><span class="p">(</span><span class="n">api_path</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.store.Upload.Upload.api_delete_md5_file" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Supprime un fichier de clefs de la Livraison.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>api_path</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>chemin distant vers le fichier à supprimer</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.Upload.Upload.api_list_checks" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">api_list_checks</span><span class="p">()</span></code>
+
+<a href="#sdk_entrepot_gpf.store.Upload.Upload.api_list_checks" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Liste les Vérifications (Check) lancées sur cette livraison.</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="typing.Dict">Dict</span>[str, <span title="typing.List">List</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Liste des Vérifications demandées (clef <code>asked</code>), en cours (<code>in_progress</code>), passées (<code>passed</code>) et en échec (<code>failed</code>)</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.Upload.Upload.api_open" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">api_open</span><span class="p">()</span></code>
+
+<a href="#sdk_entrepot_gpf.store.Upload.Upload.api_open" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Ouvre la Livraison.</p>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.Upload.Upload.api_push_data_file" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">api_push_data_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">api_path</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.store.Upload.Upload.api_push_data_file" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Téléverse via l'API un fichier de donnée associé à cette Livraison.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>file_path</code></td>
+          <td>
+                <code><span title="pathlib.Path">Path</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>chemin local vers le fichier à envoyer</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>api_path</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>chemin distant du dossier où déposer le fichier</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.Upload.Upload.api_push_md5_file" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">api_push_md5_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.store.Upload.Upload.api_push_md5_file" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Téléverse via l'API un fichier de clefs associé à cette Livraison.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>file_path</code></td>
+          <td>
+                <code><span title="pathlib.Path">Path</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>chemin local vers le fichier à envoyer</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.Upload.Upload.api_run_checks" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">api_run_checks</span><span class="p">(</span><span class="n">check_ids</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.store.Upload.Upload.api_run_checks" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Lance des Vérifications (Check) supplémentaires sur cette Livraison.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>check_ids</code></td>
+          <td>
+                <code><span title="typing.List">List</span>[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Liste des identifiants des Vérifications à lancer</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.Upload.Upload.api_tree" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">api_tree</span><span class="p">()</span></code>
+
+<a href="#sdk_entrepot_gpf.store.Upload.Upload.api_tree" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Récupère l'arborescence des fichiers téléversés associés à cette Livraison.</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="typing.List">List</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Arborescence telle que renvoyée par l'API</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.Upload.Upload.is_open" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">is_open</span><span class="p">()</span></code>
+
+<a href="#sdk_entrepot_gpf.store.Upload.Upload.is_open" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Teste si la livraison est ouverte à partir des propriétés stockées en local.</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>bool</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p><code>True</code> si la Livraison est ouverte</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h2 id="sdk_entrepot_gpf.store.Check.Check" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">Check</span><span class="p">(</span><span class="n">store_api_dict</span><span class="p">,</span> <span class="n">datastore</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.store.Check.Check" class="headerlink" title="Permanent link">#</a></h2>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.store.StoreEntity.StoreEntity" href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity">StoreEntity</a></code></p>
+
+  
+      <p>Classe Python représentant l'entité Check (vérification).</p>
+  
+      <p>Classe instanciée à partir de la représentation envoyée par l'API d'une entité.</p>
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h2 id="sdk_entrepot_gpf.store.CheckExecution.CheckExecution" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">CheckExecution</span><span class="p">(</span><span class="n">store_api_dict</span><span class="p">,</span> <span class="n">datastore</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.store.CheckExecution.CheckExecution" class="headerlink" title="Permanent link">#</a></h2>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><span title="sdk_entrepot_gpf.store.interface.CsfInterface.CsfInterface">CsfInterface</span></code>, <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.store.StoreEntity.StoreEntity" href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity">StoreEntity</a></code></p>
+
+  
+      <p>Classe Python représentant l'entité CheckExecution (exécution d'une vérification).</p>
+  
+      <p>Classe instanciée à partir de la représentation envoyée par l'API d'une entité.</p>
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.CheckExecution.CheckExecution.api_logs" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">api_logs</span><span class="p">()</span></code>
+
+<a href="#sdk_entrepot_gpf.store.CheckExecution.CheckExecution.api_logs" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Récupère les logs de cette exécution de vérification sur l'API.</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>str</code></td>          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>les logs récupérés</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h2 id="sdk_entrepot_gpf.store.Processing.Processing" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">Processing</span><span class="p">(</span><span class="n">store_api_dict</span><span class="p">,</span> <span class="n">datastore</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.store.Processing.Processing" class="headerlink" title="Permanent link">#</a></h2>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.store.StoreEntity.StoreEntity" href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity">StoreEntity</a></code></p>
+
+  
+      <p>Classe Python représentant l'entité Processing (traitement).</p>
+  
+      <p>Classe instanciée à partir de la représentation envoyée par l'API d'une entité.</p>
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h2 id="sdk_entrepot_gpf.store.ProcessingExecution.ProcessingExecution" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">ProcessingExecution</span><span class="p">(</span><span class="n">store_api_dict</span><span class="p">,</span> <span class="n">datastore</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.store.ProcessingExecution.ProcessingExecution" class="headerlink" title="Permanent link">#</a></h2>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><span title="sdk_entrepot_gpf.store.interface.CsfInterface.CsfInterface">CsfInterface</span></code>, <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.store.StoreEntity.StoreEntity" href="#sdk_entrepot_gpf.store.StoreEntity.StoreEntity">StoreEntity</a></code></p>
+
+  
+      <p>Classe Python représentant l'entité ProcessingExecution (exécution d'un traitement).</p>
+<p>Cette classe permet d'effectuer les actions spécifiques liées aux exécution de traitement : création,
+lancement, gestion de l'exécution, récupération du log, etc.</p>
+  
+      <p>Classe instanciée à partir de la représentation envoyée par l'API d'une entité.</p>
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.ProcessingExecution.ProcessingExecution.launch" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">launch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#sdk_entrepot_gpf.store.ProcessingExecution.ProcessingExecution.launch" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Récupère la datetime de lancement de l'exécution du traitement.</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>datetime</code></td>          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="datetime.datetime">datetime</span>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>datetime de lancement de l'exécution du traitement</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+  </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.ProcessingExecution.ProcessingExecution.api_abort" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">api_abort</span><span class="p">()</span></code>
+
+<a href="#sdk_entrepot_gpf.store.ProcessingExecution.ProcessingExecution.api_abort" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Annule l'exécution du traitement sur l'API.</p>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.ProcessingExecution.ProcessingExecution.api_launch" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">api_launch</span><span class="p">()</span></code>
+
+<a href="#sdk_entrepot_gpf.store.ProcessingExecution.ProcessingExecution.api_launch" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Lance l'exécution du traitement sur l'API.</p>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="sdk_entrepot_gpf.store.ProcessingExecution.ProcessingExecution.api_logs" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">api_logs</span><span class="p">()</span></code>
+
+<a href="#sdk_entrepot_gpf.store.ProcessingExecution.ProcessingExecution.api_logs" class="headerlink" title="Permanent link">#</a></h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Récupère les logs de cette exécution de traitement sur l'API.</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>str</code></td>          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>les logs récupérés</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+
+<h2 id="sdk_entrepot_gpf.store.Errors.StoreEntityError" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">StoreEntityError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></code>
+
+<a href="#sdk_entrepot_gpf.store.Errors.StoreEntityError" class="headerlink" title="Permanent link">#</a></h2>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><span title="sdk_entrepot_gpf.Errors.GpfSdkError">GpfSdkError</span></code></p>
+
+  
+      <p>Erreur levée quand un problème apparaît durant une opération sur une StoreEntity.</p>
+  
+      <p>Constructor</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>message</code></td>
+          <td>
+                <code>str) </code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>message décrivant le problème</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+  </div>
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.annotate"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.6c14ae12.min.js"></script>
+      
+    
+  </body>
+</html>

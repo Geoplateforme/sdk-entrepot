@@ -1,0 +1,2277 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../configuration/">
+      
+      
+        <link rel="next" href="../comme-executable/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.11">
+    
+    
+      
+        <title>La configuration en détails - Documentation SDK Entrepôt</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.fad675c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../assets/css/extra.css">
+    
+      <link rel="stylesheet" href="../assets/css/neoteroi.css">
+    
+      <link rel="stylesheet" href="../assets/css/custom.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="custom">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#la-configuration-en-details" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="https://www.ign.fr/geoplateforme" title="Documentation SDK Entrepôt" class="md-header__button md-logo" aria-label="Documentation SDK Entrepôt" data-md-component="logo">
+      
+  <img src="../assets/images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documentation SDK Entrepôt
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              La configuration en détails
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Geoplateforme/sdk_entrepot" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Geoplateforme/sdk_entrepot
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://www.ign.fr/geoplateforme" title="Documentation SDK Entrepôt" class="md-nav__button md-logo" aria-label="Documentation SDK Entrepôt" data-md-component="logo">
+      
+  <img src="../assets/images/logo.png" alt="logo">
+
+    </a>
+    Documentation SDK Entrepôt
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Geoplateforme/sdk_entrepot" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Geoplateforme/sdk_entrepot
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://geoplateforme.github.io" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Accueil Géoplateforme
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SDK Python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    La configuration en détails
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    La configuration en détails
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#section-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section logging
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-store_authentification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section store_authentification
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-store_api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section store_api
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section routing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-upload" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section upload
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-processing_execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section processing_execution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section configuration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-static" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section static
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-annexe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section annexe
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-miscellaneous" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section miscellaneous
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-workflow_resolution_regex" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section workflow_resolution_regex
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Section workflow_resolution_regex">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-filter_infos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Option filter_infos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-filter_tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      Option filter_tags
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-filter" class="md-nav__link">
+    <span class="md-ellipsis">
+      Option filter
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-store_entity_regex" class="md-nav__link">
+    <span class="md-ellipsis">
+      Option store_entity_regex
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-global_regex" class="md-nav__link">
+    <span class="md-ellipsis">
+      Option global_regex
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-file_regex" class="md-nav__link">
+    <span class="md-ellipsis">
+      Option file_regex
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-json_converter" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section json_converter
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-json_schemas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section json_schemas
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../comme-executable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Utilisation comme exécutable
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../comme-module/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Utilisation comme module Python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../upload_descriptor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Fichier descripteur de livraison
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Workflows
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Développement
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../resolveurs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Résolveur
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Tutoriels
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            Tutoriels
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutoriel_1_archive/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tutoriel 1 : publier une archive
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutoriel_2_flux_vecteur/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tutoriel 2 : publier un flux vecteur
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutoriel_3_flux_raster/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tutoriel 3 : publier un flux raster
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Références
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            Références
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/auth/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.auth
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/io/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.io
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/store/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.store
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/workflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.workflow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/workflow/action/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.workflow.action
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/workflow/resolver/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sdk_entrepot_gpf.workflow.resolver
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#section-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section logging
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-store_authentification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section store_authentification
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-store_api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section store_api
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section routing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-upload" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section upload
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-processing_execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section processing_execution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section configuration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-static" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section static
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-annexe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section annexe
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-miscellaneous" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section miscellaneous
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-workflow_resolution_regex" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section workflow_resolution_regex
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Section workflow_resolution_regex">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-filter_infos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Option filter_infos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-filter_tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      Option filter_tags
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-filter" class="md-nav__link">
+    <span class="md-ellipsis">
+      Option filter
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-store_entity_regex" class="md-nav__link">
+    <span class="md-ellipsis">
+      Option store_entity_regex
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-global_regex" class="md-nav__link">
+    <span class="md-ellipsis">
+      Option global_regex
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-file_regex" class="md-nav__link">
+    <span class="md-ellipsis">
+      Option file_regex
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-json_converter" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section json_converter
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-json_schemas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Section json_schemas
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="la-configuration-en-details">La configuration en détails<a class="headerlink" href="#la-configuration-en-details" title="Permanent link">#</a></h1>
+<p>Comme indiqué dans la page précédente, la majorité de la configuration est déjà définie et n'a pas besoin d'être modifiée à priori.</p>
+<p>Cette page présente de manière exhaustive toutes les propriétés de configuration existante par section, cela est utile si jamais vous souhaitez avoir une utilisation avancée de ce module ou que les spécifications de l'API changent.</p>
+<p>Le fichier de configuration par défaut utilisé est accessible ici : <a href="https://github.com/Geoplateforme/sdk_entrepot/blob/prod/sdk_entrepot_gpf/_conf/default.ini">sdk_entrepot_gpf/_conf/default.ini</a></p>
+<h2 id="section-logging">Section <code>logging</code><a class="headerlink" href="#section-logging" title="Permanent link">#</a></h2>
+<p>La première section concerne le logging de l'application.</p>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Type</th>
+<th>Défaut</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>log_level</code></td>
+<td>str</td>
+<td>INFO</td>
+<td>Niveau de log minimal pour afficher/sauvegarder les messages.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="section-store_authentification">Section <code>store_authentification</code><a class="headerlink" href="#section-store_authentification" title="Permanent link">#</a></h2>
+<p>La deuxième section concerne l'authentification.</p>
+<p>Cette partie de la configuration permet au module de vous authentifier et de récupérer un jeton pour utiliser l'API.</p>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Type</th>
+<th>Défaut</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>token_url</code></td>
+<td>str</td>
+<td><a href="https://sso.geopf.fr/realms/geoplateforme/protocol/openid-connect/token">https://sso.geopf.fr/realms/geoplateforme/protocol/openid-connect/token</a></td>
+<td>URL du service d'authentification de la Géoplateforme. Elle n'est à priori pas à changer, sauf si vous <a href="../configuration/#utiliser-un-environnement-particulier-qualification">utilisez un environnement particulier</a> (test, qualification, ...).</td>
+</tr>
+<tr>
+<td><code>http_proxy</code></td>
+<td>str</td>
+<td><code>null</code></td>
+<td>Indiquez ici le proxy HTTP à utiliser si besoin.</td>
+</tr>
+<tr>
+<td><code>https_proxy</code></td>
+<td>str</td>
+<td><code>null</code></td>
+<td>Indiquez ici le proxy HTTPS à utiliser si besoin.</td>
+</tr>
+<tr>
+<td><code>grant_type</code></td>
+<td>str</td>
+<td><code>password</code></td>
+<td>Indiquez ici le type d'authentification à utiliser (<code>password</code> ou <code>client_credentials</code>).</td>
+</tr>
+<tr>
+<td><code>client_id</code></td>
+<td>str</td>
+<td><code>null</code></td>
+<td>Indiquez ici le groupe d’appartenance du compte à utiliser (type <code>password</code> ET type <code>client_credentials</code>).</td>
+</tr>
+<tr>
+<td><code>login</code></td>
+<td>str</td>
+<td><code>null</code></td>
+<td>Indiquez ici le nom d’utilisateur du compte à utiliser (type <code>password</code> seulement).</td>
+</tr>
+<tr>
+<td><code>password</code></td>
+<td>str</td>
+<td><code>null</code></td>
+<td>Indiquez ici le mot de passe du compte à utiliser (type <code>password</code> seulement).</td>
+</tr>
+<tr>
+<td><code>password</code></td>
+<td>str</td>
+<td><code>null</code></td>
+<td>Indiquez ici le mot de passe du compte à utiliser (type <code>password</code> seulement).</td>
+</tr>
+<tr>
+<td><code>totp_key</code></td>
+<td>str</td>
+<td><code>null</code></td>
+<td>Indiquez ici la clef TOTP à utiliser pour générer le code temporaire (type <code>password</code> avec double authentification seulement).</td>
+</tr>
+<tr>
+<td><code>nb_attempts</code></td>
+<td>int</td>
+<td>5</td>
+<td>Nombre de tentatives de récupération du jeton à effectuer en cas d'erreur avant de lever une erreur.</td>
+</tr>
+<tr>
+<td><code>sec_between_attempt</code></td>
+<td>int</td>
+<td>1</td>
+<td>Délai à attendre entre deux tentatives de récupération du jeton.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="section-store_api">Section <code>store_api</code><a class="headerlink" href="#section-store_api" title="Permanent link">#</a></h2>
+<p>La troisième section concerne la connexion à l'entrepôt.</p>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Type</th>
+<th>Défaut</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>root_url</code></td>
+<td>str</td>
+<td><a href="https://data.geopf.fr/api">https://data.geopf.fr/api</a></td>
+<td>URL racine de l'API Géoplateforme. Elle n'est à priori pas à changer, sauf si vous utilisez un environnement particulier (test, qualification, ...).</td>
+</tr>
+<tr>
+<td><code>http_proxy</code></td>
+<td>str</td>
+<td><code>null</code></td>
+<td>Indiquez ici le proxy HTTP à utiliser si besoin.</td>
+</tr>
+<tr>
+<td><code>https_proxy</code></td>
+<td>str</td>
+<td><code>null</code></td>
+<td>Indiquez ici le proxy HTTPS à utiliser si besoin.</td>
+</tr>
+<tr>
+<td><code>datastore</code></td>
+<td>str</td>
+<td><code>null</code></td>
+<td>Indiquez ici l'identifiant de l'entrepôt (<code>datastore</code>) à utiliser.</td>
+</tr>
+<tr>
+<td><code>root_datastore</code></td>
+<td>str</td>
+<td><code>${store_api:root_url}/datastores/${store_api:datastore}</code></td>
+<td>Chemin racine des routes permettant de faire des action sur cet entrepôt (<code>datastore</code>).</td>
+</tr>
+<tr>
+<td><code>client_id</code></td>
+<td>str</td>
+<td><code>null</code></td>
+<td>Indiquez ici le groupe d’appartenance du compte à utiliser.</td>
+</tr>
+<tr>
+<td><code>nb_attempts</code></td>
+<td>int</td>
+<td>5</td>
+<td>Nombre de requêtes à tenter en cas d'erreur avant de lever une erreur.</td>
+</tr>
+<tr>
+<td><code>sec_between_attempt</code></td>
+<td>int</td>
+<td>1</td>
+<td>Délai à attendre entre deux requêtes.</td>
+</tr>
+<tr>
+<td><code>nb_limit</code></td>
+<td>int</td>
+<td>10</td>
+<td>Nombre d'éléments à récupérer lors des requêtes de listing d'entités.</td>
+</tr>
+<tr>
+<td><code>regex_content_range</code></td>
+<td>int</td>
+<td><code>(?P&lt;i_min&gt;[0-9]+)-(?P&lt;i_max&gt;[0-9]+)/(?P&lt;len&gt;[0-9]+)</code></td>
+<td>Regex pour parser la méta-donnée content-range des réponses API.</td>
+</tr>
+<tr>
+<td><code>regex_entity_id</code></td>
+<td>int</td>
+<td><code>(?P&lt;id&gt;[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12})</code></td>
+<td>Regex des ids des entités API.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="section-routing">Section <code>routing</code><a class="headerlink" href="#section-routing" title="Permanent link">#</a></h2>
+<p>Cette section concerne la définition des routes.</p>
+<p>Chaque route permet de faire une action via l'API. Tous ces paramètres n'ont à priori pas à être modifiés, sauf changement des spécifications de l'API.</p>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Type</th>
+<th>Défaut</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="4"><strong>Routes concernant l'entité User</strong></td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+</tr>
+<tr>
+<td><code>user_get</code></td>
+<td>str</td>
+<td><code>${store_api:root_url}/users/me</code></td>
+<td>Route pour récupérer les informations de l'utilisateur authentifié.</td>
+</tr>
+<tr>
+<td colspan="4"><strong>Routes concernant l'entité Datastore</strong></td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+</tr>
+<tr>
+<td><code>datastore_get</code></td>
+<td>str</td>
+<td><code>${store_api:root_datastore}</code></td>
+<td>Route pour récupérer les information d'un entrepôt (<code>datastore</code>).</td>
+</tr>
+<tr>
+<td colspan="4"><strong>Routes concernant l'entité Upload</strong></td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+</tr>
+<tr>
+<td><code>upload_list</code></td>
+<td>str</td>
+<td><code>${store_api:root_datastore}/uploads</code></td>
+<td>Route pour lister les livraisons (<code>uploads</code>) associées à un entrepôt.</td>
+</tr>
+<tr>
+<td><code>upload_create</code></td>
+<td>str</td>
+<td><code>${routing:upload_list}</code></td>
+<td>Route pour créer une nouvelle livraison associé à un entrepôt.</td>
+</tr>
+<tr>
+<td><code>upload_get</code></td>
+<td>str</td>
+<td><code>${routing:upload_list}/{upload}</code></td>
+<td>Route pour récupérer le détail d'une livraison.</td>
+</tr>
+<tr>
+<td><code>upload_delete</code></td>
+<td>str</td>
+<td><code>${routing:upload_list}/{upload}</code></td>
+<td>Route pour supprimer une livraison.</td>
+</tr>
+<tr>
+<td><code>upload_add_tags</code></td>
+<td>str</td>
+<td><code>${upload_get}/tags</code></td>
+<td>Route pour ajouter/modifier les étiquette(s) d'une livraison.</td>
+</tr>
+<tr>
+<td><code>upload_delete_tags</code></td>
+<td>str</td>
+<td><code>${upload_get}/tags</code></td>
+<td>Route pour supprimer un (des) étiquette(s) d'une livraison.</td>
+</tr>
+<tr>
+<td><code>upload_push_data</code></td>
+<td>str</td>
+<td><code>${upload_get}/data</code></td>
+<td>Route pour téléverser des fichiers de données associés à une livraison.</td>
+</tr>
+<tr>
+<td><code>upload_delete_data</code></td>
+<td>str</td>
+<td><code>${upload_push_data}</code></td>
+<td>Route pour supprimer des fichiers de données associés à une livraison.</td>
+</tr>
+<tr>
+<td><code>upload_push_md5</code></td>
+<td>str</td>
+<td><code>${upload_get}/md5</code></td>
+<td>Route pour téléverser des fichiers de clefs md5 associés à une livraison.</td>
+</tr>
+<tr>
+<td><code>upload_delete_md5</code></td>
+<td>str</td>
+<td><code>${upload_push_md5}</code></td>
+<td>Route pour supprimer des fichiers de clefs md5 associés à une livraison.</td>
+</tr>
+<tr>
+<td><code>upload_close</code></td>
+<td>str</td>
+<td><code>${upload_get}/close</code></td>
+<td>Route pour fermer une livraison.</td>
+</tr>
+<tr>
+<td><code>upload_open</code></td>
+<td>str</td>
+<td><code>${upload_get}/open</code></td>
+<td>Route pour ouvrir une livraison.</td>
+</tr>
+<tr>
+<td><code>upload_tree</code></td>
+<td>str</td>
+<td><code>${upload_get}/tree</code></td>
+<td>Route pour récupérer l'arborescence des fichiers associés à une livraison.</td>
+</tr>
+<tr>
+<td><code>upload_list_checks</code></td>
+<td>str</td>
+<td><code>${upload_get}/checks</code></td>
+<td>Route pour lister les vérifications (checks) liées à une livraison.</td>
+</tr>
+<tr>
+<td><code>upload_run_checks</code></td>
+<td>str</td>
+<td><code>${upload_get}/checks</code></td>
+<td>Route pour ajouter une vérification à une livraison.</td>
+</tr>
+<tr>
+<td><code>upload_list_comment</code></td>
+<td>str</td>
+<td><code>${upload_get}/comments</code></td>
+<td>Route pour lister les commentaires associés à une livraison.</td>
+</tr>
+<tr>
+<td><code>upload_add_comment</code></td>
+<td>str</td>
+<td><code>${upload_list_comment}</code></td>
+<td>Route pour ajouter un commentaire à une livraison.</td>
+</tr>
+<tr>
+<td><code>upload_edit_comment</code></td>
+<td>str</td>
+<td><code>${upload_list_comment}/{comment}</code></td>
+<td>Route pour modifier un commentaire associé à une livraison.</td>
+</tr>
+<tr>
+<td><code>upload_remove_comment</code></td>
+<td>str</td>
+<td><code>${upload_list_comment}/{comment}</code></td>
+<td>Route pour supprimer un commentaire associé à une livraison.</td>
+</tr>
+<tr>
+<td><code>upload_list_sharings</code></td>
+<td>str</td>
+<td><code>${upload_get}/sharings</code></td>
+<td>Route pour lister les partages (sharings) de cette livraison avec d'autres entrepôts.</td>
+</tr>
+<tr>
+<td><code>upload_add_sharing</code></td>
+<td>str</td>
+<td><code>${upload_list_sharings}</code></td>
+<td>Route pour partager cette livraison avec d'autres entrepôts.</td>
+</tr>
+<tr>
+<td><code>upload_remove_sharing</code></td>
+<td>str</td>
+<td><code>${upload_list_sharings}</code></td>
+<td>Route pour supprimer des partages de cette livraison avec d'autres entrepôts.</td>
+</tr>
+<tr>
+<td><code>upload_list_events</code></td>
+<td>str</td>
+<td><code>${upload_get}/events</code></td>
+<td>Route pour lister les événements (event) ayant eu lieu en rapport avec cette livraison.</td>
+</tr>
+<tr>
+<td colspan="4"><strong>Routes concernant l'entité StoredData</strong></td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+</tr>
+<tr>
+<td><code>stored_data_list</code></td>
+<td>str</td>
+<td><code>${store_api:root_datastore}/stored_data</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>stored_data_get</code></td>
+<td>str</td>
+<td><code>${stored_data_list}/{stored_data}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>stored_data_delete</code></td>
+<td>str</td>
+<td><code>${stored_data_list}/{stored_data}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>stored_data_add_tags</code></td>
+<td>str</td>
+<td><code>${stored_data_get}/tags</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>stored_data_delete_tags</code></td>
+<td>str</td>
+<td><code>${stored_data_get}/tags</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>stored_data_list_comment</code></td>
+<td>str</td>
+<td><code>${stored_data_get}/comments</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>stored_data_add_comment</code></td>
+<td>str</td>
+<td><code>${stored_data_list_comment}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>stored_data_edit_comment</code></td>
+<td>str</td>
+<td><code>${stored_data_list_comment}/{comment}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>stored_data_remove_comment</code></td>
+<td>str</td>
+<td><code>${stored_data_list_comment}/{comment}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>stored_data_list_sharings</code></td>
+<td>str</td>
+<td><code>${stored_data_get}/sharings</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>stored_data_add_sharing</code></td>
+<td>str</td>
+<td><code>${stored_data_list_sharings}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>stored_data_remove_sharing</code></td>
+<td>str</td>
+<td><code>${stored_data_list_sharings}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>stored_data_list_events</code></td>
+<td>str</td>
+<td><code>${stored_data_get}/events</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td colspan="4"><strong>Routes concernant l'entité Processing</strong></td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+</tr>
+<tr>
+<td><code>processing_list</code></td>
+<td>str</td>
+<td><code>${store_api:root_datastore}/processings</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>processing_get</code></td>
+<td>str</td>
+<td><code>${processing_list}/{processing}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td colspan="4"><strong>Routes concernant l'entité ProcessingExecution</strong></td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+</tr>
+<tr>
+<td><code>processing_execution_list</code></td>
+<td>str</td>
+<td><code>${processing_list}/executions</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>processing_execution_create</code></td>
+<td>str</td>
+<td><code>${processing_execution_list}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>processing_execution_get</code></td>
+<td>str</td>
+<td><code>${processing_execution_list}/{processing_execution}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>processing_execution_delete</code></td>
+<td>str</td>
+<td><code>${processing_execution_get}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>processing_execution_launch</code></td>
+<td>str</td>
+<td><code>${processing_execution_get}/launch</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>processing_execution_abort</code></td>
+<td>str</td>
+<td><code>${processing_execution_get}/abort</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>processing_execution_logs</code></td>
+<td>str</td>
+<td><code>${processing_execution_get}/logs</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td colspan="4"><strong>Routes concernant l'entité Configuration</strong></td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+</tr>
+<tr>
+<td><code>configuration_list</code></td>
+<td>str</td>
+<td><code>${store_api:root_datastore}/configurations</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>configuration_get</code></td>
+<td>str</td>
+<td><code>${configuration_list}/{configuration}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>configuration_create</code></td>
+<td>str</td>
+<td><code>${configuration_list}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>configuration_delete</code></td>
+<td>str</td>
+<td><code>${configuration_get}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>configuration_full_edit</code></td>
+<td>str</td>
+<td><code>${configuration_get}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>configuration_add_tags</code></td>
+<td>str</td>
+<td><code>${configuration_get}/tags</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>configuration_delete_tags</code></td>
+<td>str</td>
+<td><code>${configuration_get}/tags</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>configuration_list_comment</code></td>
+<td>str</td>
+<td><code>${configuration_get}/comments</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>configuration_add_comment</code></td>
+<td>str</td>
+<td><code>${configuration_list_comment}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>configuration_edit_comment</code></td>
+<td>str</td>
+<td><code>${configuration_list_comment}/{comment}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>configuration_remove_comment</code></td>
+<td>str</td>
+<td><code>${configuration_list_comment}/{comment}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>configuration_list_offerings</code></td>
+<td>str</td>
+<td><code>${configuration_get}/offerings</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td colspan="4"><strong>Routes concernant l'entité Offering</strong></td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+</tr>
+<tr>
+<td><code>offering_list</code></td>
+<td>str</td>
+<td><code>${store_api:root_datastore}/offerings</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>offering_get</code></td>
+<td>str</td>
+<td><code>${offering_list}/{offering}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>offering_create</code></td>
+<td>str</td>
+<td><code>${configuration_list_offerings}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>offering_delete</code></td>
+<td>str</td>
+<td><code>${offering_get}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>offering_partial_edit</code></td>
+<td>str</td>
+<td><code>${offering_get}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td colspan="4"><strong>Routes concernant l'entité Check</strong></td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+</tr>
+<tr>
+<td><code>check_list</code></td>
+<td>str</td>
+<td><code>${store_api:root_datastore}/checks</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>check_get</code></td>
+<td>str</td>
+<td><code>${routing:check_list}/{check}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td colspan="4"><strong>Routes concernant l'entité CheckExecution</strong></td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+</tr>
+<tr>
+<td><code>check_execution_list</code></td>
+<td>str</td>
+<td><code>${routing:check_list}/executions</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>check_execution_get</code></td>
+<td>str</td>
+<td><code>${routing:check_execution_list}/{check_execution}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>check_execution_delete</code></td>
+<td>str</td>
+<td><code>${routing:check_execution_list}/{check_execution}</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td><code>check_execution_logs</code></td>
+<td>str</td>
+<td><code>${routing:check_execution_get}/logs</code></td>
+<td>todo</td>
+</tr>
+<tr>
+<td colspan="4"><strong>Routes concernant l'entité Static</strong></td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+</tr>
+<tr>
+<td><code>static_list</code></td>
+<td>str</td>
+<td><code>${store_api:root_datastore}/statics</code></td>
+<td>Liste des fichiers statiques</td>
+</tr>
+<tr>
+<td><code>static_get</code></td>
+<td>str</td>
+<td><code>${routing:static_list}/{static}</code></td>
+<td>Détaille d'un fichier static</td>
+</tr>
+<tr>
+<td><code>static_upload</code></td>
+<td>str</td>
+<td><code>${routing:static_list}/{static}</code></td>
+<td>Téléversement d'un fichier static</td>
+</tr>
+<tr>
+<td><code>static_delete</code></td>
+<td>str</td>
+<td><code>${routing:static_list}/{static}</code></td>
+<td>Suppression d'une fichier static</td>
+</tr>
+<tr>
+<td><code>static_re_upload</code></td>
+<td>str</td>
+<td><code>${routing:static_list}/{static}</code></td>
+<td>Remplacement du fichier l'fichier static</td>
+</tr>
+<tr>
+<td><code>static_partial_edit</code></td>
+<td>str</td>
+<td><code>${routing:static_list}/{static}</code></td>
+<td>Édition d'es informations d'un fichier static (hors fichier)</td>
+</tr>
+<tr>
+<td><code>static_download</code></td>
+<td>str</td>
+<td><code>${routing:static_get}/file</code></td>
+<td>Téléchargement d'un fichier static</td>
+</tr>
+<tr>
+<td colspan="4"><strong>Routes concernant l'entité Annexe</strong></td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+<td class="dn">&#8288;</td>
+</tr>
+<tr>
+<td><code>annexe_list</code></td>
+<td>str</td>
+<td><code>{store_api:root_datastore}/annexes</code></td>
+<td>Liste des annexes</td>
+</tr>
+<tr>
+<td><code>annexe_get</code></td>
+<td>str</td>
+<td><code>{routing:annexe_list}/{annexe}</code></td>
+<td>Détails d'une annexe</td>
+</tr>
+<tr>
+<td><code>annexe_upload</code></td>
+<td>str</td>
+<td><code>{routing:annexe_get}</code></td>
+<td>Téléversement d'une annexe</td>
+</tr>
+<tr>
+<td><code>annexe_delete</code></td>
+<td>str</td>
+<td><code>{routing:annexe_get}</code></td>
+<td>Suppression d'une annexe</td>
+</tr>
+<tr>
+<td><code>annexe_re_upload</code></td>
+<td>str</td>
+<td><code>{routing:annexe_get}</code></td>
+<td>Remplacement du fichier de l'annexe</td>
+</tr>
+<tr>
+<td><code>annexe_partial_edit</code></td>
+<td>str</td>
+<td><code>{routing:annexe_get}</code></td>
+<td>Édition partielle d'une annexe (hors fichier)</td>
+</tr>
+<tr>
+<td><code>annexe_download</code></td>
+<td>str</td>
+<td><code>{routing:annexe_get}/file</code></td>
+<td>Téléchargement d'un fichier d'annexe</td>
+</tr>
+<tr>
+<td><code>annexe_publish_by_label</code></td>
+<td>str</td>
+<td><code>{routing:annexe_list}/publication</code></td>
+<td>Publication des annexes par labels</td>
+</tr>
+<tr>
+<td><code>annexe_unpublish_by_label</code></td>
+<td>str</td>
+<td><code>{routing:annexe_list}/unpublication</code></td>
+<td>Dépublication des annexes par labels</td>
+</tr>
+</tbody>
+</table>
+<p>| <strong>Routes concernant l'entité Tms</strong> {: colspan=4 } | &#8288; {: .dn }| &#8288; {: .dn }| &#8288; {: .dn } |
+| <code>tms_list</code>                              | str  | <code>{store_api:root_url}/statics/tms</code>                    | Liste des tms disponible pour tout la GPF |
+| <code>tms_get</code>                               | str  | <code>{routing:tms_list}/{tms}</code>                            | Détails d'un tms |
+| <code>tms_download</code>                          | str  | <code>{routing:tms_get}/file</code>                              | Téléchargement d'un tms |</p>
+<h2 id="section-upload">Section <code>upload</code><a class="headerlink" href="#section-upload" title="Permanent link">#</a></h2>
+<p>Cette section concerne les paramètres de gestion des livraisons (<code>upload</code>).</p>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Type</th>
+<th>Défaut</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>uniqueness_constraint_infos</code></td>
+<td>str</td>
+<td><code>name</code></td>
+<td>Attributs à considérer pour tester l'unicité d'une livraison.</td>
+</tr>
+<tr>
+<td><code>uniqueness_constraint_tags</code></td>
+<td>str</td>
+<td><code>empty str</code></td>
+<td>Étiquettes à considérer pour tester l'unicité d'une livraison.</td>
+</tr>
+<tr>
+<td><code>behavior_if_exists</code></td>
+<td>str</td>
+<td><code>STOP</code></td>
+<td>Comportement à adopter si la livraison à créer existe déjà (<code>DELETE</code> : on la supprime et on la recrée, <code>CONTINUE</code> : on reprendre le téléversement, <code>STOP</code> : on lève une exception).</td>
+</tr>
+<tr>
+<td><code>md5_pattern</code></td>
+<td>str</td>
+<td><code>{md5_key}  data/{file_path}</code></td>
+<td>Modèle des fichiers de clés md5 à livrer.</td>
+</tr>
+<tr>
+<td><code>push_data_file_key</code></td>
+<td>int</td>
+<td><code>filename</code></td>
+<td>Nom de la clé pour téléverser des fichiers de données.</td>
+</tr>
+<tr>
+<td><code>push_md5_file_key</code></td>
+<td>int</td>
+<td><code>filename</code></td>
+<td>Nom de la clé pour téléverser des fichiers de clé md5.</td>
+</tr>
+<tr>
+<td><code>nb_sec_between_check_updates</code></td>
+<td>int</td>
+<td>10</td>
+<td>Nombre de secondes entre deux mises à jour du statut de la livraison lors des vérifications.</td>
+</tr>
+<tr>
+<td><code>check_message_pattern</code></td>
+<td>int</td>
+<td><code>Vérifications : {nb_asked} en attente, {nb_in_progress} en cours, {nb_failed} en échec, {nb_passed} en succès</code></td>
+<td>Modèle du message à afficher pendant la vérification d'une livraison.</td>
+</tr>
+<tr>
+<td><code>open_status</code></td>
+<td>int</td>
+<td><code>OPEN</code></td>
+<td>Constante représentant le statut ouvert d'une livraison.</td>
+</tr>
+<tr>
+<td><code>close_status</code></td>
+<td>int</td>
+<td><code>CLOSE</code></td>
+<td>Constante représentant le statut fermer d'une livraison.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="section-processing_execution">Section <code>processing_execution</code><a class="headerlink" href="#section-processing_execution" title="Permanent link">#</a></h2>
+<p>Cette section concerne les paramètres de gestion des exécutions de traitement (<code>processing_execution</code>).</p>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Type</th>
+<th>Défaut</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>nb_sec_between_check_updates</code></td>
+<td>int</td>
+<td>10</td>
+<td>Nombre de secondes entre deux mises à jour du statut de l'exécution des vérifications.</td>
+</tr>
+<tr>
+<td><code>uniqueness_constraint_infos</code></td>
+<td>str</td>
+<td><code>name</code></td>
+<td>Attributs à considérer pour tester l'unicité d'une entité en sortie de l'exécution de traitement (livraison ou donnée stockée).</td>
+</tr>
+<tr>
+<td><code>uniqueness_constraint_tags</code></td>
+<td>str</td>
+<td><code>empty str</code></td>
+<td>Étiquettes à considérer pour tester l'unicité d'une entité en sortie de l'exécution de traitement (livraison ou donnée stockée).</td>
+</tr>
+<tr>
+<td><code>behavior_if_exists</code></td>
+<td>str</td>
+<td><code>STOP</code></td>
+<td>Comportement à adopter si l'entité en sortie de l'exécution de traitement (livraison ou donnée stockée) existe déjà (<code>DELETE</code> : on la supprime et on la recrée, <code>STOP</code> : on lève une exception).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="section-configuration">Section <code>configuration</code><a class="headerlink" href="#section-configuration" title="Permanent link">#</a></h2>
+<p>Cette section concerne les paramètres de gestion des configurations (<code>configuration</code>).</p>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Type</th>
+<th>Défaut</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>uniqueness_constraint_infos</code></td>
+<td>str</td>
+<td><code>name</code></td>
+<td>Attributs à considérer pour tester l'unicité de la configuration.</td>
+</tr>
+<tr>
+<td><code>uniqueness_constraint_tags</code></td>
+<td>str</td>
+<td><code>empty str</code></td>
+<td>Étiquettes à considérer pour tester l'unicité de la configuration.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="section-static">Section <code>static</code><a class="headerlink" href="#section-static" title="Permanent link">#</a></h2>
+<p>Cette section concerne les paramètres de gestion des fichiers statiques (<code>static</code>)</p>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Type</th>
+<th>Défaut</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>create_file_key</code></td>
+<td>str</td>
+<td><code>file</code></td>
+<td>Clef pour la livraison d'un fichier static</td>
+</tr>
+</tbody>
+</table>
+<h2 id="section-annexe">Section <code>annexe</code><a class="headerlink" href="#section-annexe" title="Permanent link">#</a></h2>
+<p>Cette section concerne les paramètres de gestion des annexes (<code>annexe</code>)</p>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Type</th>
+<th>Défaut</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>create_file_key</code></td>
+<td>str</td>
+<td><code>file</code></td>
+<td>Clef pour la livraison d'un fichier annexe</td>
+</tr>
+</tbody>
+</table>
+<h2 id="section-miscellaneous">Section <code>miscellaneous</code><a class="headerlink" href="#section-miscellaneous" title="Permanent link">#</a></h2>
+<p>Cette section concerne les paramètres divers.</p>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Type</th>
+<th>Défaut</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data_directory_on_store</code></td>
+<td>str</td>
+<td><code>name;layer_name</code></td>
+<td>Préfixe des fichiers de données téléversés sur une livraison.</td>
+</tr>
+<tr>
+<td><code>tmp_workdir</code></td>
+<td>str</td>
+<td><code>empty str</code></td>
+<td>Répertoire local et existant permettant d'écrire des données temporaires.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="section-workflow_resolution_regex">Section <code>workflow_resolution_regex</code><a class="headerlink" href="#section-workflow_resolution_regex" title="Permanent link">#</a></h2>
+<p>Cette section concerne la configuration des expression régulières (regex) permettant de résoudre des workflows.</p>
+<p>Ces regex vont être notamment utilisées par les résolveurs (<code>resolver</code>) (cf. la classe Python <code>ignf_gpf_api.workflow.resolver.AbstractResolver</code>).</p>
+<h3 id="option-filter_infos">Option <code>filter_infos</code><a class="headerlink" href="#option-filter_infos" title="Permanent link">#</a></h3>
+<p>Configuration de la manière de récupérer les filtres sur les attributs (infos) afin de résoudre une entité.
+La chaîne capturée doit être nommée <code>filter_infos</code>.</p>
+<ul>
+<li>Type : str</li>
+<li>Valeur par défaut : <code>((\s*)INFOS(\s*)\((?P&lt;filter_infos&gt;.*?)\)(\s*))?</code></li>
+</ul>
+<h3 id="option-filter_tags">Option <code>filter_tags</code><a class="headerlink" href="#option-filter_tags" title="Permanent link">#</a></h3>
+<p>Configuration de la manière de récupérer les filtres sur les étiquettes (tags) afin de résoudre une entité.
+La chaîne capturée doit être nommée <code>filter_tags</code>.</p>
+<ul>
+<li>Type : str</li>
+<li>Valeur par défaut : <code>((\s*)TAGS(\s*)\((?P&lt;filter_tags&gt;.*?)\)(\s*))?</code></li>
+</ul>
+<h3 id="option-filter">Option <code>filter</code><a class="headerlink" href="#option-filter" title="Permanent link">#</a></h3>
+<p>Configuration de la manière de récupérer les filtres sur les attributs et les étiquettes afin de résoudre une entité.</p>
+<ul>
+<li>Type : str</li>
+<li>Valeur par défaut : <code>((\s*)\[${filter_infos},?${filter_tags}\])</code></li>
+</ul>
+<p>Les chaînes capturées doivent respectivement être nommées <code>filter_infos</code> et <code>filter_tags</code> et sont ensuite traitées
+par les regex configurées dans les options <code>filter_infos</code> et <code>filter_tags</code>.</p>
+<h3 id="option-store_entity_regex">Option <code>store_entity_regex</code><a class="headerlink" href="#option-store_entity_regex" title="Permanent link">#</a></h3>
+<p>Configuration de la regex de résolution une entité.</p>
+<ul>
+<li>Type : str</li>
+<li>Valeur par défaut : <code>(?P&lt;entity_type&gt;(upload|stored_data|processing_execution|offering|processing|configuration|endpoint))\.(?P&lt;selected_field_type&gt;(tags|infos))\.(?P&lt;selected_field&gt;\w*)${filter}</code></li>
+</ul>
+<p>Les chaînes capturées doivent être nommées :</p>
+<ul>
+<li><code>entity_type</code> : pour la chaîne récupérant le type de l'entité à résoudre (<code>upload</code>, <code>stored_data</code>, ...) ;</li>
+<li><code>selected_field_type</code> : pour la chaîne récupérant le type de champ à renvoyer (attribut <code>infos</code> ou étiquette <code>tags</code>) ;</li>
+<li><code>selected_field</code> : pour la chaîne récupérant le champ à renvoyer (<code>_id_</code>, <code>name</code>, ...) ;</li>
+<li><code>filter_infos</code> : pour la chaîne récupérant les critères de filtre sur les attributs (dans la config par défaut, cela est délégué à l'option <code>filter</code>) ;</li>
+<li><code>filter_tags</code> : pour la chaîne récupérant les critères de filtre sur les étiquettes (dans la config par défaut, cela est délégué à l'option <code>filter</code>).</li>
+</ul>
+<h3 id="option-global_regex">Option <code>global_regex</code><a class="headerlink" href="#option-global_regex" title="Permanent link">#</a></h3>
+<p>Configuration de la regex de détection de l'appel à un résolveur.</p>
+<ul>
+<li>Type : str</li>
+<li>Valeur par défaut : <code>(?P&lt;param&gt;(\["|{"?)(?P&lt;resolver_name&gt;[a-z_]+)(\.|": *"|", *")(?P&lt;to_solve&gt;[^"{}]*?({[^}]+}[^"{}]*?)*)("\]|"?}))</code></li>
+</ul>
+<p>Les chaînes capturées doivent être nommées :</p>
+<ul>
+<li><code>param</code> : pour la chaîne complète ;</li>
+<li><code>resolver_name</code> : pour la chaîne donnant le nom du résolveur à appeler ;</li>
+<li><code>to_solve</code> : pour la chaîne donnant la chaîne à résoudre.</li>
+</ul>
+<h3 id="option-file_regex">Option <code>file_regex</code><a class="headerlink" href="#option-file_regex" title="Permanent link">#</a></h3>
+<p>Configuration de la regex du résolveur de fichier (classe <code>ignf_gpf_api.workflow.resolver.FileResolver</code>).</p>
+<ul>
+<li>Type : str</li>
+<li>Valeur par défaut : <code>(?P&lt;resolver_type&gt;str|list|dict)\((?P&lt;resolver_file&gt;.*)\)</code></li>
+</ul>
+<p>Les chaînes capturées doivent être nommées :</p>
+<ul>
+<li><code>resolver_type</code> : pour la chaîne donnant le type de fichier à résoudre (<code>str</code>, <code>list</code> ou <code>dict</code>) ;</li>
+<li><code>resolver_file</code> : pour la chaîne donnant le chemin du fichier à résoudre.</li>
+</ul>
+<h2 id="section-json_converter">Section <code>json_converter</code><a class="headerlink" href="#section-json_converter" title="Permanent link">#</a></h2>
+<p>Cette section concerne les paramètres de conversion en JSON des types non gérés de base par Python.</p>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Type</th>
+<th>Défaut</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>datetime_pattern</code></td>
+<td>str</td>
+<td><code>%Y-%m-%dT%H:%M:%S</code></td>
+<td>Modèle de formatage des <code>datetime</code> en string.</td>
+</tr>
+<tr>
+<td><code>date_pattern</code></td>
+<td>str</td>
+<td><code>%Y-%m-%d</code></td>
+<td>Modèle de formatage des <code>date</code> en string.</td>
+</tr>
+<tr>
+<td><code>time_pattern</code></td>
+<td>str</td>
+<td><code>%H:%M:%S</code></td>
+<td>Modèle de formatage des <code>time</code> en string.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="section-json_schemas">Section <code>json_schemas</code><a class="headerlink" href="#section-json_schemas" title="Permanent link">#</a></h2>
+<p>Cette section concerne le paramétrage des schémas JSON utilisés. Par défaut, les chemins sont définis relativement à <code>ignf_gpf_api/_conf</code>, mais peuvent également être absolus.</p>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Type</th>
+<th>Défaut</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>descriptor_file</code></td>
+<td>str</td>
+<td><code>json_schemas/upload_descriptor_file.json</code></td>
+<td>Chemin vers le schéma JSON définissant les fichiers descripteurs de livraison.</td>
+</tr>
+<tr>
+<td><code>workflow_config</code></td>
+<td>str</td>
+<td><code>json_schemas/workflow_config.json</code></td>
+<td>Chemin vers le schéma JSON définissant les fichiers workflow.</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.annotate"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6c14ae12.min.js"></script>
+      
+    
+  </body>
+</html>
