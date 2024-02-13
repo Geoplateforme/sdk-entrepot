@@ -454,13 +454,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#resolveur-de-base" class="md-nav__link">
+  <a href="#resolveurs-de-base" class="md-nav__link">
     <span class="md-ellipsis">
-      résolveur de base
+      Résolveurs de base
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="résolveur de base">
+    <nav class="md-nav" aria-label="Résolveurs de base">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -823,13 +823,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#resolveur-de-base" class="md-nav__link">
+  <a href="#resolveurs-de-base" class="md-nav__link">
     <span class="md-ellipsis">
-      résolveur de base
+      Résolveurs de base
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="résolveur de base">
+    <nav class="md-nav" aria-label="Résolveurs de base">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -903,8 +903,8 @@
 <p>Le nom d'un résolveur est donné à son initialisation. Il est possible d'avoir plusieurs résolveurs d'un même type.</p>
 <p>A l'utilisation du SDK comme un exécutable, il y a 2 résolveurs d’instanciés :</p>
 <ul>
-<li><code>user</code> : un <a href="../reference/workflow/resolver/#sdk_entrepot_gpf.workflow.resolver.UserResolver.UserResolver">UserResolver</a></li>
-<li><code>store_entity</code> : un <a href="../reference/workflow/resolver/#sdk_entrepot_gpf.workflow.resolver.StoreEntityResolver.StoreEntityResolver">StoreEntityResolver</a></li>
+<li><code>user</code> : un <a href="#userresolver">UserResolver</a></li>
+<li><code>store_entity</code> : un <a href="#storeentityresolver">StoreEntityResolver</a></li>
 </ul>
 <p>A l'utilisation comme module, il n'y a aucun résolveurs d’instancié de base. Il faut instancier des résolveurs dans le programme et les ajouter au <code>GlobalResolver</code>.</p>
 <p>Dans le fichier de workflow, pour utiliser le résolveur il faut ajouter le pattern permettant d'activer le résolveur selon le type de donnée attendu :</p>
@@ -913,13 +913,13 @@
 <li>Liste: <code>["_nom_du_resolveur_", "nom_de_la_clef"]</code> ou <code>["_nom_du_resolveur.nom_de_la_clef"]</code></li>
 <li>Dictionnaire : <code>{"_nom_du_resolveur_": "nom_de_la_clef"}</code></li>
 </ul>
-<h2 id="resolveur-de-base">résolveur de base<a class="headerlink" href="#resolveur-de-base" title="Permanent link">#</a></h2>
+<h2 id="resolveurs-de-base">Résolveurs de base<a class="headerlink" href="#resolveurs-de-base" title="Permanent link">#</a></h2>
 <p>Il y a 4 résolveurs de base :</p>
 <ul>
-<li><a href="../reference/workflow/resolver/#sdk_entrepot_gpf.workflow.resolver.DictResolver.DictResolver">DictResolver</a>: permet d'insérer les valeurs contenues dans un dictionnaire ;</li>
-<li><a href="../reference/workflow/resolver/#sdk_entrepot_gpf.workflow.resolver.FileResolver.FileResolver">FileResolver</a>: insère les valeurs contenues dans un fichier ;</li>
-<li><a href="../reference/workflow/resolver/#sdk_entrepot_gpf.workflow.resolver.StoreEntityResolver.StoreEntityResolver">StoreEntityResolver</a>: récupère des informations sur les entités depuis la GPF ;</li>
-<li><a href="../reference/workflow/resolver/#sdk_entrepot_gpf.workflow.resolver.UserResolver.UserResolver">UserResolver</a>: récupère des informations de l'utilisateur courant depuis la GPF.</li>
+<li><a href="#dictresolver">DictResolver</a>: permet d'insérer les valeurs contenues dans un dictionnaire ;</li>
+<li><a href="#fileresolver">FileResolver</a>: insère les valeurs contenues dans un fichier ;</li>
+<li><a href="#storeentityresolver">StoreEntityResolver</a>: récupère des informations sur les entités depuis la GPF ;</li>
+<li><a href="#userresolver">UserResolver</a>: récupère des informations de l'utilisateur courant depuis la GPF.</li>
 </ul>
 <h3 id="dictresolver">DictResolver<a class="headerlink" href="#dictresolver" title="Permanent link">#</a></h3>
 <p>Permet de résoudre des paramètres clé -&gt; valeur (pas de sous clef)</p>
@@ -1037,7 +1037,7 @@ Utilisation du pattern <code>store_entity_regex</code> de la configuration.</p>
 </code></pre></div>
 <h3 id="userresolver">UserResolver<a class="headerlink" href="#userresolver" title="Permanent link">#</a></h3>
 <p>Permet de résoudre des paramètres avec les informations sur l'utilisateur authentifié. Les informations disponibles sont celles renvoyée par la route <a href="https://data.geopf.fr/api/swagger-ui/index.html#/Utilisateurs/get">/users/me</a>.</p>
-<p>Classe dérivée de DictRevolver, la plu-value sur la classe DictRevolver est que les infos de l'utilisateur sont directement récupérées par le constructeur de la classe.</p>
+<p>Classe dérivée de DictRevolver, la plus-value sur la classe DictRevolver est que les infos de l'utilisateur sont directement récupérées par le constructeur de la classe.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span> <span class="nn">sdk_entrepot_gpf.workflow.resolver.UserResolver</span> <span class="kn">import</span> <span class="n">UserResolver</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span> <span class="nn">sdk_entrepot_gpf.workflow.resolver.GlobalResolver</span> <span class="kn">import</span> <span class="n">GlobalResolver</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">from</span> <span class="nn">sdk_entrepot_gpf.io.Config</span> <span class="kn">import</span> <span class="n">Config</span>

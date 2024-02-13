@@ -920,13 +920,11 @@ Cela sera plus simple d'un point de vue Python mais moins modulaire.</p>
 <a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1"># On ferme la livraison et on monitore les exécutions de vérification</span>
 <a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="n">b_status</span> <span class="o">=</span> <span class="n">UploadAction</span><span class="o">.</span><span class="n">monitor_until_end</span><span class="p">(</span><span class="n">o_upload</span><span class="p">,</span> <span class="n">Livraison</span><span class="o">.</span><span class="n">callback_check</span><span class="p">)</span>
 </code></pre></div>
-<details class="note" open="open">
-<summary>Utiliser un datastore spécifique</summary>
-<p>Vous pouvez préciser l'id d'un autre datastore s'il ne faut pas utiliser celui indiqué en configuration :</p>
+<p><strong><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/2139.svg" title=":information_source:" /> Utiliser un datastore spécifique</strong>
+Vous pouvez préciser l'id d'un autre datastore s'il ne faut pas utiliser celui indiqué en configuration :</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># On crée la livraison en précisant un datastore spécifique</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">o_upload</span> <span class="o">=</span> <span class="n">o_upload_action</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">datastore</span><span class="o">=</span><span class="s1">&#39;id-datastore-spécifique&#39;</span><span class="p">)</span>
 </code></pre></div>
-</details>
 <h3 id="sans-la-classe-uploadaction">Sans la classe <code>UploadAction</code><a class="headerlink" href="#sans-la-classe-uploadaction" title="Permanent link">#</a></h3>
 <p>Si vous souhaitez livrer les données de manière plus flexible, vous pouvez également utiliser directement la classe <code>Upload</code> pour créer, compléter et fermer votre livraison.</p>
 <p>Voici un exemple de code Python permettant de le faire (à lancer après le chargement de la config !) :</p>
@@ -964,13 +962,11 @@ Cela sera plus simple d'un point de vue Python mais moins modulaire.</p>
 <a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="c1"># Fermeture de la livraison</span>
 <a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="n">upload</span><span class="o">.</span><span class="n">api_close</span><span class="p">()</span>
 </code></pre></div>
-<details class="note" open="open">
-<summary>Utiliser un datastore spécifique</summary>
-<p>Vous pouvez préciser l'id d'un autre datastore s'il ne faut pas utiliser celui indiqué en configuration :</p>
+<p><strong><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/2139.svg" title=":information_source:" /> Utiliser un datastore spécifique</strong>
+Vous pouvez préciser l'id d'un autre datastore s'il ne faut pas utiliser celui indiqué en configuration :</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Création d&#39;une livraison en précisant un datastore spécifique</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">upload</span> <span class="o">=</span> <span class="n">Upload</span><span class="o">.</span><span class="n">api_create</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">datastore</span><span class="o">=</span><span class="s1">&#39;id-datastore-spécifique&#39;</span><span class="p">)</span>
 </code></pre></div>
-</details>
 <h2 id="traitement-et-publications-des-donnees">Traitement et publications des données<a class="headerlink" href="#traitement-et-publications-des-donnees" title="Permanent link">#</a></h2>
 <p>D'un point de vue API Entrepôt, pour traiter et publier des données, vous allez créer :</p>
 <ul>

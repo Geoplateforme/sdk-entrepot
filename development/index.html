@@ -441,6 +441,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Documentation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test local
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#publication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Publication
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -871,6 +895,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Documentation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test local
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#publication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Publication
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1009,13 +1057,18 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>./check.sh
 </code></pre></div>
 <h2 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">#</a></h2>
+<h3 id="test-local">Test local<a class="headerlink" href="#test-local" title="Permanent link">#</a></h3>
 <p>Vous pouvez générer la doc en local via la commande :</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>mkdocs<span class="w"> </span>serve
 </code></pre></div>
-<p>Pour gérer la doc est la publier, il faut pour le moment :</p>
+<p>Vous pouvez ensuite la consulter ici : <a href="http://127.0.0.1:8000">http://127.0.0.1:8000</a></p>
+<h3 id="publication">Publication<a class="headerlink" href="#publication" title="Permanent link">#</a></h3>
+<p>Pour générer la doc et la publier <a href="https://geoplateforme.github.io/sdk-entrepot/">en ligne</a>, il faut pour le moment :</p>
 <ul>
 <li>récupérer le code à jour sur la branche de votre choix ;</li>
+<li>générer et pousser le doc via la commande : <code>mkdocs gh-deploy</code>.</li>
 </ul>
+<p>C'est terminé ! Vous pouvez consulter la branche <a href="https://github.com/Geoplateforme/sdk-entrepot/tree/gh-pages">gh-pages</a> qui doit être mise à jour.</p>
 <h2 id="developpement-et-tests">Développement et tests<a class="headerlink" href="#developpement-et-tests" title="Permanent link">#</a></h2>
 <p>Pour tester le programme, vous aurez besoin de créer un fichier <code>config.ini</code>, cf. <a href="../configuration/">configuration</a>.</p>
 <p>Les classes python sont couvertes avec un maximum de tests unitaires merci de penser à couvrir le code ajouté ou à modifier les tests existants au besoin.</p>
