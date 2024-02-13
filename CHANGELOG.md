@@ -8,6 +8,8 @@
 
 ### [Fixed]
 
+* Documentation : correction des URLs pour pointer vers la [doc hébergée](https://geoplateforme.github.io/sdk-entrepot/).
+
 ## v0.1.20
 
 ### [Added]

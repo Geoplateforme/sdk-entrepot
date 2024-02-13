@@ -72,8 +72,8 @@ class Workflow:
             ctrl_c_action (Optional[Callable[[], bool]], optional): gestion du ctrl-C lors d'une exécution de traitement.
             behavior (Optional[str]): comportement à adopter si une entité existe déjà sur l'entrepôt.
             datastore (Optional[str]): id du datastore à utiliser. Si None, le datastore sera le premier trouvé dans l'action puis dans workflow puis dans configuration.
-            comments (Optional[List[str]]): liste des commentaire à rajouté à toute les actions de l'étape (les cas de doublons sont géré).
-            tags (Optional[Dict[str, str]]): dictionnaire des tag à rajouté pour toutes les action de l'étape. Écrasé par ceux du workflow, de l'étape et de l'action si les clef sont les même.
+            comments (Optional[List[str]]): liste des commentaires à rajouter à toute les actions de l'étape (les cas de doublons sont gérés).
+            tags (Optional[Dict[str, str]]): dictionnaire des tags à rajouter pour toutes les actions de l'étape. Écrasé par ceux du workflow, de l'étape et de l'action si les clefs sont les mêmes.
 
         Raises:
             WorkflowError: levée si un problème apparaît pendant l'exécution du workflow
@@ -142,8 +142,8 @@ class Workflow:
 
         Args:
             step_name (str): nom de l'étape
-            comments (Optional[List[str]]): liste des commentaire à rajouté à toute les actions de l'étape (les cas de doublons sont géré).
-            tags (Optional[Dict[str, str]]): dictionnaire des tag à rajouté pour toutes les action de l'étape. Écrasé par ceux du workflow, de l'étape et de l'action si les clef sont les même.
+            comments (Optional[List[str]]): liste des commentaires à rajouter à toutes les actions de l'étape (les cas de doublons sont gérés).
+            tags (Optional[Dict[str, str]]): dictionnaire des tags à rajouter pour toutes les actions de l'étape. Écrasé par ceux du workflow, de l'étape et de l'action si les clefs sont les mêmes.
 
         Raises:
             WorkflowExecutionError: est levée si l'étape n'existe pas dans le workflow
@@ -269,7 +269,7 @@ class Workflow:
 
         Args:
             workflow_path (Path): chemin vers le fichier de workflow.
-            workflow_name (Optional[str], optional): nom du workflow, si None, le nom du fichier est utilisé.. Defaults to None.
+            workflow_name (Optional[str], optional): nom du workflow, si None, le nom du fichier est utilisé. Defaults to None.
 
         Returns:
             workflow instancié

@@ -39,14 +39,13 @@ o_upload = o_upload_action.run()
 b_status = UploadAction.monitor_until_end(o_upload, Livraison.callback_check)
 ```
 
-???+ note "Utiliser un datastore spécifique"
+**:information_source: Utiliser un datastore spécifique**
+Vous pouvez préciser l'id d'un autre datastore s'il ne faut pas utiliser celui indiqué en configuration :
 
-    Vous pouvez préciser l'id d'un autre datastore s'il ne faut pas utiliser celui indiqué en configuration :
-
-    ```py
-    # On crée la livraison en précisant un datastore spécifique
-    o_upload = o_upload_action.run(datastore='id-datastore-spécifique')
-    ```
+```py
+# On crée la livraison en précisant un datastore spécifique
+o_upload = o_upload_action.run(datastore='id-datastore-spécifique')
+```
 
 ### Sans la classe `UploadAction`
 
@@ -90,14 +89,13 @@ upload.api_push_md5_file(Path('checksum.md5'))
 upload.api_close()
 ```
 
-???+ note "Utiliser un datastore spécifique"
+**:information_source: Utiliser un datastore spécifique**
+Vous pouvez préciser l'id d'un autre datastore s'il ne faut pas utiliser celui indiqué en configuration :
 
-    Vous pouvez préciser l'id d'un autre datastore s'il ne faut pas utiliser celui indiqué en configuration :
-
-    ```py
-    # Création d'une livraison en précisant un datastore spécifique
-    upload = Upload.api_create(info, datastore='id-datastore-spécifique')
-    ```
+```py
+# Création d'une livraison en précisant un datastore spécifique
+upload = Upload.api_create(info, datastore='id-datastore-spécifique')
+```
 
 
 ## Traitement et publications des données

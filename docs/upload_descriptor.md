@@ -121,6 +121,6 @@ Voici le fichier descripteur de livraison que l'on pourrait utiliser :
 }
 ```
 
-## Envoie des données
+## Envoi des données
 
 Une fois le fichier descripteur de livraison créé, vous pouvez [envoyer les données](comme-executable.md#envoyer-des-donnees) sur la Géoplateforme.
