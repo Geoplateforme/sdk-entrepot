@@ -8,6 +8,8 @@
 
 ### [Fixed]
 
+* #78 : ajout route `upload_delete_data` dans la configuration
+
 ## v0.1.20
 
 ### [Added]
