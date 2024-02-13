@@ -253,7 +253,7 @@ class Workflow:
             return ProcessingExecutionAction(workflow_context, definition_dict, parent_action, behavior=behavior)
         if definition_dict["type"] == "configuration":
             return ConfigurationAction(workflow_context, definition_dict, parent_action, behavior=behavior)
-        if definition_dict["type"] == "copie-configuration":
+        if definition_dict["type"] == "copy-configuration":
             return CopyConfigurationAction(workflow_context, definition_dict, parent_action, behavior=behavior)
         if definition_dict["type"] == "offering":
             return OfferingAction(workflow_context, definition_dict, parent_action, behavior=behavior)
