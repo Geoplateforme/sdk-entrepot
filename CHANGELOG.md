@@ -8,6 +8,8 @@
 
 ### [Fixed]
 
+* #80 : Upload.api_delete_data_file(): suppression exception pour répertoire "data"
+
 ## v0.1.20
 
 ### [Added]
