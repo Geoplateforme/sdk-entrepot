@@ -63,10 +63,10 @@ Chaque route permet de faire une action via l'API. Tous ces paramètres n'ont à
 | **Routes concernant l'entité User** {: colspan=4 } | &#8288 {: .dn }| &#8288 {: .dn }| &#8288 {: .dn }           |
 | `user_get`                           | str  | `${store_api:root_url}/users/me`                        | Route pour récupérer les informations de l'utilisateur authentifié. |
 | **Routes concernant l'entité Datastore** {: colspan=4 } | &#8288 {: .dn }| &#8288 {: .dn }| &#8288 {: .dn }      |
-| `datastore_get`                      | str  | `${store_api:root_datastore}`                           | Route pour récupérer les information d'un entrepôt (`datastore`). |
+| `datastore_get`                      | str  | `${store_api:root_datastore}`                           | Route pour récupérer les informations d'un entrepôt (`datastore`). |
 | **Routes concernant l'entité Upload** {: colspan=4 } | &#8288 {: .dn }| &#8288 {: .dn }| &#8288 {: .dn }         |
 | `upload_list`                        | str  | `${store_api:root_datastore}/uploads`                   | Route pour lister les livraisons (`uploads`) associées à un entrepôt. |
-| `upload_create`                      | str  | `${routing:upload_list}`                                | Route pour créer une nouvelle livraison associé à un entrepôt. |
+| `upload_create`                      | str  | `${routing:upload_list}`                                | Route pour créer une nouvelle livraison associée à un entrepôt. |
 | `upload_get`                         | str  | `${routing:upload_list}/{upload}`                       | Route pour récupérer le détail d'une livraison. |
 | `upload_delete`                      | str  | `${routing:upload_list}/{upload}`                       | Route pour supprimer une livraison. |
 | `upload_add_tags`                    | str  | `${upload_get}/tags`                                    | Route pour ajouter/modifier les étiquette(s) d'une livraison. |
@@ -178,8 +178,8 @@ Cette section concerne les paramètres de gestion des livraisons (`upload`).
 | `push_md5_file_key`              | int  | `filename`  | Nom de la clé pour téléverser des fichiers de clé md5.          |
 | `nb_sec_between_check_updates`   | int  | 10          | Nombre de secondes entre deux mises à jour du statut de la livraison lors des vérifications. |
 | `check_message_pattern`          | int  | `Vérifications : {nb_asked} en attente, {nb_in_progress} en cours, {nb_failed} en échec, {nb_passed} en succès` | Modèle du message à afficher pendant la vérification d'une livraison. |
-| `open_status`                    | int  | `OPEN`      | Constante représentant le statut ouvert d'une livraison.        |
-| `close_status`                   | int  | `CLOSE`     | Constante représentant le statut fermer d'une livraison.        |
+| `open_status`                    | int  | `OPEN`      | Constante représentant le statut "ouvert" d'une livraison.        |
+| `close_status`                   | int  | `CLOSE`     | Constante représentant le statut "fermé" d'une livraison.        |
 
 ## Section `processing_execution`
 

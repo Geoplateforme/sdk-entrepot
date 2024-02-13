@@ -53,8 +53,10 @@ Vous êtes membre de 1 communauté(s) :
 
 Dans cet exemple, l'identifiant du datastore à utiliser est `33333333333333333333`.
 
-> [!WARNING]
-> Cela ne fonctionnera que si les autres paramètres (nom d'utilisateur, mot de passe et urls) sont corrects.
+
+**:warning: Attention !**
+Cela ne fonctionnera que si les autres paramètres (nom d'utilisateur, mot de passe et urls) sont corrects.
+
 
 ## Afficher toute la configuration
 

@@ -53,11 +53,24 @@ Lancez les tests pour vérifier que tout fonctionne correctement :
 
 ## Documentation
 
+### Test local
+
 Vous pouvez générer la doc en local via la commande :
 
 ```sh
 mkdocs serve
 ```
+
+Vous pouvez ensuite la consulter ici : [http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+### Publication
+
+Pour générer la doc et la publier [en ligne](https://geoplateforme.github.io/sdk-entrepot/), il faut pour le moment :
+
+* récupérer le code à jour sur la branche de votre choix ;
+* générer et pousser le doc via la commande : `mkdocs gh-deploy`.
+
+C'est terminé ! Vous pouvez consulter la branche [gh-pages](https://github.com/Geoplateforme/sdk-entrepot/tree/gh-pages) qui doit être mise à jour.
 
 ## Développement et tests
 
