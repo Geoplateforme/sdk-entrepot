@@ -10,7 +10,7 @@ from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
 from sdk_entrepot_gpf.workflow.Errors import WorkflowError
 from sdk_entrepot_gpf.io.Config import Config
 from sdk_entrepot_gpf.workflow.action.ActionAbstract import ActionAbstract
-from sdk_entrepot_gpf.workflow.action.CopieConfigurationAction import CopieConfigurationAction
+from sdk_entrepot_gpf.workflow.action.CopyConfigurationAction import CopyConfigurationAction
 from sdk_entrepot_gpf.workflow.action.DeleteAction import DeleteAction
 from sdk_entrepot_gpf.workflow.action.EditAction import EditAction
 from sdk_entrepot_gpf.workflow.action.ProcessingExecutionAction import ProcessingExecutionAction
@@ -254,7 +254,7 @@ class Workflow:
         if definition_dict["type"] == "configuration":
             return ConfigurationAction(workflow_context, definition_dict, parent_action, behavior=behavior)
         if definition_dict["type"] == "copie-configuration":
-            return CopieConfigurationAction(workflow_context, definition_dict, parent_action, behavior=behavior)
+            return CopyConfigurationAction(workflow_context, definition_dict, parent_action, behavior=behavior)
         if definition_dict["type"] == "offering":
             return OfferingAction(workflow_context, definition_dict, parent_action, behavior=behavior)
         if definition_dict["type"] == "synchronize-offering":

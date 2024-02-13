@@ -5,7 +5,7 @@ from sdk_entrepot_gpf.io.Config import Config
 from sdk_entrepot_gpf.workflow.action.ConfigurationAction import ConfigurationAction
 
 
-class CopieConfigurationAction(ConfigurationAction):
+class CopyConfigurationAction(ConfigurationAction):
     """Classe dédiée à la copie des Configuration.
 
     Attributes:
