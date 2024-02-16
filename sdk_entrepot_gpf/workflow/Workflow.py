@@ -170,7 +170,7 @@ class Workflow:
             l_actions = []
             s_actions = str(json.dumps(d_step["actions"], ensure_ascii=False))
 
-            if isinstance(d_step["iter_vals"][0], str) or isinstance(d_step["iter_vals"][0], float) or isinstance(d_step["iter_vals"][0], int):
+            if isinstance(d_step["iter_vals"][0], (str, float, int)):
                 # si la liste est une liste de string, un int ou flat : on remplace directement
                 for s_val in d_step["iter_vals"]:
                     l_actions += json.loads(s_actions.replace("{" + d_step["iter_key"] + "}", s_val))
@@ -181,7 +181,6 @@ class Workflow:
                     GlobalResolver().add_resolver(DictResolver(f"iter_resolve_{i}", s_val))
 
             d_step["actions"] = l_actions
-            print(l_actions)
         elif "iter_vals" in d_step or "iter_key" in d_step:
             # on a une seule des deux clef
             s_error_message = f"Une seule des clefs iter_vals ou iter_key est trouvée: il faut mettre les deux valeurs ou aucune. Étape {step_name} workflow {self.__name}"
@@ -189,27 +188,17 @@ class Workflow:
             raise WorkflowError(s_error_message)
 
         # on récupère les commentaires commun au workflow et à l'étape
-        if "comments" in self.__raw_definition_dict:
-            comments.extend(self.__raw_definition_dict["comments"])
-        if "comments" in d_step:
-            comments.extend(d_step["comments"])
+        comments.extend(self.__raw_definition_dict.get("comments", []))
+        comments.extend(d_step.get("comments", []))
 
         # on récupère les tags commun au workflow et à l'étape
-        if "tags" in self.__raw_definition_dict:
-            tags.update(self.__raw_definition_dict["tags"])
-        if "tags" in d_step:
-            tags.update(d_step["tags"])
+        tags.update(self.__raw_definition_dict.get("tags", {}))
+        tags.update(d_step.get("tags", {}))
 
-        # Ajout des commentaire et des tags à chaque actions
+        # Ajout des commentaires et des tags à chaque actions
         for d_action in d_step["actions"]:
-            if "comments" in d_action:
-                d_action["comments"] = [*comments, *d_action["comments"]]
-            else:
-                d_action["comments"] = comments
-            if "tags" in d_action:
-                d_action["tags"] = {**tags, **d_action["tags"]}
-            else:
-                d_action["tags"] = tags
+            d_action["comments"] = [*comments, *d_action.get("comments", [])]
+            d_action["tags"] = {**tags, **d_action.get("tags", {})}
 
         return d_step
 
