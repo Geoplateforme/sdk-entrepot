@@ -108,6 +108,15 @@
                             },
                             "tags": {
                                 "type": "object"
+                            },
+                            "iter_vals" : {
+                                "type": "array",
+                                "items": {
+                                    "type": ["string",  "object"]
+                                }
+                            },
+                            "iter_key": {
+                                "type": "string"
                             }
                         }
                     }
