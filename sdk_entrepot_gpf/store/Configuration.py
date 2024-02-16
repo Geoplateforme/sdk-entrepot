@@ -1,4 +1,5 @@
 from typing import Any, Dict, List
+from sdk_entrepot_gpf.store.Errors import StoreEntityError
 
 from sdk_entrepot_gpf.store.Offering import Offering
 from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
@@ -58,3 +59,24 @@ class Configuration(TagInterface, CommentInterface, EventInterface, FullEditInte
         l_entities += l_offering
         l_entities.append(self)
         return l_entities
+
+    def edit(self, data_edit: Dict[str, Any]) -> None:
+        """Mise à jour totale de l'entité en fusionnant le nouveau dictionnaire (prioritaire) et l'ancien.
+        configuration fusion de la liste des used_data
+
+        Args:
+            data_edit (Dict[str, Any]): nouvelles valeurs de propriétés
+        """
+        d_origine_data = self.get_store_properties()
+        # fusion de used_data
+        l_used_data = []
+        if len(d_origine_data["used_data"]) != len(data_edit["used_data"]):
+            s_message = "Edition impossible, le nombre de 'used_data' ne correspond pas."
+            raise StoreEntityError(s_message)
+        for i in range(len(d_origine_data["used_data"])):
+            l_used_data.append({**d_origine_data["used_data"][i], **data_edit["used_data"][i]})
+
+        # fusion des dictionnaires actuel et nouveau (prioritaire)
+        d_data = {**self.get_store_properties(), **data_edit, **{"used_data": l_used_data}}
+
+        self.api_full_edit(d_data)
