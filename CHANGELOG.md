@@ -8,6 +8,8 @@
 
 ### [Fixed]
 
+* Upload: modification de la requête suite modification de l'API GPF #54
+
 ## v0.1.20
 
 ### [Added]
