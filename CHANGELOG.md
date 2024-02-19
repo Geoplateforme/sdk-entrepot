@@ -4,6 +4,8 @@
 
 ### [Added]
 
+* Résolveurs: possibilité de descendre dans les tests et les listes #87
+
 ### [Changed]
 
 ### [Fixed]
