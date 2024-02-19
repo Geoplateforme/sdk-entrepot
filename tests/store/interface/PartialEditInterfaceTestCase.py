@@ -44,3 +44,11 @@ class PartialEditInterfaceTestCase(GpfTestCase):
                     data=d_partly_modified_api_data,
                 )
                 o_mock_update.assert_called_once_with()
+
+    def test_edit(self) -> None:
+        """test de edit"""
+        d_edit = {"key": "val"}
+        o_entity = PartialEditInterface({"_id": "1"})
+        with patch.object(PartialEditInterface, "api_partial_edit", return_value=None) as o_mock_api_edit:
+            o_entity.edit(d_edit)
+            o_mock_api_edit.assert_called_once_with(d_edit)

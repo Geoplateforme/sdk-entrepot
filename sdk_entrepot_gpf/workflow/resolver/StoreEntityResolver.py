@@ -1,5 +1,5 @@
 import re
-from typing import Dict, Optional, Pattern, Type
+from typing import Any, Dict, Optional, Pattern, Type
 
 from sdk_entrepot_gpf.workflow.resolver.AbstractResolver import AbstractResolver
 from sdk_entrepot_gpf.workflow.resolver.Errors import NoEntityFoundError, ResolverError
@@ -46,7 +46,21 @@ class StoreEntityResolver(AbstractResolver):
         super().__init__(name)
         self.__regex: Pattern[str] = re.compile(Config().get_str("workflow_resolution_regex", "store_entity_regex"))
 
-    def resolve(self, string_to_solve: str) -> str:
+    def resolve(self, string_to_solve: str, **kwargs: Any) -> str:
+        """Résolution en listant les entités de l'API.
+
+        Args:
+            string_to_solve (str): chaîne à résoudre (type de l'entité, attribut à récupérer)
+            kwargs (Any): paramètres supplémentaires (datastore).
+
+        Raises:
+            ResolverError: si la chaîne à résoudre n'est pas parsable
+            NoEntityFoundError: si aucune entité n'est trouvée
+            ResolverError: si aucune information n'est retournée
+
+        Returns:
+            l'attribut demandé de l'entité demandée
+        """
         # On parse la chaîne à résoudre
         o_result = self.regex.search(string_to_solve)
         if o_result is None:
@@ -62,12 +76,18 @@ class StoreEntityResolver(AbstractResolver):
         # On récupère le type de StoreEntity demandé
         s_entity_type = str(d_groups["entity_type"])
         # On liste les éléments API via la fonction de classe
-        l_entities = self.__key_to_cls[s_entity_type].api_list(infos_filter=d_filter_infos, tags_filter=d_filter_tags, page=1)
+        l_entities = self.__key_to_cls[s_entity_type].api_list(
+            infos_filter=d_filter_infos,
+            tags_filter=d_filter_tags,
+            page=1,
+            datastore=kwargs.get("datastore"),
+        )
         # Si on a aucune entité trouvée
         if len(l_entities) == 0:
             raise NoEntityFoundError(self.name, string_to_solve)
         # Sinon on regarde ce qu'on doit envoyer
         o_entity = l_entities[0]
+        o_entity.api_update()
         s_selected_field = d_groups["selected_field"]
         # On doit envoyer une info ?
         if d_groups["selected_field_type"] == "infos":

@@ -2,6 +2,7 @@ from typing import Any, Dict, List, Optional
 
 from pathlib import Path
 from unittest.mock import patch, MagicMock
+from sdk_entrepot_gpf.store.CheckExecution import CheckExecution
 from sdk_entrepot_gpf.workflow.action.ActionAbstract import ActionAbstract
 
 from sdk_entrepot_gpf.workflow.action.UploadAction import UploadAction
@@ -378,21 +379,9 @@ class UploadActionTestCase(GpfTestCase):
 
     def test_interrupt_monitor_until_end(self) -> None:
         """Vérifie le bon fonctionnement de monitor_until_end si il y a interruption en cours de route."""
-
-        # On patch la fonction api_list_checks de l'upload
-        def checks() -> Dict[str, List[Dict[str, Any]]]:
-            """fonction pour mock de api_list_checks (=> checks)
-
-            Raises:
-                KeyboardInterrupt: simulation du Ctrl+C
-
-            Returns:
-                Dict[str, List[Dict[str, Any]]]: dict contenant les checks
-            """
-            raise KeyboardInterrupt()
-
-        with patch.object(Upload, "api_list_checks", side_effect=checks) as o_mock_list_checks:
-            with patch.object(Upload, "api_close") as o_mock_api_close:
+        # tout déjà traité
+        with patch.object(Upload, "api_list_checks", side_effect=[KeyboardInterrupt(), {"asked":[], "in_progress": []}] ) as o_mock_list_checks:
+            with patch.object(Upload, "api_open") as o_mock_api_open:
                 # On instancie un Upload
                 o_upload = Upload({"_id": "id_upload_monitor"})
                 # On instancie un faux callback
@@ -403,9 +392,61 @@ class UploadActionTestCase(GpfTestCase):
                     UploadAction.monitor_until_end(o_upload, f_callback, f_ctrl_c)
 
             # Vérification sur les appels de fonction
-            o_mock_list_checks.assert_called_once_with()
+            self.assertEqual(2, o_mock_list_checks.call_count)
             f_ctrl_c.assert_called_once_with()
-            o_mock_api_close.assert_called_once_with()
+            o_mock_api_open.assert_not_called()
+        # tout traitement en cours
+        with patch.object(Upload, "api_list_checks", side_effect=[KeyboardInterrupt(), {"asked":[], "in_progress": [{'_id': "1"}, {'_id': "2"}]}] ) as o_mock_list_checks:
+            with patch.object(CheckExecution, "api_delete") as o_mock_delete:
+                with patch.object(Upload, "api_open") as o_mock_api_open:
+                    # On instancie un Upload
+                    o_upload = Upload({"_id": "id_upload_monitor"})
+                    # On instancie un faux callback
+                    f_callback = MagicMock()
+                    f_ctrl_c = MagicMock(return_value=True)
+                    # On effectue le monitoring
+                    with self.assertRaises(KeyboardInterrupt):
+                        UploadAction.monitor_until_end(o_upload, f_callback, f_ctrl_c)
+
+            # Vérification sur les appels de fonction
+            self.assertEqual(2, o_mock_list_checks.call_count)
+            self.assertEqual(2, o_mock_delete.call_count)
+            f_ctrl_c.assert_called_once_with()
+            o_mock_api_open.assert_called_once_with()
+        # traitement en cours et en attente
+        o_mock_1 = MagicMock()
+        o_mock_1.__getitem__.side_effect = ["WAITING", "WAITING", "PROGRESS", "PROGRESS"]
+        o_mock_1.api_update.return_value = None
+        o_mock_1.api_delete.return_value = None
+        o_mock_2 = MagicMock()
+        o_mock_2.__getitem__.side_effect = ["WAITING", "WAITING", "FAIL", "FAIL"]
+        o_mock_2.api_update.return_value = None
+        o_mock_2.api_delete.return_value = None
+        with patch.object(Upload, "api_list_checks", side_effect=[KeyboardInterrupt(), {"asked":[{'_id': "3"}, {'_id': "4"}], "in_progress": [{'_id': "1"}, {'_id': "2"}]}] ) as o_mock_list_checks:
+            with patch.object(CheckExecution, "api_delete") as o_mock_delete:
+                with patch.object(CheckExecution, "api_get", side_effect=[o_mock_1, o_mock_2]) as o_mock_get:
+                    with patch.object(Upload, "api_open") as o_mock_api_open:
+                        # On instancie un Upload
+                        o_upload = Upload({"_id": "id_upload_monitor"}, "test")
+                        # On instancie un faux callback
+                        f_callback = MagicMock()
+                        f_ctrl_c = MagicMock(return_value=True)
+                        # On effectue le monitoring
+                        with self.assertRaises(KeyboardInterrupt):
+                            UploadAction.monitor_until_end(o_upload, f_callback, f_ctrl_c)
+
+            # Vérification sur les appels de fonction
+            self.assertEqual(2, o_mock_list_checks.call_count)
+            self.assertEqual(2, o_mock_delete.call_count)
+            self.assertEqual(2, o_mock_get.call_count)
+            o_mock_get.assert_any_call("3", "test")
+            o_mock_get.assert_any_call("4", "test")
+            f_ctrl_c.assert_called_once_with()
+            o_mock_api_open.assert_called_once_with()
+            self.assertEqual(2, o_mock_1.api_update.call_count)
+            self.assertEqual(2, o_mock_2.api_update.call_count)
+            o_mock_1.api_delete.assert_called_once_with()
+            o_mock_2.api_delete.assert_not_called()
 
     def test_api_tree_not_empty(self) -> None:
         """Vérifie le bon fonctionnement de api_tree si ce n'est pas vide."""

@@ -6,7 +6,7 @@
 
 ::: sdk_entrepot_gpf.io.Dataset
 
-::: sdk_entrepot_gpf.io.DescriptorFileReader
+::: sdk_entrepot_gpf.io.UploadDescriptorFileReader
 
 ::: sdk_entrepot_gpf.io.JsonConverter
 

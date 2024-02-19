@@ -1,6 +1,7 @@
 import re
 import json
 from pathlib import Path
+from typing import Any
 
 from sdk_entrepot_gpf.io.Config import Config
 from sdk_entrepot_gpf.workflow.resolver.AbstractResolver import AbstractResolver
@@ -133,15 +134,17 @@ class FileResolver(AbstractResolver):
             raise ResolveFileInvalidError(self.name, string_to_solve)
         return s_data
 
-    def resolve(self, string_to_solve: str) -> str:
+    def resolve(self, string_to_solve: str, **kwargs: Any) -> str:
         """Fonction permettant de renvoyer sous forme de string la résolution
         des paramètres de fichier passés en entrée.
 
         Args:
             string_to_solve (str): chaîne à résoudre (type de fichier à traiter et chemin)
+            kwargs (Any): paramètres supplémentaires.
 
         Raises:
-            ResolverError: si le type n'est pas reconnu
+            ResolverError: si la chaîne à résoudre est incorrecte
+            ResolverError: si le type de donnée n'est pas str/list/dict
 
         Returns:
             le contenu du fichier en entrée sous forme de string

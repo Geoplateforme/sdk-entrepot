@@ -10,9 +10,13 @@ from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
 from sdk_entrepot_gpf.workflow.Errors import WorkflowError
 from sdk_entrepot_gpf.io.Config import Config
 from sdk_entrepot_gpf.workflow.action.ActionAbstract import ActionAbstract
+from sdk_entrepot_gpf.workflow.action.CopieConfigurationAction import CopieConfigurationAction
+from sdk_entrepot_gpf.workflow.action.DeleteAction import DeleteAction
+from sdk_entrepot_gpf.workflow.action.EditAction import EditAction
 from sdk_entrepot_gpf.workflow.action.ProcessingExecutionAction import ProcessingExecutionAction
 from sdk_entrepot_gpf.workflow.action.ConfigurationAction import ConfigurationAction
 from sdk_entrepot_gpf.workflow.action.OfferingAction import OfferingAction
+from sdk_entrepot_gpf.workflow.action.SynchronizeOfferingAction import SynchronizeOfferingAction
 
 
 class Workflow:
@@ -88,8 +92,6 @@ class Workflow:
         for d_action_raw in d_step_definition["actions"]:
             # création de l'action
             o_action = Workflow.generate(step_name, d_action_raw, o_parent_action, behavior)
-            # résolution
-            o_action.resolve()
             # choix du datastore
             ## par défaut datastore du workflow, si None il sera récupérer dans la configuration
             s_use_datastore = self.__datastore
@@ -100,6 +102,8 @@ class Workflow:
                 # datastore dans l'étape
                 s_use_datastore = o_action.definition_dict["datastore"]
 
+            # résolution
+            o_action.resolve(datastore=s_use_datastore)
             # exécution de l'action
             Config().om.info(f"Exécution de l'action '{o_action.workflow_context}-{o_action.index}'...")
             o_action.run(s_use_datastore)
@@ -229,7 +233,9 @@ class Workflow:
         return list(self.__raw_definition_dict["workflow"]["steps"].keys())
 
     @staticmethod
-    def generate(workflow_context: str, definition_dict: Dict[str, Any], parent_action: Optional[ActionAbstract] = None, behavior: Optional[str] = None) -> ActionAbstract:
+    def generate(  # pylint: disable=too-many-return-statements
+        workflow_context: str, definition_dict: Dict[str, Any], parent_action: Optional[ActionAbstract] = None, behavior: Optional[str] = None
+    ) -> ActionAbstract:
         """Génération de la bonne action selon le type indiqué dans la représentation du workflow.
 
         Args:
@@ -241,12 +247,20 @@ class Workflow:
         Returns:
             instance permettant de lancer l'action
         """
+        if definition_dict["type"] == "delete-entity":
+            return DeleteAction(workflow_context, definition_dict, parent_action)
         if definition_dict["type"] == "processing-execution":
             return ProcessingExecutionAction(workflow_context, definition_dict, parent_action, behavior=behavior)
         if definition_dict["type"] == "configuration":
-            return ConfigurationAction(workflow_context, definition_dict, parent_action)
+            return ConfigurationAction(workflow_context, definition_dict, parent_action, behavior=behavior)
+        if definition_dict["type"] == "copie-configuration":
+            return CopieConfigurationAction(workflow_context, definition_dict, parent_action, behavior=behavior)
         if definition_dict["type"] == "offering":
-            return OfferingAction(workflow_context, definition_dict, parent_action)
+            return OfferingAction(workflow_context, definition_dict, parent_action, behavior=behavior)
+        if definition_dict["type"] == "synchronize-offering":
+            return SynchronizeOfferingAction(workflow_context, definition_dict, parent_action)
+        if definition_dict["type"] == "edit-entity":
+            return EditAction(workflow_context, definition_dict, parent_action)
         raise WorkflowError(f"Aucune correspondance pour ce type d'action : {definition_dict['type']}")
 
     @staticmethod

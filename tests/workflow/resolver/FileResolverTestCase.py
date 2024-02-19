@@ -88,10 +88,10 @@ class FileResolverTestCase(GpfTestCase):
         s_result_1 = GlobalResolver().resolve(s_text_1)
         self.assertEqual(s_result_1, "Test sur du text : contenu du fichier de type str")
         # Test 2 : liste
-        s_text_2 = '{"ma liste" : ["file","list(list.json)"]}'
+        s_text_2 = '{"ma liste" : ["_file_","list(list.json)"]}'
         s_result_2 = GlobalResolver().resolve(s_text_2)
         self.assertEqual(s_result_2, '{"ma liste" : ["info_1", "info_2"]}')
         # Test 3 : dict
-        s_text_3 = '{"mon dict" : {"file":"dict(dict.json)"} }'
+        s_text_3 = '{"mon dict" : {"_file_":"dict(dict.json)"} }'
         s_result_3 = GlobalResolver().resolve(s_text_3)
         self.assertEqual(s_result_3, '{"mon dict" : {"k1":"v1", "k2":"v2"} }')

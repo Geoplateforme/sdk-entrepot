@@ -57,22 +57,29 @@ class ActionAbstract(ABC):
     def parent_action(self) -> Optional["ActionAbstract"]:
         return self.__parent_action
 
-    def resolve(self) -> None:
+    def resolve(self, **kwargs: Any) -> None:
         """Résout la définition de l'action.
 
         L'action peut faire référence à des entités via des filtres, on
         veut donc résoudre ces éléments afin de soumettre une requête valide à l'API.
+
+        Args:
+            kwargs (Any): paramètres supplémentaires.
+
+        Raises:
+            StepActionError: _description_
         """
         Config().om.info(f"Résolution de l'action '{self.workflow_context}-{self.index}'...")
         # Pour faciliter la résolution, on repasse la définition de l'action en json
-        s_definition = str(json.dumps(self.__definition_dict, indent=4, ensure_ascii=False))
+        s_definition = str(json.dumps(self.__definition_dict, ensure_ascii=False))
         # lancement des résolveurs
-        s_resolved_definition = GlobalResolver().resolve(s_definition)
+        s_resolved_definition = GlobalResolver().resolve(s_definition, **kwargs)
         # on repasse en json
         try:
             self.__definition_dict = json.loads(s_resolved_definition)
             Config().om.info(f"Résolution de l'action '{self.workflow_context}-{self.index}' : terminée")
         except json.decoder.JSONDecodeError as e_json:
+            Config().om.debug(f"resolved action: {s_resolved_definition}")
             raise StepActionError(f"Action '{self.workflow_context}-{self.index}' non valide après résolution : {e_json}") from e_json
 
     @abstractmethod

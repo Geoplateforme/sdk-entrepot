@@ -464,3 +464,10 @@ class StoreEntityTestCase(GpfTestCase):
             o_mock_3.api_delete.assert_not_called()
             self.assertEqual(0, o_mock_sleep.call_count)
             reset_mock()
+
+    def test_edit(self) -> None:
+        """test de edit"""
+        o_store_entity = StoreEntity({"_id": "1"})
+        with self.assertRaises(StoreEntityError) as o_arc:
+            o_store_entity.edit({"key": "val"})
+        self.assertEqual("Il est impossible d'éditer cette entité.", o_arc.exception.message)

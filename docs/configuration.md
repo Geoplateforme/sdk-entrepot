@@ -32,8 +32,9 @@ Voici un exemple de ce que cela peut donner :
 
 ```ini
 [store_authentification]
-# Groupe d’appartenance
-client_id=gpf-warehouses
+# Information pourra accéder au d'authentification. Normalement déjà défini dans sdk_entrepot_gpf/_conf/default.ini
+client_id=gpf-warehouse
+client_secret=BK2G7Vvkn7UDc8cV7edbCnHdYminWVw2
 # Votre login
 login=LOGIN
 # Votre mot de passe
@@ -47,11 +48,11 @@ datastore=DATASTORE_ID_TO_MODIFY
 Explications sur les paramètres :
 
 * `store_authentification` : paramètres concernant l'authentification sur la Géoplateforme :
-    * `client_id` : votre groupe d’appartenance ;
-    * `login` : votre nom d'utilisateur ;
-    * `password` : votre mot de passe ;
+  * `client_id` et `client_secret` : informations pour récupérer le token d'authentification, valeurs récupérées depuis le Swagger de l'API de la Géoplateforme au moment de l'authentification. Ces valeurs sont normalement gérées dans la configuration par défaut `sdk_entrepot_gpf/_conf/default.ini`.
+  * `login` : votre nom d'utilisateur ;
+  * `password` : votre mot de passe ;
 * `store_api` : paramètres concernant votre Entrepôt sur la Géoplateforme :
-    * `datastore` : l'identifiant du datastore principal de travail (optionnel, voir ci-dessous).
+  * `datastore` : l'identifiant du datastore principal de travail (optionnel, voir ci-dessous).
 
 Dans la configuration, vous pouvez indiquer l'identifiant du datastore à utiliser. Celui-ci est lié à la communauté à laquelle vous appartenez.
 
@@ -67,7 +68,7 @@ python -m sdk_entrepot_gpf me
 
 Cela devrait renvoyer :
 
-```
+```txt
 Vos informations :
   * email : prenom.nom@me.io
   * nom : Prénom Nom
@@ -84,10 +85,8 @@ Vous êtes membre de 1 communauté(s) :
 
 Dans cet exemple, l'identifiant du datastore à utiliser est `33333333333333333333`.
 
-!!! warning "Attention"
-
-    Cela ne fonctionnera que si les autres paramètres (nom d'utilisateur, mot de passe et urls) sont corrects.
-
+> [!WARNING]
+> Cela ne fonctionnera que si les autres paramètres (nom d'utilisateur, mot de passe et urls) sont corrects.
 
 ## Utilisations
 
@@ -97,13 +96,14 @@ Ce module Python est utilisable comme exécutable. Dans ce cas vous avez deux ma
 
 * vous pouvez nommez le fichier `config.ini` et le mettre dans le répertoire courant ;
 * vous pouvez indiquer au programme le chemin vers votre fichier via le paramètre `--ini` :
+
 ```sh
 python -m sdk_entrepot_gpf --ini chemin/vers/config.ini
 ```
 
 ### Utilisation via un script
 
-Si vous utilisez ce module Python dans un script, il faudra ouvrir le fichier de configuration via la classe [Config][sdk_entrepot_gpf.io.Config.Config] au début de celui-ci :
+Si vous utilisez ce module Python dans un script, il faudra ouvrir le fichier de configuration via la classe `Config`(`sdk_entrepot_gpf.io.Config.Config`) au début de celui-ci :
 
 ```python
 # Importez la classe Config
@@ -138,10 +138,9 @@ root_url=https://data-qua.priv.geopf.fr/api
 Explications sur les paramètres :
 
 * `store_authentification` : paramètres concernant l'authentification sur la Géoplateforme :
-    * `token_url` : URL pour récupérer le jeton d'authentification (consulter la doc de l'API si nécessaire) ;
+  * `token_url` : URL pour récupérer le jeton d'authentification (consulter la doc de l'API si nécessaire) ;
 * `store_api` : paramètres concernant votre Entrepôt sur la Géoplateforme :
-    * `root_url` : URL racine de l'API (consulter la doc de l'API si nécessaire).
-
+  * `root_url` : URL racine de l'API (consulter la doc de l'API si nécessaire).
 
 ### Utiliser un compte de service
 
@@ -160,10 +159,9 @@ client_secret=SECRET_TO_MODIFY
 Explications sur les paramètres :
 
 * `store_authentification` : paramètres concernant l'authentification sur la Géoplateforme :
-    * `grant_type` : type de l'authentification (`password` si on a un couple login/password ou `client_credentials` si on a un couple `client_id`/`client_secret`) ;
-    * `client_id` : votre groupe d’appartenance ;
-    * `client_secret` : le secret associé au compte.
-
+  * `grant_type` : type de l'authentification (`password` si on a un couple login/password ou `client_credentials` si on a un couple `client_id`/`client_secret`) ;
+  * `client_id` : votre groupe d’appartenance ;
+  * `client_secret` : le secret associé au compte.
 
 ### Utilisation derrière un proxy
 

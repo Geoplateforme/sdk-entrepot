@@ -29,17 +29,19 @@
                                 "items": {
                                     "type": "object",
                                     "required": [
-                                        "type",
-                                        "body_parameters"
+                                        "type"
                                     ],
                                     "additionalProperties": false,
                                     "properties": {
                                         "type": {
                                             "type": "string",
                                             "enum": [
+                                                "delete-entity",
                                                 "processing-execution",
                                                 "configuration",
-                                                "offering"
+                                                "copie-configuration",
+                                                "offering",
+                                                "synchronize-offering"
                                             ]
                                         },
                                         "url_parameters": {
@@ -59,6 +61,35 @@
                                         },
                                         "datastore": {
                                             "type": "string"
+                                        },
+                                        "entity_type": {
+                                            "type": "string"
+                                        },
+                                        "entity_id": {
+                                            "type": "string"
+                                        },
+                                        "filter_infos": {
+                                            "type": "object"
+                                        },
+                                        "filter_tags": {
+                                            "type": "object"
+                                        },
+                                        "cascade": {
+                                            "type": "boolean"
+                                        },
+                                        "not_found_ok": {
+                                            "type": "boolean"
+                                        },
+                                        "if_multi": {
+                                            "type": "string",
+                                            "enum": [
+                                                "first",
+                                                "all",
+                                                "error"
+                                            ]
+                                        },
+                                        "confirm": {
+                                            "type": "boolean"
                                         }
                                     }
                                 }

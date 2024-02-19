@@ -1,7 +1,8 @@
-from typing import Dict, List, Optional, Type
+from typing import Any, Dict, List, Optional, Type
 from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
 
 from sdk_entrepot_gpf.store.StoreEntity import StoreEntity, T
+from sdk_entrepot_gpf.store.Errors import StoreEntityError
 
 
 class Endpoint(StoreEntity):
@@ -39,7 +40,7 @@ class Endpoint(StoreEntity):
             b_ok = True
             # On vérifie s'il respecte les critère d'attributs
             for k, v in infos_filter.items():
-                if d_endpoint["endpoint"].get(k) != v:
+                if str(d_endpoint["endpoint"].get(k)) != str(v):
                     b_ok = False
                     break
             # S'il est ok au final, on l'ajoute
@@ -47,3 +48,40 @@ class Endpoint(StoreEntity):
                 l_endpoints.append(cls(d_endpoint["endpoint"]))
         # A la fin, on renvoie la liste
         return l_endpoints
+
+    def api_update(self) -> None:
+        return None
+
+    @classmethod
+    def api_create(cls: Type[T], data: Optional[Dict[str, Any]], route_params: Optional[Dict[str, Any]] = None) -> T:
+        """Crée une nouvelle entité dans l'API.
+
+        Args:
+            data: Données nécessaires pour la création.
+            route_params: Paramètres de résolution de la route.
+
+        Returns:
+            (StoreEntity): Entité créée
+        """
+        raise StoreEntityError("Impossible de créer un Endpoint")
+
+    @classmethod
+    def api_get(cls: Type[T], id_: str, datastore: Optional[str] = None) -> T:
+        """Récupère une entité depuis l'API.
+
+        Args:
+            id_: Identifiant de l'entité
+            datastore: Identifiant du datastore
+
+        Returns:
+            (StoreEntity): L'entité instanciée correspondante
+        """
+        l_endpoints = cls.api_list(datastore=datastore)
+        for o_endpoint in l_endpoints:
+            if o_endpoint["_id"] == id_:
+                return o_endpoint
+        raise StoreEntityError(f"le endpoint {id_} est introuvable")
+
+    def api_delete(self) -> None:
+        """Supprime l'entité de l'API."""
+        raise StoreEntityError("Impossible de supprimer un Endpoint")

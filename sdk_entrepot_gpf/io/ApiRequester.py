@@ -133,30 +133,20 @@ class ApiRequester(metaclass=Singleton):
                 # On fait la requête
                 return self.__url_request(url, method, params=params, data=data, files=files, header=header)
             except NotFoundError as e_error:
-                # Si l'entité n'est pas trouvée, on ne retente pas, on sort directement en erreur
-                s_message = f"L'élément demandé n'existe pas ({e_error.message}). Contactez le support si vous n'êtes pas à l'origine de la demande. URL : {method} {e_error.url}."
-                Config().om.error(s_message)
-                raise GpfSdkError(s_message) from e_error
+                # S'il on a un 404, on ne retente pas, on ne fait rien. On propage l'erreur.
+                raise e_error
 
             except (requests.HTTPError, requests.URLRequired) as e_error:
-                # Affiche la pile d'exécution
-                Config().om.debug(traceback.format_exc())
                 # S'il y a une erreur d'URL, on ne retente pas, on indique de contacter le support
                 s_message = "L'URL indiquée en configuration est invalide ou inexistante. Contactez le support."
-                Config().om.error(s_message)
                 raise GpfSdkError(s_message) from e_error
 
             except BadRequestError as e_error:
-                # Affiche la pile d'exécution
-                Config().om.debug(traceback.format_exc())
                 # S'il y a une erreur de requête incorrecte, on ne retente pas, on indique de contacter le support
                 s_message = f"La requête formulée par le programme est incorrecte ({e_error.message}). Contactez le support."
-                Config().om.error(s_message)
                 raise GpfSdkError(s_message) from e_error
 
             except ConflictError as e_error:
-                # Affiche la pile d'exécution
-                Config().om.debug(traceback.format_exc())
                 # S'il y a un conflit, on ne retente pas, on ne fait rien. On propage l'erreur.
                 raise e_error
 
@@ -173,7 +163,6 @@ class ApiRequester(metaclass=Singleton):
                 # Le nombre de tentatives est atteint : comme dirait Jim, this is the end...
                 else:
                     s_message = f"L'exécution d'une requête a échoué après {i_nb_attempts} tentatives."
-                    Config().om.error(s_message)
                     raise GpfSdkError(s_message) from e_error
 
     def __url_request(
@@ -214,14 +203,11 @@ class ApiRequester(metaclass=Singleton):
         }
         if files:
             d_fields = {**files}
-            if params:
-                d_fields.update(params)
             o_me = MultipartEncoder(fields=d_fields)
             d_headers["content-type"] = o_me.content_type
             # Execution de la requête
             # TODO : contournement pour les uploads, supprimer `"verify": False` une fois le problème résolu + suppression proxy
-            d_requests.update({"data": o_me, "verify": False})
-            del d_requests["proxies"]
+            d_requests.update({"data": o_me})
         else:
             d_requests.update({"params": params, "json": data})
 

@@ -1,4 +1,4 @@
-from typing import Optional, List, Callable
+from typing import List
 
 from sdk_entrepot_gpf.store.Configuration import Configuration
 from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
@@ -22,12 +22,11 @@ class StoredData(TagInterface, CommentInterface, SharingInterface, EventInterfac
     STATUS_DELETED = "DELETED"
     STATUS_UNSTABLE = "UNSTABLE"
 
-    def delete_cascade(self, before_delete: Optional[Callable[[List["StoreEntity"]], List["StoreEntity"]]] = None) -> None:
-        """Suppression de la donnée stockée avec suppression en cascade des configuration liées et des offres liées à chaque configuration.
+    def get_liste_deletable_cascade(self) -> List[StoreEntity]:
+        """liste les entités à supprimer lors d'une suppression en cascade des configuration liées et des offres liées à chaque configuration.
 
-        Args:
-            before_delete (Optional[Callable[[List[StoreEntity]], List[StoreEntity]]], optional): fonction à lancer avant la suppression (entrée : liste des entités à supprimer,
-                sortie : liste définitive des entités à supprimer). Defaults to None.
+        Returns:
+            List[StoreEntity]: liste des entités qui seront supprimées
         """
         # suppression d'une stored_data : offering et configuration liées puis la stored_data
         l_entities: List[StoreEntity] = []
@@ -41,6 +40,4 @@ class StoredData(TagInterface, CommentInterface, SharingInterface, EventInterfac
             l_entities.append(o_configuration)
         # ajout de la stored_data
         l_entities.append(self)
-
-        # suppression
-        self.delete_liste_entities(l_entities, before_delete)
+        return l_entities

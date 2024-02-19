@@ -24,12 +24,12 @@ Cela sera plus simple d'un point de vue Python mais moins modulaire.
 Voici un exemple de code Python permettant de le faire (à lancer après le chargement de la config !) :
 
 ```py
-# Importation des classes DescriptorFileReader et UploadAction
-from sdk_entrepot_gpf.io.DescriptorFileReader import DescriptorFileReader
+# Importation des classes UploadDescriptorFileReader et UploadAction
+from sdk_entrepot_gpf.io.UploadDescriptorFileReader import UploadDescriptorFileReader
 from sdk_entrepot_gpf.workflow.action.UploadAction import UploadAction
 
-# Instanciation d'une DescriptorFileReader
-descriptor_file_reader = DescriptorFileReader(p_descriptor)
+# Instanciation d'une UploadDescriptorFileReader
+descriptor_file_reader = UploadDescriptorFileReader(p_descriptor)
 
 # Instanciation d'une UploadAction à partir du Reader
 o_upload_action = UploadAction(o_dataset, behavior=s_behavior)
@@ -39,14 +39,13 @@ o_upload = o_upload_action.run()
 b_status = UploadAction.monitor_until_end(o_upload, Livraison.callback_check)
 ```
 
-!!! note "Note"
-
-    Vous pouvez préciser l'id d'un autre datastore s'il ne faut pas utiliser celui indiquer en configuration :
-
-    ```py
-    # On crée la livraison en précisant un datastore spécifique
-    o_upload = o_upload_action.run(datastore='id-datastore-spécifique')
-    ```
+> [!NOTE]
+> Vous pouvez préciser l'id d'un autre datastore s'il ne faut pas utiliser celui indiqué en configuration :
+>
+> ```py
+> # On crée la livraison en précisant un datastore spécifique
+> o_upload = o_upload_action.run(datastore='id-datastore-spécifique')
+> ```
 
 ### Sans la classe `UploadAction`
 
@@ -90,14 +89,13 @@ upload.api_push_md5_file(Path('checksum.md5'))
 upload.api_close()
 ```
 
-!!! note "Note"
-
-    Vous pouvez préciser l'id d'un autre datastore s'il ne faut pas utiliser celui indiquer en configuration :
-
-    ```py
-    # Création d'une livraison en précisant un datastore spécifique
-    upload = Upload.api_create(info, datastore='id-datastore-spécifique')
-    ```
+> [!NOTE]
+> Vous pouvez préciser l'id d'un autre datastore s'il ne faut pas utiliser celui indiqué en configuration :
+>
+> ```py
+> # Création d'une livraison en précisant un datastore spécifique
+> upload = Upload.api_create(info, datastore='id-datastore-spécifique')
+> ```
 
 ## Traitement et publications des données
 

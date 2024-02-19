@@ -1,7 +1,7 @@
 import time
 from typing import Any, Dict, Optional
-from sdk_entrepot_gpf.Errors import GpfSdkError
 
+from sdk_entrepot_gpf.Errors import GpfSdkError
 from sdk_entrepot_gpf.store.Offering import Offering
 from sdk_entrepot_gpf.store.Configuration import Configuration
 from sdk_entrepot_gpf.workflow.Errors import StepActionError
@@ -40,13 +40,7 @@ class OfferingAction(ActionAbstract):
 
         # Récupération des liens
         o_offering.api_update()
-        if len(o_offering["urls"]) > 0 and isinstance(o_offering["urls"][0], dict):
-            # si les url sont récupérées sous forme de dict on affiche l'url uniquement
-            s_urls = "\n   - ".join([d_url["url"] for d_url in o_offering["urls"]])
-        else:
-            # si les url sont récupérées sous forme de liste
-            s_urls = "\n   - ".join(o_offering["urls"])
-        Config().om.info(f"Offre créée : {self.__offering}\n   - {s_urls}", green_colored=True)
+        Config().om.info(f"Offre créée : {self.__offering}\n   - " + "\n   - ".join(o_offering.get_url()), green_colored=True)
         # vérification du status.
         Config().om.info("vérification du statut ...")
         while True:
@@ -74,6 +68,7 @@ class OfferingAction(ActionAbstract):
                 Config().om.warning(f"Une donnée offre équivalente à {o_offering} va être supprimée puis recréée.")
                 # Suppression de la donnée stockée
                 o_offering.api_delete()
+                Config().om.debug("Offre supprimée.")
                 # on force à None pour que la création soit faite
                 self.__offering = None
             # Comportement "on continue l'exécution"
