@@ -8,7 +8,7 @@
 
 ### [Fixed]
 
-* #83 : fusion de la liste des used_data en gardant l'ordre de la liste lors de édition de configuration
+* #83 : fusion de la liste des used_data en gardant l'ordre de la liste lors de l'édition de configurations
 
 ## v0.1.20
 

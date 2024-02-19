@@ -62,7 +62,8 @@ class Configuration(TagInterface, CommentInterface, EventInterface, FullEditInte
 
     def edit(self, data_edit: Dict[str, Any]) -> None:
         """Mise à jour totale de l'entité en fusionnant le nouveau dictionnaire (prioritaire) et l'ancien.
-        configuration fusion de la liste des used_data
+        Pour les configurations, il faut en plus fusionner la liste des used_data.
+        Si la nouvelle liste et l'ancienne liste n'ont pas la même taille, une exception est levée.
 
         Args:
             data_edit (Dict[str, Any]): nouvelles valeurs de propriétés
@@ -76,7 +77,7 @@ class Configuration(TagInterface, CommentInterface, EventInterface, FullEditInte
         for i in range(len(d_origine_data["used_data"])):
             l_used_data.append({**d_origine_data["used_data"][i], **data_edit["used_data"][i]})
 
-        # fusion des dictionnaires actuel et nouveau (prioritaire)
+        # fusion des dictionnaires actuels et nouveaux (prioritaire)
         d_data = {**self.get_store_properties(), **data_edit, **{"used_data": l_used_data}}
 
         self.api_full_edit(d_data)
