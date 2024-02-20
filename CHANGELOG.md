@@ -1,5 +1,15 @@
 # CHANGE LOG
 
+## v0.1.22
+
+### [Added]
+
+### [Changed]
+
+### [Fixed]
+
+* Upload: modification de la requête suite modification de l'API GPF #54
+
 ## v0.1.21
 
 ### [Added]
