@@ -23,9 +23,9 @@ class DateResolver(AbstractResolver):
         """
         super().__init__(name)
         self.__regex: Pattern[str] = re.compile(Config().get_str("workflow_resolution_regex", "date_regex"))
-        self.__datetime_pattern: Pattern[str] = Config().get_str("workflow_resolution_regex", "datetime_pattern")
-        self.__date_pattern: Pattern[str] = Config().get_str("workflow_resolution_regex", "date_pattern")
-        self.__time_pattern: Pattern[str] = Config().get_str("workflow_resolution_regex", "time_pattern")
+        self.__datetime_pattern: str = Config().get_str("workflow_resolution_regex", "datetime_pattern")
+        self.__date_pattern: str = Config().get_str("workflow_resolution_regex", "date_pattern")
+        self.__time_pattern: str = Config().get_str("workflow_resolution_regex", "time_pattern")
 
     def resolve(self, string_to_solve: str, **kwargs: Any) -> str:
         """Résolution bête : on retourne la chaîne à résoudre.
