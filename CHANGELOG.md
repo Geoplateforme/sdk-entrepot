@@ -6,6 +6,8 @@
 
 ### [Changed]
 
+* Renommage de `CopieConfigurationAction` en `CopyConfigurationAction`
+
 ### [Fixed]
 
 * Upload: modification de la requête suite modification de l'API GPF #54
@@ -15,8 +17,6 @@
 ### [Added]
 
 ### [Changed]
-
-* Renommage de `CopieConfigurationAction` en `CopyConfigurationAction`
 
 ### [Fixed]
 
