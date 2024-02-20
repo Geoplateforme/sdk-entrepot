@@ -10,6 +10,7 @@ A l'utilisation du SDK comme un exécutable, il y a 2 résolveurs d’instancié
 
 * `user` : un [UserResolver](UserResolver)
 * `store_entity` : un [StoreEntityResolver](StoreEntityResolver)
+* `datetime`: un [DateResolver](#dateresolver)
 
 A l'utilisation comme module, il n'y a aucun résolveurs d’instancié de base. Il faut instancier des résolveurs dans le programme et les ajouter au `GlobalResolver`.
 
@@ -27,6 +28,7 @@ Il y a 4 résolveurs de base :
 * [FileResolver](FileResolver): insère les valeurs contenues dans un fichier ;
 * [StoreEntityResolver](StoreEntityResolver): récupère des informations sur les entités depuis la GPF ;
 * [UserResolver](UserResolver): récupère des informations de l'utilisateur courant depuis la GPF.
+* [DateResolver](#dateresolver): insertion d'une date au format désirer;
 
 ### DictResolver
 
