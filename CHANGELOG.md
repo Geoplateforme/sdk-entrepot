@@ -10,7 +10,7 @@
 
 ### [Fixed]
 
-* Upload: modification de la requête suite modification de l'API GPF #54
+* Bug #77 : problème de nommage de l'action de copie de configuration entre le code est la doc : utilisation de `copy-configuration`
 
 ## v0.1.21
 
@@ -20,7 +20,7 @@
 
 ### [Fixed]
 
-* Bug #77 : problème de nommage de l'action de copie de configuration entre le code est la doc : utilisation de `copy-configuration`
+* Upload: modification de la requête suite modification de l'API GPF #54
 
 ## v0.1.20
 
