@@ -1,6 +1,6 @@
 # CHANGE LOG
 
-## v0.1.21
+## v0.1.22
 
 ### [Added]
 
@@ -9,6 +9,16 @@
 ### [Fixed]
 
 * #83 : fusion de la liste des used_data en gardant l'ordre de la liste lors de l'édition de configurations
+
+## v0.1.21
+
+### [Added]
+
+### [Changed]
+
+### [Fixed]
+
+* Upload: modification de la requête suite modification de l'API GPF #54
 
 ## v0.1.20
 

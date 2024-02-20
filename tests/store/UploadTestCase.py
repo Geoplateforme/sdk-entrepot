@@ -37,7 +37,7 @@ class UploadTestCase(GpfTestCase):
                 p_file_path,
                 s_key_file,
                 route_params={"datastore": "id_datastore", "upload": "id_de_test"},
-                params={"path": s_api_path},
+                params={"path": s_api_path + "/" + p_file_path.name},
                 method=ApiRequester.POST,
             )
 
