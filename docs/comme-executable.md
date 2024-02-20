@@ -26,7 +26,7 @@ Authentification réussie.
 
 Dans la configuration, vous devez indiquer l'identifiant du datastore à utiliser.
 
-Si vous ne le connaissez pas, il est possible de lister les communautés auxquelles vous participez et, pour chacune d'elles, le datastore qui lui est associé.
+Si vous ne le connaissez pas, il est possible de lister les communautés auxquelles vous appartenez et, pour chacune d'elles, le datastore qui lui est associé.
 
 La commande `me` permet de lister les communautés auxquelles vous appartenez :
 

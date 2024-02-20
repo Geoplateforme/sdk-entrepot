@@ -12,7 +12,7 @@ Suivez la page [configuration](configuration.md) pour définir le fichier de con
 
 ## Récupération du jeu de données
 
-Le jeu de données « 2_dataset_archive » contient des données archives à téléverser.
+Le jeu de données « 2_dataset_archive » contient des données de type archive à téléverser.
 
 Récupérez les données en lançant la commande :
 
@@ -82,7 +82,7 @@ flowchart TD
 
 ## Traitement et publication
 
-Le workflow « generic_archive » permet de passer de la livraison à une lien permettant de télécharger la donnée. Il comporte 3 étapes :
+Le workflow « generic_archive » permet de passer de la livraison à un lien permettant de télécharger la donnée. Il comporte 3 étapes :
 
 * `intégration-archive-livrée` : transformation des données livrées temporaires en une Donnée Stockée pérenne ;
 * `configuration-archive-livrée` : configuration d'un service de téléchargement permettant de télécharger les données ;

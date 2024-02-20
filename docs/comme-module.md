@@ -18,7 +18,7 @@ Config().read("config.ini")
 
 ### Avec la classe `UploadAction`
 
-Pour livrer des données, vous pouvez utiliser les [fichiers de descripteur de livraison](upload_descriptor.md) et appeler la classe `UploadAction`.
+Pour livrer des données, vous pouvez utiliser les [fichiers descripteurs de livraison](upload_descriptor.md) et appeler la classe `UploadAction`.
 Cela sera plus simple d'un point de vue Python mais moins modulaire.
 
 Voici un exemple de code Python permettant de le faire (à lancer après le chargement de la config !) :

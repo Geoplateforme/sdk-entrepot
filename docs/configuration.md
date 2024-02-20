@@ -31,8 +31,9 @@ Il faudra à minima renseigner vos identifiants API (section `store_authentifica
 Voici un exemple de ce que cela peut donner :
 
 ```ini
+# Informations pour l'authentification
 [store_authentification]
-# Information pourra accéder au d'authentification. Normalement déjà défini dans sdk_entrepot_gpf/_conf/default.ini
+# Si besoin, normalement déjà défini dans sdk_entrepot_gpf/_conf/default.ini
 client_id=gpf-warehouse
 client_secret=BK2G7Vvkn7UDc8cV7edbCnHdYminWVw2
 # Votre login
@@ -40,6 +41,7 @@ login=LOGIN
 # Votre mot de passe
 password=PASSWORD
 
+# Informations pour l'API
 [store_api]
 # L'identifiant de votre entrepôt
 datastore=DATASTORE_ID_TO_MODIFY
@@ -51,7 +53,7 @@ Explications sur les paramètres :
   * `client_id` et `client_secret` : informations pour récupérer le token d'authentification, valeurs récupérées depuis le Swagger de l'API de la Géoplateforme au moment de l'authentification. Ces valeurs sont normalement gérées dans la configuration par défaut `sdk_entrepot_gpf/_conf/default.ini`.
   * `login` : votre nom d'utilisateur ;
   * `password` : votre mot de passe ;
-* `store_api` : paramètres concernant votre Entrepôt sur la Géoplateforme :
+* `store_api` : paramètres concernant l'API Entrepôt de la Géoplateforme :
   * `datastore` : l'identifiant du datastore principal de travail (optionnel, voir ci-dessous).
 
 Dans la configuration, vous pouvez indiquer l'identifiant du datastore à utiliser. Celui-ci est lié à la communauté à laquelle vous appartenez.

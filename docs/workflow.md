@@ -1,6 +1,6 @@
 # Workflows
 
-Le fichier workflow est un fichier au format JSON permettant de décrire les actions à réaliser sur des données stockées où livrées.
+Le fichier workflow est un fichier au format JSON permettant de décrire les actions à réaliser sur des données stockées ou livrées.
 
 Certaines valeurs du workflow peuvent être complétées avec un système de résolution permettant notamment d'utiliser le nom des entités pour trouver leur ID. Pour plus d'informations consulter la [page dédiée au résolveurs](resolveurs.md).
 
@@ -18,12 +18,12 @@ Les actions sont les suivantes :
 
 Le fichier doit contenir un dictionnaire `workflow`. Qui contient deux clefs :
 
-* `datastore`: (optionnel) uuid du datastore à utiliser pour le workflow.
+* `datastore`: (optionnel) uuid du datastore à utiliser pour le workflow ;
 * `step`: (obligatoire) dictionnaire des étapes à lancer ;
   * la clef sera le nom de l'étape qui servira à la lancer ;
-  * sa valeur est un dictionnaire décriant l'étape :
+  * sa valeur est un dictionnaire décrivant l'étape :
     * `actions` : (obligatoire) listes des actions à lancer, la liste sera exécutée dans l'ordre. Le dictionnaire décrivant l'action dépend du type d'action à lancer, la clef `type` permet de définir le type d'action à effectuer (description plus bas) ;
-    * `parents` : (obligatoire) liste des étapes devant précéder celle-ci. Pour une actions sans dépendances la liste doit être vide.
+    * `parents` : (obligatoire) liste des étapes devant précéder celle-ci. Pour une action sans dépendances la liste doit être vide.
 
 ce qui donne :
 
@@ -44,7 +44,7 @@ ce qui donne :
 }
 ```
 
-Ce workflow permet de lancé 2 étapes `etape 1` et `etape 2`.
+Ce workflow permet de lancer 2 étapes `etape 1` et `etape 2`.
 
 Les actions possibles sont les suivantes :
 
@@ -101,13 +101,13 @@ type_infos selon le flux :
   * `east`*
   * `north`*
 * `used_data`*: liste de dictionnaires :
-  * `stored_data`*: Identifiant de la donnée stockée
-  * `relations`*: liste de dictionnaire décrivant la relation :
-    * `native_name`*: Nom de la table
-    * `public_name`: Nom public de la table
-    * `title`*: Titre
-    * `keywords`: Liste de mots clés (doivent être uniques)
-    * `abstract`*: Description
+  * `stored_data`*: identifiant de la donnée stockée
+  * `relations`*: liste de dictionnaires décrivant la relation :
+    * `native_name`*: nom de la table
+    * `public_name`: nom public de la table
+    * `title`*: titre
+    * `keywords`: liste de mots clés (doivent être uniques)
+    * `abstract`*: description
 
 #### WMTS-TMS
 
@@ -117,24 +117,24 @@ type_infos selon le flux :
   * `east`*
   * `north`*
 * `title`*: titre
-* `keywords`: Liste de mots clés (doivent être uniques)
-* `styles`: lists des identifiants des fichiers statiques de style Rok4
+* `keywords`: liste de mots clés (doivent être uniques)
+* `styles`: liste des identifiants des fichiers statiques de style Rok4
 * `used_data`*: liste de dictionnaire :
   * `bottom_level`*:niveau minimum
   * `top_level`*: niveau maximum
-  * `stored_data`*: Identifiant de la donnée stockée
-* `abstract`*: Description
-* `getfeatureinfo`: Dictionnaire décrivant la ressource cible du GetFeatureInfo. Une des structure suivante :
+  * `stored_data`*: identifiant de la donnée stockée
+* `abstract`*: description
+* `getfeatureinfo`: dictionnaire décrivant la ressource cible du GetFeatureInfo. Une des structures suivantes :
   * avec la stored data, dictionnaire :
-    * `stored_data`*: Indique si on va utiliser directement la donnée stockée
+    * `stored_data`*: indique si on va utiliser directement la donnée stockée
   * avec une url, dictionnaire :
-    * `server_url`* url utiliser pour le GetFeatureInfo
+    * `server_url`* url utilisée pour le GetFeatureInfo
 
 #### VECTOR-TMS
 
 * `used_data`*: liste de dictionnaires :
   * `stored_data`*: Identifiant de la donnée stockée
-  * `relations`*: liste de dictionnaire décrivant la relation :
+  * `relations`*: liste de dictionnaires décrivant la relation :
     * `native_name`*: Nom de la table
     * `public_name`: Nom public de la table
     * `abstract`*: Description
@@ -151,7 +151,7 @@ type_infos selon le flux :
 * `abstract`*: Description
 * `used_data`*: liste de dictionnaire :
   * `stored_data`*: Identifiant de la donnée stockée
-  * `relations`*: liste de dictionnaire décrivant la relation :
+  * `relations`*: liste de dictionnaires décrivant la relation :
     * `name`*: Nom de la table
     * `style`*: uuid du statiques de style
     * `ftl`: uuid de ?????
@@ -165,20 +165,20 @@ type_infos selon le flux :
   * `north`*
 * `title`*: titre
 * `keywords`: Liste de mots clés (doivent être uniques)
-* `styles`: lists des identifiants des fichiers statiques de style Rok4
+* `styles`: liste des identifiants des fichiers statiques de style Rok4
 * `used_data`*: liste de dictionnaire :
-  * `bottom_level`*:niveau minimum
+  * `bottom_level`*: niveau minimum
   * `top_level`*: niveau maximum
   * `stored_data`*: Identifiant de la donnée stockée
 * `interpolation`: Interpolation utilisée pour les conversions de résolution : [ NEAREST-NEIGHBOUR, LINEAR, BICUBIC, LANCZOS2, LANCZOS3, LANCZOS4 ] (default: BICUBIC)
 * `bottom_resolution`: Résolution minimale de la couche
 * `top_resolution`: Résolution maximale de la couche
 * `abstract`*: Description
-* `getfeatureinfo`: Dictionnaire décrivant la ressource cible du GetFeatureInfo. Une des structure suivante :
+* `getfeatureinfo`: Dictionnaire décrivant la ressource cible du GetFeatureInfo. Une des structures suivantes :
   * avec la stored data, dictionnaire :
     * `stored_data`*: Indique si on va utiliser directement la donnée stockée
   * avec une url, dictionnaire :
-    * `server_url`* url utiliser pour le GetFeatureInfo
+    * `server_url`* url utilisée pour le GetFeatureInfo
 
 #### DOWNLOAD
 
@@ -202,7 +202,7 @@ type_infos selon le flux :
   * `east`*
   * `north`*
 * `title`*: Titre
-* `keywords`:liste des mots clés
+* `keywords`: liste des mots clés
 * `abstract`*: Description
 * `used_data`*: liste de dictionnaire :
   * `title`*: Titre
@@ -211,14 +211,14 @@ type_infos selon le flux :
     * `south`*
     * `east`*
     * `north`*
-  * `source`*: Informations sur la source des données. Une des solution suivante
+  * `source`*: Informations sur la source des données. Une des solutions suivantes
     * valeur fixe :
       * `value`*: Valeur unique pour la source des données
     * Mapping entre les valeurs de la pyramide et les valeurs effectivement renvoyées
       * `mapping`: dictionnaire :
         * `< * >`: Mapping entre les valeurs de la pyramide et les valeurs effectivement renvoyées
       * `stored_data`*: Identifiant de la donnée stockée
-  * `accuracy`* Informations sur la source des données. Une des solution suivante
+  * `accuracy`* Informations sur la source des données. Une des solutions suivantes
     * valeur fixe:
       * `value`*: Valeur unique pour la source des données
     * Mapping entre les valeurs de la pyramide et les valeurs effectivement renvoyées
@@ -230,7 +230,7 @@ type_infos selon le flux :
 #### SEARCH
 
 * `title`*: Titre
-* `keywords`:liste des mots clés
+* `keywords`: liste des mots clés
 * `abstract`*: Description
 * `used_data`*: liste de dictionnaire :
   * `stored_data`*: Identifiant de la donnée stockée
@@ -243,7 +243,7 @@ type_infos selon le flux :
   * `east`*
   * `north`*
 * `title`*: Titre
-* `keywords`:liste des mots clés
+* `keywords`: liste des mots clés
 * `abstract`*: Description
 * `limits`: dictionnaire décrivant les limites pour les calculs d'itinéraire (nombre d'étapes et de contraintes) et d'isochrone (durée et distance)
   * `steps`: Nombre d'étapes maximal pour le service d'itinéraire (maximum: 25, minimum: 0, default: 16)
@@ -262,7 +262,7 @@ type_infos selon le flux :
   * `attributes`: liste dictionnaire des Attributs retournés par l'API:
     * `table_name`: Nom de la table
     * `native_name`*: Nom de l'attribut dans la table
-    * `public_name`*: Nom de l'attribut vu du service (pattern: ^[A-Za-z0-9_-]+$)
+    * `public_name`*: Nom de l'attribut public (pattern: ^[A-Za-z0-9_-]+$)
     * `default`: boolean
   * `stored_data`*: Identifiant de la donnée stockée
 
@@ -329,7 +329,7 @@ Correspond aux requêtes PUT et PATCH de l'[API Entrepôt](https://data.geopf.fr
     "entity_type": "configuration",
     // Id de l'entité à modifier
     "entity_id": "{uuid}",
-    // Optionnel si non présent requête n'ai pas lancée ( => mise à jour des tags et commentaires uniquement), si l'entité hérite de FullEditInterface (mise à jour totale) => fusion des informations récupérées sur l'API (GET) et de celle fournies, sinon on envoie que celles fournies
+    // Optionnel si non présent requête n'est pas lancée ( => mise à jour des tags et commentaires uniquement), si l'entité hérite de FullEditInterface (mise à jour totale) => fusion des informations récupérées sur l'API (GET) et de celle fournies, sinon on n'envoie que celles fournies
     "body_parameters": { ... },
     // Optionnel : Liste des tags ajoutés à l'entité (uniquement si la classe hérite de TagInterface)
     "tags": {},
@@ -338,14 +338,14 @@ Correspond aux requêtes PUT et PATCH de l'[API Entrepôt](https://data.geopf.fr
 }
 ```
 
-Pour le `body_parameters` se référer à la documentation API GPF:
+Pour le `body_parameters` se référer à la documentation API GPF :
 
 * upload *(partielle)* : PATCH [/datastores/{datastore}/uploads/{upload}](https://data.geopf.fr/api/swagger-ui/index.html#/Livraisons%20et%20v%C3%A9rifications/update_2)
   * Seul le nom de la livraison, sa description et sa visibilité sont modifiables, et uniquement par le propriétaire. Les autres informations, comme le type de la livraison, sont figées.
 * stored_data *(partielle)* : PATCH [/datastores/{datastore}/stored_data/{stored_data}](https://data.geopf.fr/api/swagger-ui/index.html#/Donn%C3%A9es%20stock%C3%A9es/update_3)
   * Seul le nom de la donnée et sa visibilité sont modifiables, et uniquement par le propriétaire. Les autres informations, comme le type de la donnée, sont figées pour une donnée.
 * configuration *(totale)* : PUT [/datastores/{datastore}/configurations/{configuration}](https://data.geopf.fr/api/swagger-ui/index.html#/Configurations%20et%20publications/update_1)
-  * Si la configuration est liée à des offres en cours de publication, la modification n'est pas possible. Si la configuration est liée à des offres publiées, les modifications sont répercutées sur les serveurs de diffusion. Le nom technique et le type ne sont pas modifiable.
+  * Si la configuration est liée à des offres en cours de publication, la modification n'est pas possible. Si la configuration est liée à des offres publiées, les modifications sont répercutées sur les serveurs de diffusion. Le nom technique et le type ne sont pas modifiables.
 * offering *(partielle)*: PATCH [/datastores/{datastore}/offerings/{offering}](https://data.geopf.fr/api/swagger-ui/index.html#/Configurations%20et%20publications/update_4)
   * Il est possible de modifier la visibilité d'une offre afin qu'elle apparaisse dans les catalogues ou qu'on puisse donner des permissions, ou au contraire qu'elle en disparaisse. On peut également désactiver une offre pour en couper la consommation rapidement, sans déconfigurer les permissions
 
@@ -360,14 +360,14 @@ Création d'une configuration à partir d'une configuration déjà existante
         // Id de la configuration à copier
         "configuration": "{uuid}"
     },
-    // nouveau name et layer_name de la configuration à créer le layer_name n'est plus modifiable pas la suite)
+    // nouveau name et layer_name de la configuration à créer (le layer_name n'est plus modifiable par la suite)
     "body_parameters": {
         "name": "",
         "layer_name": "",
     },
-    // optionnel : Liste des tags ajoutés à la nouvelle configuration, (ne sont pas récupérer depuis la configuration source)
+    // optionnel : Liste des tags ajouter à la nouvelle configuration (ne sont pas récupérés depuis la configuration source)
     "tags": { "key_tag" : "val_tag"},
-    // optionnel : Liste des commentaires à ajouter à la nouvelle configuration, (ne sont pas récupérer depuis la configuration source)
+    // optionnel : Liste des commentaires à ajouter à la nouvelle configuration (ne sont pas récupérés depuis la configuration source)
     "comments": [],
 }
 ```
@@ -393,7 +393,7 @@ Synchronisation d'une ou plusieurs offres avec leur configuration et stored-data
   "type": "synchronize-offering",
   // Ou Critères pour la retrouver
   "filter_infos": { ...  },
-  // optionnel : Que faire plusieurs résultats ?  first => uniquement 1er de la liste; all => on prend tout (défaut); error => sortie en erreur du programme
+  // optionnel : Que faire si plusieurs résultats ?  first => uniquement 1er de la liste; all => on prend tout (défaut); error => sortie en erreur du programme
   "if_multi": "first|all|error"
 }
 ```
@@ -444,7 +444,7 @@ from sdk_entrepot_gpf.workflow.Workflow import Workflow
 from sdk_entrepot_gpf.workflow.resolver.GlobalResolver import GlobalResolver
 from sdk_entrepot_gpf.workflow.resolver.StoreEntityResolver import StoreEntityResolver
 
-# initialisation de la configuration, adapté le nom si besoin
+# initialisation de la configuration, adapter le nom si besoin
 Config().read("config.ini")
 
 # initialisation du Workflow avec le fichier "mon_workflow.jsonc"

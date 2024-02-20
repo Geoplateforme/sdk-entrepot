@@ -8,7 +8,7 @@ Récupérez le code :
 git clone git@github.com:geoplateforme/sdk_entrepot.git
 ```
 
-Ouvrez le dossier nouvellement crée avec votre éditeur favoris (ici [Visual Studio Code](https://code.visualstudio.com/)) :
+Ouvrez le dossier nouvellement créé avec votre éditeur favori (ici [Visual Studio Code](https://code.visualstudio.com/)) :
 
 ```sh
 code sdk_entrepot
@@ -95,7 +95,7 @@ Pour automatiser dans VSCode : [doc ici](https://code.visualstudio.com/docs/pyth
   - `s_` : string​
   - `i_` : integer​
   - `f_` : float​
-  - `l_` : list (et autres enumerable)​
+  - `l_` : list (et autres énumérables)​
   - `d_` : dict​
   - `b_` : bool​
   - `e_` : error​

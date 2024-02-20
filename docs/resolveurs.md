@@ -11,7 +11,7 @@ A l'utilisation du SDK comme un exécutable, il y a 2 résolveurs d’instancié
 * `user` : un [UserResolver](#userresolver)
 * `store_entity` : un [StoreEntityResolver](#storeentityresolver)
 
-A l'utilisation comme module, il n'y a aucun résolveurs d’instancié de base. Il faut instancier des résolveurs dans le programme et les ajouter au `GlobalResolver`.
+A l'utilisation comme module, il n'y a aucun résolveur d’instancié. Il faut instancier des résolveurs dans le programme et les ajouter au `GlobalResolver`.
 
 Dans le fichier de workflow, pour utiliser le résolveur il faut ajouter le pattern permettant d'activer le résolveur selon le type de donnée attendu :
 
@@ -125,8 +125,8 @@ avec :
 
 * `entity_type` : type de l'entité à récupérer, une des valeurs suivantes : `upload|stored_data|processing_execution|offering|processing|configuration|endpoint|static|datastore` ;
 * `field_type` : `tags` pour récupérer la valeur d'un tag, `infos` pour récupérer une valeur du dictionnaire décrivant l'entité ;
-* `field`: si `tags` nom du tag dont on veux la valeur, si `infos` clef du dictionnaire dont on veux la valeur ;
-* `INFOS ({key}={val}, ...)` : (optionnel) filtre sur les entités hors tag, voir la doc de la requête de liste des entités pour savoir les clefs possibles ;
+* `field`: si `tags` nom du tag dont on veut la valeur, si `infos` clef du dictionnaire dont on veut la valeur ;
+* `INFOS ({key}={val}, ...)` : (optionnel) filtre sur les entités hors tag, voir la doc de la requête de liste des entités pour connaître la liste des clefs possibles ;
 * `TAGS ({key}={val}, ...)` : (optionnel) filtre sur les tags (s'il y a des tags sur cette entité).
 
 Si on a plusieurs résultats le premier résultat est utilisé.
