@@ -8,6 +8,8 @@
 
 ### [Fixed]
 
+* #80 : Upload.api_delete_data_file(): suppression exception pour répertoire "data"
+
 ## v0.1.21
 
 ### [Added]
@@ -16,7 +18,6 @@
 
 ### [Fixed]
 
-* #80 : Upload.api_delete_data_file(): suppression exception pour répertoire "data"
 * Upload: modification de la requête suite modification de l'API GPF #54
 
 ## v0.1.20
