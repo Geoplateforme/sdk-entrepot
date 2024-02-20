@@ -4,6 +4,8 @@
 
 ### [Added]
 
+* Dans une étape d'un workflow, itération possible sur les actions. (V0, sera améliorer suite à la modification des résolveurs #87, #85)
+
 ### [Changed]
 
 ### [Fixed]
@@ -11,8 +13,6 @@
 ## v0.1.21
 
 ### [Added]
-
-* Dans une étape d'un workflow, itération possible sur les actions. (V0, sera améliorer suite à la modification des résolveurs #87, #85)
 
 ### [Changed]
 
