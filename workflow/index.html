@@ -1204,7 +1204,7 @@
 
 
 <h1 id="workflows">Workflows<a class="headerlink" href="#workflows" title="Permanent link">#</a></h1>
-<p>Le fichier workflow est un fichier au format JSON permettant de décrire les actions à réaliser sur des données stockées où livrées.</p>
+<p>Le fichier workflow est un fichier au format JSON permettant de décrire les actions à réaliser sur des données stockées ou livrées.</p>
 <p>Certaines valeurs du workflow peuvent être complétées avec un système de résolution permettant notamment d'utiliser le nom des entités pour trouver leur ID. Pour plus d'informations consulter la <a href="../resolveurs/">page dédiée au résolveurs</a>.</p>
 <p>Les actions sont les suivantes :</p>
 <ul>
@@ -1219,12 +1219,12 @@
 <h2 id="definition">Définition<a class="headerlink" href="#definition" title="Permanent link">#</a></h2>
 <p>Le fichier doit contenir un dictionnaire <code>workflow</code>. Qui contient deux clefs :</p>
 <ul>
-<li><code>datastore</code>: (optionnel) uuid du datastore à utiliser pour le workflow.</li>
+<li><code>datastore</code>: (optionnel) uuid du datastore à utiliser pour le workflow ;</li>
 <li><code>step</code>: (obligatoire) dictionnaire des étapes à lancer ;</li>
 <li>la clef sera le nom de l'étape qui servira à la lancer ;</li>
-<li>sa valeur est un dictionnaire décriant l'étape :<ul>
+<li>sa valeur est un dictionnaire décrivant l'étape :<ul>
 <li><code>actions</code> : (obligatoire) listes des actions à lancer, la liste sera exécutée dans l'ordre. Le dictionnaire décrivant l'action dépend du type d'action à lancer, la clef <code>type</code> permet de définir le type d'action à effectuer (description plus bas) ;</li>
-<li><code>parents</code> : (obligatoire) liste des étapes devant précéder celle-ci. Pour une actions sans dépendances la liste doit être vide.</li>
+<li><code>parents</code> : (obligatoire) liste des étapes devant précéder celle-ci. Pour une action sans dépendances la liste doit être vide.</li>
 </ul>
 </li>
 </ul>
@@ -1244,7 +1244,7 @@
 <a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">  </span><span class="p">}</span>
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="p">}</span>
 </code></pre></div>
-<p>Ce workflow permet de lancé 2 étapes <code>etape 1</code> et <code>etape 2</code>.</p>
+<p>Ce workflow permet de lancer 2 étapes <code>etape 1</code> et <code>etape 2</code>.</p>
 <p>Les actions possibles sont les suivantes :</p>
 <ul>
 <li><a href="#executer-un-traitement">exécuter un traitement</a></li>
@@ -1299,13 +1299,13 @@
 <li><code>east</code>*</li>
 <li><code>north</code>*</li>
 <li><code>used_data</code>*: liste de dictionnaires :</li>
-<li><code>stored_data</code>*: Identifiant de la donnée stockée</li>
-<li><code>relations</code>*: liste de dictionnaire décrivant la relation :<ul>
-<li><code>native_name</code>*: Nom de la table</li>
-<li><code>public_name</code>: Nom public de la table</li>
-<li><code>title</code>*: Titre</li>
-<li><code>keywords</code>: Liste de mots clés (doivent être uniques)</li>
-<li><code>abstract</code>*: Description</li>
+<li><code>stored_data</code>*: identifiant de la donnée stockée</li>
+<li><code>relations</code>*: liste de dictionnaires décrivant la relation :<ul>
+<li><code>native_name</code>*: nom de la table</li>
+<li><code>public_name</code>: nom public de la table</li>
+<li><code>title</code>*: titre</li>
+<li><code>keywords</code>: liste de mots clés (doivent être uniques)</li>
+<li><code>abstract</code>*: description</li>
 </ul>
 </li>
 </ul>
@@ -1317,20 +1317,20 @@
 <li><code>east</code>*</li>
 <li><code>north</code>*</li>
 <li><code>title</code>*: titre</li>
-<li><code>keywords</code>: Liste de mots clés (doivent être uniques)</li>
-<li><code>styles</code>: lists des identifiants des fichiers statiques de style Rok4</li>
+<li><code>keywords</code>: liste de mots clés (doivent être uniques)</li>
+<li><code>styles</code>: liste des identifiants des fichiers statiques de style Rok4</li>
 <li><code>used_data</code>*: liste de dictionnaire :</li>
 <li><code>bottom_level</code>*:niveau minimum</li>
 <li><code>top_level</code>*: niveau maximum</li>
-<li><code>stored_data</code>*: Identifiant de la donnée stockée</li>
-<li><code>abstract</code>*: Description</li>
-<li><code>getfeatureinfo</code>: Dictionnaire décrivant la ressource cible du GetFeatureInfo. Une des structure suivante :</li>
+<li><code>stored_data</code>*: identifiant de la donnée stockée</li>
+<li><code>abstract</code>*: description</li>
+<li><code>getfeatureinfo</code>: dictionnaire décrivant la ressource cible du GetFeatureInfo. Une des structures suivantes :</li>
 <li>avec la stored data, dictionnaire :<ul>
-<li><code>stored_data</code>*: Indique si on va utiliser directement la donnée stockée</li>
+<li><code>stored_data</code>*: indique si on va utiliser directement la donnée stockée</li>
 </ul>
 </li>
 <li>avec une url, dictionnaire :<ul>
-<li><code>server_url</code>* url utiliser pour le GetFeatureInfo</li>
+<li><code>server_url</code>* url utilisée pour le GetFeatureInfo</li>
 </ul>
 </li>
 </ul>
@@ -1338,7 +1338,7 @@
 <ul>
 <li><code>used_data</code>*: liste de dictionnaires :</li>
 <li><code>stored_data</code>*: Identifiant de la donnée stockée</li>
-<li><code>relations</code>*: liste de dictionnaire décrivant la relation :<ul>
+<li><code>relations</code>*: liste de dictionnaires décrivant la relation :<ul>
 <li><code>native_name</code>*: Nom de la table</li>
 <li><code>public_name</code>: Nom public de la table</li>
 <li><code>abstract</code>*: Description</li>
@@ -1357,7 +1357,7 @@
 <li><code>abstract</code>*: Description</li>
 <li><code>used_data</code>*: liste de dictionnaire :</li>
 <li><code>stored_data</code>*: Identifiant de la donnée stockée</li>
-<li><code>relations</code>*: liste de dictionnaire décrivant la relation :<ul>
+<li><code>relations</code>*: liste de dictionnaires décrivant la relation :<ul>
 <li><code>name</code>*: Nom de la table</li>
 <li><code>style</code>*: uuid du statiques de style</li>
 <li><code>ftl</code>: uuid de ?????</li>
@@ -1373,22 +1373,22 @@
 <li><code>north</code>*</li>
 <li><code>title</code>*: titre</li>
 <li><code>keywords</code>: Liste de mots clés (doivent être uniques)</li>
-<li><code>styles</code>: lists des identifiants des fichiers statiques de style Rok4</li>
+<li><code>styles</code>: liste des identifiants des fichiers statiques de style Rok4</li>
 <li><code>used_data</code>*: liste de dictionnaire :</li>
-<li><code>bottom_level</code>*:niveau minimum</li>
+<li><code>bottom_level</code>*: niveau minimum</li>
 <li><code>top_level</code>*: niveau maximum</li>
 <li><code>stored_data</code>*: Identifiant de la donnée stockée</li>
 <li><code>interpolation</code>: Interpolation utilisée pour les conversions de résolution : [ NEAREST-NEIGHBOUR, LINEAR, BICUBIC, LANCZOS2, LANCZOS3, LANCZOS4 ] (default: BICUBIC)</li>
 <li><code>bottom_resolution</code>: Résolution minimale de la couche</li>
 <li><code>top_resolution</code>: Résolution maximale de la couche</li>
 <li><code>abstract</code>*: Description</li>
-<li><code>getfeatureinfo</code>: Dictionnaire décrivant la ressource cible du GetFeatureInfo. Une des structure suivante :</li>
+<li><code>getfeatureinfo</code>: Dictionnaire décrivant la ressource cible du GetFeatureInfo. Une des structures suivantes :</li>
 <li>avec la stored data, dictionnaire :<ul>
 <li><code>stored_data</code>*: Indique si on va utiliser directement la donnée stockée</li>
 </ul>
 </li>
 <li>avec une url, dictionnaire :<ul>
-<li><code>server_url</code>* url utiliser pour le GetFeatureInfo</li>
+<li><code>server_url</code>* url utilisée pour le GetFeatureInfo</li>
 </ul>
 </li>
 </ul>
@@ -1414,7 +1414,7 @@
 <li><code>east</code>*</li>
 <li><code>north</code>*</li>
 <li><code>title</code>*: Titre</li>
-<li><code>keywords</code>:liste des mots clés</li>
+<li><code>keywords</code>: liste des mots clés</li>
 <li><code>abstract</code>*: Description</li>
 <li><code>used_data</code>*: liste de dictionnaire :</li>
 <li><code>title</code>*: Titre</li>
@@ -1425,7 +1425,7 @@
 <li><code>north</code>*</li>
 </ul>
 </li>
-<li><code>source</code>*: Informations sur la source des données. Une des solution suivante<ul>
+<li><code>source</code>*: Informations sur la source des données. Une des solutions suivantes<ul>
 <li>valeur fixe :</li>
 <li><code>value</code>*: Valeur unique pour la source des données</li>
 <li>Mapping entre les valeurs de la pyramide et les valeurs effectivement renvoyées</li>
@@ -1436,7 +1436,7 @@
 <li><code>stored_data</code>*: Identifiant de la donnée stockée</li>
 </ul>
 </li>
-<li><code>accuracy</code>* Informations sur la source des données. Une des solution suivante<ul>
+<li><code>accuracy</code>* Informations sur la source des données. Une des solutions suivantes<ul>
 <li>valeur fixe:</li>
 <li><code>value</code>*: Valeur unique pour la source des données</li>
 <li>Mapping entre les valeurs de la pyramide et les valeurs effectivement renvoyées</li>
@@ -1452,7 +1452,7 @@
 <h4 id="search">SEARCH<a class="headerlink" href="#search" title="Permanent link">#</a></h4>
 <ul>
 <li><code>title</code>*: Titre</li>
-<li><code>keywords</code>:liste des mots clés</li>
+<li><code>keywords</code>: liste des mots clés</li>
 <li><code>abstract</code>*: Description</li>
 <li><code>used_data</code>*: liste de dictionnaire :</li>
 <li><code>stored_data</code>*: Identifiant de la donnée stockée</li>
@@ -1465,7 +1465,7 @@
 <li><code>east</code>*</li>
 <li><code>north</code>*</li>
 <li><code>title</code>*: Titre</li>
-<li><code>keywords</code>:liste des mots clés</li>
+<li><code>keywords</code>: liste des mots clés</li>
 <li><code>abstract</code>*: Description</li>
 <li><code>limits</code>: dictionnaire décrivant les limites pour les calculs d'itinéraire (nombre d'étapes et de contraintes) et d'isochrone (durée et distance)</li>
 <li><code>steps</code>: Nombre d'étapes maximal pour le service d'itinéraire (maximum: 25, minimum: 0, default: 16)</li>
@@ -1484,7 +1484,7 @@
 <li><code>attributes</code>: liste dictionnaire des Attributs retournés par l'API:<ul>
 <li><code>table_name</code>: Nom de la table</li>
 <li><code>native_name</code>*: Nom de l'attribut dans la table</li>
-<li><code>public_name</code>*: Nom de l'attribut vu du service (pattern: ^[A-Za-z0-9_-]+$)</li>
+<li><code>public_name</code>*: Nom de l'attribut public (pattern: ^[A-Za-z0-9_-]+$)</li>
 <li><code>default</code>: boolean</li>
 </ul>
 </li>
@@ -1545,7 +1545,7 @@
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="nt">&quot;entity_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;configuration&quot;</span><span class="p">,</span>
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="c1">// Id de l&#39;entité à modifier</span>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="nt">&quot;entity_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{uuid}&quot;</span><span class="p">,</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="c1">// Optionnel si non présent requête n&#39;ai pas lancée ( =&gt; mise à jour des tags et commentaires uniquement), si l&#39;entité hérite de FullEditInterface (mise à jour totale) =&gt; fusion des informations récupérées sur l&#39;API (GET) et de celle fournies, sinon on envoie que celles fournies</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="c1">// Optionnel si non présent requête n&#39;est pas lancée ( =&gt; mise à jour des tags et commentaires uniquement), si l&#39;entité hérite de FullEditInterface (mise à jour totale) =&gt; fusion des informations récupérées sur l&#39;API (GET) et de celle fournies, sinon on n&#39;envoie que celles fournies</span>
 <a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="nt">&quot;body_parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span>
 <a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="c1">// Optionnel : Liste des tags ajoutés à l&#39;entité (uniquement si la classe hérite de TagInterface)</span>
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="nt">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
@@ -1553,14 +1553,14 @@
 <a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="nt">&quot;comments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="p">}</span>
 </code></pre></div>
-<p>Pour le <code>body_parameters</code> se référer à la documentation API GPF:</p>
+<p>Pour le <code>body_parameters</code> se référer à la documentation API GPF :</p>
 <ul>
 <li>upload <em>(partielle)</em> : PATCH <a href="https://data.geopf.fr/api/swagger-ui/index.html#/Livraisons%20et%20v%C3%A9rifications/update_2">/datastores/{datastore}/uploads/{upload}</a></li>
 <li>Seul le nom de la livraison, sa description et sa visibilité sont modifiables, et uniquement par le propriétaire. Les autres informations, comme le type de la livraison, sont figées.</li>
 <li>stored_data <em>(partielle)</em> : PATCH <a href="https://data.geopf.fr/api/swagger-ui/index.html#/Donn%C3%A9es%20stock%C3%A9es/update_3">/datastores/{datastore}/stored_data/{stored_data}</a></li>
 <li>Seul le nom de la donnée et sa visibilité sont modifiables, et uniquement par le propriétaire. Les autres informations, comme le type de la donnée, sont figées pour une donnée.</li>
 <li>configuration <em>(totale)</em> : PUT <a href="https://data.geopf.fr/api/swagger-ui/index.html#/Configurations%20et%20publications/update_1">/datastores/{datastore}/configurations/{configuration}</a></li>
-<li>Si la configuration est liée à des offres en cours de publication, la modification n'est pas possible. Si la configuration est liée à des offres publiées, les modifications sont répercutées sur les serveurs de diffusion. Le nom technique et le type ne sont pas modifiable.</li>
+<li>Si la configuration est liée à des offres en cours de publication, la modification n'est pas possible. Si la configuration est liée à des offres publiées, les modifications sont répercutées sur les serveurs de diffusion. Le nom technique et le type ne sont pas modifiables.</li>
 <li>offering <em>(partielle)</em>: PATCH <a href="https://data.geopf.fr/api/swagger-ui/index.html#/Configurations%20et%20publications/update_4">/datastores/{datastore}/offerings/{offering}</a></li>
 <li>Il est possible de modifier la visibilité d'une offre afin qu'elle apparaisse dans les catalogues ou qu'on puisse donner des permissions, ou au contraire qu'elle en disparaisse. On peut également désactiver une offre pour en couper la consommation rapidement, sans déconfigurer les permissions</li>
 </ul>
@@ -1572,14 +1572,14 @@
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">        </span><span class="c1">// Id de la configuration à copier</span>
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">        </span><span class="nt">&quot;configuration&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{uuid}&quot;</span>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="p">},</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="c1">// nouveau name et layer_name de la configuration à créer le layer_name n&#39;est plus modifiable pas la suite)</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="c1">// nouveau name et layer_name de la configuration à créer (le layer_name n&#39;est plus modifiable par la suite)</span>
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="nt">&quot;body_parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
 <a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">        </span><span class="nt">&quot;layer_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
 <a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="p">},</span>
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="c1">// optionnel : Liste des tags ajoutés à la nouvelle configuration, (ne sont pas récupérer depuis la configuration source)</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="c1">// optionnel : Liste des tags ajouter à la nouvelle configuration (ne sont pas récupérés depuis la configuration source)</span>
 <a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="nt">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;key_tag&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;val_tag&quot;</span><span class="p">},</span>
-<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span><span class="c1">// optionnel : Liste des commentaires à ajouter à la nouvelle configuration, (ne sont pas récupérer depuis la configuration source)</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span><span class="c1">// optionnel : Liste des commentaires à ajouter à la nouvelle configuration (ne sont pas récupérés depuis la configuration source)</span>
 <a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">    </span><span class="nt">&quot;comments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="p">}</span>
 </code></pre></div>
@@ -1601,7 +1601,7 @@
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;synchronize-offering&quot;</span><span class="p">,</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="c1">// Ou Critères pour la retrouver</span>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="nt">&quot;filter_infos&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w">  </span><span class="p">},</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span><span class="c1">// optionnel : Que faire plusieurs résultats ?  first =&gt; uniquement 1er de la liste; all =&gt; on prend tout (défaut); error =&gt; sortie en erreur du programme</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span><span class="c1">// optionnel : Que faire si plusieurs résultats ?  first =&gt; uniquement 1er de la liste; all =&gt; on prend tout (défaut); error =&gt; sortie en erreur du programme</span>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">  </span><span class="nt">&quot;if_multi&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;first|all|error&quot;</span>
 <a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="p">}</span>
 </code></pre></div>
@@ -1640,7 +1640,7 @@
 <a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="kn">from</span> <span class="nn">sdk_entrepot_gpf.workflow.resolver.GlobalResolver</span> <span class="kn">import</span> <span class="n">GlobalResolver</span>
 <a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="kn">from</span> <span class="nn">sdk_entrepot_gpf.workflow.resolver.StoreEntityResolver</span> <span class="kn">import</span> <span class="n">StoreEntityResolver</span>
 <a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="c1"># initialisation de la configuration, adapté le nom si besoin</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="c1"># initialisation de la configuration, adapter le nom si besoin</span>
 <a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;config.ini&quot;</span><span class="p">)</span>
 <a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
 <a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="c1"># initialisation du Workflow avec le fichier &quot;mon_workflow.jsonc&quot;</span>

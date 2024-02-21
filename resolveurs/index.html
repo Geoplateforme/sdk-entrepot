@@ -906,7 +906,7 @@
 <li><code>user</code> : un <a href="#userresolver">UserResolver</a></li>
 <li><code>store_entity</code> : un <a href="#storeentityresolver">StoreEntityResolver</a></li>
 </ul>
-<p>A l'utilisation comme module, il n'y a aucun résolveurs d’instancié de base. Il faut instancier des résolveurs dans le programme et les ajouter au <code>GlobalResolver</code>.</p>
+<p>A l'utilisation comme module, il n'y a aucun résolveur d’instancié. Il faut instancier des résolveurs dans le programme et les ajouter au <code>GlobalResolver</code>.</p>
 <p>Dans le fichier de workflow, pour utiliser le résolveur il faut ajouter le pattern permettant d'activer le résolveur selon le type de donnée attendu :</p>
 <ul>
 <li>Texte : <code>"{nom_du_resolveur.nom_de_la_clef}"</code></li>
@@ -1002,8 +1002,8 @@ Utilisation du pattern <code>store_entity_regex</code> de la configuration.</p>
 <ul>
 <li><code>entity_type</code> : type de l'entité à récupérer, une des valeurs suivantes : <code>upload|stored_data|processing_execution|offering|processing|configuration|endpoint|static|datastore</code> ;</li>
 <li><code>field_type</code> : <code>tags</code> pour récupérer la valeur d'un tag, <code>infos</code> pour récupérer une valeur du dictionnaire décrivant l'entité ;</li>
-<li><code>field</code>: si <code>tags</code> nom du tag dont on veux la valeur, si <code>infos</code> clef du dictionnaire dont on veux la valeur ;</li>
-<li><code>INFOS ({key}={val}, ...)</code> : (optionnel) filtre sur les entités hors tag, voir la doc de la requête de liste des entités pour savoir les clefs possibles ;</li>
+<li><code>field</code>: si <code>tags</code> nom du tag dont on veut la valeur, si <code>infos</code> clef du dictionnaire dont on veut la valeur ;</li>
+<li><code>INFOS ({key}={val}, ...)</code> : (optionnel) filtre sur les entités hors tag, voir la doc de la requête de liste des entités pour connaître la liste des clefs possibles ;</li>
 <li><code>TAGS ({key}={val}, ...)</code> : (optionnel) filtre sur les tags (s'il y a des tags sur cette entité).</li>
 </ul>
 <p>Si on a plusieurs résultats le premier résultat est utilisé.</p>

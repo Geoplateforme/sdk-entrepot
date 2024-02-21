@@ -948,7 +948,7 @@ flowchart TD
     C3 --&gt;|configuration-tms-py| D3(configuration TMS sur pyramide)
     D3 --&gt;|publication-tms-py| E3(offre  TMS sur pyramide)</code></pre>
 <h2 id="fichier-statique">fichier statique<a class="headerlink" href="#fichier-statique" title="Permanent link">#</a></h2>
-<p>Pour publier les données en WMS il faut appliquer un style aux données. La partie versement d'un style ne peut pas encore se faire avec <code>sdk_entrepot_gpf</code>. Il faut donc ajouté le fichier de style à la mains avec swagger, Insomnia ou en ligne de commande. Tutoriel <a href="https://gpf-beta.ign.fr/geoplateforme/tutoriels/vecteur/gestion_statique/">ICI</a></p>
+<p>Pour publier les données en WMS il faut appliquer un style aux données. La partie versement d'un style ne peut pas encore se faire avec <code>sdk_entrepot_gpf</code>. Il faut donc ajouter le fichier de style à la main avec swagger, Insomnia ou en ligne de commande. Tutoriel <a href="https://gpf-beta.ign.fr/geoplateforme/tutoriels/vecteur/gestion_statique/">ICI</a></p>
 <p>Un fichier statique (<a href="https://raw.githubusercontent.com/Geoplateforme/sdk_entrepot/prod/sdk_entrepot_gpf/_data/datasets/1_dataset_vector/CANTON_style.sld">CANTON_style.sld</a>) pour le tuto est disponible dans le jeu de données test. Pour l'utiliser avec le workflow sans modification il faut le livrer avec <code>"name": "style_canton"</code>.
 Si vous modifiez le nom du fichier de style il faut modifier dans le workflow la partie "configuration-wms".</p>
 <h2 id="traitement-et-publication">Traitement et publication<a class="headerlink" href="#traitement-et-publication" title="Permanent link">#</a></h2>

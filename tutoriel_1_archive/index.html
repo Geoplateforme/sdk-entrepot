@@ -894,7 +894,7 @@
 <h2 id="definition-de-la-configuration">Définition de la configuration<a class="headerlink" href="#definition-de-la-configuration" title="Permanent link">#</a></h2>
 <p>Suivez la page <a href="../configuration/">configuration</a> pour définir le fichier de configuration.</p>
 <h2 id="recuperation-du-jeu-de-donnees">Récupération du jeu de données<a class="headerlink" href="#recuperation-du-jeu-de-donnees" title="Permanent link">#</a></h2>
-<p>Le jeu de données « 2_dataset_archive » contient des données archives à téléverser.</p>
+<p>Le jeu de données « 2_dataset_archive » contient des données de type archive à téléverser.</p>
 <p>Récupérez les données en lançant la commande :</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>sdk_entrepot_gpf<span class="w"> </span>dataset<span class="w"> </span>-n<span class="w"> </span>2_dataset_archive
 </code></pre></div>
@@ -935,7 +935,7 @@ flowchart TD
     B --&gt;|configuration-archive-livrée| C(configuration)
     C --&gt;|publication-archive-livrée| D(publication)</code></pre>
 <h2 id="traitement-et-publication">Traitement et publication<a class="headerlink" href="#traitement-et-publication" title="Permanent link">#</a></h2>
-<p>Le workflow « generic_archive » permet de passer de la livraison à une lien permettant de télécharger la donnée. Il comporte 3 étapes :</p>
+<p>Le workflow « generic_archive » permet de passer de la livraison à un lien permettant de télécharger la donnée. Il comporte 3 étapes :</p>
 <ul>
 <li><code>intégration-archive-livrée</code> : transformation des données livrées temporaires en une Donnée Stockée pérenne ;</li>
 <li><code>configuration-archive-livrée</code> : configuration d'un service de téléchargement permettant de télécharger les données ;</li>

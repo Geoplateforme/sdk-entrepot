@@ -1288,7 +1288,7 @@
 <td><code>regex_content_range</code></td>
 <td>int</td>
 <td><code>(?P&lt;i_min&gt;[0-9]+)-(?P&lt;i_max&gt;[0-9]+)/(?P&lt;len&gt;[0-9]+)</code></td>
-<td>Regex pour parser la méta-donnée content-range des réponses API.</td>
+<td>Regex pour parser la métadonnée content-range des réponses API.</td>
 </tr>
 <tr>
 <td><code>regex_entity_id</code></td>
@@ -1801,43 +1801,43 @@
 <td><code>static_list</code></td>
 <td>str</td>
 <td><code>${store_api:root_datastore}/statics</code></td>
-<td>Liste des fichiers statiques</td>
+<td>Liste des Fichiers statiques</td>
 </tr>
 <tr>
 <td><code>static_get</code></td>
 <td>str</td>
 <td><code>${routing:static_list}/{static}</code></td>
-<td>Détaille d'un fichier static</td>
+<td>Détail d'un Fichier statique</td>
 </tr>
 <tr>
 <td><code>static_upload</code></td>
 <td>str</td>
 <td><code>${routing:static_list}/{static}</code></td>
-<td>Téléversement d'un fichier static</td>
+<td>Téléversement d'un Fichier statique</td>
 </tr>
 <tr>
 <td><code>static_delete</code></td>
 <td>str</td>
 <td><code>${routing:static_list}/{static}</code></td>
-<td>Suppression d'une fichier static</td>
+<td>Suppression d'un Fichier statique</td>
 </tr>
 <tr>
 <td><code>static_re_upload</code></td>
 <td>str</td>
 <td><code>${routing:static_list}/{static}</code></td>
-<td>Remplacement du fichier l'fichier static</td>
+<td>Remplacement du fichier d'un Fichier statique</td>
 </tr>
 <tr>
 <td><code>static_partial_edit</code></td>
 <td>str</td>
 <td><code>${routing:static_list}/{static}</code></td>
-<td>Édition d'es informations d'un fichier static (hors fichier)</td>
+<td>Édition des informations d'un Fichier statique (hors fichier)</td>
 </tr>
 <tr>
 <td><code>static_download</code></td>
 <td>str</td>
 <td><code>${routing:static_get}/file</code></td>
-<td>Téléchargement d'un fichier static</td>
+<td>Téléchargement du fichier d'un Fichier statique</td>
 </tr>
 <tr>
 <td colspan="4"><strong>Routes concernant l'entité Annexe</strong></td>
@@ -1902,9 +1902,9 @@
 </tbody>
 </table>
 <p>| <strong>Routes concernant l'entité Tms</strong> {: colspan=4 } | &#8288; {: .dn }| &#8288; {: .dn }| &#8288; {: .dn } |
-| <code>tms_list</code>                              | str  | <code>{store_api:root_url}/statics/tms</code>                    | Liste des tms disponible pour tout la GPF |
-| <code>tms_get</code>                               | str  | <code>{routing:tms_list}/{tms}</code>                            | Détails d'un tms |
-| <code>tms_download</code>                          | str  | <code>{routing:tms_get}/file</code>                              | Téléchargement d'un tms |</p>
+| <code>tms_list</code>                              | str  | <code>{store_api:root_url}/statics/tms</code>                    | Liste des TMS disponibles pour tout la GPF |
+| <code>tms_get</code>                               | str  | <code>{routing:tms_list}/{tms}</code>                            | Détails d'un TMS |
+| <code>tms_download</code>                          | str  | <code>{routing:tms_get}/file</code>                              | Téléchargement du fichier d'un TMS |</p>
 <h2 id="section-upload">Section <code>upload</code><a class="headerlink" href="#section-upload" title="Permanent link">#</a></h2>
 <p>Cette section concerne les paramètres de gestion des livraisons (<code>upload</code>).</p>
 <table>
@@ -1933,7 +1933,7 @@
 <td><code>behavior_if_exists</code></td>
 <td>str</td>
 <td><code>STOP</code></td>
-<td>Comportement à adopter si la livraison à créer existe déjà (<code>DELETE</code> : on la supprime et on la recrée, <code>CONTINUE</code> : on reprendre le téléversement, <code>STOP</code> : on lève une exception).</td>
+<td>Comportement à adopter si la livraison à créer existe déjà (<code>DELETE</code> : on la supprime et on la recrée, <code>CONTINUE</code> : on reprend le téléversement, <code>STOP</code> : on lève une exception).</td>
 </tr>
 <tr>
 <td><code>md5_pattern</code></td>
@@ -2135,7 +2135,7 @@ La chaîne capturée doit être nommée <code>filter_tags</code>.</p>
 <p>Les chaînes capturées doivent respectivement être nommées <code>filter_infos</code> et <code>filter_tags</code> et sont ensuite traitées
 par les regex configurées dans les options <code>filter_infos</code> et <code>filter_tags</code>.</p>
 <h3 id="option-store_entity_regex">Option <code>store_entity_regex</code><a class="headerlink" href="#option-store_entity_regex" title="Permanent link">#</a></h3>
-<p>Configuration de la regex de résolution une entité.</p>
+<p>Configuration de la regex de résolution d'une entité.</p>
 <ul>
 <li>Type : str</li>
 <li>Valeur par défaut : <code>(?P&lt;entity_type&gt;(upload|stored_data|processing_execution|offering|processing|configuration|endpoint))\.(?P&lt;selected_field_type&gt;(tags|infos))\.(?P&lt;selected_field&gt;\w*)${filter}</code></li>
