@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 from typing import Any, Dict, Optional, Type, List
 from unittest.mock import PropertyMock, patch, MagicMock
@@ -13,6 +14,7 @@ from sdk_entrepot_gpf.workflow.Errors import WorkflowError
 from sdk_entrepot_gpf.workflow.Workflow import Workflow
 from sdk_entrepot_gpf.workflow.action.ActionAbstract import ActionAbstract
 from sdk_entrepot_gpf.workflow.action.ConfigurationAction import ConfigurationAction
+from sdk_entrepot_gpf.workflow.action.CopyConfigurationAction import CopyConfigurationAction
 from sdk_entrepot_gpf.workflow.action.DeleteAction import DeleteAction
 from sdk_entrepot_gpf.workflow.action.EditAction import EditAction
 from sdk_entrepot_gpf.workflow.action.OfferingAction import OfferingAction
@@ -38,7 +40,7 @@ class WorkflowTestCase(GpfTestCase):
         o_workflow = Workflow("nom", d_workflow)
         self.assertDictEqual(d_workflow, o_workflow.get_raw_dict())
 
-    def __list_action_run_step(self, s_etape: str, d_args_run_step: Dict[str, Any], d_workflow: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def __list_action_run_step(self, s_etape: str, d_args_run_step: Dict[str, Any], d_workflow: Dict[str, Any]) -> List[Dict[str, Any]]:  # pylint:disable=too-many-branches
         """création de la liste des actions pour run_run_step()
 
         Args:
@@ -51,6 +53,7 @@ class WorkflowTestCase(GpfTestCase):
         """
         if s_etape not in d_workflow["workflow"]["steps"]:
             return []
+        d_etape = d_workflow["workflow"]["steps"][s_etape]
         l_comments: List[str] = d_args_run_step["comments"]
         d_tags: Dict[str, str] = d_args_run_step["tags"]
         l_actions = []
@@ -61,11 +64,11 @@ class WorkflowTestCase(GpfTestCase):
         if "tags" in d_workflow:
             d_tags = {**d_tags, **d_workflow["tags"]}
         # dans l'étape
-        if "comments" in d_workflow["workflow"]["steps"][s_etape]:
-            l_comments = [*l_comments, *d_workflow["workflow"]["steps"][s_etape]["comments"]]
-        if "tags" in d_workflow["workflow"]["steps"][s_etape]:
-            d_tags = {**d_tags, **d_workflow["workflow"]["steps"][s_etape]["tags"]}
-        for d_action in d_workflow["workflow"]["steps"][s_etape]["actions"]:
+        if "comments" in d_etape:
+            l_comments = [*l_comments, *d_etape["comments"]]
+        if "tags" in d_etape:
+            d_tags = {**d_tags, **d_etape["tags"]}
+        for d_action in d_etape["actions"]:
             d_action = d_action.copy()
             if "comments" in d_action:
                 d_action["comments"] = [*l_comments, *d_action["comments"]]
@@ -76,6 +79,20 @@ class WorkflowTestCase(GpfTestCase):
             else:
                 d_action["tags"] = d_tags
             l_actions.append(d_action)
+
+        # les iterations
+        if "iter_vals" in d_etape and "iter_key" in d_etape:
+            # on itère sur les clefs
+            s_actions = str(json.dumps(l_actions, ensure_ascii=False))
+            l_actions = []
+            if isinstance(d_etape["iter_vals"][0], (str, float, int)):
+                # si la liste est une liste de string, un int ou flat : on remplace directement
+                for s_val in d_etape["iter_vals"]:
+                    l_actions += json.loads(s_actions.replace("{" + d_etape["iter_key"] + "}", s_val))
+            else:
+                # on a une liste de sous dict ou apparenté on utilise un résolveur
+                for i, s_val in enumerate(d_etape["iter_vals"]):
+                    l_actions += json.loads(s_actions.replace(d_etape["iter_key"], f"iter_resolve_{i}"))
         return l_actions
 
     def run_run_step(
@@ -287,6 +304,38 @@ class WorkflowTestCase(GpfTestCase):
             {**d_args, "step_name": "mise-en-base", "callback": callback, "behavior": "DELETE"}, d_workflow, [None], monitoring_until_end=["SUCCESS", "SUCCESS"], output_type="stored_data"
         )
 
+        # itérations
+        d_workflow_4: Dict[str, Any] = {
+            "workflow": {
+                "steps": {
+                    "mise-en-base": {
+                        "actions": [{"type": "action4-{ma_clef}", "datastore": "datastore_4-1"}, {"type": "action4-{ma_clef}"}],
+                        "iter_vals": ["a", "b", "c"],
+                        "iter_key": "ma_clef",
+                    },
+                    "mise-en-base-2": {
+                        "actions": [{"type": "action4-{ma_clef}", "datastore": "datastore_4-1"}, {"type": "action4-{ma_clef.nom}"}],
+                        "iter_vals": [{"nom": "a"}, {"nom": "b"}, {"nom": "c"}],
+                        "iter_key": "ma_clef",
+                    },
+                    "mise-en-base-3": {
+                        "actions": [],
+                        "iter_key": "ma_clef",
+                    },
+                    "mise-en-base-4": {
+                        "actions": [],
+                        "iter_vals": [{"nom": "a"}, {"nom": "b"}, {"nom": "c"}],
+                    },
+                }
+            }
+        }
+        self.run_run_step({**d_args, "step_name": "mise-en-base", "datastore": s_datastore}, d_workflow_4, [s_datastore] * 6)
+        self.run_run_step({**d_args, "step_name": "mise-en-base-2", "datastore": s_datastore}, d_workflow_4, [s_datastore] * 6)
+        s_message = "Une seule des clefs iter_vals ou iter_key est trouvée: il faut mettre les deux valeurs ou aucune. Étape mise-en-base-3 workflow nom"
+        self.run_run_step({**d_args, "step_name": "mise-en-base-3", "datastore": s_datastore}, d_workflow_4, [], error_message=s_message)
+        s_message = "Une seule des clefs iter_vals ou iter_key est trouvée: il faut mettre les deux valeurs ou aucune. Étape mise-en-base-4 workflow nom"
+        self.run_run_step({**d_args, "step_name": "mise-en-base-4", "datastore": s_datastore}, d_workflow_4, [], error_message=s_message)
+
     def run_generation(
         self,
         expected_type: Type[ActionAbstract],
@@ -317,6 +366,7 @@ class WorkflowTestCase(GpfTestCase):
         patch.object(ConfigurationAction, "__init__", wraps=new_init) as d_mock["ConfigurationAction"], \
         patch.object(OfferingAction, "__init__", wraps=new_init) as d_mock["OfferingAction"], \
         patch.object(SynchronizeOfferingAction, "__init__", wraps=new_init) as d_mock["SynchronizeOfferingAction"], \
+        patch.object(CopyConfigurationAction, "__init__", wraps=new_init) as d_mock["CopyConfigurationAction"], \
         patch.object(EditAction, "__init__", wraps=new_init) as d_mock["EditAction"]:
             # fmt: on
             # exécution
@@ -352,6 +402,8 @@ class WorkflowTestCase(GpfTestCase):
         self.run_generation(DeleteAction, "name", {"type": "delete-entity"}, o_mock_parent, with_beavior=False)
         # test type synchronize-offering
         self.run_generation(SynchronizeOfferingAction, "name", {"type": "synchronize-offering"}, o_mock_parent, with_beavior=False)
+        # test type copie-configuration
+        self.run_generation(CopyConfigurationAction, "name", {"type": "copy-configuration"}, o_mock_parent, with_beavior=True)
         # test type edit-entity
         self.run_generation(EditAction, "name", {"type": "edit-entity"}, o_mock_parent, with_beavior=False)
 
