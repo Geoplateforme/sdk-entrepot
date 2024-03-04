@@ -167,7 +167,7 @@ class ProcessingExecutionActionTestCase(GpfTestCase):
                 o_mock_pea_find_stored_data.assert_not_called()
 
             # test de l'appel à ProcessingExecution.api_create
-            o_mock_pe_api_create.assert_called_once_with({**d_action['body_parameters'], "datastore":datastore})
+            o_mock_pe_api_create.assert_called_once_with(d_action['body_parameters'], {"datastore":datastore})
             # un appel à ProcessingExecution().get_store_properties
             o_mock_processing_execution.get_store_properties.assert_called_once_with()
 

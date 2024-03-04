@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Any
+import re
+from typing import Any, Dict
 
 
 class AbstractResolver(ABC):
@@ -31,3 +32,26 @@ class AbstractResolver(ABC):
     @property
     def name(self) -> str:
         return self.__name
+
+    @staticmethod
+    def get(key_value: Dict[str, Any], js_key: str) -> Any:
+        """fonction permettant de récupérer une valeur dans un dictionnaire complexe avec une récupération de style JS
+
+        Args:
+            key_value (Dict[str, Any]): dictionnaire dont on veut récupérer l'info
+            string (str): pattern type JS pour récupérer la valeur du dictionnaire
+
+        Returns:
+            Any: valeur demandée
+        """
+        o_val = key_value
+        l_keys = js_key.split(".")
+        # On itère selon les morceaux
+        for s_key in l_keys:
+            # traitement du cas des array (cle[0], cle[1], cle[-1], ...)
+            o_match = re.search(r"(.*)\[(-?\d*)\]$", s_key)
+            if o_match:
+                o_val = o_val[o_match.group(1)][int(o_match.group(2))]
+            else:
+                o_val = o_val[s_key]
+        return o_val
