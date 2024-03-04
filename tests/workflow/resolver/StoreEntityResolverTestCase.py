@@ -54,7 +54,7 @@ class StoreEntityResolverTestCase(GpfTestCase):
             )
 
     def test_no_key(self) -> None:
-        """vérifie l'erreur retournée quand la kef n'ai n'ai pas trouvée"""
+        """vérifie l'erreur retournée quand la clef n'est pas trouvée"""
 
         o_store_entity_resolver = StoreEntityResolver("store_entity")
         l_uploads = [
