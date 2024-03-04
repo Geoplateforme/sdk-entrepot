@@ -4,6 +4,8 @@
 
 ### [Added]
 
+* DateResolver: ajout d'un résolveur pour les dates #86
+
 ### [Changed]
 
 ### [Fixed]
