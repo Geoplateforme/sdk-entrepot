@@ -53,6 +53,35 @@ class StoreEntityResolverTestCase(GpfTestCase):
                 datastore=None,
             )
 
+    def test_no_key(self) -> None:
+        """vérifie l'erreur retournée quand la clef n'est pas trouvée"""
+
+        o_store_entity_resolver = StoreEntityResolver("store_entity")
+        l_uploads = [
+            Upload({"_id": "upload_1", "name": "Name 1", "tags": {"k_tag": "v_tag"}}),
+            Upload({"_id": "upload_2", "name": "Name 2", "tags": {"k_tag": "v_tag"}}),
+        ]
+
+        # TEST 1 : attributs, on tente de récupérer différents attributs du 1er élément
+
+        # On mock la fonction api_list, on veut vérifier qu'elle est appelée avec les bons param
+        with patch.object(StoreEntity, "api_list", return_value=l_uploads) as o_mock_api_list:
+            with patch.object(StoreEntity, "api_update", return_value=None) as o_mock_api_update:
+                s_to_solve = "upload.infos.not_in_dict [INFOS(name=start_%), TAGS(k_tag=v_tag)]"
+                with self.assertRaises(ResolverError) as o_arc:
+                    o_store_entity_resolver.resolve(s_to_solve)
+                # message d'erreur :
+                self.assertEqual(o_arc.exception.message, f"Erreur du résolveur 'store_entity' avec la chaîne '{s_to_solve}'.")
+                # Vérifications o_mock_api_list
+                o_mock_api_list.assert_called_once_with(
+                    infos_filter={"name": "start_%"},
+                    tags_filter={"k_tag": "v_tag"},
+                    page=1,
+                    datastore=None,
+                )
+                # Vérification maj entité via appel de api_update
+                o_mock_api_update.assert_called_once_with()
+
     def test_resolve_upload(self) -> None:
         """Vérifie le bon fonctionnement de la fonction resolve pour un upload."""
 
