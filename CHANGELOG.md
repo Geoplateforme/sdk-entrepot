@@ -1,10 +1,18 @@
 # CHANGE LOG
 
+## v0.1.23
+
+### [Added]
+
+### [Changed]
+
+### [Fixed]
+
 ## v0.1.22
 
 ### [Added]
 
-* Dans une étape d'un workflow, itération possible sur les actions. (V0, sera améliorer suite à la modification des résolveurs #87, #85)
+* Dans une étape d'un workflow, itération possible sur les actions. (V0, sera amélioré suite à la modification des résolveurs #87, #85)
 
 ### [Changed]
 
