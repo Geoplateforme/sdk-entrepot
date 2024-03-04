@@ -6,9 +6,13 @@
 
 ### [Changed]
 
+* Renommage de `CopieConfigurationAction` en `CopyConfigurationAction`
+
 ### [Fixed]
 
 * #80 : Upload.api_delete_data_file(): suppression exception pour répertoire "data"
+* #78 : ajout route `upload_delete_data` dans la configuration
+* Bug #77 : problème de nommage de l'action de copie de configuration entre le code est la doc : utilisation de `copy-configuration`
 
 ## v0.1.21
 
