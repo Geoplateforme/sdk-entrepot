@@ -1,6 +1,8 @@
+from typing import Any, Dict
 from unittest.mock import MagicMock, patch
 
 from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
+from sdk_entrepot_gpf.store.Errors import StoreEntityError
 from sdk_entrepot_gpf.store.Offering import Offering
 from sdk_entrepot_gpf.store.Configuration import Configuration
 from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
@@ -97,3 +99,21 @@ class ConfigurationTestCase(GpfTestCase):
                         f_before_delete,
                     )
                     o_mock_list.assert_called_once_with()
+
+    def test_edit(self) -> None:
+        """test de edit"""
+        d_entity: Dict[str, Any] = {"key": "val", "comm_key": "edit", "used_data": [{"nom": "or-1"}, {"nom": "or-2"}, {"nom": "or-3"}]}
+        d_edit: Dict[str, Any] = {"_id": "1", "comm_key": "origine", "used_data": [{"nom": "val_new"}, {}, {"new": "val"}]}
+        d_fusion: Dict[str, Any] = {**d_entity, **d_edit, **{"used_data": [{"nom": "val_new"}, {"nom": "or-2"}, {"nom": "or-3", "new": "val"}]}}
+
+        o_entity = Configuration(d_entity)
+        with patch.object(Configuration, "api_full_edit", return_value=None) as o_mock_api_edit:
+            o_entity.edit(d_edit)
+            o_mock_api_edit.assert_called_once_with(d_fusion)
+
+        # manque used_data
+        d_edit = {"_id": "1", "comm_key": "origine", "used_data": [{"nom": "val_new"}]}
+        with self.assertRaises(StoreEntityError) as o_raise:
+            o_entity.edit(d_edit)
+        s_message = "Edition impossible, le nombre de 'used_data' ne correspond pas."
+        self.assertEqual(s_message, o_raise.exception.message)

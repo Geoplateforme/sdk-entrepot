@@ -47,7 +47,7 @@ doc = [
 
 [project.urls]
 Source = "https://github.com/Geoplateforme/sdk_entrepot"
-Documentation = "https://github.com/Geoplateforme/sdk_entrepot/blob/prod/docs/index.md"
+Documentation = "https://geoplateforme.github.io/sdk-entrepot/"
 
 [project.scripts]
 realpython = "sdk_entrepot_gpf.__main__:main"

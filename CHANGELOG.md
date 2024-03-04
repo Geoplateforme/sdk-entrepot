@@ -1,6 +1,6 @@
 # CHANGE LOG
 
-## v0.1.22
+## v0.1.23
 
 ### [Added]
 
@@ -10,9 +10,29 @@
 
 ### [Fixed]
 
+## v0.1.22
+
+### [Added]
+
+* Dans une étape d'un workflow, itération possible sur les actions. (V0, sera amélioré suite à la modification des résolveurs #87, #85)
+
+### [Changed]
+
+* Renommage de `CopieConfigurationAction` en `CopyConfigurationAction`
+
+### [Fixed]
+
+* #83 : fusion de la liste des used_data en gardant l'ordre de la liste lors de l'édition de configurations
+* #80 : Upload.api_delete_data_file(): suppression exception pour répertoire "data"
+* #78 : ajout route `upload_delete_data` dans la configuration
+* Bug #77 : problème de nommage de l'action de copie de configuration entre le code est la doc : utilisation de `copy-configuration`
+* Bug #98 : problème de datastore lors de la création d'une ProcessingExecution
+
 ## v0.1.21
 
 ### [Added]
+
+* Résolveurs: possibilité de descendre dans les tests et les listes #87
 
 ### [Changed]
 

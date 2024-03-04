@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 
@@ -10,13 +11,15 @@ from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
 from sdk_entrepot_gpf.workflow.Errors import WorkflowError
 from sdk_entrepot_gpf.io.Config import Config
 from sdk_entrepot_gpf.workflow.action.ActionAbstract import ActionAbstract
-from sdk_entrepot_gpf.workflow.action.CopieConfigurationAction import CopieConfigurationAction
+from sdk_entrepot_gpf.workflow.action.CopyConfigurationAction import CopyConfigurationAction
 from sdk_entrepot_gpf.workflow.action.DeleteAction import DeleteAction
 from sdk_entrepot_gpf.workflow.action.EditAction import EditAction
 from sdk_entrepot_gpf.workflow.action.ProcessingExecutionAction import ProcessingExecutionAction
 from sdk_entrepot_gpf.workflow.action.ConfigurationAction import ConfigurationAction
 from sdk_entrepot_gpf.workflow.action.OfferingAction import OfferingAction
 from sdk_entrepot_gpf.workflow.action.SynchronizeOfferingAction import SynchronizeOfferingAction
+from sdk_entrepot_gpf.workflow.resolver.DictResolver import DictResolver
+from sdk_entrepot_gpf.workflow.resolver.GlobalResolver import GlobalResolver
 
 
 class Workflow:
@@ -152,39 +155,52 @@ class Workflow:
             Dict[str, Any]: dictionnaire de l'étape
         """
         # Recherche de l'étape correspondante
-        if step_name in self.__raw_definition_dict["workflow"]["steps"]:
-            # récupération e l'étape :
-            d_step = dict(self.__raw_definition_dict["workflow"]["steps"][step_name])
+        if step_name not in self.__raw_definition_dict["workflow"]["steps"]:
+            # Si on passe le if, c'est que l'étape n'existe pas dans la définition du workflow
+            s_error_message = f"L'étape {step_name} n'est pas définie dans le workflow {self.__name}"
+            Config().om.error(s_error_message)
+            raise WorkflowError(s_error_message)
 
-            # on récupère les commentaires commun au workflow et à l'étape
-            if "comments" in self.__raw_definition_dict:
-                comments.extend(self.__raw_definition_dict["comments"])
-            if "comments" in d_step:
-                comments.extend(d_step["comments"])
+        # récupération e l'étape :
+        d_step = dict(self.__raw_definition_dict["workflow"]["steps"][step_name])
 
-            # on récupère les tags commun au workflow et à l'étape
-            if "tags" in self.__raw_definition_dict:
-                tags.update(self.__raw_definition_dict["tags"])
-            if "tags" in d_step:
-                tags.update(d_step["tags"])
+        # Gestion des itérations
+        if "iter_vals" in d_step and "iter_key" in d_step:
+            # on itère sur les clefs
+            l_actions = []
+            s_actions = str(json.dumps(d_step["actions"], ensure_ascii=False))
 
-            # Ajout des commentaire et des tags à chaque actions
-            for d_action in d_step["actions"]:
-                if "comments" in d_action:
-                    d_action["comments"] = [*comments, *d_action["comments"]]
-                else:
-                    d_action["comments"] = comments
-                if "tags" in d_action:
-                    d_action["tags"] = {**tags, **d_action["tags"]}
-                else:
-                    d_action["tags"] = tags
+            if isinstance(d_step["iter_vals"][0], (str, float, int)):
+                # si la liste est une liste de string, un int ou flat : on remplace directement
+                for s_val in d_step["iter_vals"]:
+                    l_actions += json.loads(s_actions.replace("{" + d_step["iter_key"] + "}", s_val))
+            else:
+                # on a une liste de sous dict ou apparenté on utilise un résolveur
+                for i, s_val in enumerate(d_step["iter_vals"]):
+                    l_actions += json.loads(s_actions.replace(d_step["iter_key"], f"iter_resolve_{i}"))
+                    GlobalResolver().add_resolver(DictResolver(f"iter_resolve_{i}", s_val))
 
-            return d_step
+            d_step["actions"] = l_actions
+        elif "iter_vals" in d_step or "iter_key" in d_step:
+            # on a une seule des deux clef
+            s_error_message = f"Une seule des clefs iter_vals ou iter_key est trouvée: il faut mettre les deux valeurs ou aucune. Étape {step_name} workflow {self.__name}"
+            Config().om.error(s_error_message)
+            raise WorkflowError(s_error_message)
 
-        # Si on passe le if, c'est que l'étape n'existe pas dans la définition du workflow
-        s_error_message = f"L'étape {step_name} n'est pas définie dans le workflow {self.__name}"
-        Config().om.error(s_error_message)
-        raise WorkflowError(s_error_message)
+        # on récupère les commentaires commun au workflow et à l'étape
+        comments.extend(self.__raw_definition_dict.get("comments", []))
+        comments.extend(d_step.get("comments", []))
+
+        # on récupère les tags commun au workflow et à l'étape
+        tags.update(self.__raw_definition_dict.get("tags", {}))
+        tags.update(d_step.get("tags", {}))
+
+        # Ajout des commentaires et des tags à chaque actions
+        for d_action in d_step["actions"]:
+            d_action["comments"] = [*comments, *d_action.get("comments", [])]
+            d_action["tags"] = {**tags, **d_action.get("tags", {})}
+
+        return d_step
 
     def get_actions(self, step_name: str) -> List[ActionAbstract]:
         """Instancie les actions de l'étape demandée et en renvoie la liste.
@@ -253,8 +269,8 @@ class Workflow:
             return ProcessingExecutionAction(workflow_context, definition_dict, parent_action, behavior=behavior)
         if definition_dict["type"] == "configuration":
             return ConfigurationAction(workflow_context, definition_dict, parent_action, behavior=behavior)
-        if definition_dict["type"] == "copie-configuration":
-            return CopieConfigurationAction(workflow_context, definition_dict, parent_action, behavior=behavior)
+        if definition_dict["type"] == "copy-configuration":
+            return CopyConfigurationAction(workflow_context, definition_dict, parent_action, behavior=behavior)
         if definition_dict["type"] == "offering":
             return OfferingAction(workflow_context, definition_dict, parent_action, behavior=behavior)
         if definition_dict["type"] == "synchronize-offering":

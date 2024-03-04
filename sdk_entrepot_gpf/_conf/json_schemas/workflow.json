@@ -39,7 +39,7 @@
                                                 "delete-entity",
                                                 "processing-execution",
                                                 "configuration",
-                                                "copie-configuration",
+                                                "copy-configuration",
                                                 "offering",
                                                 "synchronize-offering"
                                             ]
@@ -108,6 +108,15 @@
                             },
                             "tags": {
                                 "type": "object"
+                            },
+                            "iter_vals" : {
+                                "type": "array",
+                                "items": {
+                                    "type": ["string",  "object"]
+                                }
+                            },
+                            "iter_key": {
+                                "type": "string"
                             }
                         }
                     }
