@@ -40,7 +40,8 @@ class DictResolver(AbstractResolver):
             str: chaîne résolue
         """
         # La chaîne à résoudre est en fait la clé, donc il suffit de renvoyer la valeur associée
-        if string_to_solve in self.__key_value:
-            return str(self.__key_value[string_to_solve])
-        # Sinon on lève une exception
-        raise ResolverError(self.name, string_to_solve)
+        try:
+            return str(self.get(self.__key_value, string_to_solve))
+        except KeyError as e:
+            # Sinon on lève une exception
+            raise ResolverError(self.name, string_to_solve) from e
