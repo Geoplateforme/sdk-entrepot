@@ -1,5 +1,15 @@
 # CHANGE LOG
 
+## v0.1.22
+
+### [Added]
+
+* DateResolver: ajout d'un résolveur pour les dates #86
+
+### [Changed]
+
+### [Fixed]
+
 ## v0.1.21
 
 ### [Added]

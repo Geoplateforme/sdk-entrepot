@@ -23,6 +23,7 @@ from sdk_entrepot_gpf.store.Metadata import Metadata
 from sdk_entrepot_gpf.store.Static import Static
 from sdk_entrepot_gpf.workflow.Workflow import Workflow
 from sdk_entrepot_gpf.workflow.action.DeleteAction import DeleteAction
+from sdk_entrepot_gpf.workflow.resolver.DateResolver import DateResolver
 from sdk_entrepot_gpf.workflow.resolver.GlobalResolver import GlobalResolver
 from sdk_entrepot_gpf.workflow.resolver.StoreEntityResolver import StoreEntityResolver
 from sdk_entrepot_gpf.workflow.action.UploadAction import UploadAction
@@ -614,6 +615,8 @@ class Main:
                 # Sinon, on définit des résolveurs
                 GlobalResolver().add_resolver(StoreEntityResolver("store_entity"))
                 GlobalResolver().add_resolver(UserResolver("user"))
+                GlobalResolver().add_resolver(DateResolver("datetime"))
+
                 # le comportement
                 s_behavior = str(self.o_args.behavior).upper() if self.o_args.behavior is not None else None
                 # on reset l'afficheur de log
