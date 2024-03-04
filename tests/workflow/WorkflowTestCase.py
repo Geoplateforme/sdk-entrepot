@@ -14,7 +14,7 @@ from sdk_entrepot_gpf.workflow.Errors import WorkflowError
 from sdk_entrepot_gpf.workflow.Workflow import Workflow
 from sdk_entrepot_gpf.workflow.action.ActionAbstract import ActionAbstract
 from sdk_entrepot_gpf.workflow.action.ConfigurationAction import ConfigurationAction
-from sdk_entrepot_gpf.workflow.action.CopieConfigurationAction import CopieConfigurationAction
+from sdk_entrepot_gpf.workflow.action.CopyConfigurationAction import CopyConfigurationAction
 from sdk_entrepot_gpf.workflow.action.DeleteAction import DeleteAction
 from sdk_entrepot_gpf.workflow.action.EditAction import EditAction
 from sdk_entrepot_gpf.workflow.action.OfferingAction import OfferingAction
@@ -366,7 +366,7 @@ class WorkflowTestCase(GpfTestCase):
         patch.object(ConfigurationAction, "__init__", wraps=new_init) as d_mock["ConfigurationAction"], \
         patch.object(OfferingAction, "__init__", wraps=new_init) as d_mock["OfferingAction"], \
         patch.object(SynchronizeOfferingAction, "__init__", wraps=new_init) as d_mock["SynchronizeOfferingAction"], \
-        patch.object(CopieConfigurationAction, "__init__", wraps=new_init) as d_mock["CopieConfigurationAction"], \
+        patch.object(CopyConfigurationAction, "__init__", wraps=new_init) as d_mock["CopyConfigurationAction"], \
         patch.object(EditAction, "__init__", wraps=new_init) as d_mock["EditAction"]:
             # fmt: on
             # exécution
@@ -403,7 +403,7 @@ class WorkflowTestCase(GpfTestCase):
         # test type synchronize-offering
         self.run_generation(SynchronizeOfferingAction, "name", {"type": "synchronize-offering"}, o_mock_parent, with_beavior=False)
         # test type copie-configuration
-        self.run_generation(CopieConfigurationAction, "name", {"type": "copie-configuration"}, o_mock_parent, with_beavior=True)
+        self.run_generation(CopyConfigurationAction, "name", {"type": "copy-configuration"}, o_mock_parent, with_beavior=True)
         # test type edit-entity
         self.run_generation(EditAction, "name", {"type": "edit-entity"}, o_mock_parent, with_beavior=False)
 
