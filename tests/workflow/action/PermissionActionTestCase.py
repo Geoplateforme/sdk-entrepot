@@ -1,10 +1,7 @@
-from typing import Dict, Any, List
+from typing import Dict, Any
 from unittest.mock import patch, MagicMock
 
 from sdk_entrepot_gpf.store.Permission import Permission
-from sdk_entrepot_gpf.workflow.Errors import StepActionError
-from sdk_entrepot_gpf.workflow.action.CopieConfigurationAction import CopieConfigurationAction
-from sdk_entrepot_gpf.workflow.action.ConfigurationAction import ConfigurationAction
 from sdk_entrepot_gpf.workflow.action.PermissionAction import PermissionAction
 
 from tests.GpfTestCase import GpfTestCase
@@ -34,9 +31,9 @@ class PermissionActionTestCase(GpfTestCase):
         self.assertIsNone(o_action.permission)
 
         # fonctionnement OK
-        permission = Permission({"_id": "permission_id"})
-        with patch.object(Permission, "api_create", return_value=permission) as o_mock_create:
+        o_permission = MagicMock()
+        with patch.object(Permission, "api_create", return_value=o_permission) as o_mock_create:
             o_action.run("datastore")
 
         o_mock_create.assert_called_once_with(d_action["body_parameters"], route_params={"datastore": "datastore"})
-        self.assertEqual(permission, o_action.permission)
+        self.assertEqual(o_permission, o_action.permission)
