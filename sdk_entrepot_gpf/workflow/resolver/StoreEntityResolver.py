@@ -92,7 +92,10 @@ class StoreEntityResolver(AbstractResolver):
         # On doit envoyer une info ?
         if d_groups["selected_field_type"] == "infos":
             # On doit renvoyer une info
-            return str(o_entity[s_selected_field])
+            try:
+                return str(self.get(o_entity.get_store_properties(), s_selected_field))
+            except KeyError as e:
+                raise ResolverError(self.name, string_to_solve) from e
         # On doit renvoyer un tag, possible que si ça implémente TagInterface
         if isinstance(o_entity, TagInterface):
             return o_entity.get_tag(s_selected_field)
