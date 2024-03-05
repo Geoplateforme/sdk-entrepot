@@ -4,6 +4,8 @@
 
 ### [Added]
 
+* StoreEntityResolver: possibilité de récupérer une liste d'entités ou d’informations sur une entité #85
+
 ### [Changed]
 
 ### [Fixed]
