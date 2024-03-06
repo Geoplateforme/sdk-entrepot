@@ -18,6 +18,7 @@ from sdk_entrepot_gpf.workflow.action.CopyConfigurationAction import CopyConfigu
 from sdk_entrepot_gpf.workflow.action.DeleteAction import DeleteAction
 from sdk_entrepot_gpf.workflow.action.EditAction import EditAction
 from sdk_entrepot_gpf.workflow.action.OfferingAction import OfferingAction
+from sdk_entrepot_gpf.workflow.action.PermissionAction import PermissionAction
 from sdk_entrepot_gpf.workflow.action.ProcessingExecutionAction import ProcessingExecutionAction
 from sdk_entrepot_gpf.workflow.action.SynchronizeOfferingAction import SynchronizeOfferingAction
 
@@ -406,6 +407,8 @@ class WorkflowTestCase(GpfTestCase):
         self.run_generation(CopyConfigurationAction, "name", {"type": "copy-configuration"}, o_mock_parent, with_beavior=True)
         # test type edit-entity
         self.run_generation(EditAction, "name", {"type": "edit-entity"}, o_mock_parent, with_beavior=False)
+        # test type permission
+        self.run_generation(PermissionAction, "name", {"type": "permission"}, o_mock_parent, with_beavior=False)
 
     def test_open_workflow(self) -> None:
         """Test de la fonction open_workflow."""
