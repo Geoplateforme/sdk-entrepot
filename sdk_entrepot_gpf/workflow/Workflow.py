@@ -20,6 +20,7 @@ from sdk_entrepot_gpf.workflow.action.OfferingAction import OfferingAction
 from sdk_entrepot_gpf.workflow.action.SynchronizeOfferingAction import SynchronizeOfferingAction
 from sdk_entrepot_gpf.workflow.resolver.DictResolver import DictResolver
 from sdk_entrepot_gpf.workflow.resolver.GlobalResolver import GlobalResolver
+from sdk_entrepot_gpf.workflow.action.AccessAction import AccessAction
 
 
 class Workflow:
@@ -277,6 +278,8 @@ class Workflow:
             return SynchronizeOfferingAction(workflow_context, definition_dict, parent_action)
         if definition_dict["type"] == "edit-entity":
             return EditAction(workflow_context, definition_dict, parent_action)
+        if definition_dict["type"] == "access":
+            return AccessAction(workflow_context, definition_dict, parent_action)
         raise WorkflowError(f"Aucune correspondance pour ce type d'action : {definition_dict['type']}")
 
     @staticmethod

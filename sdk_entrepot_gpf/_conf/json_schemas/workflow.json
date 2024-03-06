@@ -41,7 +41,8 @@
                                                 "configuration",
                                                 "copy-configuration",
                                                 "offering",
-                                                "synchronize-offering"
+                                                "synchronize-offering",
+                                                "access"
                                             ]
                                         },
                                         "url_parameters": {
