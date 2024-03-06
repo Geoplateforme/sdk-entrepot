@@ -43,6 +43,8 @@
                                                 "offering",
                                                 "synchronize-offering",
                                                 "access"
+                                                "edit-entity",
+                                                "permission"
                                             ]
                                         },
                                         "url_parameters": {
