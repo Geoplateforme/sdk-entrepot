@@ -41,7 +41,9 @@
                                                 "configuration",
                                                 "copy-configuration",
                                                 "offering",
-                                                "synchronize-offering"
+                                                "synchronize-offering",
+                                                "edit-entity",
+                                                "permission"
                                             ]
                                         },
                                         "url_parameters": {

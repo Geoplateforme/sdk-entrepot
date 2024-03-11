@@ -5,10 +5,16 @@
 ### [Added]
 
 * StoreEntityResolver: possibilité de récupérer une liste d'entités ou d’informations sur une entité #85
+* ajout classe Permission : gère les permissions sur les offres #93
+* ajout classe PermissionAction : gère les permissions sur les offres depuis le workflow #94
 
 ### [Changed]
 
+* workflow: ajout de PermissionAction #94
+
 ### [Fixed]
+
+* schema workflow: ajout du type "edit-entity"
 
 ## v0.1.23
 
