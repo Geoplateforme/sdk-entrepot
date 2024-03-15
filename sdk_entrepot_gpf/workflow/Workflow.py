@@ -14,6 +14,7 @@ from sdk_entrepot_gpf.workflow.action.ActionAbstract import ActionAbstract
 from sdk_entrepot_gpf.workflow.action.CopyConfigurationAction import CopyConfigurationAction
 from sdk_entrepot_gpf.workflow.action.DeleteAction import DeleteAction
 from sdk_entrepot_gpf.workflow.action.EditAction import EditAction
+from sdk_entrepot_gpf.workflow.action.PermissionAction import PermissionAction
 from sdk_entrepot_gpf.workflow.action.ProcessingExecutionAction import ProcessingExecutionAction
 from sdk_entrepot_gpf.workflow.action.ConfigurationAction import ConfigurationAction
 from sdk_entrepot_gpf.workflow.action.OfferingAction import OfferingAction
@@ -87,8 +88,8 @@ class Workflow:
         Config().om.info(f"Lancement de l'étape {step_name}...")
         # Création d'une liste pour stocker les entités créées
         l_store_entity: List[StoreEntity] = []
-        # Récupération de l'étape dans la définition de workflow
-        d_step_definition = self.__get_step_definition(step_name, comments, tags)
+        # Récupération de l'étape dans la définition de workflow (datastore forcé, sinon datastore du workflow/None)
+        d_step_definition = self.__get_step_definition(step_name, comments, tags, datastore if datastore else self.__datastore)
         # initialisation des actions parentes
         o_parent_action: Optional[ActionAbstract] = None
         # Pour chaque action définie dans le workflow, instanciation de l'objet Action puis création sur l'entrepôt
@@ -96,14 +97,12 @@ class Workflow:
             # création de l'action
             o_action = Workflow.generate(step_name, d_action_raw, o_parent_action, behavior)
             # choix du datastore
-            ## par défaut datastore du workflow, si None il sera récupérer dans la configuration
-            s_use_datastore = self.__datastore
-            if datastore:
-                # datastore dans l'appel à la fonction on prend
-                s_use_datastore = datastore
-            elif "datastore" in o_action.definition_dict:
-                # datastore dans l'étape
-                s_use_datastore = o_action.definition_dict["datastore"]
+            ## datastore donné en paramètre
+            ## sinon datastore du workflow au niveau de l'action
+            ## sinon datastore du workflow au niveau de l'étape
+            ## sinon datastore du workflow au niveau global (self.__datastore)
+            # NB: si None il sera récupérer dans la configuration
+            s_use_datastore = datastore if datastore else o_action.definition_dict.get("datastore", d_step_definition.get("datastore", self.__datastore))
 
             # résolution
             o_action.resolve(datastore=s_use_datastore)
@@ -139,7 +138,7 @@ class Workflow:
         # Retour de la liste
         return l_store_entity
 
-    def __get_step_definition(self, step_name: str, comments: List[str] = [], tags: Dict[str, str] = {}) -> Dict[str, Any]:
+    def __get_step_definition(self, step_name: str, comments: List[str] = [], tags: Dict[str, str] = {}, datastore: Optional[str] = None) -> Dict[str, Any]:
         """Renvoie le dictionnaire correspondant à une étape du workflow à partir de son nom.
         Lève une WorkflowError avec un message clair si l'étape n'est pas trouvée.
 
@@ -170,6 +169,9 @@ class Workflow:
             l_actions = []
             s_actions = str(json.dumps(d_step["actions"], ensure_ascii=False))
 
+            # on lance la résolution sur iter_vals
+            d_step["iter_vals"] = json.loads(GlobalResolver().resolve(json.dumps(d_step["iter_vals"]), datastore=datastore))
+            Config().om.debug(f"iter_vals : {d_step['iter_vals']}")
             if isinstance(d_step["iter_vals"][0], (str, float, int)):
                 # si la liste est une liste de string, un int ou flat : on remplace directement
                 for s_val in d_step["iter_vals"]:
@@ -277,6 +279,8 @@ class Workflow:
             return SynchronizeOfferingAction(workflow_context, definition_dict, parent_action)
         if definition_dict["type"] == "edit-entity":
             return EditAction(workflow_context, definition_dict, parent_action)
+        if definition_dict["type"] == "permission":
+            return PermissionAction(workflow_context, definition_dict, parent_action)
         raise WorkflowError(f"Aucune correspondance pour ce type d'action : {definition_dict['type']}")
 
     @staticmethod

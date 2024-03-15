@@ -1,14 +1,38 @@
 # CHANGE LOG
 
+## v0.1.25
+
+### [Added]
+
+### [Changed]
+
+### [Fixed]
+
+## v0.1.24
+
+### [Added]
+
+* StoreEntityResolver: possibilité de récupérer une liste d'entités ou d’informations sur une entité #85
+* ajout classe Permission : gère les permissions sur les offres #93
+* ajout classe PermissionAction : gère les permissions sur les offres depuis le workflow #94
+
+### [Changed]
+
+* workflow:
+  * ajout de PermissionAction #94
+  * possibilité d'utiliser un résolveur pour créer la liste de "Iter_vals" #106
+  * possibilité de définir un datastore au niveau de l'étape
+
+### [Fixed]
+
+* schema workflow: ajout du type "edit-entity"
+* Edit Configuration : correction de la gestion de `used_data` (#107)
+
 ## v0.1.23
 
 ### [Added]
 
 * DateResolver: ajout d'un résolveur pour les dates #86
-
-### [Changed]
-
-### [Fixed]
 
 ## v0.1.22
 
