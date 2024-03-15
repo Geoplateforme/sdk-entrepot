@@ -119,6 +119,9 @@
                             },
                             "iter_key": {
                                 "type": "string"
+                            },
+                            "datastore": {
+                                "type": "string"
                             }
                         }
                     }
