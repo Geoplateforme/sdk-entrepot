@@ -18,6 +18,7 @@
 ### [Fixed]
 
 * schema workflow: ajout du type "edit-entity"
+* Edit Configuration : correction de la gestion de `used_data` (#107)
 
 ## v0.1.23
 
