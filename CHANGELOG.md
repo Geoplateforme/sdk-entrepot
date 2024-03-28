@@ -4,6 +4,8 @@
 
 ### [Added]
 
+* workflow : ajout de EditUsedDataConfigurationAction #105
+
 ### [Changed]
 
 ### [Fixed]
