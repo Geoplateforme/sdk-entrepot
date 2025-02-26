@@ -148,7 +148,7 @@
                         // Type de l'entité à supprimer (upload, stored_data, configuration, offering)
                         "entity_type": "upload",
                         // Critères pour filtrer filter_infos et/ou filter_tags
-                        "filtre_infos": {"name":"{params.producteur}"},
+                        "filter_infos": {"name":"{params.producteur}"},
                         "filter_tags": {"type":"PCRS"},
                         // Suppression en cascade autorisée ou pas ? par défaut à false
                         "cascade": true,
