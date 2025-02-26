@@ -207,7 +207,7 @@ Pour cela, livrez les nouvelles dalles en ajoutant un tag version à votre fichi
                 "Votre commentaire"
             ],
             "tags": {
-                "datasheet_name": "$votre_chantier_PCRS2",
+                "datasheet_name": "$votre_chantier_PCRS",
                 "type": "PCRS",
                 "version": "2"
             }
@@ -238,11 +238,9 @@ Vous pouvez ensuite mettre à jour les offres avec la commande :
 python3 -m sdk_entrepot_gpf workflow -f PCRS.jsonc -s publication_maj --param producteur $votre_chantier_PCRS --param old_version "" --param new_version 2
 ```
 
-Une fois que vous avez validé les nouvelles offres, vous pouvez supprimer l'ancienne pyramide pour libérer de l'espace sur votre datastore ou la publier si vous souhaitez faire de l'historisation pour comparer (attention aux quotas de votre datastore).
+Une fois que vous avez validé les nouvelles offres, vous pouvez si vous souhaitez faire de l'historisation pour comparer (attention aux quotas de votre datastore).
 
 ```sh
-# si vous souhaitez supprimer l'ancienne pyramide
-python3 -m sdk_entrepot_gpf workflow -f generic_raster.jsonc -s pyramide_delete --param producteur $votre_chantier_PCRS --param old_version ""
 # Si vous souhaitez publier l'ancienne pyramide
-python3 -m sdk_entrepot_gpf workflow -f generic_raster.jsonc -s publication_old --param producteur $votre_chantier_PCRS --param old_version ""
+python3 -m sdk_entrepot_gpf workflow -f PCRS.jsonc -s publication_old --param producteur $votre_chantier_PCRS --param old_version ""
 ```
