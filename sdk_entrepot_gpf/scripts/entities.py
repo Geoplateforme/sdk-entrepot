@@ -155,6 +155,12 @@ class Entities:
             Entities.action_annexe_unpublish(o_entity)
             b_return = False
 
+        # Gestion des actions liées aux Exécution de traitement
+        if getattr(self.args, "abort", False):
+            assert isinstance(o_entity, ProcessingExecution)
+            Entities.action_execution_abort(o_entity)
+            b_return = False
+
         # Gestion des actions liées aux Points d'accès
         if getattr(self.args, "publish_metadata", None) is not None:
             assert isinstance(o_entity, Endpoint)
@@ -187,6 +193,18 @@ class Entities:
         }
         o_action_delete = DeleteAction("contexte", d_action)
         o_action_delete.run(datastore)
+
+    @staticmethod
+    def action_execution_abort(entity: ProcessingExecution) -> None:
+        """Arrêt de l'execution de traitement.
+
+        Args:
+            entity (ProcessingExecution): entité à gérer
+        """
+        s_output = entity["output"].get("upload", entity["output"].get("stored_data", {"name": "indéfini"}))["name"]
+        Config().om.info(f"Annulation de l'exécution de traitement {entity['processing']['name']} => {s_output}...")
+        entity.api_abort()
+        Config().om.info("Annulation effectuée avec succès.", green_colored=True)
 
     @staticmethod
     def action_endpoint_publish_metadata(endpoint: Endpoint, l_metadata: List[str], datastore: Optional[str]) -> None:
@@ -595,6 +613,10 @@ class Entities:
                 )
                 # TODO déprécié
                 o_sub_parser.add_argument("--behavior", "-b", choices=UploadAction.BEHAVIORS, default=None, help="(déprécié) Action à effectuer si la livraison existe déjà (uniquement avec -f)")
+
+            if o_entity == ProcessingExecution:
+                l_epilog.append(f"""        - annulation de l'exécution de traitement : {o_entity.entity_name()} ID --abort""")
+                o_sub_parser.add_argument("--abort", action="store_true", default=False, help="Annule l'exécution de traitement.")
 
             l_epilog.append("""""")
             l_epilog.append("""Exemples :""")
