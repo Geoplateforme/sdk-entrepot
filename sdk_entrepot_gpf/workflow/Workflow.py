@@ -359,7 +359,7 @@ class Workflow:
         for s_step_name in self.steps:
             # 1. Est-ce que les parents de chaque étape existent ?
             # Pour chaque parent de l'étape
-            for s_parent_name in self.__get_step_definition(s_step_name)["parents"]:
+            for s_parent_name in self.__get_step_definition(s_step_name).get("parents", []):
                 # S'il n'est pas dans la liste
                 if not s_parent_name in self.steps:
                     l_errors.append(f"Le parent « {s_parent_name} » de l'étape « {s_step_name} » n'est pas défini dans le workflow.")
@@ -393,7 +393,7 @@ class Workflow:
         # Pour chaque étape
         for s_step_name in self.steps:
             # on récupère les parents
-            l_parents = self.__get_step_definition(s_step_name)["parents"]
+            l_parents = self.__get_step_definition(s_step_name).get("parents", [])
             # on ajoute dans la liste
             if l_parents:
                 s_parents = ", ".join(l_parents)
