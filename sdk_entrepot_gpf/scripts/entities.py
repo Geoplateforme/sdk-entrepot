@@ -3,8 +3,8 @@ from __future__ import annotations  # utile pour le typage "argparse._SubParsers
 import argparse
 import re
 from typing import Callable, List, Optional, Sequence
-from shapely.geometry import shape
-from shapely.wkt import dumps
+from shapely.geometry import shape  # type:ignore
+from shapely.wkt import dumps  # type:ignore
 from tabulate import tabulate
 
 from sdk_entrepot_gpf.Errors import GpfSdkError
@@ -120,7 +120,7 @@ class Entities:
             #     folium.Polygon(coordinates, color="blue", fill= True).add_to(m)
         Config().om.info(o_entity.to_json(indent=3))
 
-    def action(self, o_entity: StoreEntity) -> bool:  # pylint:disable=too-many-return-statements
+    def action(self, o_entity: StoreEntity) -> bool:  # pylint:disable=too-many-branches,too-many-statements,too-many-return-statements
         """Traite les actions s'il y a lieu. Renvoie true si on doit afficher l'entité.
 
         Args:
