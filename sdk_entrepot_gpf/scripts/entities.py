@@ -99,7 +99,7 @@ class Entities:
     @staticmethod
     def print_entity(o_entity: StoreEntity, extent: str = None):
         if o_entity.get("extent") is not None:
-            if extent != "Geojson":
+            if extent != "geojson":
                 del o_entity._store_api_dict["extent"]
             if extent == "wkt":
                 o_entity._store_api_dict["extent"] = dumps(shape(o_entity.get("extent")["geometry"]))
@@ -423,7 +423,7 @@ class Entities:
             # Filtres
             o_sub_parser.add_argument("--infos", "-i", type=str, default=None, help=f"Filtrer les {o_entity.entity_titles()} selon les infos")
             o_sub_parser.add_argument("--page", "-p", type=int, default=None, help="Page à récupérer. Toutes si non indiqué.")
-            o_sub_parser.add_argument("--extent", type=str, default=None, help="Affichage de toute la donnée selon le type", choices=["wkt", "Geojson"])
+            o_sub_parser.add_argument("--extent", type=str, default=None, help="Affichage de l'emprise selon le format demandé", choices=["wkt", "geojson"])
             if issubclass(o_entity, TagInterface):
                 l_epilog.append(
                     f"""    * lister les {o_entity.entity_titles()} avec d'optionnels filtres sur les infos et les tags : {o_entity.entity_name()} [--infos INFO=VALEUR] [--tags TAG=VALEUR]"""
