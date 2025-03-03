@@ -1,12 +1,19 @@
 # CHANGE LOG
 
+## v0.1.40
+
+### [Added]
+
+### [Changed]
+
+### [Fixed]
+
+
 ## v0.1.39
 
 ### [Added]
 
-
 ### [Changed]
-
 
 ### [Fixed]
 
