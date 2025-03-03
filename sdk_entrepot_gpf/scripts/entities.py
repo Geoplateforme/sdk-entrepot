@@ -172,7 +172,7 @@ class Entities:
             for d_verification in d_checks["failed"]:
                 Config().om.error(f"\t {d_verification['check']['name']} {d_verification['check']['_id']}")
                 o_check = CheckExecution(d_verification, datastore=upload.datastore)
-                l_lines = o_check.api_logs_filter("ERROR")
+                l_lines = o_check.api_logs_pages_filter(str_filter="ERROR")
                 for s_line in l_lines:
                     Config().om.error(s_line)
 
@@ -184,28 +184,28 @@ class Entities:
 
         Config().om.info(f"Suppression de {len(delete_files)} fichiers téléversés sur la livraison {upload} :")
         upload.api_open()
-        for file in delete_files:
-            if file.__contains__(".md5"):
-                upload.api_delete_md5_file(file)
+        for s_file in delete_files:
+            if ".md5" in s_file:
+                upload.api_delete_md5_file(s_file)
             else:
-                upload.api_delete_data_file(file)
+                upload.api_delete_data_file(s_file)
 
     @staticmethod
     def action_upload_delete_failed_files(upload: Upload) -> None:
         Config().om.info(f"Suppression des fichiers mal téléversés sur la livraison {upload} :")
-        files = []
-        checks = upload.api_list_checks()
-        for verification in checks["failed"]:
-            check = CheckExecution(verification)
-            lines = check.api_logs_filter("ERROR")
-            for line in lines:
-                correspondance = re.search(r"\((.*?)\)", line)
-                if correspondance:
-                    Config().om.warning(correspondance.group(1))
-                    files.append(correspondance.group(1))
+        l_files = []
+        l_checks = upload.api_list_checks()
+        for d_verification in l_checks["failed"]:
+            o_check = CheckExecution(d_verification)
+            l_lines = o_check.api_logs_pages_filter(str_filter="ERROR")
+            for s_line in l_lines:
+                d__correspondance = re.search(r"\((.*?)\)", s_line)
+                if d__correspondance:
+                    Config().om.warning(d__correspondance.group(1))
+                    l_files.append(d__correspondance.group(1))
         upload.api_open()
-        for file in files:
-            upload.api_delete_data_file(file)
+        for s_file in l_files:
+            upload.api_delete_data_file(s_file)
 
     @staticmethod
     def action_execution_logs(verification: LogsInterface, filters: str):

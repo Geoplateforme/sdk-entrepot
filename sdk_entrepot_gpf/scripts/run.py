@@ -402,7 +402,7 @@ class Main:
                         processing_execution (ProcessingExecution): processing exécution en cours
                     """
                     try:
-                        PrintLogHelper.print(processing_execution.api_logs())
+                        PrintLogHelper.print(processing_execution.api_logs_pages_filter())
                     except Exception:
                         PrintLogHelper.print("Logs indisponibles pour le moment...")
 
