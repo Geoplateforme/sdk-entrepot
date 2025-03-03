@@ -2,7 +2,7 @@
     "workflow": {
         "steps": {
             // Étape n°1 : Mise en base de vecteurs livrés et Publication de la donnee en WMS
-            "flux_wms_vecteur": {
+            "flux-wms-vecteur": {
                 "actions": [
                     {
                         // On crée une exécution de traitement
@@ -125,7 +125,7 @@
                         }
                     }
                 ],
-                "parents": ["flux_wms"]
+                "parents": ["flux-wms-vecteur"]
             },
             // Étape n°3 : Configuration et publication d'un flus WMS sur la pyramide du moissonnage
             "flux-wms-raster" :{
