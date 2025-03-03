@@ -86,27 +86,24 @@ class LogsInterface(StoreEntity):
         )
         # On récupère le nombre de page en fonction du nombre de ligne par page.
         i_total_page = ApiRequester.range_total_page(o_response.headers.get("Content-Range"), line_per_page)
-        print(i_total_page)
-        if abs(first_page) > i_total_page + 1:
+        if abs(first_page) > i_total_page:
             raise StoreEntityError("La première page est en dehors des limites " + str(i_total_page))
-        if abs(last_page) > i_total_page + 1:
+        if abs(last_page) > i_total_page:
             raise StoreEntityError("La dernière page est en dehors des limites " + str(i_total_page))
         # On initialise la première page
         if first_page > 0:
             i_firstpage = first_page
         elif first_page < 0:
-            i_firstpage = i_total_page + first_page
+            i_firstpage = i_total_page + first_page + 1
         else:
             i_firstpage = 1
         # On initialise la dernière page
         if last_page > 0:
             i_lastpage = last_page
         elif last_page < 0:
-            i_lastpage = i_total_page + last_page
+            i_lastpage = i_total_page + last_page + 1
         else:
             i_lastpage = i_total_page
-        print(i_firstpage)
-        print(i_lastpage)
         if i_firstpage > i_lastpage:
             raise StoreEntityError("La dernière page doit être superieur a la première")
 
