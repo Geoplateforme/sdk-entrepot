@@ -10,6 +10,8 @@
 
 ### [Fixed]
 
+* Wf : ok si pas de parents indiqués
+
 
 ## v0.1.38
 
