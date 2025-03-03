@@ -1,5 +1,18 @@
 # CHANGE LOG
 
+## v0.1.39
+
+### [Added]
+
+
+### [Changed]
+
+
+### [Fixed]
+
+* Wf : ok si pas de parents indiqués
+
+
 ## v0.1.38
 
 ### [Added]

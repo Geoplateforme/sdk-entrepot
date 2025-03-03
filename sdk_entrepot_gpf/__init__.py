@@ -1,3 +1,3 @@
 """Python API to simplify the use of the GPF Warehouse HTTPS API."""
 
-__version__ = "0.1.38"
+__version__ = "0.1.39"

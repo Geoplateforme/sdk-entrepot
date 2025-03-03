@@ -16,8 +16,7 @@
                     "additionalProperties": {
                         "type": "object",
                         "required": [
-                            "actions",
-                            "parents"
+                            "actions"
                         ],
                         "additionalProperties": false,
                         "properties": {
