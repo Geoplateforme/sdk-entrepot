@@ -1,4 +1,5 @@
 from typing import List
+from sdk_entrepot_gpf.store.Errors import StoreEntityError
 from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
 from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
 
@@ -77,3 +78,33 @@ class LogsInterface(StoreEntity):
             # On passe à la page suivante
             i_page += 1
         return [s_line for s_line in l_logs if substring in s_line]
+
+    def api_logs_advanced(self, page: int = 1, line_per_page: int = 1000) -> dict[str, any]:
+        """
+            Récupère les logs de l'entité a la page souhaité
+        Returns:
+            dict[str, any]: contiendra la logs: List[str] qui sera la liste des logs, last_page: bool si on est sur la dernière page,
+                                total_page: int qui sera le nombre de page
+        """
+        d_response = dict()
+        s_route = f"{self._entity_name}_logs"
+        # on récupère la page souhaitée
+        o_response = ApiRequester().route_request(
+            s_route,
+            route_params={"datastore": self.datastore, self._entity_name: self.id},
+            params={"page": page, "limit": line_per_page},
+        )
+        # On récupère le nombre de page en fonction du nombre de ligne par page.
+        i_total_page = ApiRequester.range_total_page(o_response.iheaders.get("Content-Range"), line_per_page)
+        if page > i_total_page:
+            raise StoreEntityError(f"La première page est en dehors des limites {i_total_page}")
+        d_response["total_page"] = i_total_page
+        if page == i_total_page:
+            d_response["last_page"] = True
+        else:
+            d_response["last_page"] = False
+
+        # On les ajoute à la liste
+        d_response["logs"] = o_response.json()
+
+        return d_response
