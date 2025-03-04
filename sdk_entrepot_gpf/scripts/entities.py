@@ -578,8 +578,6 @@ class Entities:
             # Filtres
             o_sub_parser.add_argument("--infos", "-i", type=str, default=None, help=f"Filtrer les {o_entity.entity_titles()} selon les infos")
             o_sub_parser.add_argument("--page", "-p", type=int, default=None, help="Page à récupérer. Toutes si non indiqué.")
-            o_sub_parser.add_argument("--extent", type=str, default=None, help="Affichage de l'emprise selon le format demandé", choices=["wkt", "geojson"])
-            o_sub_parser.add_argument("--relative-entities", action="store_true", help="Affiche les entités liées.")
             if issubclass(o_entity, TagInterface):
                 l_epilog.append(
                     f"""    * lister les {o_entity.entity_titles()} avec d'optionnels filtres sur les infos et les tags : {o_entity.entity_name()} [--infos INFO=VALEUR] [--tags TAG=VALEUR]"""
@@ -589,6 +587,10 @@ class Entities:
                 l_epilog.append(f"""    * lister les {o_entity.entity_titles()} avec d'optionnels filtres sur les infos : {o_entity.entity_name()} [--infos INFOS]""")
             l_epilog.append(f"""    * afficher le détail d'une entité : {o_entity.entity_name()} ID""")
             l_epilog.append("""    * effectuer une ACTION sur une entité :""")
+            l_epilog.append(f"""        - affiche son emprise : {o_entity.entity_name()} ID --extent [geojson|wkt]""")
+            o_sub_parser.add_argument("--extent", type=str, const="geojson", nargs="?", help="Affichage de l'emprise selon le format demandé", choices=["wkt", "geojson"])
+            l_epilog.append(f"""        - affiche les entités liées : {o_entity.entity_name()} ID --relative-entities""")
+            o_sub_parser.add_argument("--relative-entities", action="store_true", help="Affiche les entités liées.")
             l_epilog.append(f"""        - suppression : {o_entity.entity_name()} ID --delete""")
             o_sub_parser.add_argument("--delete", action="store_true", help="Suppression de l'entité")
             l_epilog.append(f"""        - suppression en cascade : {o_entity.entity_name()} ID --delete --cascade""")
@@ -624,7 +626,7 @@ class Entities:
                 o_sub_parser.add_argument("--checks", action="store_true", default=False, help="Affiche le bilan des vérifications d'une livraison")
                 l_epilog.append(f"""        - suppression de fichiers téléversés : {o_entity.entity_name()} ID --delete-files FILE [FILE]""")
                 o_sub_parser.add_argument("--delete-files", type=str, nargs="+", default=None, help="Supprime les fichiers distants indiqués d'une livraison.")
-                l_epilog.append(f"""        - suppression auto des fichiers mal téléversés {o_entity.entity_name()} ID --delete-failed-files""")
+                l_epilog.append(f"""        - suppression auto des fichiers mal téléversés : {o_entity.entity_name()} ID --delete-failed-files""")
                 o_sub_parser.add_argument("--delete-failed-files", action="store_true", default=False, help="Supprime les fichiers mal téléversés d'une livraison vérifiées et en erreur.")
                 l_epilog.append(f"""    * créer / mettre à jour une livraison (déprécié) : {o_entity.entity_name()} --file FILE [--behavior BEHAVIOR] [--check-before-close]""")
                 # TODO déprécié
