@@ -74,7 +74,7 @@ class LogsInterfaceTestCase(GpfTestCase):
                     o_mock_range.assert_any_call(o_response.headers.get("Content-Range"), 2000 * i)
 
     def test_api_logs_advanced(self) -> None:
-        "Vérifie le bon fonctionnement de api_logs_filter (une seule page)."
+        "Vérifie le bon fonctionnement de api_logs_advanced."
         s_data = "2022/05/18 14:29:25       INFO §USER§ Envoi du signal de début de l'exécution à l'API.\n2022/05/18 14:29:25       INFO §USER§ Signal transmis avec succès."
         d_rep1: Dict[str, Any] = {"logs": ["2022/05/18 14:29:25       INFO §USER§ Envoi du signal de début de l'exécution à l'API."], "last_page": False, "total_page": 2}
         d_rep2: Dict[str, Any] = {"logs": ["2022/05/18 14:29:25       INFO §USER§ Signal transmis avec succès."], "last_page": True, "total_page": 2}
