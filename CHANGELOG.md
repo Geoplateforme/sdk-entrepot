@@ -1,14 +1,48 @@
 # CHANGE LOG
 
+## v0.1.39
+
+### [Added]
+
+
+### [Changed]
+
+
+### [Fixed]
+
+* Wf : ok si pas de parents indiqués
+
+
+## v0.1.38
+
+### [Added]
+
+* Cli : ajout d'une action `--relative-entities` permettant de lister les entités liées à l'entité indiquée.
+* Cli : ajout d'une action `--abort` permettant de d'annuler une exécution de traitement.
+
+### [Changed]
+
+* Workflow : étape indiquée comme "étape primaire" si pas de parent
+
+### [Fixed]
+
+* Cli : validation du workflow avant lancement
+* Cli : correction bug suppression entité autre que livraison
+
+
 ## v0.1.37
 
 ### [Added]
 
-Cli : ajout d'une commande `resolve` permettant de résoudre et tester les chaînes de configuration.
+* Cli : ajout d'une commande `resolve` permettant de résoudre et tester les chaînes de configuration.
 
 ### [Changed]
 
+* Tutoriel PCRS : ajout des explications de suppression de données.
+
 ### [Fixed]
+
+* Workflows PCRS : correction d'une parenthèse manquante.
 
 
 ## v0.1.36

@@ -533,18 +533,15 @@ class WorkflowTestCase(GpfTestCase):
         """Test de la fonction validate."""
         p_workflows = Config.data_dir_path / "workflows"
 
-        # On valide le workflow generic_archive.jsonc
-        o_workflow_1 = Workflow.open_workflow(p_workflows / "generic_archive.jsonc")
-        self.assertFalse(o_workflow_1.validate())
-
-        # On valide le workflow generic_vecteur.jsonc
-        o_workflow_2 = Workflow.open_workflow(p_workflows / "generic_vecteur.jsonc")
-        self.assertFalse(o_workflow_2.validate())
+        # On valide tous les workflows
+        for p_workflow in p_workflows.glob("*.jsonc"):
+            o_workflow = Workflow.open_workflow(p_workflow)
+            self.assertFalse(o_workflow.validate(), p_workflow.stem)
 
         # On ne valide pas le workflow bad-workflow.jsonc
         p_workflow = GpfTestCase.data_dir_path / "workflows" / "bad-workflow.jsonc"
-        o_workflow_2 = Workflow(p_workflow.stem, JsonHelper.load(p_workflow))
-        l_errors = o_workflow_2.validate()
+        o_workflow_bad = Workflow(p_workflow.stem, JsonHelper.load(p_workflow))
+        l_errors = o_workflow_bad.validate()
         self.assertTrue(l_errors)
         self.assertIn("Le workflow ne respecte pas le schéma demandé. Erreur de schéma :", l_errors[0])
         self.assertEqual(l_errors[1], "Le parent « parent-not-found » de l'étape « no-parent-no-action » n'est pas défini dans le workflow.")
@@ -553,7 +550,8 @@ class WorkflowTestCase(GpfTestCase):
         self.assertEqual(l_errors[4], "L'action n°2 de l'étape « configuration-wfs » n'a pas la clef obligatoire ('type').")
         ## cas erreur non valide
         with patch.object(Workflow, "generate", side_effect=Exception("error")) as o_mock_jsonschema:
-            l_errors = o_workflow_1.validate()
+            o_workflow_archive = Workflow.open_workflow(p_workflows / "generic_archive.jsonc")
+            l_errors = o_workflow_archive.validate()
             self.assertTrue(l_errors)
             self.assertEqual(l_errors[0], "L'action n°1 de l'étape « intégration-archive-livrée » lève une erreur inattendue (error).")
             self.assertEqual(l_errors[1], "L'action n°1 de l'étape « patch-donnée-stockée » lève une erreur inattendue (error).")
@@ -561,10 +559,11 @@ class WorkflowTestCase(GpfTestCase):
             self.assertEqual(l_errors[3], "L'action n°1 de l'étape « publication-archive-livrée » lève une erreur inattendue (error).")
 
         # problème avec le schema du fichier workflow
+        o_workflow_vecteur = Workflow.open_workflow(p_workflows / "generic_vecteur.jsonc")
         p_schema = Config.conf_dir_path / "json_schemas" / "workflow.json"
         with patch.object(jsonschema, "validate", side_effect=jsonschema.exceptions.SchemaError("error")) as o_mock_jsonschema:
             with self.assertRaises(GpfSdkError) as o_arc:
-                o_workflow_2.validate()
+                o_workflow_vecteur.validate()
             self.assertEqual(o_arc.exception.message, f"Le schéma décrivant la structure d'un workflow {p_schema} est invalide. Contactez le support.")
             o_mock_jsonschema.assert_called_once()
 
@@ -632,7 +631,7 @@ class WorkflowTestCase(GpfTestCase):
             },
         )
         l_steps = o_workflow.get_all_steps()
-        self.assertEqual(l_steps[0], "Etape « etape1 » [parent(s) : ]")
+        self.assertEqual(l_steps[0], "Etape « etape1 » [étape primaire]")
         self.assertEqual(l_steps[1], "Etape « etape2A » [parent(s) : etape1]")
         self.assertEqual(l_steps[2], "Etape « etape2B » [parent(s) : etape1]")
         self.assertEqual(l_steps[3], "Etape « etape3 » [parent(s) : etape2A, etape2B]")
