@@ -108,7 +108,14 @@ class Entities:
         print(tabulate([o_e.get_store_properties(l_props.split(",")) for o_e in entities], headers="keys") + sep)
 
     @staticmethod
-    def print_entity(o_entity: StoreEntity, extent: str = None):
+    def print_entity(o_entity: StoreEntity, extent: str = None) -> None:
+        """
+        Affiche l'entité avec la possibilité de choisir l'affichage du extent
+
+        Args:
+            extent (str): Type de l'affichage du extent
+
+        """
         if o_entity.get("extent") is not None:
             if extent == "wkt":
                 o_entity.set_key("extent", dumps(shape(o_entity.get("extent")["geometry"])))
