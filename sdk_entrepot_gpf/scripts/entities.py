@@ -111,9 +111,9 @@ class Entities:
     def print_entity(o_entity: StoreEntity, extent: str = None):
         if o_entity.get("extent") is not None:
             if extent == "wkt":
-                o_entity._store_api_dict["extent"] = dumps(shape(o_entity.get("extent")["geometry"]))
+                o_entity.set_key("extent", dumps(shape(o_entity.get("extent")["geometry"])))
             elif extent is None:
-                del o_entity._store_api_dict["extent"]
+                o_entity.delete_key("extent")
 
             # if extent == "show":
             #     coordinates = o_entity.get("extent")["geometry"]["coordinates"]
