@@ -41,7 +41,7 @@ class Endpoint(StoreEntity):
             b_ok = True
             # On vérifie s'il respecte les critère d'attributs
             for k, v in infos_filter.items():
-                if str(d_endpoint["endpoint"].get(k)) != str(v):
+                if str(d_endpoint["endpoint"].get(k)).lower() != str(v).lower():
                     b_ok = False
                     break
             # S'il est ok au final, on l'ajoute
