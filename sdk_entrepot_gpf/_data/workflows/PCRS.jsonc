@@ -85,7 +85,7 @@
                         },
                         "body_parameters": {
                             // Endpoint de type WMTS-TMS (id trouvé en récupérant les informations de l'entrepôt)
-                            "endpoint": "{store_entity.endpoint.infos._id [INFOS(type=WMTS-TMS)]}",
+                            "endpoint": "{store_entity.endpoint.infos._id [INFOS(technical_name=gpf-rok4-server-wmts-tms)]}",
                             "visibility": "PRIVATE",
                             "open": true
                         }
@@ -130,7 +130,7 @@
                         },
                         "body_parameters": {
                             // Endpoint de type WMS (id trouvé en récupérant les informations de l'entrepôt)
-                            "endpoint": "{store_entity.endpoint.infos._id [INFOS(type=WMS-RASTER)]}",
+                            "endpoint": "{store_entity.endpoint.infos._id [INFOS(technical_name=gpf-rok4-server-wms-r)]}",
                             "visibility": "PRIVATE",
                             "open": true
                         }
