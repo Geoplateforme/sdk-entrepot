@@ -79,7 +79,7 @@ class Entities:
             if self.action(o_entity):  # si ça retourne True
                 # On affiche l'entité
                 Config().om.info(f"Affichage de l'entité {o_entity}", green_colored=True)
-                Entities.print_entity(o_entity, None)
+                Entities.print_entity(o_entity, "")
                 Config().om.info("Emprise masquée, utilisez la commande --extent pour l'afficher")
         elif getattr(self.args, "publish_by_label", False) is True:
             Entities.action_annexe_publish_by_labels(self.args.publish_by_label.split(","), datastore=self.datastore)
@@ -108,7 +108,7 @@ class Entities:
         print(tabulate([o_e.get_store_properties(l_props.split(",")) for o_e in entities], headers="keys") + sep)
 
     @staticmethod
-    def print_entity(o_entity: StoreEntity, extent: str = None) -> None:
+    def print_entity(o_entity: StoreEntity, extent: str = "") -> None:
         """
         Affiche l'entité avec la possibilité de choisir l'affichage du extent
 
@@ -116,7 +116,7 @@ class Entities:
             extent (str): Type de l'affichage du extent
 
         """
-        if o_entity.get("extent") is not None:
+        if o_entity.get("extent") == "":
             if extent == "wkt":
                 o_entity.set_key("extent", dumps(shape(o_entity.get("extent")["geometry"])))
             elif extent is None:
