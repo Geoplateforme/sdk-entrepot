@@ -49,8 +49,8 @@ class LogsInterface(StoreEntity):
 
         # on récupère les pages souhaitées
         while i_firstpage <= i_lastpage:
+            print(o_response)
             # On liste les entités à la bonne page
-            print("JE SUIS LAAAAAAAA")
             o_response = ApiRequester().route_request(
                 s_route,
                 route_params={"datastore": self.datastore, self._entity_name: self.id},
