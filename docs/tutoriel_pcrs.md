@@ -27,11 +27,11 @@ Vous allez avoir besoin de 3 fichiers pour réaliser le tutoriel dont le contenu
 
 ## Définition de la configuration
 
-Si vous n'en avez pas déjà un, créez un dossier de projet dans lequel seront déposés les fichiers de configuration de connexion et les fichiers image.
+Si vous n'en avez pas déjà un, créez un dossier de projet dans lequel seront déposés les fichiers de configuration de connexion et les données à livrer.
 
 À la racine du dossier de votre projet, créez un fichier `config.ini` contenant les informations suivantes :
 
-```text
+```ini
 # Informations pour l'authentification
 [store_authentification]
 # paramètres du SDK
@@ -83,7 +83,7 @@ Il peut être nécessaire de rajouter certains paramètres pour que cela fonctio
 
 Vous allez devoir créer un fichier `PCRS_descriptor.jsonc` à la racine de votre projet avec les informations suivantes :
 
-```text
+```json
 {
     "datasets": [
         {
@@ -229,7 +229,7 @@ Si une mise à jour ne concerne qu'une emprise limitée, vous allez pouvoir cré
 
 Pour cela, livrez les nouvelles dalles en ajoutant un tag version à votre fichier descripteur.
 
-```text
+```json
 {
     "datasets": [
         {
