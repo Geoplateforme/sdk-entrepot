@@ -152,14 +152,14 @@ Si une des deux vérification échoue, vous pourrez obtenir les logs d'erreur d�
 python3 -m sdk_entrepot_gpf upload ******** --checks
 ```
 
-S'il y a des problème avec la *vérification standard*, cela signifie que vous données ont mal été téléversées. Il faudra supprimer les fichier concernés et les relivrer :
+S'il y a des problème avec la *vérification standard*, cela signifie que vos données ont mal été téléversées. Il faudra supprimer les fichier concernés et les relivrer :
 
 ```sh
 python3 -m sdk_entrepot_gpf upload ******** --delete-failed-files
 python3 -m sdk_entrepot_gpf delivery PCRS_descriptor.jsonc -b RESUME
 ```
 
-S'il y a des problèmes avec la *vérification raster*, cela signifie que vous données ne sont pas valides. Il faudra notamment vérifier que les données sont bien dans la projection indiquée au moment de la livraison (`EPSG:2154` par défaut).
+S'il y a des problèmes avec la *vérification raster*, cela signifie que vos données ne sont pas valides. Il faudra notamment vérifier que les données sont bien dans la projection indiquée au moment de la livraison (`EPSG:2154` par défaut).
 
 
 ## Workflow
