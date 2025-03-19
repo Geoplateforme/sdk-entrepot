@@ -192,6 +192,12 @@ class Entities:
 
     @staticmethod
     def action_upload_delete_failed_files(upload: Upload) -> None:
+        """
+        Supprime les fichiers mal téléversés sur la livraison
+
+        Args:
+            Upload: livraison
+        """
         Config().om.info(f"Suppression des fichiers mal téléversés sur la livraison {upload} :")
         l_files = []
         l_checks = upload.api_list_checks()
@@ -208,15 +214,14 @@ class Entities:
             upload.api_delete_data_file(s_file)
 
     @staticmethod
-    def action_execution_logs(verification: LogsInterface, filters: str):
+    def action_execution_logs(verification: LogsInterface, filters: str) -> None:
         """
-        Applique les filtres au logs de la verfication
+        Applique les filtres au logs de la verification
         Args:
             verification: LA verification ou vont être appliqué les filtres
             filters: Les différents filtres qui seront appliqués sur la verification
         """
         Config().om.info(f"Affichage des logs sur la verification {verification}")
-        o_execution = CheckExecution(verification)
 
         o_pattern = r"(\-?\d+)(?::(\-?\d+))?(?:/(\-?\d+))?\|?(\w*)?"
         o_match = re.match(o_pattern, filters)
@@ -227,7 +232,7 @@ class Entities:
             i_lineperpage = 1000
         if s_filter is None:
             s_filter = ""
-        l_lines = o_execution.api_logs_pages_filter(int(i_firstpage), int(i_lastpage), int(i_lineperpage), s_filter)
+        l_lines = verification.api_logs_pages_filter(int(i_firstpage), int(i_lastpage), int(i_lineperpage), s_filter)
         for s_line in l_lines:
             Config().om.info(s_line)
 

@@ -17,6 +17,8 @@ class LogsInterface(StoreEntity):
         s_route = f"{self._entity_name}_logs"
         # stockage de la liste des logs
         l_logs: List[str] = []
+        if line_per_page < 1:
+            raise StoreEntityError(f"le nombre de ligne par page doit être positif ({line_per_page})")
         o_response = ApiRequester().route_request(
             s_route,
             route_params={"datastore": self.datastore, self._entity_name: self.id},
@@ -43,11 +45,12 @@ class LogsInterface(StoreEntity):
         else:
             i_lastpage = i_total_page
         if i_firstpage > i_lastpage:
-            raise StoreEntityError("La dernière page doit être superieur a la première")
+            raise StoreEntityError(f"La dernière page doit être superieur a la première ({i_firstpage}, {i_lastpage})")
 
         # on récupère les pages souhaitées
         while i_firstpage <= i_lastpage:
             # On liste les entités à la bonne page
+            print("JE SUIS LAAAAAAAA")
             o_response = ApiRequester().route_request(
                 s_route,
                 route_params={"datastore": self.datastore, self._entity_name: self.id},

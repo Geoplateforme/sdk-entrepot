@@ -33,7 +33,6 @@ from sdk_entrepot_gpf.store.Datastore import Datastore
 from sdk_entrepot_gpf.store.Key import Key
 from sdk_entrepot_gpf.store.Metadata import Metadata
 from sdk_entrepot_gpf.store.Static import Static
-from sdk_entrepot_gpf.store.Upload import Upload
 from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
 from sdk_entrepot_gpf.store.ProcessingExecution import ProcessingExecution
 from sdk_entrepot_gpf.workflow.resolver.UserResolver import UserResolver
