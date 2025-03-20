@@ -27,9 +27,9 @@ Vous allez avoir besoin de 3 fichiers pour réaliser le tutoriel dont le contenu
 
 ## Définition de la configuration
 
-Si vous n'en avez pas déjà un, créez un dossier de projet dans lequel seront déposés les fichiers de configuration de connexion et les données à livrer.
+Si vous n'en avez pas déjà un, créez un dossier de projet dans lequel seront déposés le fichier de configuration et les données à livrer.
 
-À la racine du dossier de votre projet, créez un fichier `config.ini` contenant les informations suivantes :
+À la racine du dossier de votre projet, créez un fichier de configuration `config.ini` contenant les informations suivantes :
 
 ```ini
 # Informations pour l'authentification
@@ -116,7 +116,7 @@ Vous allez devoir créer un fichier `PCRS_descriptor.jsonc` à la racine de votr
 Il faut remplacer 3 fois dans le fichier `$votre_chantier_PCRS` par une valeur sous la forme `PCRS_chantier_********` (ex: PCRS_chantier_D046). Cette valeur vous permettra de retrouver votre fiche de données sur cartes.gouv.fr. Vous pouvez également compléter le fichier avec une description et éventuellement un commentaire.
 
 ???+ warning "Attention"
-    Si vous utilisez le jeu de données test pour l'expérimentation, la valeur `$votre_chantier_PCRS` est également utilisée pour définir le nom des couches. Comme il y a unicité de nom pour les couches sur les services publics, **nous vous encourageons à enrichir cette valeur pour qu'elle soit différente d'un testeur à l'autre** (ex : `PCRS_chantier_D046_test_PACA`).
+    Si vous utilisez le jeu de données test pour l'expérimentation, la valeur `$votre_chantier_PCRS` est également utilisée pour définir le nom des couches. Le nom de chaque couche doit être unique à l'échelle de la Géoplateforme, ainsi **nous vous encourageons à enrichir cette valeur pour qu'elle soit différente d'un testeur à l'autre** (ex : `PCRS_chantier_D046_test_PACA` ou `PCRS_chantier_D046_test_PRÉNOM`).
 
 Vous déposerez vos données dans un répertoire du même nom `$votre_chantier_PCRS` à la racine de votre projet comme suit :
 
