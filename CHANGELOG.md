@@ -4,6 +4,7 @@
 
 ### [Added]
 
+* Possibilité d'afficher des logs en les filtrant par pages et par chaine de caractère
 * Possibilité d'appeler le programme via des executables : `egpf` (ou `entrepot_gpf`)
 * Possibilité d'observer les différentes vérifications sur une livraison
 * Possibilités de supprimer des fichiers lors de la livraison
