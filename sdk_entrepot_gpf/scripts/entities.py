@@ -313,7 +313,7 @@ class Entities:
             Config().om.warning(f"* {len(d_checks['failed'])} vérifications échouées :", yellow_colored=True)
             for d_verification in d_checks["failed"]:
                 o_check = CheckExecution(d_verification, datastore=upload.datastore)
-                l_logs = o_check.api_logs_filter("ERROR")
+                l_logs = o_check.api_logs_filter(str_filter="ERROR")
                 if l_logs:
                     s_logs = "\n" + "\n".join(l_logs)
                 else:
@@ -358,8 +358,8 @@ class Entities:
         # On cherche des fichiers à supprimer uniquement pour la Vérification standard si elle est 'failed'
         for d_check_exec in l_check_execs["failed"]:
             if d_check_exec["check"]["name"] in l_accepted_check_names:
-                o_check_exec = CheckExecution(d_check_exec, datastore=datastore)
-                l_lines = o_check_exec.api_logs_filter("ERROR")
+                o_check_exec = CheckExecution(d_check_exec, datastore=upload.datastore)
+                l_lines = o_check_exec.api_logs_filter(str_filter="ERROR")
                 for s_line in l_lines:
                     o_match = o_regex.search(s_line)
                     if o_match:
