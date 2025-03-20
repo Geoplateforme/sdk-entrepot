@@ -15,7 +15,7 @@ class LogsInterface(StoreEntity):
         """
         return "\n".join(self.api_logs_filter())
 
-    def api_logs_filter(self, first_page: int = 1, last_page: int = 0, line_per_page: int = 1000, str_filter: str = "") -> List[str]:
+    def api_logs_filter(self, first_page: int = 1, last_page: int = 0, line_per_page: int = 2000, str_filter: str = "") -> List[str]:
         """Récupère les logs de l'entité en fonction des différents filtres
 
         Returns:

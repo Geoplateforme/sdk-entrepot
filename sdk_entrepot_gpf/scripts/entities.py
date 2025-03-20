@@ -384,27 +384,24 @@ class Entities:
             Config().om.info(f"Suppression des {len(l_files)} fichiers effectuées avec succès.", green_colored=True)
 
     @staticmethod
-    def action_execution_logs(verification: LogsInterface, filters: str) -> None:
+    def action_execution_logs(execution: LogsInterface, filters: str) -> None:
         """
-        Applique les filtres au logs de la verification
+        Applique les filtres au logs de l'éxécution
         Args:
-            verification: LA verification ou vont être appliqué les filtres
-            filters: Les différents filtres qui seront appliqués sur la verification
+            execution: L'éxécution où vont être appliqué les filtres.
+            filters: Les différents filtres qui seront appliqués sur l'éxécution.
         """
-        Config().om.info(f"Affichage des logs sur la verification {verification}")
-
         o_pattern = r"(\-?\d+)(?::(\-?\d+))?(?:/(\-?\d+))?\|?(\w*)?"
         o_match = re.match(o_pattern, filters)
         i_firstpage, i_lastpage, i_lineperpage, s_filter = o_match.groups()
         if i_lastpage is None:
             i_lastpage = 0
         if i_lineperpage is None:
-            i_lineperpage = 1000
+            i_lineperpage = 2000
         if s_filter is None:
             s_filter = ""
-        l_lines = verification.api_logs_pages_filter(int(i_firstpage), int(i_lastpage), int(i_lineperpage), s_filter)
-        for s_line in l_lines:
-            Config().om.info(s_line)
+        l_lines = execution.api_logs_filter(int(i_firstpage), int(i_lastpage), int(i_lineperpage), s_filter)
+        Config().om.info(f"Logs de {execution} (firstpage-lastpage/lineperpage|filter) :\n" + "\n".join(l_lines))
 
     @staticmethod
     def action_relative_entities(entity: StoreEntity) -> None:  # pylint:disable=too-many-branches,too-many-statements
