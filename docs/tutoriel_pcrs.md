@@ -27,9 +27,11 @@ Vous allez avoir besoin de 3 fichiers pour réaliser le tutoriel dont le contenu
 
 ## Définition de la configuration
 
-Vous allez devoir déposer à la racine du dossier de votre projet un fichier `config.ini` contenant les informations suivantes :
+Si vous n'en avez pas déjà un, créez un dossier de projet dans lequel seront déposés le fichier de configuration et les données à livrer.
 
-```text
+À la racine du dossier de votre projet, créez un fichier de configuration `config.ini` contenant les informations suivantes :
+
+```ini
 # Informations pour l'authentification
 [store_authentification]
 # paramètres du SDK
@@ -46,13 +48,17 @@ password=********
 datastore=********
 ```
 
-Il faut compléter le fichier avec votre login/mot de passe et l'identifiant du datastore qui vous a été aloué.
+Il faut compléter le fichier avec votre login/mot de passe et l'identifiant du datastore qui vous a été alloué.
 
 Vous pouvez tester la validité de votre fichier avec la commande suivante :
 
-```text
+```sh
 python3 -m sdk_entrepot_gpf me
 ```
+
+???+ warning "Attention"
+    Selon votre installation, il est possible qu'il faille utiliser `python` et non `python3`. Il faudra alors penser à modifier les commandes indiquées dans cette page. Par exemple cette commande serait : `python -m sdk_entrepot_gpf me`
+
 
 Cela devrait renvoyer :
 
@@ -77,7 +83,7 @@ Il peut être nécessaire de rajouter certains paramètres pour que cela fonctio
 
 Vous allez devoir créer un fichier `PCRS_descriptor.jsonc` à la racine de votre projet avec les informations suivantes :
 
-```text
+```json
 {
     "datasets": [
         {
@@ -102,9 +108,15 @@ Vous allez devoir créer un fichier `PCRS_descriptor.jsonc` à la racine de votr
 }
 ```
 
+???+ info "Note : système de référence de vos données"
+    Si vos données ne sont pas en LAMB93 (`EPSG:2154`), il faudra modifier la valeur associée à la clef `srs`.
+    Par exemple, si vous utilisez le système CC47, il faudra indiquer `"srs": "EPSG:3947"`.
+
+
 Il faut remplacer 3 fois dans le fichier `$votre_chantier_PCRS` par une valeur sous la forme `PCRS_chantier_********` (ex: PCRS_chantier_D046). Cette valeur vous permettra de retrouver votre fiche de données sur cartes.gouv.fr. Vous pouvez également compléter le fichier avec une description et éventuellement un commentaire.
 
-***ATTENTION** Si vous utilisez le jeu de données test pour l'expérimentation, la valeur `$votre_chantier_PCRS` est également utilisée pour définir le nom des couches. Comme il y a unicité de nom pour les couches sur les services publics, nous vous encourageons à enrichir cette valeur pour qu'elle soit différente d'un testeur à l'autre (ex: PCRS_chantier_D046_test_PACA).*
+???+ warning "Attention"
+    Si vous utilisez le jeu de données test pour l'expérimentation, la valeur `$votre_chantier_PCRS` est également utilisée pour définir le nom des couches. Le nom de chaque couche doit être unique à l'échelle de la Géoplateforme, ainsi **nous vous encourageons à enrichir cette valeur pour qu'elle soit différente d'un testeur à l'autre** (ex : `PCRS_chantier_D046_test_PACA` ou `PCRS_chantier_D046_test_PRÉNOM`).
 
 Vous déposerez vos données dans un répertoire du même nom `$votre_chantier_PCRS` à la racine de votre projet comme suit :
 
@@ -123,12 +135,12 @@ python3 -m sdk_entrepot_gpf delivery PCRS_descriptor.jsonc
 
 Le programme doit vous indiquer que le transfert est en cours, puis qu'il attend la fin des vérification côté API avant de conclure que tout est bon `INFO - BILAN : les 1 livraisons se sont bien passées` (cela peut être long selon la taille de la livraison et la qualité de votre connexion, ne fermez pas votre terminal pendant ce temps).
 
-Si votre connexion est interrompue, vous pouver reprendre la livraison avec la commande :
+Si votre connexion est interrompue, vous pouvez reprendre la livraison avec la commande :
 
 ```sh
 python3 -m sdk_entrepot_gpf delivery PCRS_descriptor.jsonc -b CONTINUE
 ```
- 
+
 Il y a deux vérifications effectuées sur la livraison :
 
 * la vérification standard qui s'assure que les données ne sont pas corrompues lors du transfert
@@ -139,6 +151,16 @@ Si une des deux vérification échoue, vous pourrez obtenir les logs d'erreur d�
 ```sh
 python3 -m sdk_entrepot_gpf upload ******** --checks
 ```
+
+S'il y a des problème avec la *vérification standard*, cela signifie que vos données ont mal été téléversées. Il faudra supprimer les fichier concernés et les relivrer :
+
+```sh
+python3 -m sdk_entrepot_gpf upload ******** --delete-failed-files
+python3 -m sdk_entrepot_gpf delivery PCRS_descriptor.jsonc -b RESUME
+```
+
+S'il y a des problèmes avec la *vérification raster*, cela signifie que vos données ne sont pas valides. Il faudra notamment vérifier que les données sont bien dans la projection indiquée au moment de la livraison (`EPSG:2154` par défaut).
+
 
 ## Workflow
 
@@ -207,7 +229,7 @@ Si une mise à jour ne concerne qu'une emprise limitée, vous allez pouvoir cré
 
 Pour cela, livrez les nouvelles dalles en ajoutant un tag version à votre fichier descripteur.
 
-```text
+```json
 {
     "datasets": [
         {
