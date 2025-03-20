@@ -7,9 +7,16 @@ from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
 class LogsInterface(StoreEntity):
     """Interface de StoreEntity pour gérer les logs (logs)."""
 
-    def api_logs_pages_filter(self, first_page: int = 1, last_page: int = 0, line_per_page: int = 1000, str_filter: str = "") -> List[str]:
+    def api_logs(self) -> str:
+        """Récupère les logs de cette entité en renvoyant les lignes contenant la substring passée en paramètre.
+
+        Return:
+            str: listes des lignes renvoyées
         """
-            Récupère les logs de l'entité en fonction des différents filtres
+        return "\n".join(self.api_logs_filter())
+
+    def api_logs_filter(self, first_page: int = 1, last_page: int = 0, line_per_page: int = 1000, str_filter: str = "") -> List[str]:
+        """Récupère les logs de l'entité en fonction des différents filtres
 
         Returns:
             List[str]: les logs récupérés.

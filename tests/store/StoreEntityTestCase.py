@@ -36,6 +36,10 @@ class StoreEntityTestCase(GpfTestCase):
         self.assertEqual(o_store_entity.datastore, "datastore_1")
         # Le getter "get_store_properties" est ok
         self.assertDictEqual(o_store_entity.get_store_properties(), d_api_data)
+        # Le getter "get" est ok
+        self.assertEqual(o_store_entity.get("_id"), "123456789")
+        self.assertEqual(o_store_entity.get("name"), "nom")
+        self.assertEqual(o_store_entity.get("tags.tag_key"), "tag_value")
         # Le getter "to_json" est ok
         s_json = o_store_entity.to_json()
         self.assertIsInstance(s_json, str)
@@ -336,6 +340,18 @@ class StoreEntityTestCase(GpfTestCase):
             o_mock_request.assert_called_once_with("store_entity_get", route_params={"datastore": None, "store_entity": "id_à_maj"})
             # Vérification que les infos de l'entité sont maj
             self.assertDictEqual(o_store_entity.get_store_properties(), d_new_data)
+
+    def test_list_api_update(self) -> None:
+        """Vérifie le bon fonctionnement de list_api_update."""
+        # On crée une liste de fausses entités à mettre à jour
+        l_entities = [MagicMock(), MagicMock(), MagicMock()]
+        for o_entity in l_entities:
+            o_entity.api_update = MagicMock()
+        # On appelle la fonction
+        StoreEntity.list_api_update(l_entities)
+        # On vérifie que les api_update() ont été appelé
+        for o_entity in l_entities:
+            o_entity.api_update.assert_called_once()
 
     def test_eq(self) -> None:
         """Vérifie le bon fonctionnement de eq."""

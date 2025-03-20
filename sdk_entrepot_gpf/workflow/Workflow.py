@@ -79,8 +79,8 @@ class Workflow:
             ctrl_c_action (Optional[Callable[[], bool]], optional): gestion du ctrl-C lors d'une exécution de traitement.
             behavior (Optional[str]): comportement à adopter si une entité existe déjà sur l'entrepôt.
             datastore (Optional[str]): id du datastore à utiliser. Si None, le datastore sera le premier trouvé dans l'action puis dans workflow puis dans configuration.
-            comments (Optional[List[str]]): liste des commentaire à rajouté à toute les actions de l'étape (les cas de doublons sont géré).
-            tags (Optional[Dict[str, str]]): dictionnaire des tag à rajouté pour toutes les action de l'étape. Écrasé par ceux du workflow, de l'étape et de l'action si les clef sont les même.
+            comments (Optional[List[str]]): liste des commentaire à rajouter à toutes les actions de l'étape (les cas de doublons sont gérés).
+            tags (Optional[Dict[str, str]]): dictionnaire des tags à rajouter pour toutes les action de l'étape. Écrasé par ceux du workflow, de l'étape et de l'action si les clef sont les mêmes.
             compatibility_cartes (Optional[bool]): ajout des tags pour compatibilité avec cartes.gouv.fr.
 
         Raises:
@@ -151,8 +151,8 @@ class Workflow:
 
         Args:
             step_name (str): nom de l'étape
-            comments (Optional[List[str]]): liste des commentaire à rajouté à toute les actions de l'étape (les cas de doublons sont géré).
-            tags (Optional[Dict[str, str]]): dictionnaire des tag à rajouté pour toutes les action de l'étape. Écrasé par ceux du workflow, de l'étape et de l'action si les clef sont les même.
+            comments (Optional[List[str]]): liste des commentaires à rajouter à toutes les actions de l'étape (les cas de doublons sont gérés).
+            tags (Optional[Dict[str, str]]): dictionnaire des tags à rajouter pour toutes les actions de l'étape. Écrasé par ceux du workflow, de l'étape et de l'action si les clefs sont les mêmes.
 
         Raises:
             WorkflowExecutionError: est levée si l'étape n'existe pas dans le workflow
@@ -301,7 +301,7 @@ class Workflow:
 
         Args:
             workflow_path (Path): chemin vers le fichier de workflow.
-            workflow_name (Optional[str], optional): nom du workflow, si None, le nom du fichier est utilisé.. Defaults to None.
+            workflow_name (Optional[str], optional): nom du workflow, si None, le nom du fichier est utilisé. Defaults to None.
 
         Returns:
             workflow instancié
@@ -359,7 +359,7 @@ class Workflow:
         for s_step_name in self.steps:
             # 1. Est-ce que les parents de chaque étape existent ?
             # Pour chaque parent de l'étape
-            for s_parent_name in self.__get_step_definition(s_step_name)["parents"]:
+            for s_parent_name in self.__get_step_definition(s_step_name).get("parents", []):
                 # S'il n'est pas dans la liste
                 if not s_parent_name in self.steps:
                     l_errors.append(f"Le parent « {s_parent_name} » de l'étape « {s_step_name} » n'est pas défini dans le workflow.")
@@ -393,10 +393,13 @@ class Workflow:
         # Pour chaque étape
         for s_step_name in self.steps:
             # on récupère les parents
-            l_parents = self.__get_step_definition(s_step_name)["parents"]
-            s_parents = ", ".join(l_parents)
+            l_parents = self.__get_step_definition(s_step_name).get("parents", [])
             # on ajoute dans la liste
-            l_steps.append(f"Etape « {s_step_name} » [parent(s) : {s_parents}]")
+            if l_parents:
+                s_parents = ", ".join(l_parents)
+                l_steps.append(f"Etape « {s_step_name} » [parent(s) : {s_parents}]")
+            else:
+                l_steps.append(f"Etape « {s_step_name} » [étape primaire]")
 
         # On renvoie la liste
         return l_steps

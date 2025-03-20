@@ -10,6 +10,7 @@ class Endpoint(StoreEntity):
 
     _entity_name = "endpoint"
     _entity_title = "point de montage"
+    _entity_titles = "points de montage"
 
     @classmethod
     def api_list(cls: Type[T], infos_filter: Optional[Dict[str, str]] = None, tags_filter: Optional[Dict[str, str]] = None, page: Optional[int] = None, datastore: Optional[str] = None) -> List[T]:
@@ -40,7 +41,7 @@ class Endpoint(StoreEntity):
             b_ok = True
             # On vérifie s'il respecte les critère d'attributs
             for k, v in infos_filter.items():
-                if str(d_endpoint["endpoint"].get(k)) != str(v):
+                if str(d_endpoint["endpoint"].get(k)).lower() != str(v).lower():
                     b_ok = False
                     break
             # S'il est ok au final, on l'ajoute

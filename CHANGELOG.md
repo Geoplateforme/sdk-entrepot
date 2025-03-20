@@ -1,16 +1,96 @@
 # CHANGE LOG
 
-## v0.1.35
+## v0.1.40
 
 ### [Added]
 
 * Possibilité d'afficher des logs en les filtrant par pages et par chaine de caractère
-* Possibilité d'appeler le programme via des executables : `egpf` (ou `entrepot_gpf`)
-* Possibilité d'observer les différentes vérifications sur une livraison
-* Possibilités de supprimer des fichiers lors de la livraison
-* Possibilités de supprimer que les fichiers ayant produit une erreur lors de la livraison
 
 ### [Changed]
+
+* Endpoint : api_list n'est plus sensible à la casse.
+
+### [Fixed]
+
+* Cli : affichage de l'id des exécutions de vérification et non des vérification avec la commande `upload ID --checks`
+
+
+## v0.1.39
+
+### [Added]
+
+### [Changed]
+
+### [Fixed]
+
+* Wf : ok si pas de parents indiqués
+
+
+## v0.1.38
+
+### [Added]
+
+* Cli : ajout d'une action `--relative-entities` permettant de lister les entités liées à l'entité indiquée.
+* Cli : ajout d'une action `--abort` permettant de d'annuler une exécution de traitement.
+
+### [Changed]
+
+* Workflow : étape indiquée comme "étape primaire" si pas de parent
+
+### [Fixed]
+
+* Cli : validation du workflow avant lancement
+* Cli : correction bug suppression entité autre que livraison
+
+
+## v0.1.37
+
+### [Added]
+
+* Cli : ajout d'une commande `resolve` permettant de résoudre et tester les chaînes de configuration.
+
+### [Changed]
+
+* Tutoriel PCRS : ajout des explications de suppression de données.
+
+### [Fixed]
+
+* Workflows PCRS : correction d'une parenthèse manquante.
+
+
+## v0.1.36
+
+### [Added]
+
+### [Changed]
+
+* ci/cd : on teste les exécutables `egpf` et `entrepot_gpf`.
+* cli/entities : les callback sont des paramètres
+
+### [Fixed]
+
+* Cli : correction de la suppression via les nouvelles commandes.
+* Cli : correction de l'appel raccourcis.
+
+
+## v0.1.35
+
+### [Added]
+
+* Ajout d'un jeu de données raster d'exemple (`3_dataset_raster`).
+
+### [Changed]
+
+* Modification du nom du traitement raster dans le workflow exemple.
+* Possibilité d'appeler le programme via des executables : `egpf` (ou `entrepot_gpf`)
+* Possibilité d'observer les différentes vérifications sur une livraison (action `--check`)
+* Possibilités de supprimer des fichiers d'une la livraison (action `--deletes-files FILE [FILE]`)
+* Possibilités de supprimer automatiquement les fichiers ayant produit une erreur lors de la livraison (action `--delete-failed-files`)
+* StoreEntity : nomenclatures des entités au pluriel (`entity_titles`)
+* StoreEntity : liste des champs à récupérer en mode liste pour chaque entités (`_entity_fields`)
+* UploadAction : correction message fichier distant non trouvé en local
+* Couverture des tests : on masque les fichiers couverts à 100%
+* Réorganisation des appels du cli.
 
 ### [Fixed]
 
