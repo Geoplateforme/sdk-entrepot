@@ -15,7 +15,13 @@ class LogsInterface(StoreEntity):
         """
         return "\n".join(self.api_logs_filter())
 
-    def api_logs_filter(self, first_page: int = 1, last_page: int = 0, line_per_page: int = 2000, str_filter: str = "") -> List[str]:
+    def api_logs_filter(  # pylint:disable=too-many-branches
+        self,
+        first_page: int = 1,
+        last_page: int = 0,
+        line_per_page: int = 2000,
+        str_filter: str = "",
+    ) -> List[str]:
         """Récupère les logs de l'entité en fonction des différents filtres
 
         Returns:
@@ -52,11 +58,10 @@ class LogsInterface(StoreEntity):
         else:
             i_lastpage = i_total_page
         if i_firstpage > i_lastpage:
-            raise StoreEntityError(f"La dernière page doit être superieur a la première ({i_firstpage}, {i_lastpage})")
+            raise StoreEntityError(f"La dernière page doit être supérieur à la première ({i_firstpage}, {i_lastpage})")
 
         # on récupère les pages souhaitées
         while i_firstpage <= i_lastpage:
-            print(o_response)
             # On liste les entités à la bonne page
             o_response = ApiRequester().route_request(
                 s_route,

@@ -105,7 +105,7 @@ class Entities:
         l_props = str(Config().get("cli", f"list_{entity_type}", "_id,name"))
         print(tabulate([o_e.get_store_properties(l_props.split(",")) for o_e in entities], headers="keys") + sep)
 
-    def action(self, o_entity: StoreEntity) -> bool:  # pylint:disable=too-many-return-statements
+    def action(self, o_entity: StoreEntity) -> bool:  # pylint:disable=too-many-return-statements,too-many-branches,too-many-statements
         """Traite les actions s'il y a lieu. Renvoie true si on doit afficher l'entité.
 
         Args:
@@ -134,19 +134,19 @@ class Entities:
             Entities.action_upload_delete_files(o_entity, self.args.delete_files)
             b_return = False
         if getattr(self.args, "logs", None) is not None:
-            assert issubclass(o_entity.__class__, LogsInterface)
+            assert isinstance(o_entity, LogsInterface)
             self.action_execution_logs(o_entity, self.args.logs)
             b_return = False
         if getattr(self.args, "delete_failed_files", False) is True:
             assert isinstance(o_entity, Upload)
-            Entities.action_upload_delete_failed_files(o_entity, self.datastore)
+            Entities.action_upload_delete_failed_files(o_entity)
             b_return = False
         if getattr(self.args, "close", False) is True:
             assert isinstance(o_entity, Upload)
             Entities.action_upload_close(o_entity, self.args.mode_cartes)
             b_return = False
         if getattr(self.args, "relative_entities", False) is True:
-            assert issubclass(o_entity.__class__, StoreEntity)
+            assert isinstance(o_entity, StoreEntity)
             Entities.action_relative_entities(o_entity)
             b_return = False
 
@@ -385,23 +385,29 @@ class Entities:
 
     @staticmethod
     def action_execution_logs(execution: LogsInterface, filters: str) -> None:
-        """
-        Applique les filtres au logs de l'éxécution
+        """Applique les filtres au logs de l'exécution
         Args:
-            execution: L'éxécution où vont être appliqué les filtres.
-            filters: Les différents filtres qui seront appliqués sur l'éxécution.
+            execution: L'exécution où vont être appliqué les filtres.
+            filters: Les différents filtres qui seront appliqués sur l'exécution.
         """
+        if filters == "":
+            filters = "-1:0/25"
         o_pattern = r"(\-?\d+)(?::(\-?\d+))?(?:/(\-?\d+))?\|?(\w*)?"
         o_match = re.match(o_pattern, filters)
-        i_firstpage, i_lastpage, i_lineperpage, s_filter = o_match.groups()
+        if o_match is None:
+            Config().om.info(f"Impossible de parser {filters}, utilisation de -1:0/25.")
+            i_firstpage, i_lastpage, i_lineperpage, s_filter = "-1", "0", "25", ""
+        else:
+            i_firstpage, i_lastpage, i_lineperpage, s_filter = o_match.groups()
         if i_lastpage is None:
             i_lastpage = 0
         if i_lineperpage is None:
             i_lineperpage = 2000
         if s_filter is None:
             s_filter = ""
+        Config().om.info(f"Récupération des logs de l'{execution.entity_title()} {execution.id} ({i_firstpage}-{i_lastpage}/{i_lineperpage}|{s_filter})...")
         l_lines = execution.api_logs_filter(int(i_firstpage), int(i_lastpage), int(i_lineperpage), s_filter)
-        Config().om.info(f"Logs de {execution} (firstpage-lastpage/lineperpage|filter) :\n" + "\n".join(l_lines))
+        Config().om.info(f"Logs de l'{execution.entity_title()} {execution.id} ({i_firstpage}-{i_lastpage}/{i_lineperpage}|{s_filter}) :\n" + "\n".join(l_lines))
 
     @staticmethod
     def action_relative_entities(entity: StoreEntity) -> None:  # pylint:disable=too-many-branches,too-many-statements
@@ -644,8 +650,8 @@ class Entities:
                 o_sub_parser.add_argument("--abort", action="store_true", default=False, help="Annule l'exécution de traitement.")
 
             if issubclass(o_entity, LogsInterface):
-                l_epilog.append(f"""        - affichage des logs : {o_entity.entity_name()} ID --logs '1:2/1000|ERROR'""")
-                o_sub_parser.add_argument("--logs", type=str, default=None, help="Affiche les logs demandés d'une execution")
+                l_epilog.append(f"""        - affichage des logs : {o_entity.entity_name()} ID --logs='1:2/1000|ERROR'""")
+                o_sub_parser.add_argument("--logs", type=str, const="-1:0/25", nargs="?", help="Affiche les logs demandés d'une execution")
 
             l_epilog.append("""""")
             l_epilog.append("""Exemples :""")

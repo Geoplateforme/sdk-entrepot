@@ -349,8 +349,8 @@ class ApiRequester(metaclass=Singleton):
         return not length >= int(o_result.group("len"))
 
     @staticmethod
-    def range_total_page(content_range: Optional[str], limit: Optional[int]):
-        """Fonction renvoyant le nombre de page en fonction du content_range pour un nombre limite d'élements par page.
+    def range_total_page(content_range: Optional[str], limit: Optional[int]) -> int:
+        """Fonction renvoyant le nombre de page en fonction du content_range pour un nombre limite d'éléments par page.
         Si le nombre d'élément par page n'est pas indiqué, on suppose que c'est le nombre d'élément dans le content_range.
 
         Args:
@@ -360,8 +360,6 @@ class ApiRequester(metaclass=Singleton):
         Returns:
             Le nombre de page en fonction du nombre d'enregistrement
         """
-        if limit == None:
-            limit = content_range.group("limit")
         if content_range is None:
             # S'il n'est pas renseigné, on arrête là
             return 0
@@ -370,4 +368,6 @@ class ApiRequester(metaclass=Singleton):
             # Si le parsing a raté, on met un warning en on s'arrête là niveau requête
             Config().om.warning(f"Impossible d'analyser le nombre d'éléments à requêter. Contactez le support. (Content-Range : {content_range})")
             return 0
+        if limit is None:
+            limit = int(o_result.group("i_max")) - int(o_result.group("i_min")) + 1
         return math.ceil(int(o_result.group("len")) / limit)
