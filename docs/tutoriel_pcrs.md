@@ -21,9 +21,9 @@ Voici les prérequis pour suivre ce tutoriel :
 
 Vous allez avoir besoin de 3 fichiers pour réaliser le tutoriel dont le contenu va être détaillé :
 
-* un fichier de configuration pour définir vos paramètres SDK (config.ini)
-* un fichier descripteur qui détaille votre livraison (PCRS_descriptor.jsonc)
-* un fichier de workflow en plusieurs étapes qui effectuera les traitements (PCRS.jsonc)
+* un fichier de configuration pour définir vos paramètres SDK (`config.ini`)
+* un fichier descripteur qui détaille votre livraison (`PCRS_descriptor.jsonc`)
+* un fichier de workflow en plusieurs étapes qui effectuera les traitements (`PCRS.jsonc`)
 
 Vous devez créer un dossier de travail dans lequel vous déposerez ces fichiers comme suit :
 
