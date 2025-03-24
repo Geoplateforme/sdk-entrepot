@@ -121,7 +121,6 @@ Vous allez devoir créer un fichier `PCRS_descriptor.jsonc` qui décrit votre li
     Si vos données ne sont pas en LAMB93 (`EPSG:2154`), il faudra modifier la valeur associée à la clef `srs`.
     Par exemple, si vous utilisez le système CC47, il faudra indiquer `"srs": "EPSG:3947"`.
 
-
 Il faut remplacer 3 fois dans le fichier `$votre_chantier_PCRS` par une valeur sous la forme `PCRS_chantier_********` (ex: PCRS_chantier_D046). Cette valeur sera utilisée pour nommer la livraison, la pyramide et vos couches. Elle vous permettra également de retrouver votre fiche de données sur cartes.gouv.fr. Vous pouvez aussi ajouter une description et un commentaire.
 
 ???+ warning "Attention"
