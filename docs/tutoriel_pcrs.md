@@ -9,9 +9,9 @@ Le lien vers cette page devrait être : https://geoplateforme.github.io/sdk-entr
 
 # Tutoriel : publier un flux PCRS
 
-La [Géoplateforme](https://geoplateforme.github.io/) permet d'héberger et diffuser vos données PCRS raster/image (Plan Corps de Rue Simplifié).
+La [Géoplateforme](https://geoplateforme.github.io/) permet d'héberger et diffuser vos données PCRS raster/image (Plan Corps de Rue Simplifié). Nous vous invitons à prendre connaissance de ses [concepts clefs](https://geoplateforme.github.io/entrepot/production/concepts/).
 
-Pour cela, vous devez téléverser des dalles « PCRS » qui permettront de créer une pyramide image qui sera diffusée en flux.
+Pour cela, vous allez devoir téléverser des dalles « PCRS » qui permettront de créer une pyramide image qui sera diffusée en flux.
 
 Voici les prérequis pour suivre ce tutoriel :
 
@@ -19,26 +19,29 @@ Voici les prérequis pour suivre ce tutoriel :
 * vous devez disposer d'un datastore (pour sa création, vous pouvez contacter geoplateforme@ign.fr ou faire une demande [ici](https://cartes.gouv.fr/entrepot/demande-de-creation) en précisant votre établissement, qu'il s'agit d'une diffusion partenaire PCRS et votre identifiant utilisateur que vous trouver sur votre [espace](https://cartes.gouv.fr/mon-compte))
 * vous devez avoir installé python et le module [SDK](index.md)
 
-Vous allez avoir besoin de 3 fichiers pour réaliser le tutoriel dont le contenu va être détaillé :
+Ce tutoriel vous accompagne étape par étape en vous listant les commandes à lancer et en vous fournissant les différents fichiers nécessaires :
 
 * un fichier de configuration pour définir vos paramètres SDK (`config.ini`)
 * un fichier descripteur qui détaille votre livraison (`PCRS_descriptor.jsonc`)
 * un fichier de workflow en plusieurs étapes qui effectuera les traitements (`PCRS.jsonc`)
 
-Vous devez créer un dossier de travail dans lequel vous déposerez ces fichiers comme suit :
+Vous devez créer un dossier de travail dans lequel ces fichiers seront déposés au fur et à mesure comme suit :
 
 ```text
-$votre_dossier_PCRS/
+Dossier_PCRS/
 ├── config.ini
 ├── PCRS_descriptor.jsonc
-└── PCRS.jsonc
+├── PCRS.jsonc
+└── $votre_chantier_PCRS/
+    ├── dalle_1.tif
+    ├── dalle_2.tif
+    ├── ...
+    └── dalle_n.tif
 ```
 
 ## Définition de la configuration SDK
 
-Si vous n'en avez pas déjà un, créez un dossier de projet dans lequel seront déposés le fichier de configuration et les données à livrer.
-
-À la racine du dossier de votre projet, créez un fichier de configuration `config.ini` contenant les informations suivantes :
+À la racine de votre dossier de travail, créez un fichier de configuration `config.ini` contenant les informations suivantes :
 
 ```ini
 # Informations pour l'authentification
@@ -90,9 +93,12 @@ Vous êtes membre de 1 communauté(s) :
 
 Il peut être nécessaire de rajouter certains paramètres pour que cela fonctionne comme le proxy si vous en utilisez un. Vous pouvez suivre la page [configuration](configuration.md) pour compléter votre fichier si nécessaire.
 
+???+ info "Note : Authentification double facteur"
+    Si vous utilisez une authentification double facteur, il faudra ajouter le paramètre `totp_key` dans le fichier `config.ini`. Ce paramètre correspond à la clé de génération otp et non au code temporaire (ex: totp_key=O42E4NRXMQ3TAR2PKR3KGULVGBVUPM3B). Toutes les applications otp ne permettent pas de récupérer cette clé (ce n'est par exemple pas le cas de `FreeOTP`), nous préconisons l'utilisation d'`Aegis`. Si vous n'arrivez pas à récupérez la clé, vous pouvez repasser sur une authentification simple.
+
 ## Livraison
 
-Vous allez devoir créer un fichier `PCRS_descriptor.jsonc` qui décrit votre livraison à la racine de votre projet avec les informations suivantes :
+Vous allez devoir créer un fichier `PCRS_descriptor.jsonc` qui décrit votre livraison à la racine de votre dossier de travail avec les informations suivantes :
 
 ```json
 {
@@ -127,19 +133,25 @@ Il faut remplacer 3 fois dans le fichier `$votre_chantier_PCRS` par une valeur s
 
 ???+ warning "Attention"
     La valeur `$votre_chantier_PCRS` étant utilisée pour définir le nom des couches WMS et WMTS, vous serez bloqués à l'étape de publication si une couche existe déjà avec ce même nom puisque deux couches d'un même service doivent avoir des noms différents à l'échelle de la Géoplateforme. Nous vous encourageons donc à vérifier que la valeur que vous définissez n'est pas déjà utilisée en consultant les GetCapabilities des services [WMTS](https://data.geopf.fr/wmts?service=WMTS&request=GetCapabilities) et [WMSRaster](https://data.geopf.fr/wms-r?).
-    
+
+???+ warning "Attention"
     La création de la pyramide se fait via l'outil [ROK4](https://rok4.github.io/). Il n'est pour l'instant pas possible de générer des pyramides à partir de TIFF compression JPEG (résolution [ici](https://github.com/rok4/core-cpp/issues/46)). Les TIFF doivent donc être livrés non compressés ou sous une autre compression (ex: zip).
 
-Vous déposerez vos données dans un répertoire du même nom `$votre_chantier_PCRS` à la racine de votre dossier PCRS comme suit :
+Vous déposerez vos données dans un répertoire du même nom `$votre_chantier_PCRS` à la racine de votre dossier de travail comme suit :
 
 ```text
-$votre_chantier_PCRS/
-├── dalle_1.tif
-├── dalle_2.tif
-└── ...
+Dossier_PCRS/
+├── config.ini
+├── PCRS_descriptor.jsonc
+├── PCRS.jsonc
+└── $votre_chantier_PCRS/
+    ├── dalle_1.tif
+    ├── dalle_2.tif
+    ├── ...
+    └── dalle_n.tif
 ```
 
-Vous pouvez maintenant effectuer la livraison en lançant la commande depuis la racine de votre dossier PCRS ou en indiquant le chemin du fichier descripteur au programme :
+Vous pouvez maintenant effectuer la livraison en lançant la commande depuis la racine de votre dossier de travail ou en indiquant le chemin du fichier descripteur au programme :
 
 ```sh
 python3 -m sdk_entrepot_gpf delivery PCRS_descriptor.jsonc
