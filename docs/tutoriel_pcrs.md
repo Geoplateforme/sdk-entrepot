@@ -66,7 +66,9 @@ python3 -m sdk_entrepot_gpf me
 ```
 
 ???+ warning "Attention"
-    Les commandes sont à lancer depuis un invité de commande et non la console python. Il faut vous placer à la racine de votre dossier de travail. Selon votre installation, il est possible qu'il faille utiliser `python` et non `python3`. Il faudra alors penser à modifier les commandes indiquées dans cette page. Par exemple cette commande serait : `python -m sdk_entrepot_gpf me`
+    Les commandes sont à lancer depuis une invite de commande système et non la console python.
+    Il faut vous placer à la racine de votre dossier de travail.
+    Selon votre installation, il est possible qu'il faille utiliser `python` et non `python3`. Il faudra alors penser à modifier les commandes indiquées dans cette page. Par exemple cette commande serait : `python -m sdk_entrepot_gpf me`
 
 
 Cela devrait renvoyer :
