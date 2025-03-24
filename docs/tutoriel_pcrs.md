@@ -33,11 +33,6 @@ $votre_dossier_PCRS/
 ├── PCRS_descriptor.jsonc
 └── PCRS.jsonc
 ```
-dossier_projet
-config.ini
-descriptor.jsonc
-workflows.jsonc
-data
 
 ## Définition de la configuration SDK
 
