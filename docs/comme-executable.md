@@ -124,7 +124,7 @@ Ensuite, vous pouvez simplement livrer des données avec la commande `delivery` 
 python -m sdk_entrepot_gpf delivery mon_fichier_descripteur.json
 ```
 
-Les jeux de données d'exemple sont fournis avec le fichier descripteur (voir [Récupérer des jeux de données d'exemple](#récupérer-des-jeux-de-données-dexemple)).
+Les jeux de données d'exemple sont fournis avec le fichier descripteur (voir [Récupérer des jeux de données d'exemple](#recuperer-des-jeux-de-donnees-dexemple)).
 
 Si votre livraison est interrompue, vous pourrez la reprendre en ajoutant `-b CONTINUE` :
 
