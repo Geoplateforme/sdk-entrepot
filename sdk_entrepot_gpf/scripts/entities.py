@@ -9,6 +9,7 @@ from tabulate import tabulate
 
 from sdk_entrepot_gpf.Errors import GpfSdkError
 from sdk_entrepot_gpf.io.Config import Config
+from sdk_entrepot_gpf.store.interface.LogsInterface import LogsInterface
 from sdk_entrepot_gpf.workflow.action.DeleteAction import DeleteAction
 from sdk_entrepot_gpf.workflow.action.UploadAction import UploadAction
 from sdk_entrepot_gpf.store import TYPE__ENTITY
@@ -78,7 +79,7 @@ class Entities:
             # On fait les actions
             if self.action(o_entity):  # si ça retourne True
                 # On affiche l'entité
-                Config().om.info(f"Affichage de l'entité {o_entity}", green_colored=True)
+                Config().om.info(f"Affichage de l'entité {o_entity} :", green_colored=True)
                 Entities.print_entity(o_entity, "")
         elif getattr(self.args, "publish_by_label", False) is True:
             Entities.action_annexe_publish_by_labels(self.args.publish_by_label.split(","), datastore=self.datastore)
@@ -129,7 +130,7 @@ class Entities:
                 b_extent_hidden = True
 
         # Affichage entité
-        Config().om.info(o_entity.to_json(indent=3))
+        print(o_entity.to_json(indent=3))
 
         # Affichage remarques
         if b_extent_hidden:
@@ -167,16 +168,20 @@ class Entities:
             assert isinstance(o_entity, Upload)
             Entities.action_upload_delete_files(o_entity, self.args.delete_files)
             b_return = False
+        if getattr(self.args, "logs", None) is not None:
+            assert isinstance(o_entity, LogsInterface)
+            self.action_execution_logs(o_entity, self.args.logs)
+            b_return = False
         if getattr(self.args, "delete_failed_files", False) is True:
             assert isinstance(o_entity, Upload)
-            Entities.action_upload_delete_failed_files(o_entity, self.datastore)
+            Entities.action_upload_delete_failed_files(o_entity)
             b_return = False
         if getattr(self.args, "close", False) is True:
             assert isinstance(o_entity, Upload)
             Entities.action_upload_close(o_entity, self.args.mode_cartes)
             b_return = False
         if getattr(self.args, "relative_entities", False) is True:
-            assert issubclass(o_entity.__class__, StoreEntity)
+            assert isinstance(o_entity, StoreEntity)
             Entities.action_relative_entities(o_entity)
             b_return = False
 
@@ -343,7 +348,7 @@ class Entities:
             Config().om.warning(f"* {len(d_checks['failed'])} vérifications échouées :", yellow_colored=True)
             for d_verification in d_checks["failed"]:
                 o_check = CheckExecution(d_verification, datastore=upload.datastore)
-                l_logs = o_check.api_logs_filter("ERROR")
+                l_logs = o_check.api_logs_filter(str_filter="ERROR")
                 if l_logs:
                     s_logs = "\n" + "\n".join(l_logs)
                 else:
@@ -372,7 +377,7 @@ class Entities:
         Config().om.info(f"Suppression de {len(delete_files)} fichiers effectuée avec succès.", green_colored=True)
 
     @staticmethod
-    def action_upload_delete_failed_files(upload: Upload, datastore: Optional[str]) -> None:
+    def action_upload_delete_failed_files(upload: Upload) -> None:
         """Liste et propose de supprimer les fichiers indiqués comme invalides par les vérifications.
 
         Args:
@@ -388,8 +393,8 @@ class Entities:
         # On cherche des fichiers à supprimer uniquement pour la Vérification standard si elle est 'failed'
         for d_check_exec in l_check_execs["failed"]:
             if d_check_exec["check"]["name"] in l_accepted_check_names:
-                o_check_exec = CheckExecution(d_check_exec, datastore=datastore)
-                l_lines = o_check_exec.api_logs_filter("ERROR")
+                o_check_exec = CheckExecution(d_check_exec, datastore=upload.datastore)
+                l_lines = o_check_exec.api_logs_filter(str_filter="ERROR")
                 for s_line in l_lines:
                     o_match = o_regex.search(s_line)
                     if o_match:
@@ -412,6 +417,32 @@ class Entities:
             for s_file in l_files:
                 upload.api_delete_data_file(s_file)
             Config().om.info(f"Suppression des {len(l_files)} fichiers effectuées avec succès.", green_colored=True)
+
+    @staticmethod
+    def action_execution_logs(execution: LogsInterface, filters: str) -> None:
+        """Applique les filtres au logs de l'exécution
+        Args:
+            execution: L'exécution où vont être appliqué les filtres.
+            filters: Les différents filtres qui seront appliqués sur l'exécution.
+        """
+        if filters == "":
+            filters = "-1:0/25"
+        o_pattern = r"(\-?\d+)(?::(\-?\d+))?(?:/(\-?\d+))?\|?(\w*)?"
+        o_match = re.match(o_pattern, filters)
+        if o_match is None:
+            Config().om.info(f"Impossible de parser {filters}, utilisation de -1:0/25.")
+            i_firstpage, i_lastpage, i_lineperpage, s_filter = "-1", "0", "25", ""
+        else:
+            i_firstpage, i_lastpage, i_lineperpage, s_filter = o_match.groups()
+        if i_lastpage is None:
+            i_lastpage = 0
+        if i_lineperpage is None:
+            i_lineperpage = 2000
+        if s_filter is None:
+            s_filter = ""
+        Config().om.info(f"Récupération des logs de l'{execution.entity_title()} {execution.id} ({i_firstpage}:{i_lastpage}/{i_lineperpage}|{s_filter})...")
+        l_lines = execution.api_logs_filter(int(i_firstpage), int(i_lastpage), int(i_lineperpage), s_filter)
+        Config().om.info(f"{len(l_lines)} logs récupérés :\n" + "\n".join(l_lines))
 
     @staticmethod
     def action_relative_entities(entity: StoreEntity) -> None:  # pylint:disable=too-many-branches,too-many-statements
@@ -655,6 +686,13 @@ class Entities:
             if o_entity == ProcessingExecution:
                 l_epilog.append(f"""        - annulation de l'exécution de traitement : {o_entity.entity_name()} ID --abort""")
                 o_sub_parser.add_argument("--abort", action="store_true", default=False, help="Annule l'exécution de traitement.")
+
+            if issubclass(o_entity, LogsInterface):
+                l_epilog.append(f"""        - affichage des logs (uniquement les 1000 première lignes) : {o_entity.entity_name()} ID --logs='1:2/1000'""")
+                l_epilog.append(f"""        - affichage des logs (tout en les récupérant 2000 par 2000) : {o_entity.entity_name()} ID --logs='1:0/2000'""")
+                l_epilog.append(f"""        - affichage des logs (tout en les filtrant) : {o_entity.entity_name()} ID --logs='1:0/1000|ERROR'""")
+                l_epilog.append(f"""        - affichage des logs (la dernière page, maximum 25 lignes) : {o_entity.entity_name()} ID --logs='-1:0/25'""")
+                o_sub_parser.add_argument("--logs", type=str, const="-1:0/25", nargs="?", help="Affiche les logs demandés d'une execution")
 
             l_epilog.append("""""")
             l_epilog.append("""Exemples :""")

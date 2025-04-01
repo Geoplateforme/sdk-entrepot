@@ -4,6 +4,8 @@
 
 ### [Added]
 
+* Possibilité d'afficher des logs en les filtrant par pages et par chaine de caractère
+
 ### [Changed]
 
 * Endpoint : api_list n'est plus sensible à la casse.
