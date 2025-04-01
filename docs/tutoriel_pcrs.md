@@ -70,7 +70,8 @@ python3 -m sdk_entrepot_gpf me
 
 ???+ warning "Attention"
     Les commandes sont à lancer depuis une **invite de commande système** et non la console python.
-    Il faut vous placer à la racine de votre dossier de travail.
+
+    Il faut vous placer **à la racine de votre dossier de travail**.
 
     Selon votre installation, il est possible qu'il faille utiliser `python` et non `python3`. Il faudra alors penser à modifier les commandes indiquées dans cette page. Par exemple cette commande serait : `python -m sdk_entrepot_gpf me`
 
@@ -252,7 +253,7 @@ Le programme doit vous indiquer que la suppression s'est bien passée `INFO - Su
 
 ### Suppression de la pyramides et des couches
 
-Si vous souhaitez dépublier vos couches et supprimer la pyramide, lancez la commande suivante :
+Si vous souhaitez dépublier vos couches et supprimer la pyramide, lancez la commande :
 
 ```sh
 python3 -m sdk_entrepot_gpf workflow -f PCRS.jsonc -s depublication --param producteur $votre_chantier_PCRS
