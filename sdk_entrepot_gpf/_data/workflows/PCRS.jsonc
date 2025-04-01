@@ -73,7 +73,7 @@
                         // Liste des tags ajoutés à la Configuration
                         "tags": {
                             "type": "PCRS",
-                            "datasheet_name": "{params.producteur}"                       
+                            "datasheet_name": "{params.producteur}"
                         }
                     },
                     // Action 2 : publication WMTS de la pyramide
@@ -118,7 +118,7 @@
                         // Liste des tags ajoutés à la Configuration
                         "tags": {
                             "type": "PCRS",
-                            "datasheet_name": "{params.producteur}"                    
+                            "datasheet_name": "{params.producteur}"
                         }
                     },
                     // Action 4 : publication WMSRaster de la pyramide
@@ -140,7 +140,7 @@
                     "pyramide"
                 ]
             },
-            // Étape n°3 : Suppresion de la livraison
+            // Étape n°3 : Suppression de la livraison
             "upload_delete": {
                 "actions": [
                     {
@@ -355,7 +355,7 @@
                         // Liste des tags ajoutés à la Configuration
                         "tags": {
                             "type": "PCRS",
-                            "datasheet_name": "{params.producteur}"                       
+                            "datasheet_name": "{params.producteur}"
                         }
                     },
                     // Action 2 : publication WMTS de l'ancienne pyramide
@@ -400,7 +400,7 @@
                         // Liste des tags ajoutés à la Configuration
                         "tags": {
                             "type": "PCRS",
-                            "datasheet_name": "{params.producteur}"                       
+                            "datasheet_name": "{params.producteur}"
                         }
                     },
                     // Action 4 : publication WMSRaster de l'ancienne pyramide

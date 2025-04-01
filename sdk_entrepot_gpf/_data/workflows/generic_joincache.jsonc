@@ -42,8 +42,8 @@
                 ],
                 "parents": []
             },
-            // Étape n°2 : Création configuration WMST de la pyramide raster 1
-            "configuration-WMST-pyramide1":{
+            // Étape n°2 : Création configuration WMTS de la pyramide raster 1
+            "configuration-WMTS-pyramide1":{
                 "actions": [
                     {
                         "type": "configuration",
@@ -100,8 +100,8 @@
                 ]
 
             },
-            // Étape n°3 : Publication du flux WMST de la pyramide raster 1
-            "publication-WMST-pyramide1": {
+            // Étape n°3 : Publication du flux WMTS de la pyramide raster 1
+            "publication-WMTS-pyramide1": {
                 "actions": [
                     {
                         "type": "offering",
@@ -118,7 +118,7 @@
                     }
                 ],
                 "parents": [
-                    "configuration-WMST-pyramide1"
+                    "configuration-WMTS-pyramide1"
                 ]
             },
 
