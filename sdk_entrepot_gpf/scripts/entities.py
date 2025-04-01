@@ -79,7 +79,7 @@ class Entities:
             # On fait les actions
             if self.action(o_entity):  # si ça retourne True
                 # On affiche l'entité
-                Config().om.info(f"Affichage de l'entité {o_entity}", green_colored=True)
+                Config().om.info(f"Affichage de l'entité {o_entity} :", green_colored=True)
                 Entities.print_entity(o_entity, "")
         elif getattr(self.args, "publish_by_label", False) is True:
             Entities.action_annexe_publish_by_labels(self.args.publish_by_label.split(","), datastore=self.datastore)
@@ -130,7 +130,7 @@ class Entities:
                 b_extent_hidden = True
 
         # Affichage entité
-        Config().om.info(o_entity.to_json(indent=3))
+        print(o_entity.to_json(indent=3))
 
         # Affichage remarques
         if b_extent_hidden:
@@ -688,7 +688,10 @@ class Entities:
                 o_sub_parser.add_argument("--abort", action="store_true", default=False, help="Annule l'exécution de traitement.")
 
             if issubclass(o_entity, LogsInterface):
-                l_epilog.append(f"""        - affichage des logs : {o_entity.entity_name()} ID --logs='1:2/1000|ERROR'""")
+                l_epilog.append(f"""        - affichage des logs (uniquement les 1000 première lignes) : {o_entity.entity_name()} ID --logs='1:2/1000'""")
+                l_epilog.append(f"""        - affichage des logs (tout en les récupérant 2000 par 2000) : {o_entity.entity_name()} ID --logs='1:0/2000'""")
+                l_epilog.append(f"""        - affichage des logs (tout en les filtrant) : {o_entity.entity_name()} ID --logs='1:0/1000|ERROR'""")
+                l_epilog.append(f"""        - affichage des logs (la dernière page, maximum 25 lignes) : {o_entity.entity_name()} ID --logs='-1:0/25'""")
                 o_sub_parser.add_argument("--logs", type=str, const="-1:0/25", nargs="?", help="Affiche les logs demandés d'une execution")
 
             l_epilog.append("""""")

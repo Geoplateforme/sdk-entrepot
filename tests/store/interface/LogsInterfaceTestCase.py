@@ -96,14 +96,14 @@ class LogsInterfaceTestCase(GpfTestCase):
                 o_log_interface = LogsInterface({"_id": s_store_entity}, datastore=s_datastore)
                 with self.assertRaises(StoreEntityError) as o_context_1:
                     o_log_interface.api_logs_filter(3, 2, 1, "")
-                self.assertEqual("La dernière page doit être supérieur à la première (3, 2)", o_context_1.exception.message)
+                self.assertEqual("La dernière page doit être supérieure à la première (3, 2).", o_context_1.exception.message)
                 with self.assertRaises(StoreEntityError) as o_context_2:
                     o_log_interface.api_logs_filter(2, 3, -1, "")
-                self.assertEqual("le nombre de ligne par page doit être positif (-1)", o_context_2.exception.message)
+                self.assertEqual("Le nombre de lignes par page (-1) doit être positif.", o_context_2.exception.message)
                 with self.assertRaises(StoreEntityError) as o_context_3:
                     o_log_interface.api_logs_filter(8, 3, 2, "")
-                self.assertEqual("La première page est en dehors des limites 4", o_context_3.exception.message)
+                self.assertEqual("La première page demandée (8) est en dehors des limites (4).", o_context_3.exception.message)
                 with self.assertRaises(StoreEntityError) as o_context_4:
                     o_log_interface.api_logs_filter(2, 7, 2, "")
-                self.assertEqual("La dernière page est en dehors des limites 4", o_context_4.exception.message)
+                self.assertEqual("La dernière page demandée (7) est en dehors des limites (4).", o_context_4.exception.message)
                 # on vérifie que route_request et range_next_page sont appelés correctement
