@@ -16,7 +16,7 @@ Pour cela, vous allez devoir téléverser des dalles « PCRS » qui permettront 
 Voici les prérequis pour suivre ce tutoriel :
 
 * vous devez disposer d'un compte Géoplateforme (création en suivant ce [tuto](https://geoplateforme.github.io/tutoriels/production/controle-des-acces/entrepot/creation_compte/) ou sur [cartes.gouv](https://cartes.gouv.fr/))
-* vous devez disposer d'un datastore (pour sa création, vous pouvez contacter geoplateforme@ign.fr ou faire une demande [ici](https://cartes.gouv.fr/entrepot/demande-de-creation) en précisant votre établissement, qu'il s'agit d'une diffusion partenaire PCRS et votre identifiant utilisateur que vous trouver sur votre [espace](https://cartes.gouv.fr/mon-compte))
+* vous devez disposer d'un datastore (pour sa création, vous pouvez contacter [geoplateforme@ign.fr](mailto:geoplateforme@ign.fr) ou faire une demande [ici](https://cartes.gouv.fr/entrepot/demande-de-creation) en précisant votre établissement, qu'il s'agit d'une diffusion partenaire PCRS et votre identifiant utilisateur que vous trouver sur votre [espace](https://cartes.gouv.fr/mon-compte))
 * vous devez avoir installé python et le module [SDK](index.md)
 
 Ce tutoriel vous accompagne étape par étape en vous listant les commandes à lancer et en vous fournissant les différents fichiers nécessaires :
@@ -93,8 +93,10 @@ Vous êtes membre de 1 communauté(s) :
 
 Il peut être nécessaire de rajouter certains paramètres pour que cela fonctionne comme le proxy si vous en utilisez un. Vous pouvez suivre la page [configuration](configuration.md) pour compléter votre fichier si nécessaire.
 
-???+ info "Note : Authentification double facteur"
-    Si vous utilisez une authentification double facteur, il faudra ajouter le paramètre `totp_key` dans le fichier `config.ini`. Ce paramètre correspond à la clé de génération otp et non au code temporaire (ex: totp_key=O42E4NRXMQ3TAR2PKR3KGULVGBVUPM3B). Toutes les applications otp ne permettent pas de récupérer cette clé (ce n'est par exemple pas le cas de `FreeOTP`), nous préconisons l'utilisation d'`Aegis`. Si vous n'arrivez pas à récupérez la clé, vous pouvez repasser sur une authentification simple.
+???+ info "Note : Authentification à double facteurs"
+    Si vous utilisez une authentification à double facteurs, il faudra ajouter le paramètre `totp_key` dans le fichier `config.ini`. Ce paramètre correspond à la clé de génération OTP et non au code temporaire (ex : `totp_key=O42E4NRXMQ3TAR2PKR3KGULVGBVUPM3B`). Toutes les applications OTP ne permettent pas de récupérer cette clé (ce n'est par exemple pas le cas de [FreeOTP](https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp&hl=fr)), nous préconisons l'utilisation d'[Aegis](https://play.google.com/store/apps/details?id=com.beemdevelopment.aegis&hl=fr).
+
+    Si vous n'arrivez pas à récupérez la clé, vous pouvez repasser sur une authentification simple.
 
 ## Livraison
 
@@ -127,12 +129,12 @@ Vous allez devoir créer un fichier `PCRS_descriptor.jsonc` qui décrit votre li
 
 ???+ info "Note : système de référence de vos données"
     Si vos données ne sont pas en LAMB93 (`EPSG:2154`), il faudra modifier la valeur associée à la clef `srs`.
-    Par exemple, si vous utilisez le système CC47, il faudra indiquer `"srs": "EPSG:3947"`.
+    Par exemple, si vous utilisez le système `CC47`, il faudra indiquer `"srs": "EPSG:3947"`.
 
 Il faut remplacer 3 fois dans le fichier `$votre_chantier_PCRS` par une valeur sous la forme `PCRS_chantier_********` (ex: PCRS_chantier_D046). Cette valeur sera utilisée pour nommer la livraison, la pyramide et vos couches. Elle vous permettra également de retrouver votre fiche de données sur cartes.gouv.fr. Vous pouvez aussi ajouter une description et un commentaire.
 
 ???+ warning "Attention"
-    La valeur `$votre_chantier_PCRS` étant utilisée pour définir le nom des couches WMS et WMTS, vous serez bloqués à l'étape de publication si une couche existe déjà avec ce même nom puisque deux couches d'un même service doivent avoir des noms différents à l'échelle de la Géoplateforme. Nous vous encourageons donc à vérifier que la valeur que vous définissez n'est pas déjà utilisée en consultant les GetCapabilities des services [WMTS](https://data.geopf.fr/wmts?service=WMTS&request=GetCapabilities) et [WMSRaster](https://data.geopf.fr/wms-r?).
+    La valeur `$votre_chantier_PCRS` étant utilisée pour définir le nom des couches WMS et WMTS, vous serez bloqués à l'étape de publication si une couche existe déjà avec ce même nom puisque deux couches d'un même service doivent avoir des noms différents à l'échelle de la Géoplateforme. Nous vous encourageons donc à vérifier que la valeur que vous définissez n'est pas déjà utilisée en consultant les GetCapabilities des services [WMTS](https://data.geopf.fr/wmts?service=WMTS&request=GetCapabilities) et [WMS-Raster](https://data.geopf.fr/wms-r?service=WMS&request=GetCapabilities).
 
 ???+ warning "Attention"
     La création de la pyramide se fait via l'outil [ROK4](https://rok4.github.io/). Il n'est pour l'instant pas possible de générer des pyramides à partir de TIFF compression JPEG (résolution [ici](https://github.com/rok4/core-cpp/issues/46)). Les TIFF doivent donc être livrés non compressés ou sous une autre compression (ex: zip).
@@ -167,8 +169,8 @@ python3 -m sdk_entrepot_gpf delivery PCRS_descriptor.jsonc -b CONTINUE
 
 Il y a deux vérifications effectuées sur la livraison :
 
-* la vérification standard qui s'assure que les données ne sont pas corrompues lors du transfert
-* la vérification raster qui s'assure que les données sont valides
+* la **vérification standard** qui s'assure que les données ne sont pas corrompues lors du transfert ;
+* la **vérification raster** qui s'assure que les données sont valides ;
 
 Si une des deux vérification échoue, vous pourrez obtenir les logs d'erreur détaillés en indiquant l'id de votre livraison dans la commande :
 
@@ -176,25 +178,25 @@ Si une des deux vérification échoue, vous pourrez obtenir les logs d'erreur d�
 python3 -m sdk_entrepot_gpf upload ******** --checks
 ```
 
-S'il y a des problème avec la *vérification standard*, cela signifie que vos données ont mal été téléversées. Il faudra supprimer les fichier concernés et les relivrer :
+S'il y a des problème avec la **vérification standard**, cela signifie que vos données ont mal été téléversées. Il faudra supprimer les fichier concernés et les relivrer :
 
 ```sh
 python3 -m sdk_entrepot_gpf upload ******** --delete-failed-files
 python3 -m sdk_entrepot_gpf delivery PCRS_descriptor.jsonc -b RESUME
 ```
 
-S'il y a des problèmes avec la *vérification raster*, cela signifie que vos données ne sont pas valides. Il faudra notamment vérifier que les données sont bien dans la projection indiquée au moment de la livraison (`EPSG:2154` par défaut).
+S'il y a des problèmes avec la **vérification raster**, cela signifie que vos données ne sont pas valides. Il faudra notamment vérifier que les données sont bien dans la projection indiquée au moment de la livraison (`EPSG:2154` par défaut).
 
 
 ## Traitements
 
 ### Génération de la pyramide
 
-Une fois les données livrées, il faut créer la pyramide image avant de la diffuser en flux (WMSRaster et WMTS).
+Une fois les données livrées, il faut créer la pyramide image avant de la diffuser en flux (WMS-Raster et WMTS).
 
 Ces étapes vont être réalisées grâce à un workflow.
 
-Vous pouvez récupérer le workflow PCRS.jsonc grâce à la commande suivante :
+Vous pouvez récupérer le workflow `PCRS.jsonc` grâce à la commande suivante :
 
 ```sh
 python3 -m sdk_entrepot_gpf example workflow PCRS.jsonc
@@ -202,7 +204,7 @@ python3 -m sdk_entrepot_gpf example workflow PCRS.jsonc
 
 Pour plus de détails, consultez la [documentation sur les workflows](workflow.md).
 
-Une fois que vous avez placé le fichier PCRS.jsonc, vous pouvez générer la pyramide en lançant la commande :
+Une fois que vous avez placé le fichier `PCRS.jsonc`, vous pouvez générer la pyramide en lançant la commande :
 
 ```sh
 # partie génération de la pyramide
@@ -224,22 +226,22 @@ Pour publier vos couches, lancez la commande :
 python3 -m sdk_entrepot_gpf workflow -f PCRS.jsonc -s publication --param producteur $votre_chantier_PCRS
 ```
 
-Deux offres (une WMTS et une WMSRaster) devraient être créées, cela vous sera confirmé par :
+Deux offres (une WMTS et une WMS-Raster) devraient être créées, cela vous sera confirmé par :
 
 ```text
 INFO - Offre créée : Offering(id=********, layer_name=$votre_chantier_PCRS)
 ```
 
-Vous pouvez maintenant retrouver vos données dans cartes.gouv (https://cartes.gouv.fr/entrepot/$id_datastore/donnees/$votre_chantier_PCRS) ou les visionner dans un SIG comme QGIS en renseignant les urls des GetCapabilities des services ([WMTS](https://data.geopf.fr/wmts?service=WMTS&request=GetCapabilities) et [WMSRaster](https://data.geopf.fr/wms-r?)).
+Vous pouvez maintenant retrouver vos données dans cartes.gouv (https://cartes.gouv.fr/entrepot/$id_datastore/donnees/$votre_chantier_PCRS) ou les visionner dans un SIG comme QGIS en renseignant les urls des GetCapabilities des services ([WMTS](https://data.geopf.fr/wmts?service=WMTS&request=GetCapabilities) et [WMS-Raster](https://data.geopf.fr/wms-r?service=WMS&request=GetCapabilities)).
 
 ???+ warning "Attention"
-    Les urls indiqués dans cartes.gouv correspondent à des GetCapabilities filtrés par votre datastore. Cette fonctionnalités est en cours de développement et les urls ne sont pas encore valides.
+    Les urls indiquées dans cartes.gouv correspondent à des GetCapabilities filtrés par votre datastore. Cette fonctionnalités est en cours de développement et les urls ne sont pas encore valides.
 
 ## Nettoyage
 
 ### Suppression de la livraison
 
-Afin de ne pas surcharger l'espace de livraison et de ne pas atteindre vos quotas lors de livraisons ultérieures, une fois que vous avez validez vos flux, nous vous demandons de supprimer la livraison avec la commande suivante :
+Afin de ne pas surcharger l'espace de livraison et de ne pas atteindre vos quotas lors de livraisons ultérieures, une fois que vous avez validez vos flux, nous vous conseillons de supprimer la livraison avec la commande suivante :
 
 ```sh
 python3 -m sdk_entrepot_gpf workflow -f PCRS.jsonc -s upload_delete --param producteur $votre_chantier_PCRS
@@ -263,7 +265,7 @@ Si une mise à jour concerne l'ensemble du territoire d'une APLC (Autorité Publ
 
 Si une mise à jour ne concerne qu'une emprise limitée, vous allez pouvoir créer une nouvelle pyramide qui prendra en compte les nouvelles dalles et mettre à jour les offres.
 
-Pour cela, livrez les nouvelles dalles en ajoutant un tag version à votre fichier descripteur.
+Pour cela, livrez les nouvelles dalles en ajoutant un tag `version` à votre fichier descripteur :
 
 ```json
 {
@@ -301,7 +303,7 @@ Puis, générez la nouvelle pyramide avec la commande suivante (laissez le param
 python3 -m sdk_entrepot_gpf workflow -f PCRS.jsonc -s pyramide_maj --param producteur $votre_chantier_PCRS --param old_version "" --param new_version 2
 ```
 
-Si il s'agit d'une mise à jour itérative, renseignez le paramètre `old_version` :
+S'il s'agit d'une mise à jour itérative, renseignez le paramètre `old_version` :
 
 ```sh
 python3 -m sdk_entrepot_gpf workflow -f PCRS.jsonc -s pyramide_maj --param producteur $votre_chantier_PCRS --param old_version 2 --param new_version 3
@@ -313,7 +315,7 @@ Vous pouvez ensuite mettre à jour les offres avec la commande :
 python3 -m sdk_entrepot_gpf workflow -f PCRS.jsonc -s publication_maj --param producteur $votre_chantier_PCRS --param old_version "" --param new_version 2
 ```
 
-Une fois que vous avez validé les nouvelles offres, vous pouvez si vous souhaitez faire de l'historisation pour comparer (attention aux quotas de votre datastore).
+Une fois que vous avez validé les nouvelles offres, vous pouvez si vous souhaitez faire de l'historisation pour comparer (attention aux quotas de votre datastore) :
 
 ```sh
 # Si vous souhaitez publier l'ancienne pyramide
