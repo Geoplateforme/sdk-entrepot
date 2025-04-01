@@ -6,7 +6,11 @@
 
 ### [Changed]
 
+* Endpoint : api_list n'est plus sensible à la casse.
+
 ### [Fixed]
+
+* Cli : affichage de l'id des exécutions de vérification et non des vérification avec la commande `upload ID --checks`
 
 
 ## v0.1.39

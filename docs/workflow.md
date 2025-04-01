@@ -436,7 +436,7 @@ Il suffit d'indiquer dans le `body_parameters` les valeurs qui sont modifiées, 
 
 !!! note "Notes"
     * Si la configuration est liée à des offres en cours de publication, la modification n'est pas possible. Si la configuration est liée à des offres publiées, les modifications sont répercutées sur les serveurs de diffusion. Le nom technique et le type ne sont pas modifiables.
-    * Cas particulier de la modification des used_data (`[type_infos][used_data]`) : la liste doit être de la même longueur que celle de la configuration et chaque dictionnaire sera fusionné avec l'ancien (cf. [#83](https://github.com/Geoplateforme/sdk-entrepot/issues/83) et [#66](https://github.com/Geoplateforme/sdk-entrepot/issues/66)). Pour supprimer/ajouter une used_data cf. action suivante [Mise à jour des used_data d'une configuration](#mise-à-jour-des-used_data-dune-configuration).
+    * Cas particulier de la modification des used_data (`[type_infos][used_data]`) : la liste doit être de la même longueur que celle de la configuration et chaque dictionnaire sera fusionné avec l'ancien (cf. [#83](https://github.com/Geoplateforme/sdk-entrepot/issues/83) et [#66](https://github.com/Geoplateforme/sdk-entrepot/issues/66)). Pour supprimer/ajouter une used_data cf. action suivante [Mise à jour des used_data d'une configuration](#mettre-a-jour-les-used_data-et-la-bbox-dune-configuration).
 
 * offering *(partielle)*: PATCH [/datastores/{datastore}/offerings/{offering}](https://data.geopf.fr/api/swagger-ui/index.html#/Configurations%20et%20publications/update_4)
 
