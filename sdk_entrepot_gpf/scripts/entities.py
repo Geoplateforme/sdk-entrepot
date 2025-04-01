@@ -80,7 +80,6 @@ class Entities:
                 # On affiche l'entité
                 Config().om.info(f"Affichage de l'entité {o_entity}", green_colored=True)
                 Entities.print_entity(o_entity, "")
-                Config().om.info("Emprise masquée, utilisez la commande --extent pour l'afficher")
         elif getattr(self.args, "publish_by_label", False) is True:
             Entities.action_annexe_publish_by_labels(self.args.publish_by_label.split(","), datastore=self.datastore)
         elif getattr(self.args, "unpublish_by_label", False) is True:
@@ -109,24 +108,32 @@ class Entities:
 
     @staticmethod
     def print_entity(o_entity: StoreEntity, extent: str = "") -> None:
-        """
-        Affiche l'entité avec la possibilité de choisir l'affichage du extent
+        """Affiche l'entité avec la possibilité de choisir l'affichage du extent
 
         Args:
             extent (str): Type de l'affichage du extent
-
         """
-        if o_entity.get("extent") == "":
-            if extent == "wkt":
+        # Gestion de l'affichage de l'emprise
+        b_extent_hidden = False
+        if o_entity.get("extent") is not None:
+            if extent == "geojson":  # Si geojson, on ne fait rien
+                pass
+            elif extent == "wkt":  # si wkt on converti
                 o_entity.set_key("extent", dumps(shape(o_entity.get("extent")["geometry"])))
-            elif extent is None:
-                o_entity.delete_key("extent")
-
-            # if extent == "show":
+            # elif extent == "show": # si shown on l'affiche
             #     coordinates = o_entity.get("extent")["geometry"]["coordinates"]
             #     m = folium.Map(location = coordinates[0], zoom_start=10)
             #     folium.Polygon(coordinates, color="blue", fill= True).add_to(m)
+            else:  # sinon, on la retire
+                o_entity.delete_key("extent")
+                b_extent_hidden = True
+
+        # Affichage entité
         Config().om.info(o_entity.to_json(indent=3))
+
+        # Affichage remarques
+        if b_extent_hidden:
+            Config().om.info("Emprise masquée, utilisez la commande --extent pour l'afficher.")
 
     def action(self, o_entity: StoreEntity) -> bool:  # pylint:disable=too-many-branches,too-many-statements,too-many-return-statements
         """Traite les actions s'il y a lieu. Renvoie true si on doit afficher l'entité.
