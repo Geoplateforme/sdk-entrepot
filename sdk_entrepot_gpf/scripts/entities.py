@@ -298,12 +298,12 @@ class Entities:
         if len(d_checks["passed"]) != 0:
             Config().om.info(f"\t * {len(d_checks['passed'])} vérifications passées avec succès :")
             for d_verification in d_checks["passed"]:
-                Config().om.info(f"\t\t - {d_verification['check']['name']} ({d_verification['check']['_id']})")
+                Config().om.info(f"\t\t - {d_verification['check']['name']} ({d_verification['_id']})")
         if len(d_checks["asked"] + d_checks["in_progress"]) != 0:
             Config().om.warning(f"* {len(d_checks['asked']) + len(d_checks['in_progress'])} vérifications en cours ou en attente :", yellow_colored=True)
             for d_verification in d_checks["asked"] + d_checks["in_progress"]:
                 s_name = "asked" if d_verification in d_checks["asked"] else "in_progress"
-                Config().om.info(f"\t\t - {s_name} {d_verification['check']['name']} ({d_verification['check']['_id']})")
+                Config().om.info(f"\t\t - {s_name} {d_verification['check']['name']} ({d_verification['_id']})")
         if len(d_checks["failed"]) != 0:
             Config().om.warning(f"* {len(d_checks['failed'])} vérifications échouées :", yellow_colored=True)
             for d_verification in d_checks["failed"]:
@@ -313,7 +313,7 @@ class Entities:
                     s_logs = "\n" + "\n".join(l_logs)
                 else:
                     s_logs = "\nPas de log contenant 'ERROR', regardez le détail des logs avec la commande 'logs'."
-                Config().om.info(f"\t\t - {d_verification['check']['name']} ({d_verification['check']['_id']}) - extrait des logs :{s_logs}")
+                Config().om.info(f"\t\t - {d_verification['check']['name']} ({d_verification['_id']}) - extrait des logs :{s_logs}")
 
     @staticmethod
     def action_upload_delete_files(upload: Upload, delete_files: List[str]) -> None:
