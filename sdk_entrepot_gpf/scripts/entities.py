@@ -3,10 +3,13 @@ from __future__ import annotations  # utile pour le typage "argparse._SubParsers
 import argparse
 import re
 from typing import Callable, List, Optional, Sequence
+from shapely.geometry import shape  # type:ignore
+from shapely.wkt import dumps  # type:ignore
 from tabulate import tabulate
 
 from sdk_entrepot_gpf.Errors import GpfSdkError
 from sdk_entrepot_gpf.io.Config import Config
+from sdk_entrepot_gpf.store.interface.LogsInterface import LogsInterface
 from sdk_entrepot_gpf.workflow.action.DeleteAction import DeleteAction
 from sdk_entrepot_gpf.workflow.action.UploadAction import UploadAction
 from sdk_entrepot_gpf.store import TYPE__ENTITY
@@ -76,8 +79,8 @@ class Entities:
             # On fait les actions
             if self.action(o_entity):  # si ça retourne True
                 # On affiche l'entité
-                Config().om.info(f"Affichage de l'entité {o_entity}", green_colored=True)
-                Config().om.info(o_entity.to_json(indent=3))
+                Config().om.info(f"Affichage de l'entité {o_entity} :", green_colored=True)
+                Entities.print_entity(o_entity, "")
         elif getattr(self.args, "publish_by_label", False) is True:
             Entities.action_annexe_publish_by_labels(self.args.publish_by_label.split(","), datastore=self.datastore)
         elif getattr(self.args, "unpublish_by_label", False) is True:
@@ -104,7 +107,36 @@ class Entities:
         l_props = str(Config().get("cli", f"list_{entity_type}", "_id,name"))
         print(tabulate([o_e.get_store_properties(l_props.split(",")) for o_e in entities], headers="keys") + sep)
 
-    def action(self, o_entity: StoreEntity) -> bool:  # pylint:disable=too-many-return-statements
+    @staticmethod
+    def print_entity(o_entity: StoreEntity, extent: str = "") -> None:
+        """Affiche l'entité avec la possibilité de choisir l'affichage du extent
+
+        Args:
+            extent (str): Type de l'affichage du extent
+        """
+        # Gestion de l'affichage de l'emprise
+        b_extent_hidden = False
+        if o_entity.get("extent") is not None:
+            if extent == "geojson":  # Si geojson, on ne fait rien
+                pass
+            elif extent == "wkt":  # si wkt on converti
+                o_entity.set_key("extent", dumps(shape(o_entity.get("extent")["geometry"])))
+            # elif extent == "show": # si shown on l'affiche
+            #     coordinates = o_entity.get("extent")["geometry"]["coordinates"]
+            #     m = folium.Map(location = coordinates[0], zoom_start=10)
+            #     folium.Polygon(coordinates, color="blue", fill= True).add_to(m)
+            else:  # sinon, on la retire
+                o_entity.delete_key("extent")
+                b_extent_hidden = True
+
+        # Affichage entité
+        print(o_entity.to_json(indent=3))
+
+        # Affichage remarques
+        if b_extent_hidden:
+            Config().om.info("Emprise masquée, utilisez la commande --extent pour l'afficher.")
+
+    def action(self, o_entity: StoreEntity) -> bool:  # pylint:disable=too-many-branches,too-many-statements,too-many-return-statements
         """Traite les actions s'il y a lieu. Renvoie true si on doit afficher l'entité.
 
         Args:
@@ -117,6 +149,10 @@ class Entities:
         # Gestion des actions communes
         if getattr(self.args, "delete", False) is True:
             Entities.action_entity_delete(o_entity, self.args.cascade, self.args.force, self.datastore)
+            b_return = False
+
+        if getattr(self.args, "extent", None) is not None:
+            Entities.print_entity(o_entity, self.args.extent)
             b_return = False
 
         # Gestion des actions liées aux Livraisons
@@ -132,16 +168,20 @@ class Entities:
             assert isinstance(o_entity, Upload)
             Entities.action_upload_delete_files(o_entity, self.args.delete_files)
             b_return = False
+        if getattr(self.args, "logs", None) is not None:
+            assert isinstance(o_entity, LogsInterface)
+            self.action_execution_logs(o_entity, self.args.logs)
+            b_return = False
         if getattr(self.args, "delete_failed_files", False) is True:
             assert isinstance(o_entity, Upload)
-            Entities.action_upload_delete_failed_files(o_entity, self.datastore)
+            Entities.action_upload_delete_failed_files(o_entity)
             b_return = False
         if getattr(self.args, "close", False) is True:
             assert isinstance(o_entity, Upload)
             Entities.action_upload_close(o_entity, self.args.mode_cartes)
             b_return = False
         if getattr(self.args, "relative_entities", False) is True:
-            assert issubclass(o_entity.__class__, StoreEntity)
+            assert isinstance(o_entity, StoreEntity)
             Entities.action_relative_entities(o_entity)
             b_return = False
 
@@ -298,22 +338,22 @@ class Entities:
         if len(d_checks["passed"]) != 0:
             Config().om.info(f"\t * {len(d_checks['passed'])} vérifications passées avec succès :")
             for d_verification in d_checks["passed"]:
-                Config().om.info(f"\t\t - {d_verification['check']['name']} ({d_verification['check']['_id']})")
+                Config().om.info(f"\t\t - {d_verification['check']['name']} ({d_verification['_id']})")
         if len(d_checks["asked"] + d_checks["in_progress"]) != 0:
             Config().om.warning(f"* {len(d_checks['asked']) + len(d_checks['in_progress'])} vérifications en cours ou en attente :", yellow_colored=True)
             for d_verification in d_checks["asked"] + d_checks["in_progress"]:
                 s_name = "asked" if d_verification in d_checks["asked"] else "in_progress"
-                Config().om.info(f"\t\t - {s_name} {d_verification['check']['name']} ({d_verification['check']['_id']})")
+                Config().om.info(f"\t\t - {s_name} {d_verification['check']['name']} ({d_verification['_id']})")
         if len(d_checks["failed"]) != 0:
             Config().om.warning(f"* {len(d_checks['failed'])} vérifications échouées :", yellow_colored=True)
             for d_verification in d_checks["failed"]:
                 o_check = CheckExecution(d_verification, datastore=upload.datastore)
-                l_logs = o_check.api_logs_filter("ERROR")
+                l_logs = o_check.api_logs_filter(str_filter="ERROR")
                 if l_logs:
                     s_logs = "\n" + "\n".join(l_logs)
                 else:
                     s_logs = "\nPas de log contenant 'ERROR', regardez le détail des logs avec la commande 'logs'."
-                Config().om.info(f"\t\t - {d_verification['check']['name']} ({d_verification['check']['_id']}) - extrait des logs :{s_logs}")
+                Config().om.info(f"\t\t - {d_verification['check']['name']} ({d_verification['_id']}) - extrait des logs :{s_logs}")
 
     @staticmethod
     def action_upload_delete_files(upload: Upload, delete_files: List[str]) -> None:
@@ -337,7 +377,7 @@ class Entities:
         Config().om.info(f"Suppression de {len(delete_files)} fichiers effectuée avec succès.", green_colored=True)
 
     @staticmethod
-    def action_upload_delete_failed_files(upload: Upload, datastore: Optional[str]) -> None:
+    def action_upload_delete_failed_files(upload: Upload) -> None:
         """Liste et propose de supprimer les fichiers indiqués comme invalides par les vérifications.
 
         Args:
@@ -353,8 +393,8 @@ class Entities:
         # On cherche des fichiers à supprimer uniquement pour la Vérification standard si elle est 'failed'
         for d_check_exec in l_check_execs["failed"]:
             if d_check_exec["check"]["name"] in l_accepted_check_names:
-                o_check_exec = CheckExecution(d_check_exec, datastore=datastore)
-                l_lines = o_check_exec.api_logs_filter("ERROR")
+                o_check_exec = CheckExecution(d_check_exec, datastore=upload.datastore)
+                l_lines = o_check_exec.api_logs_filter(str_filter="ERROR")
                 for s_line in l_lines:
                     o_match = o_regex.search(s_line)
                     if o_match:
@@ -377,6 +417,32 @@ class Entities:
             for s_file in l_files:
                 upload.api_delete_data_file(s_file)
             Config().om.info(f"Suppression des {len(l_files)} fichiers effectuées avec succès.", green_colored=True)
+
+    @staticmethod
+    def action_execution_logs(execution: LogsInterface, filters: str) -> None:
+        """Applique les filtres au logs de l'exécution
+        Args:
+            execution: L'exécution où vont être appliqué les filtres.
+            filters: Les différents filtres qui seront appliqués sur l'exécution.
+        """
+        if filters == "":
+            filters = "-1:0/25"
+        o_pattern = r"(\-?\d+)(?::(\-?\d+))?(?:/(\-?\d+))?\|?(\w*)?"
+        o_match = re.match(o_pattern, filters)
+        if o_match is None:
+            Config().om.info(f"Impossible de parser {filters}, utilisation de -1:0/25.")
+            i_firstpage, i_lastpage, i_lineperpage, s_filter = "-1", "0", "25", ""
+        else:
+            i_firstpage, i_lastpage, i_lineperpage, s_filter = o_match.groups()
+        if i_lastpage is None:
+            i_lastpage = 0
+        if i_lineperpage is None:
+            i_lineperpage = 2000
+        if s_filter is None:
+            s_filter = ""
+        Config().om.info(f"Récupération des logs de l'{execution.entity_title()} {execution.id} ({i_firstpage}:{i_lastpage}/{i_lineperpage}|{s_filter})...")
+        l_lines = execution.api_logs_filter(int(i_firstpage), int(i_lastpage), int(i_lineperpage), s_filter)
+        Config().om.info(f"{len(l_lines)} logs récupérés :\n" + "\n".join(l_lines))
 
     @staticmethod
     def action_relative_entities(entity: StoreEntity) -> None:  # pylint:disable=too-many-branches,too-many-statements
@@ -557,7 +623,6 @@ class Entities:
             # Filtres
             o_sub_parser.add_argument("--infos", "-i", type=str, default=None, help=f"Filtrer les {o_entity.entity_titles()} selon les infos")
             o_sub_parser.add_argument("--page", "-p", type=int, default=None, help="Page à récupérer. Toutes si non indiqué.")
-            o_sub_parser.add_argument("--relative-entities", action="store_true", help="Affiche les entités liées.")
             if issubclass(o_entity, TagInterface):
                 l_epilog.append(
                     f"""    * lister les {o_entity.entity_titles()} avec d'optionnels filtres sur les infos et les tags : {o_entity.entity_name()} [--infos INFO=VALEUR] [--tags TAG=VALEUR]"""
@@ -567,6 +632,10 @@ class Entities:
                 l_epilog.append(f"""    * lister les {o_entity.entity_titles()} avec d'optionnels filtres sur les infos : {o_entity.entity_name()} [--infos INFOS]""")
             l_epilog.append(f"""    * afficher le détail d'une entité : {o_entity.entity_name()} ID""")
             l_epilog.append("""    * effectuer une ACTION sur une entité :""")
+            l_epilog.append(f"""        - affiche son emprise : {o_entity.entity_name()} ID --extent [geojson|wkt]""")
+            o_sub_parser.add_argument("--extent", type=str, const="geojson", nargs="?", help="Affichage de l'emprise selon le format demandé", choices=["wkt", "geojson"])
+            l_epilog.append(f"""        - affiche les entités liées : {o_entity.entity_name()} ID --relative-entities""")
+            o_sub_parser.add_argument("--relative-entities", action="store_true", help="Affiche les entités liées.")
             l_epilog.append(f"""        - suppression : {o_entity.entity_name()} ID --delete""")
             o_sub_parser.add_argument("--delete", action="store_true", help="Suppression de l'entité")
             l_epilog.append(f"""        - suppression en cascade : {o_entity.entity_name()} ID --delete --cascade""")
@@ -602,7 +671,7 @@ class Entities:
                 o_sub_parser.add_argument("--checks", action="store_true", default=False, help="Affiche le bilan des vérifications d'une livraison")
                 l_epilog.append(f"""        - suppression de fichiers téléversés : {o_entity.entity_name()} ID --delete-files FILE [FILE]""")
                 o_sub_parser.add_argument("--delete-files", type=str, nargs="+", default=None, help="Supprime les fichiers distants indiqués d'une livraison.")
-                l_epilog.append(f"""        - suppression auto des fichiers mal téléversés {o_entity.entity_name()} ID --delete-failed-files""")
+                l_epilog.append(f"""        - suppression auto des fichiers mal téléversés : {o_entity.entity_name()} ID --delete-failed-files""")
                 o_sub_parser.add_argument("--delete-failed-files", action="store_true", default=False, help="Supprime les fichiers mal téléversés d'une livraison vérifiées et en erreur.")
                 l_epilog.append(f"""    * créer / mettre à jour une livraison (déprécié) : {o_entity.entity_name()} --file FILE [--behavior BEHAVIOR] [--check-before-close]""")
                 # TODO déprécié
@@ -617,6 +686,13 @@ class Entities:
             if o_entity == ProcessingExecution:
                 l_epilog.append(f"""        - annulation de l'exécution de traitement : {o_entity.entity_name()} ID --abort""")
                 o_sub_parser.add_argument("--abort", action="store_true", default=False, help="Annule l'exécution de traitement.")
+
+            if issubclass(o_entity, LogsInterface):
+                l_epilog.append(f"""        - affichage des logs (uniquement les 1000 première lignes) : {o_entity.entity_name()} ID --logs='1:2/1000'""")
+                l_epilog.append(f"""        - affichage des logs (tout en les récupérant 2000 par 2000) : {o_entity.entity_name()} ID --logs='1:0/2000'""")
+                l_epilog.append(f"""        - affichage des logs (tout en les filtrant) : {o_entity.entity_name()} ID --logs='1:0/1000|ERROR'""")
+                l_epilog.append(f"""        - affichage des logs (la dernière page, maximum 25 lignes) : {o_entity.entity_name()} ID --logs='-1:0/25'""")
+                o_sub_parser.add_argument("--logs", type=str, const="-1:0/25", nargs="?", help="Affiche les logs demandés d'une execution")
 
             l_epilog.append("""""")
             l_epilog.append("""Exemples :""")

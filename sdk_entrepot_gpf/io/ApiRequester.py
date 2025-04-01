@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-
+import math
 import re
 import time
 import datetime
@@ -347,3 +347,27 @@ class ApiRequester(metaclass=Singleton):
             return False
         # Sinon, on compare la len indiquée par le serveur à celle de notre liste, si c'est égal ou supérieur on arrête
         return not length >= int(o_result.group("len"))
+
+    @staticmethod
+    def range_total_page(content_range: Optional[str], limit: Optional[int]) -> int:
+        """Fonction renvoyant le nombre de page en fonction du content_range pour un nombre limite d'éléments par page.
+        Si le nombre d'élément par page n'est pas indiqué, on suppose que c'est le nombre d'élément dans le content_range.
+
+        Args:
+            content_range (Optional[str]): Content-Range renvoyé par l'API
+            length (int): nombre d'éléments par page
+
+        Returns:
+            Le nombre de page en fonction du nombre d'enregistrement
+        """
+        if content_range is None:
+            # S'il n'est pas renseigné, on arrête là
+            return 0
+        o_result = ApiRequester.regex_content_range.search(content_range)
+        if o_result is None:
+            # Si le parsing a raté, on met un warning en on s'arrête là niveau requête
+            Config().om.warning(f"Impossible d'analyser le nombre d'éléments à requêter. Contactez le support. (Content-Range : {content_range})")
+            return 0
+        if limit is None:
+            limit = int(o_result.group("i_max")) - int(o_result.group("i_min")) + 1
+        return math.ceil(int(o_result.group("len")) / limit)

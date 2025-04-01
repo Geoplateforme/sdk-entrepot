@@ -1,12 +1,25 @@
 # CHANGE LOG
 
+## v0.1.40
+
+### [Added]
+
+* Possibilité d'afficher des logs en les filtrant par pages et par chaine de caractère
+
+### [Changed]
+
+* Endpoint : api_list n'est plus sensible à la casse.
+
+### [Fixed]
+
+* Cli : affichage de l'id des exécutions de vérification et non des vérification avec la commande `upload ID --checks`
+
+
 ## v0.1.39
 
 ### [Added]
 
-
 ### [Changed]
-
 
 ### [Fixed]
 
@@ -17,6 +30,7 @@
 
 ### [Added]
 
+* Cli : ajout d'une action `--extent` permettant de gérer l'affichage de l'extent d'une entité.
 * Cli : ajout d'une action `--relative-entities` permettant de lister les entités liées à l'entité indiquée.
 * Cli : ajout d'une action `--abort` permettant de d'annuler une exécution de traitement.
 

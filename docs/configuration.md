@@ -110,8 +110,10 @@ Ce module Python est utilisable comme exécutable. Dans ce cas vous avez deux ma
 * vous pouvez indiquer au programme le chemin vers votre fichier via le paramètre `--ini` :
 
 ```sh
-python -m sdk_entrepot_gpf --ini chemin/vers/config.ini
+python -m sdk_entrepot_gpf --ini chemin/vers/config.ini TASK
 ```
+
+Où `TASK` sera à remplacer par la tâche que vous souhaitez effectuer.
 
 ### Utilisation via un script
 

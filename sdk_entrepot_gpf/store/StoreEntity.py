@@ -352,6 +352,29 @@ class StoreEntity(ABC):
         """
         return DictHelper.get(self._store_api_dict, key, raise_error=False)
 
+    def delete_key(self, key: str) -> bool:
+        """Supprime la clef indiquée si elle existe et renvoie True, False sinon.
+
+        Args:
+            key (str): clef à supprimer. Mode JS possible.
+
+        Returns:
+            bool: True ou False si non trouvée.
+        """
+        if key in self._store_api_dict:
+            del self._store_api_dict[key]
+            return True
+        return False
+
+    def set_key(self, key: str, value: Any) -> None:
+        """Associe la clé a la valeur indiquée.
+
+        Args:
+            key (str): clef à associer. Mode JS possible.
+            value (Any): Valeur associée. Mode JS possible.
+        """
+        self._store_api_dict[key] = value
+
     ##############################################################
     # Fonction test d'égalité
     ##############################################################
