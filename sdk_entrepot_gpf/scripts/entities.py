@@ -405,9 +405,9 @@ class Entities:
             i_lineperpage = 2000
         if s_filter is None:
             s_filter = ""
-        Config().om.info(f"Récupération des logs de l'{execution.entity_title()} {execution.id} ({i_firstpage}-{i_lastpage}/{i_lineperpage}|{s_filter})...")
+        Config().om.info(f"Récupération des logs de l'{execution.entity_title()} {execution.id} ({i_firstpage}:{i_lastpage}/{i_lineperpage}|{s_filter})...")
         l_lines = execution.api_logs_filter(int(i_firstpage), int(i_lastpage), int(i_lineperpage), s_filter)
-        Config().om.info(f"Logs de l'{execution.entity_title()} {execution.id} ({i_firstpage}-{i_lastpage}/{i_lineperpage}|{s_filter}) :\n" + "\n".join(l_lines))
+        Config().om.info(f"{len(l_lines)} logs récupérés :\n" + "\n".join(l_lines))
 
     @staticmethod
     def action_relative_entities(entity: StoreEntity) -> None:  # pylint:disable=too-many-branches,too-many-statements
