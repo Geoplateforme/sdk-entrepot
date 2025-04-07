@@ -396,6 +396,17 @@ class ApiRequesterTestCase(GpfTestCase):
         # Content-Range non parsable : on doit s'arrêter
         self.assertFalse(ApiRequester.range_next_page("non_parsable", 0))
 
+    def test_range_total_page(self) -> None:
+        """Test de range_next_page."""
+        # On a 10 entités à récupérer et on en veut 10 par page: 1 page
+        self.assertEqual(ApiRequester.range_total_page("1-10/10", 10), 1)
+        # On a 10 entités à récupérer et on en veut 5 par page: 2 pages
+        self.assertTrue(ApiRequester.range_next_page("1-5/10", 5), 2)
+        # Content-Range nul : on renvoie 0
+        self.assertFalse(ApiRequester.range_next_page(None, 5), 0)
+        # Content-Range non parsable : on renvoie 0
+        self.assertFalse(ApiRequester.range_next_page("non_parsable", 5), 0)
+
     def test_route_upload_file(self) -> None:
         """test de route_upload_file"""
         p_file = Path("rep/file")

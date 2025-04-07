@@ -350,13 +350,13 @@ class ApiRequester(metaclass=Singleton):
         return not length >= int(o_result.group("len"))
 
     @staticmethod
-    def range_total_page(content_range: Optional[str], limit: Optional[int]):
+    def range_total_page(content_range: Optional[str], limit: int):
         """
         Fonction renvoyant le nombre de page en fonction pour un nombre limit d'élements par page
 
         Args:
             content_range (Optional[str]): Content-Range renvoyé par l'API
-            length (int): nombre d'éléments par page
+            limit (int): nombre d'éléments par page
 
         Returns:
             Le nombre de page en fonction du nombre d'enregistrement
