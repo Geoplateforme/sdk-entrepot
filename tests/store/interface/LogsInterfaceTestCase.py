@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from unittest.mock import patch
 
 from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
@@ -13,14 +14,15 @@ class LogsInterfaceTestCase(GpfTestCase):
     """
 
     def test_api_logs_filter(self) -> None:
-        "Vérifie le bon fonctionnement de api_logs__pages_filter (une seule page)."
-        o_response = GpfTestCase.get_response(json=["2022/05/18 14:29:25       INFO §USER§ Envoi du signal de début de l'exécution à l'API."])
+        "Vérifie le bon fonctionnement de api_logs__pages_filter."
+        s_data = "2022/05/18 14:29:25       INFO §USER§ Envoi du signal de début de l'exécution à l'API."
+        o_response = GpfTestCase.get_response(json=[s_data])
         # On mock la fonction route_request, on veut vérifier qu'elle est appelée avec les bons params
         with patch.object(ApiRequester, "route_request", return_value=o_response) as o_mock_request:
             with patch.object(ApiRequester, "range_total_page", return_value=2) as o_mock_range:
                 # on appelle la fonction à tester : api_logs
                 o_log_interface = LogsInterface({"_id": "id_entité"}, datastore="datastore_id")
-                s_data_recupere_info = o_log_interface.api_logs_filter(1, 1, 1, "INFO")
+                s_data_recupere_info = o_log_interface.api_logs_filter(1, 1, 1, "INFO").logs
                 # on vérifie que route_request et range_next_page sont appelés correctement
                 o_mock_request.assert_called_with(
                     "store_entity_logs",
@@ -29,7 +31,7 @@ class LogsInterfaceTestCase(GpfTestCase):
                 )
                 o_mock_range.assert_called_with(o_response.headers.get("Content-Range"), 1)
                 # on vérifie la similitude des données retournées
-                self.assertEqual("2022/05/18 14:29:25       INFO §USER§ Envoi du signal de début de l'exécution à l'API.", "\n".join(s_data_recupere_info))
+                self.assertEqual(s_data, "\n".join(s_data_recupere_info))
 
         with patch.object(ApiRequester, "route_request", return_value=o_response) as o_mock_request:
             with patch.object(ApiRequester, "range_total_page", return_value=2) as o_mock_range:
@@ -44,10 +46,11 @@ class LogsInterfaceTestCase(GpfTestCase):
                 )
                 o_mock_range.assert_called_with(o_response.headers.get("Content-Range"), 1)
                 # on vérifie la similitude des données retournées
-                self.assertEqual("", "\n".join(s_data_recupere_error))
+                self.assertEqual("", "\n".join(s_data_recupere_error.logs))
+                self.assertEqual(True, s_data_recupere_error.ending_logs)
 
     def test_api_logs_multiple_pages(self) -> None:
-        "Vérifie le bon fonctionnement de api_logs__pages_filter (plusieurs pages)."
+        "Vérifie le bon fonctionnement de api_logs_filter."
         data = "2022/05/18 14:29:25       INFO §USER§ Envoi du signal de début de l'exécution à l'API."
         data1 = "2022/05/18 14:29:25       INFO §USER§ Signal transmit avec succès."
         datastore = "datastore_id"
@@ -81,7 +84,7 @@ class LogsInterfaceTestCase(GpfTestCase):
                 self.assertEqual(o_mock_request.call_count, 3)
                 o_mock_range.assert_called_with(o_response_verif_total.headers.get("Content-Range"), 1)
                 # on vérifie la similitude des données retournées
-                self.assertEqual([data, data1], s_data_recupere_info)
+                self.assertEqual([data, data1], s_data_recupere_info.logs)
 
     def test_api_logs_errors(self) -> None:
         "Vérifie le bon fonctionnement de api_logs__pages_filter (erreur)."
@@ -106,3 +109,44 @@ class LogsInterfaceTestCase(GpfTestCase):
                     o_log_interface.api_logs_filter(2, 7, 2, "")
                 self.assertTrue("La dernière page est en dehors des limites 4", context.exception.message)
                 # on vérifie que route_request et range_next_page sont appelés correctement
+
+    def test_api_logs_advanced(self) -> None:
+        "Vérifie le bon fonctionnement de api_logs_advanced."
+        s_data = "2022/05/18 14:29:25       INFO §USER§ Envoi du signal de début de l'exécution à l'API.\n2022/05/18 14:29:25       INFO §USER§ Signal transmis avec succès."
+        d_rep1: Dict[str, Any] = {"logs": ["2022/05/18 14:29:25       INFO §USER§ Envoi du signal de début de l'exécution à l'API."], "last_page": False, "total_page": 2}
+        d_rep2: Dict[str, Any] = {"logs": ["2022/05/18 14:29:25       INFO §USER§ Signal transmis avec succès."], "last_page": True, "total_page": 2}
+
+        o_response = GpfTestCase.get_response(json=d_rep1["logs"])
+        # On mock la fonction route_request, on veut vérifier qu'elle est appelée avec les bons params
+        with patch.object(ApiRequester, "route_request", return_value=o_response) as o_mock_request:
+            with patch.object(ApiRequester, "range_total_page", return_value=2) as o_mock_range:
+                # on appelle la fonction à tester : api_logs
+                o_log_interface = LogsInterface({"_id": "id_entité"}, datastore="datastore_id")
+                d_response1 = o_log_interface.api_logs_advanced(1, 1)
+                # on vérifie que route_request et range_next_page sont appelés correctement
+                o_mock_request.assert_called_with(
+                    "store_entity_logs",
+                    route_params={"datastore": "datastore_id", "store_entity": "id_entité"},
+                    params={"page": 1, "limit": 1},
+                )
+                o_mock_range.assert_called_with(o_response.headers.get("Content-Range"), 1)
+
+                # on vérifie la similitude des données retournées
+                self.assertEqual(d_response1, d_rep1)
+
+        o_response = GpfTestCase.get_response(json=d_rep2["logs"])
+        with patch.object(ApiRequester, "route_request", return_value=o_response) as o_mock_request:
+            with patch.object(ApiRequester, "range_total_page", return_value=2) as o_mock_range:
+                # on appelle la fonction à tester : api_logs
+                o_log_interface = LogsInterface({"_id": "id_entité"}, datastore="datastore_id")
+                d_response2 = o_log_interface.api_logs_advanced(2, 1)
+                # on vérifie que route_request et range_next_page sont appelés correctement
+                o_mock_request.assert_called_with(
+                    "store_entity_logs",
+                    route_params={"datastore": "datastore_id", "store_entity": "id_entité"},
+                    params={"page": 2, "limit": 1},
+                )
+                o_mock_range.assert_called_with(o_response.headers.get("Content-Range"), 1)
+
+                # on vérifie la similitude des données retournées
+                self.assertEqual(d_response2, d_rep2)

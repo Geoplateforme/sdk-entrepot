@@ -4,6 +4,17 @@ from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
 from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
 
 
+class LogsList:
+    def __init__(self, logs: List[str], first_page: int, last_page: int, total_page: int, starting_logs: bool, ending_logs: bool, entity: "LogsInterface"):
+        self.logs = logs
+        self.first_page = first_page
+        self.last_page = last_page
+        self.total_page = total_page
+        self.starting_logs = starting_logs
+        self.ending_logs = ending_logs
+        self.entity = entity
+
+
 class LogsInterface(StoreEntity):
     """Interface de StoreEntity pour gérer les logs (logs)."""
 
@@ -13,9 +24,9 @@ class LogsInterface(StoreEntity):
         Return:
             str: listes des lignes renvoyées
         """
-        return "\n".join(self.api_logs_filter())
+        return "\n".join(self.api_logs_filter().logs)
 
-    def api_logs_filter(self, first_page: int = 1, last_page: int = 0, line_per_page: int = 2000, str_filter: str = "") -> List[str]:
+    def api_logs_filter(self, first_page: int = 1, last_page: int = 0, line_per_page: int = 2000, str_filter: str = "") -> LogsList:
         """Récupère les logs de l'entité en fonction des différents filtres
 
         Returns:
@@ -53,22 +64,36 @@ class LogsInterface(StoreEntity):
             i_lastpage = i_total_page
         if i_firstpage > i_lastpage:
             raise StoreEntityError(f"La dernière page doit être superieur a la première ({i_firstpage}, {i_lastpage})")
-
+        i_page = i_firstpage
         # on récupère les pages souhaitées
-        while i_firstpage <= i_lastpage:
-            print(o_response)
+        while i_page <= i_lastpage:
             # On liste les entités à la bonne page
             o_response = ApiRequester().route_request(
                 s_route,
                 route_params={"datastore": self.datastore, self._entity_name: self.id},
-                params={"page": i_firstpage, "limit": line_per_page},
+                params={"page": i_page, "limit": line_per_page},
             )
             # On les ajoute à la liste
             l_logs += o_response.json()
             # On passe à la page suivante
-            i_firstpage += 1
+            i_page += 1
         l_result: List[str] = []
         for s_line in l_logs:
             if str_filter in s_line or str_filter == "":
                 l_result.append(s_line)
-        return l_result
+        return LogsList(l_result, i_firstpage, i_lastpage, i_total_page, i_firstpage == 1, i_lastpage == i_total_page, self)
+
+    def api_logs_advanced(self, page: int = 1, line_per_page: int = 2000) -> dict[str, any]:
+        """
+            Récupère les logs de l'entité a la page souhaité
+        Returns:
+            dict[str, any]: contiendra les logs: List[str] qui sera la liste des logs, last_page: bool si on est sur la dernière page,
+                                total_page: int qui sera le nombre de page
+        """
+        d_response = dict()
+        o_logs_list = self.api_logs_filter(page, page, line_per_page)
+        d_response["total_page"] = o_logs_list.total_page
+        d_response["last_page"] = o_logs_list.ending_logs
+        d_response["logs"] = o_logs_list.logs
+
+        return d_response
