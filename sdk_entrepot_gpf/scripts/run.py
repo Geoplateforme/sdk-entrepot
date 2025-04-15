@@ -23,8 +23,6 @@ from sdk_entrepot_gpf.workflow.action.DeleteAction import DeleteAction
 from sdk_entrepot_gpf.workflow.action.ProcessingExecutionAction import ProcessingExecutionAction
 from sdk_entrepot_gpf.workflow.action.UploadAction import UploadAction
 from sdk_entrepot_gpf.store.Datastore import Datastore
-from sdk_entrepot_gpf.store.ProcessingExecution import ProcessingExecution
-from sdk_entrepot_gpf.workflow.resolver.UserResolver import UserResolver
 from sdk_entrepot_gpf.scripts.entities import Entities
 from sdk_entrepot_gpf.scripts.delivery import Delivery
 from sdk_entrepot_gpf.scripts.workflow import WorkflowCli

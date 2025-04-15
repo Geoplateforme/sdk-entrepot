@@ -32,6 +32,7 @@ dependencies = [
     "requests_toolbelt",
     "tabulate",
     "types-tabulate",
+    "shapely",
 ]
 
 [project.optional-dependencies]

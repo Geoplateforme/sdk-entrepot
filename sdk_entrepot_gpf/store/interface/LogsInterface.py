@@ -36,7 +36,7 @@ class LogsInterface(StoreEntity):
         # stockage de la liste des logs
         l_logs: List[str] = []
         if line_per_page < 1:
-            raise StoreEntityError(f"le nombre de ligne par page doit être positif ({line_per_page})")
+            raise StoreEntityError(f"Le nombre de lignes par page ({line_per_page}) doit être positif.")
         o_response = ApiRequester().route_request(
             s_route,
             route_params={"datastore": self.datastore, self._entity_name: self.id},
@@ -45,9 +45,9 @@ class LogsInterface(StoreEntity):
         # On récupère le nombre de page en fonction du nombre de ligne par page.
         i_total_page = ApiRequester.range_total_page(o_response.headers.get("Content-Range"), line_per_page)
         if abs(first_page) > i_total_page:
-            raise StoreEntityError("La première page est en dehors des limites " + str(i_total_page))
+            raise StoreEntityError(f"La première page demandée ({first_page}) est en dehors des limites ({i_total_page}).")
         if abs(last_page) > i_total_page:
-            raise StoreEntityError("La dernière page est en dehors des limites " + str(i_total_page))
+            raise StoreEntityError(f"La dernière page demandée ({last_page}) est en dehors des limites ({i_total_page}).")
         # On initialise la première page
         if first_page > 0:
             i_firstpage = first_page

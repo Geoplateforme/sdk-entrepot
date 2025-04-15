@@ -56,6 +56,41 @@ class StoreEntityTestCase(GpfTestCase):
         self.assertEqual(StoreEntity.entity_name(), StoreEntity._entity_name)  # pylint:disable=protected-access
         self.assertEqual(StoreEntity.entity_title(), StoreEntity._entity_title)  # pylint:disable=protected-access
 
+    def test_set_key(self) -> None:
+        """Vérifie le bon fonctionnement du constructeur et des getters."""
+        # Donnée renvoyée par l'API
+        d_api_data = {
+            "_id": "123456789",
+            "name": "nom",
+        }
+        # Instanciation d'une Store entity
+        o_store_entity = StoreEntity(d_api_data, "datastore_1")
+
+        # Vérifications
+        self.assertEqual(o_store_entity["name"], "nom")
+        self.assertEqual(o_store_entity["_id"], "123456789")
+        o_store_entity.set_key("name", "username")
+        o_store_entity.set_key("dict", "dico")
+
+        self.assertEqual(o_store_entity["name"], "username")
+        self.assertEqual(o_store_entity["dict"], "dico")
+
+    def test_delete_key(self) -> None:
+        """Vérifie le bon fonctionnement du constructeur et des getters."""
+        # Donnée renvoyée par l'API
+        d_api_data = {
+            "_id": "123456789",
+            "name": "nom",
+        }
+        # Instanciation d'une Store entity
+        o_store_entity = StoreEntity(d_api_data, "datastore_1")
+
+        # Vérifications
+        self.assertEqual(o_store_entity["name"], "nom")
+        self.assertEqual(o_store_entity["_id"], "123456789")
+        o_store_entity.delete_key("name")
+        self.assertEqual(o_store_entity.get("name"), None)
+
     def test_filter_dict_from_str(self) -> None:
         """Vérifie le bon fonctionnement de filter_dict_from_str."""
         # On teste avec ou sans espace

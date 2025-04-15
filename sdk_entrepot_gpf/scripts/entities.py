@@ -3,6 +3,8 @@ from __future__ import annotations  # utile pour le typage "argparse._SubParsers
 import argparse
 import re
 from typing import Callable, List, Optional, Sequence
+from shapely.geometry import shape  # type:ignore
+from shapely.wkt import dumps  # type:ignore
 from tabulate import tabulate
 
 from sdk_entrepot_gpf.Errors import GpfSdkError
@@ -77,8 +79,8 @@ class Entities:
             # On fait les actions
             if self.action(o_entity):  # si ça retourne True
                 # On affiche l'entité
-                Config().om.info(f"Affichage de l'entité {o_entity}", green_colored=True)
-                Config().om.info(o_entity.to_json(indent=3))
+                Config().om.info(f"Affichage de l'entité {o_entity} :", green_colored=True)
+                Entities.print_entity(o_entity, "")
         elif getattr(self.args, "publish_by_label", False) is True:
             Entities.action_annexe_publish_by_labels(self.args.publish_by_label.split(","), datastore=self.datastore)
         elif getattr(self.args, "unpublish_by_label", False) is True:
@@ -105,7 +107,36 @@ class Entities:
         l_props = str(Config().get("cli", f"list_{entity_type}", "_id,name"))
         print(tabulate([o_e.get_store_properties(l_props.split(",")) for o_e in entities], headers="keys") + sep)
 
-    def action(self, o_entity: StoreEntity) -> bool:  # pylint:disable=too-many-return-statements
+    @staticmethod
+    def print_entity(o_entity: StoreEntity, extent: str = "") -> None:
+        """Affiche l'entité avec la possibilité de choisir l'affichage du extent
+
+        Args:
+            extent (str): Type de l'affichage du extent
+        """
+        # Gestion de l'affichage de l'emprise
+        b_extent_hidden = False
+        if o_entity.get("extent") is not None:
+            if extent == "geojson":  # Si geojson, on ne fait rien
+                pass
+            elif extent == "wkt":  # si wkt on converti
+                o_entity.set_key("extent", dumps(shape(o_entity.get("extent")["geometry"])))
+            # elif extent == "show": # si shown on l'affiche
+            #     coordinates = o_entity.get("extent")["geometry"]["coordinates"]
+            #     m = folium.Map(location = coordinates[0], zoom_start=10)
+            #     folium.Polygon(coordinates, color="blue", fill= True).add_to(m)
+            else:  # sinon, on la retire
+                o_entity.delete_key("extent")
+                b_extent_hidden = True
+
+        # Affichage entité
+        print(o_entity.to_json(indent=3))
+
+        # Affichage remarques
+        if b_extent_hidden:
+            Config().om.info("Emprise masquée, utilisez la commande --extent pour l'afficher.")
+
+    def action(self, o_entity: StoreEntity) -> bool:  # pylint:disable=too-many-branches,too-many-statements,too-many-return-statements
         """Traite les actions s'il y a lieu. Renvoie true si on doit afficher l'entité.
 
         Args:
@@ -118,6 +149,10 @@ class Entities:
         # Gestion des actions communes
         if getattr(self.args, "delete", False) is True:
             Entities.action_entity_delete(o_entity, self.args.cascade, self.args.force, self.datastore)
+            b_return = False
+
+        if getattr(self.args, "extent", None) is not None:
+            Entities.print_entity(o_entity, self.args.extent)
             b_return = False
 
         # Gestion des actions liées aux Livraisons
@@ -134,19 +169,19 @@ class Entities:
             Entities.action_upload_delete_files(o_entity, self.args.delete_files)
             b_return = False
         if getattr(self.args, "logs", None) is not None:
-            assert issubclass(o_entity.__class__, LogsInterface)
+            assert isinstance(o_entity, LogsInterface)
             self.action_execution_logs(o_entity, self.args.logs)
             b_return = False
         if getattr(self.args, "delete_failed_files", False) is True:
             assert isinstance(o_entity, Upload)
-            Entities.action_upload_delete_failed_files(o_entity, self.datastore)
+            Entities.action_upload_delete_failed_files(o_entity)
             b_return = False
         if getattr(self.args, "close", False) is True:
             assert isinstance(o_entity, Upload)
             Entities.action_upload_close(o_entity, self.args.mode_cartes)
             b_return = False
         if getattr(self.args, "relative_entities", False) is True:
-            assert issubclass(o_entity.__class__, StoreEntity)
+            assert isinstance(o_entity, StoreEntity)
             Entities.action_relative_entities(o_entity)
             b_return = False
 
@@ -385,23 +420,29 @@ class Entities:
 
     @staticmethod
     def action_execution_logs(execution: LogsInterface, filters: str) -> None:
-        """
-        Applique les filtres au logs de l'éxécution
+        """Applique les filtres au logs de l'exécution
         Args:
-            execution: L'éxécution où vont être appliqué les filtres.
-            filters: Les différents filtres qui seront appliqués sur l'éxécution.
+            execution: L'exécution où vont être appliqué les filtres.
+            filters: Les différents filtres qui seront appliqués sur l'exécution.
         """
+        if filters == "":
+            filters = "-1:0/25"
         o_pattern = r"(\-?\d+)(?::(\-?\d+))?(?:/(\-?\d+))?\|?(\w*)?"
         o_match = re.match(o_pattern, filters)
-        i_firstpage, i_lastpage, i_lineperpage, s_filter = o_match.groups()
+        if o_match is None:
+            Config().om.info(f"Impossible de parser {filters}, utilisation de -1:0/25.")
+            i_firstpage, i_lastpage, i_lineperpage, s_filter = "-1", "0", "25", ""
+        else:
+            i_firstpage, i_lastpage, i_lineperpage, s_filter = o_match.groups()
         if i_lastpage is None:
             i_lastpage = 0
         if i_lineperpage is None:
             i_lineperpage = 2000
         if s_filter is None:
             s_filter = ""
+        Config().om.info(f"Récupération des logs de l'{execution.entity_title()} {execution.id} ({i_firstpage}:{i_lastpage}/{i_lineperpage}|{s_filter})...")
         l_lines = execution.api_logs_filter(int(i_firstpage), int(i_lastpage), int(i_lineperpage), s_filter)
-        Config().om.info(f"Logs de {execution} (firstpage-lastpage/lineperpage|filter) :\n" + "\n".join(l_lines))
+        Config().om.info(f"{len(l_lines)} logs récupérés :\n" + "\n".join(l_lines))
 
     @staticmethod
     def action_relative_entities(entity: StoreEntity) -> None:  # pylint:disable=too-many-branches,too-many-statements
@@ -582,7 +623,6 @@ class Entities:
             # Filtres
             o_sub_parser.add_argument("--infos", "-i", type=str, default=None, help=f"Filtrer les {o_entity.entity_titles()} selon les infos")
             o_sub_parser.add_argument("--page", "-p", type=int, default=None, help="Page à récupérer. Toutes si non indiqué.")
-            o_sub_parser.add_argument("--relative-entities", action="store_true", help="Affiche les entités liées.")
             if issubclass(o_entity, TagInterface):
                 l_epilog.append(
                     f"""    * lister les {o_entity.entity_titles()} avec d'optionnels filtres sur les infos et les tags : {o_entity.entity_name()} [--infos INFO=VALEUR] [--tags TAG=VALEUR]"""
@@ -592,6 +632,10 @@ class Entities:
                 l_epilog.append(f"""    * lister les {o_entity.entity_titles()} avec d'optionnels filtres sur les infos : {o_entity.entity_name()} [--infos INFOS]""")
             l_epilog.append(f"""    * afficher le détail d'une entité : {o_entity.entity_name()} ID""")
             l_epilog.append("""    * effectuer une ACTION sur une entité :""")
+            l_epilog.append(f"""        - affiche son emprise : {o_entity.entity_name()} ID --extent [geojson|wkt]""")
+            o_sub_parser.add_argument("--extent", type=str, const="geojson", nargs="?", help="Affichage de l'emprise selon le format demandé", choices=["wkt", "geojson"])
+            l_epilog.append(f"""        - affiche les entités liées : {o_entity.entity_name()} ID --relative-entities""")
+            o_sub_parser.add_argument("--relative-entities", action="store_true", help="Affiche les entités liées.")
             l_epilog.append(f"""        - suppression : {o_entity.entity_name()} ID --delete""")
             o_sub_parser.add_argument("--delete", action="store_true", help="Suppression de l'entité")
             l_epilog.append(f"""        - suppression en cascade : {o_entity.entity_name()} ID --delete --cascade""")
@@ -627,7 +671,7 @@ class Entities:
                 o_sub_parser.add_argument("--checks", action="store_true", default=False, help="Affiche le bilan des vérifications d'une livraison")
                 l_epilog.append(f"""        - suppression de fichiers téléversés : {o_entity.entity_name()} ID --delete-files FILE [FILE]""")
                 o_sub_parser.add_argument("--delete-files", type=str, nargs="+", default=None, help="Supprime les fichiers distants indiqués d'une livraison.")
-                l_epilog.append(f"""        - suppression auto des fichiers mal téléversés {o_entity.entity_name()} ID --delete-failed-files""")
+                l_epilog.append(f"""        - suppression auto des fichiers mal téléversés : {o_entity.entity_name()} ID --delete-failed-files""")
                 o_sub_parser.add_argument("--delete-failed-files", action="store_true", default=False, help="Supprime les fichiers mal téléversés d'une livraison vérifiées et en erreur.")
                 l_epilog.append(f"""    * créer / mettre à jour une livraison (déprécié) : {o_entity.entity_name()} --file FILE [--behavior BEHAVIOR] [--check-before-close]""")
                 # TODO déprécié
@@ -644,8 +688,11 @@ class Entities:
                 o_sub_parser.add_argument("--abort", action="store_true", default=False, help="Annule l'exécution de traitement.")
 
             if issubclass(o_entity, LogsInterface):
-                l_epilog.append(f"""        - affichage des logs : {o_entity.entity_name()} ID --logs '1:2/1000|ERROR'""")
-                o_sub_parser.add_argument("--logs", type=str, default=None, help="Affiche les logs demandés d'une execution")
+                l_epilog.append(f"""        - affichage des logs (uniquement les 1000 première lignes) : {o_entity.entity_name()} ID --logs='1:2/1000'""")
+                l_epilog.append(f"""        - affichage des logs (tout en les récupérant 2000 par 2000) : {o_entity.entity_name()} ID --logs='1:0/2000'""")
+                l_epilog.append(f"""        - affichage des logs (tout en les filtrant) : {o_entity.entity_name()} ID --logs='1:0/1000|ERROR'""")
+                l_epilog.append(f"""        - affichage des logs (la dernière page, maximum 25 lignes) : {o_entity.entity_name()} ID --logs='-1:0/25'""")
+                o_sub_parser.add_argument("--logs", type=str, const="-1:0/25", nargs="?", help="Affiche les logs demandés d'une execution")
 
             l_epilog.append("""""")
             l_epilog.append("""Exemples :""")

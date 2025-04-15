@@ -1,5 +1,14 @@
 # CHANGE LOG
 
+## v0.1.41
+
+### [Added]
+
+### [Changed]
+
+### [Fixed]
+
+
 ## v0.1.40
 
 ### [Added]
@@ -30,6 +39,7 @@
 
 ### [Added]
 
+* Cli : ajout d'une action `--extent` permettant de gérer l'affichage de l'extent d'une entité.
 * Cli : ajout d'une action `--relative-entities` permettant de lister les entités liées à l'entité indiquée.
 * Cli : ajout d'une action `--abort` permettant de d'annuler une exécution de traitement.
 
