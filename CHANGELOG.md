@@ -13,6 +13,7 @@
 
 ### [Added]
 
+* Ajout d'une classe Log_List pour le retour de la fonction d'affichages des logs
 * Possibilité d'afficher des logs en les filtrant par pages et par chaine de caractère
 
 ### [Changed]
