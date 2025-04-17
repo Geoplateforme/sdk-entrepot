@@ -63,7 +63,7 @@ class LogsInterface(StoreEntity):
         else:
             i_lastpage = i_total_page
         if i_firstpage > i_lastpage:
-            raise StoreEntityError(f"La dernière page doit être superieur a la première ({i_firstpage}, {i_lastpage})")
+            raise StoreEntityError(f"La dernière page doit être supérieur à la première ({i_firstpage}, {i_lastpage}).")
         i_page = i_firstpage
         # on récupère les pages souhaitées
         while i_page <= i_lastpage:
@@ -82,18 +82,3 @@ class LogsInterface(StoreEntity):
             if str_filter in s_line or str_filter == "":
                 l_result.append(s_line)
         return LogsList(l_result, i_firstpage, i_lastpage, i_total_page, i_firstpage == 1, i_lastpage == i_total_page, self)
-
-    def api_logs_advanced(self, page: int = 1, line_per_page: int = 2000) -> dict[str, any]:
-        """
-            Récupère les logs de l'entité a la page souhaité
-        Returns:
-            dict[str, any]: contiendra les logs: List[str] qui sera la liste des logs, last_page: bool si on est sur la dernière page,
-                                total_page: int qui sera le nombre de page
-        """
-        d_response = dict()
-        o_logs_list = self.api_logs_filter(page, page, line_per_page)
-        d_response["total_page"] = o_logs_list.total_page
-        d_response["last_page"] = o_logs_list.ending_logs
-        d_response["logs"] = o_logs_list.logs
-
-        return d_response
