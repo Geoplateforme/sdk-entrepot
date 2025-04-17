@@ -5,6 +5,8 @@ from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
 
 
 class LogsList:
+    """Classe pour le renvoie de la fonction api_logs_filter"""
+
     def __init__(self, logs: List[str], first_page: int, last_page: int, total_page: int, starting_logs: bool, ending_logs: bool, entity: "LogsInterface"):
         self.logs = logs
         self.first_page = first_page
@@ -49,18 +51,16 @@ class LogsInterface(StoreEntity):
         if abs(last_page) > i_total_page:
             raise StoreEntityError(f"La dernière page demandée ({last_page}) est en dehors des limites ({i_total_page}).")
         # On initialise la première page
-        if first_page > 0:
-            i_firstpage = first_page
-        elif first_page < 0:
+        i_firstpage = first_page
+        if first_page < 0:
             i_firstpage = i_total_page + first_page + 1
-        else:
+        elif first_page == 0:
             i_firstpage = 1
         # On initialise la dernière page
-        if last_page > 0:
-            i_lastpage = last_page
-        elif last_page < 0:
+        i_lastpage = last_page
+        if last_page < 0:
             i_lastpage = i_total_page + last_page + 1
-        else:
+        elif last_page == 0:
             i_lastpage = i_total_page
         if i_firstpage > i_lastpage:
             raise StoreEntityError(f"La dernière page doit être supérieur à la première ({i_firstpage}, {i_lastpage}).")
