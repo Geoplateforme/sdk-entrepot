@@ -6,6 +6,9 @@
 
 ### [Changed]
 
+* LogsInterface.api_logs_filter() : modification du retour (liste des logs) pour une classe Log_List (liste de logs + informations de paginations)
+
+
 ### [Fixed]
 
 
@@ -13,7 +16,6 @@
 
 ### [Added]
 
-* Ajout d'une classe Log_List pour le retour de la fonction d'affichages des logs
 * Possibilité d'afficher des logs en les filtrant par pages et par chaine de caractère
 
 ### [Changed]
