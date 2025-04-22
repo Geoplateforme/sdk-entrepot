@@ -51,8 +51,8 @@ class LogsInterfaceTestCase(GpfTestCase):
                 o_mock_range.assert_called_with(o_response.headers.get("Content-Range"), 1)
                 # on vérifie la similitude des données retournées
                 self.assertEqual("", "\n".join(s_data_recupere_error.logs))
-                self.assertEqual(True, s_data_recupere_error.ending_logs)
-                self.assertEqual(True, s_data_recupere_error.starting_logs)
+                self.assertTrue(s_data_recupere_error.ending_logs)
+                self.assertTrue(s_data_recupere_error.starting_logs)
                 self.assertEqual(1, s_data_recupere_error.first_page)
                 self.assertEqual(1, s_data_recupere_error.last_page)
 
