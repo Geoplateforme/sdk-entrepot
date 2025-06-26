@@ -362,7 +362,9 @@ Possibilité de supprimer des entités de type : `upload`, `stored_data`, `confi
     // Suppression en cascade autorisée ou pas ? par défaut à false
     "cascade": true,
     // Ok si non trouvée ? par défaut à true
-    "not_found_ok": true
+    "not_found_ok": true,
+    // message de confirmation avant la suppression ? par défaut à true
+    "confirm": true
 }
 ```
 
@@ -387,6 +389,8 @@ Possibilité de supprimer des entités de type : `upload`, `stored_data`, `confi
     "cascade": true,
     // Ok si non trouvée ? par défaut à true
     "not_found_ok": true,
+    // message de confirmation avant la suppression ? par défaut à true
+    "confirm": true,
     // Que faire plusieurs résultats ?  first => uniquement 1er de la liste; all => on prend tout (défaut); error => sortie en erreur du programme
     "if_multi": "first|all|error"
 }

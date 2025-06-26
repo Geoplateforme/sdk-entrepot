@@ -8,9 +8,9 @@
 
 * LogsInterface.api_logs_filter() : modification du retour (liste des logs) pour une classe Log_List (liste de logs + informations de paginations)
 
-
 ### [Fixed]
 
+* documentation Workflow : action delete-entity, ajout du paramètre `"confirm"`qui n'était pas mentionné dans la documentation
 
 ## v0.1.40
 
