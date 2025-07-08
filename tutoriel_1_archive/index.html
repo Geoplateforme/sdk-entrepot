@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.4">
     
     
       
@@ -997,9 +997,9 @@ Le lien vers cette page devrait être : https://geoplateforme.github.io/sdk-entr
 <p>Une fois les données livrées, il faut traiter les données avant de les publier (c'est à dire configurer un géo-service et le rendre accessible).</p>
 <p>Ces étapes sont décrites grâce à un workflow.</p>
 <p>Vous pouvez récupérer un workflow d'exemple grâce à la commande suivante :</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>python<span class="w"> </span>-m<span class="w"> </span>sdk_entrepot_gpf<span class="w"> </span>exemple<span class="w"> </span>workflow<span class="w"> </span>generic_archive.jsonc
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>python<span class="w"> </span>-m<span class="w"> </span>sdk_entrepot_gpf<span class="w"> </span>example<span class="w"> </span>workflow<span class="w"> </span>generic_archive.jsonc
 </code></pre></div>
-<p>Ouvrez le fichier. Vous trouverez plus de détails dans la <a href="../workflow/">documentation sur les workflows</a>, mais vous pouvez dès à présent voir que le workflow est composé de 3 étapes. Il faudra lancer une commande pour chacune d'elles.</p>
+<p>Ouvrez le fichier. Vous trouverez plus de détails dans la <a href="../workflow/">documentation sur les workflows</a>, mais vous pouvez dès à présent voir que le workflow est composé de 4 étapes. Il faudra lancer une commande pour chacune d'elles.</p>
 <pre class="mermaid"><code>%% doc mermaid ici https://mermaid-js.github.io/mermaid/#/flowchart?id=flowcharts-basic-syntax
 flowchart TD
     A("upload") --&gt;|intégration-archive-livrée| B("dataset")
@@ -1007,14 +1007,14 @@ flowchart TD
     C--&gt;|configuration-archive-livrée| D(configuration)
     D --&gt;|publication-archive-livrée| E(publication)</code></pre>
 <h2 id="traitement-et-publication">Traitement et publication<a class="headerlink" href="#traitement-et-publication" title="Permanent link">#</a></h2>
-<p>Le workflow « generic_archive » permet de passer de la livraison à un lien permettant de télécharger la donnée. Il comporte 3 étapes :</p>
+<p>Le workflow « generic_archive » permet de passer de la livraison à un lien permettant de télécharger la donnée. Il comporte 4 étapes :</p>
 <ul>
 <li><code>intégration-archive-livrée</code> : transformation des données livrées temporaires en une Donnée Stockée pérenne ;</li>
 <li><code>patch-donnée-stockée</code> : ajout de la description des Données Stockée;</li>
 <li><code>configuration-archive-livrée</code> : configuration d'un service de téléchargement permettant de télécharger les données ;</li>
 <li><code>publication-archive-livrée</code> : publication du service de téléchargement.</li>
 </ul>
-<p>Lancez les 3 commandes suivantes pour exécuter les 3 étapes :</p>
+<p>Lancez les 4 commandes suivantes pour exécuter les 4 étapes :</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>python<span class="w"> </span>-m<span class="w"> </span>sdk_entrepot_gpf<span class="w"> </span>workflow<span class="w"> </span>-f<span class="w"> </span>generic_archive.jsonc<span class="w"> </span>-s<span class="w"> </span>intégration-archive-livrée
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>python<span class="w"> </span>-m<span class="w"> </span>sdk_entrepot_gpf<span class="w"> </span>workflow<span class="w"> </span>-f<span class="w"> </span>generic_archive.jsonc<span class="w"> </span>-s<span class="w"> </span>patch-donnée-stockée
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>python<span class="w"> </span>-m<span class="w"> </span>sdk_entrepot_gpf<span class="w"> </span>workflow<span class="w"> </span>-f<span class="w"> </span>generic_archive.jsonc<span class="w"> </span>-s<span class="w"> </span>configuration-archive-livrée
@@ -1095,7 +1095,7 @@ flowchart TD
     <script id="__config" type="application/json">{"base": "..", "features": ["content.code.annotate", "content.code.copy"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      <script src="../assets/javascripts/bundle.f1b6f286.min.js"></script>
       
     
   </body>

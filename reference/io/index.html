@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.4">
     
     
       
@@ -697,6 +697,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.ApiRequester.ApiRequester.range_total_page" class="md-nav__link">
+    <span class="md-ellipsis">
+      range_total_page
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#sdk_entrepot_gpf.io.ApiRequester.ApiRequester.route_request" class="md-nav__link">
     <span class="md-ellipsis">
       route_request
@@ -1208,6 +1217,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#sdk_entrepot_gpf.io.ApiRequester.ApiRequester.range_total_page" class="md-nav__link">
+    <span class="md-ellipsis">
+      range_total_page
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#sdk_entrepot_gpf.io.ApiRequester.ApiRequester.route_request" class="md-nav__link">
     <span class="md-ellipsis">
       route_request
@@ -1679,7 +1697,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
                 <code>content_range</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[str]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1695,7 +1713,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
                 <code>length</code>
             </td>
             <td>
-                  <code><span title="int">int</span></code>
+                  <code>int</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1721,11 +1739,103 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="bool">bool</span></code>
+                  <code>bool</code>
             </td>
             <td>
               <div class="doc-md-description">
                 <p>True s'il faut continuer, False sinon</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="sdk_entrepot_gpf.io.ApiRequester.ApiRequester.range_total_page" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">range_total_page</span><span class="p">(</span><span class="n">content_range</span><span class="p">,</span> <span class="n">limit</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+<a href="#sdk_entrepot_gpf.io.ApiRequester.ApiRequester.range_total_page" class="headerlink" title="Permanent link">#</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Fonction renvoyant le nombre de page en fonction du content_range pour un nombre limite d'éléments par page.
+Si le nombre d'élément par page n'est pas indiqué, on suppose que c'est le nombre d'élément dans le content_range.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>content_range</code>
+            </td>
+            <td>
+                  <code><span title="typing.Optional">Optional</span>[str]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Content-Range renvoyé par l'API</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>length</code>
+            </td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>nombre d'éléments par page</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Le nombre de page en fonction du nombre d'enregistrement</p>
               </div>
             </td>
           </tr>
@@ -1766,7 +1876,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
                 <code>route_name</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1782,7 +1892,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
                 <code>route_params</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1798,7 +1908,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
                 <code>params</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1814,7 +1924,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
                 <code>method</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1830,7 +1940,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
                 <code>data</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1846,7 +1956,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
                 <code>files</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Tuple">Tuple</span>[<span title="typing.Any">Any</span>]]]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Tuple">Tuple</span>[<span title="typing.Any">Any</span>]]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1862,7 +1972,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
                 <code>timeout</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="int">int</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[int]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1888,7 +1998,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-internal" title="RouteNotFoundError (sdk_entrepot_gpf.io.Errors.RouteNotFoundError)" href="#sdk_entrepot_gpf.io.Errors.RouteNotFoundError">RouteNotFoundError</a></code>
+                  <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Errors.RouteNotFoundError" href="#sdk_entrepot_gpf.io.Errors.RouteNotFoundError">RouteNotFoundError</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1898,7 +2008,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-internal" title="InternalServerError (sdk_entrepot_gpf.io.Errors.InternalServerError)" href="#sdk_entrepot_gpf.io.Errors.InternalServerError">InternalServerError</a></code>
+                  <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Errors.InternalServerError" href="#sdk_entrepot_gpf.io.Errors.InternalServerError">InternalServerError</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1908,7 +2018,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-internal" title="NotFoundError (sdk_entrepot_gpf.io.Errors.NotFoundError)" href="#sdk_entrepot_gpf.io.Errors.NotFoundError">NotFoundError</a></code>
+                  <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Errors.NotFoundError" href="#sdk_entrepot_gpf.io.Errors.NotFoundError">NotFoundError</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1918,7 +2028,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-internal" title="NotAuthorizedError (sdk_entrepot_gpf.io.Errors.NotAuthorizedError)" href="#sdk_entrepot_gpf.io.Errors.NotAuthorizedError">NotAuthorizedError</a></code>
+                  <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Errors.NotAuthorizedError" href="#sdk_entrepot_gpf.io.Errors.NotAuthorizedError">NotAuthorizedError</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1928,7 +2038,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-internal" title="BadRequestError (sdk_entrepot_gpf.io.Errors.BadRequestError)" href="#sdk_entrepot_gpf.io.Errors.BadRequestError">BadRequestError</a></code>
+                  <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Errors.BadRequestError" href="#sdk_entrepot_gpf.io.Errors.BadRequestError">BadRequestError</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1938,7 +2048,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-internal" title="StatusCodeError (sdk_entrepot_gpf.io.Errors.StatusCodeError)" href="#sdk_entrepot_gpf.io.Errors.StatusCodeError">StatusCodeError</a></code>
+                  <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Errors.StatusCodeError" href="#sdk_entrepot_gpf.io.Errors.StatusCodeError">StatusCodeError</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2006,7 +2116,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
                 <code>route_name</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2038,7 +2148,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
                 <code>file_key</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2054,7 +2164,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
                 <code>route_params</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2070,7 +2180,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
                 <code>params</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2086,7 +2196,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
                 <code>method</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2102,7 +2212,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
                 <code>data</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2173,7 +2283,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
                 <code>url</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2189,7 +2299,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
                 <code>method</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2205,7 +2315,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
                 <code>params</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2221,7 +2331,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
                 <code>data</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Union">Union</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>], <span title="typing.List">List</span>[<span title="typing.Any">Any</span>]]]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Union">Union</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>], <span title="typing.List">List</span>[<span title="typing.Any">Any</span>]]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2237,7 +2347,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
                 <code>files</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Tuple">Tuple</span>[<span title="typing.Any">Any</span>]]]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Tuple">Tuple</span>[<span title="typing.Any">Any</span>]]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2253,7 +2363,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
                 <code>header</code>
             </td>
             <td>
-                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="str">str</span>]</code>
+                  <code><span title="typing.Dict">Dict</span>[str, str]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2269,7 +2379,7 @@ faut faire d'autres requêtes ou si tout est déjà récupéré.</p>
                 <code>timeout</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="int">int</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[int]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2382,7 +2492,7 @@ Attributes:
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-internal" title="ConfigReaderError (sdk_entrepot_gpf.io.Errors.ConfigReaderError)" href="#sdk_entrepot_gpf.io.Errors.ConfigReaderError">ConfigReaderError</a></code>
+                  <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Errors.ConfigReaderError" href="#sdk_entrepot_gpf.io.Errors.ConfigReaderError">ConfigReaderError</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2441,7 +2551,7 @@ Attributes:
                 <code>section</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2457,7 +2567,7 @@ Attributes:
                 <code>option</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2473,7 +2583,7 @@ Attributes:
                 <code>fallback</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[str]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2499,7 +2609,7 @@ Attributes:
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[str]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2544,7 +2654,7 @@ Attributes:
                 <code>section</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2560,7 +2670,7 @@ Attributes:
                 <code>option</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2576,7 +2686,7 @@ Attributes:
                 <code>fallback</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="bool">bool</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[bool]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2602,7 +2712,7 @@ Attributes:
       <tbody>
           <tr class="doc-section-item">
 <td><code>bool</code></td>            <td>
-                  <code><span title="bool">bool</span></code>
+                  <code>bool</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2642,7 +2752,7 @@ Attributes:
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
+                  <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2687,7 +2797,7 @@ Attributes:
                 <code>section</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2703,7 +2813,7 @@ Attributes:
                 <code>option</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2719,7 +2829,7 @@ Attributes:
                 <code>fallback</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="float">float</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[float]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2745,7 +2855,7 @@ Attributes:
       <tbody>
           <tr class="doc-section-item">
 <td><code>float</code></td>            <td>
-                  <code><span title="float">float</span></code>
+                  <code>float</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2790,7 +2900,7 @@ Attributes:
                 <code>section</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2806,7 +2916,7 @@ Attributes:
                 <code>option</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2822,7 +2932,7 @@ Attributes:
                 <code>fallback</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="int">int</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[int]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2848,7 +2958,7 @@ Attributes:
       <tbody>
           <tr class="doc-section-item">
 <td><code>int</code></td>            <td>
-                  <code><span title="int">int</span></code>
+                  <code>int</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2893,7 +3003,7 @@ Attributes:
                 <code>section</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2909,7 +3019,7 @@ Attributes:
                 <code>option</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2925,7 +3035,7 @@ Attributes:
                 <code>fallback</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[str]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2951,7 +3061,7 @@ Attributes:
       <tbody>
           <tr class="doc-section-item">
 <td><code>str</code></td>            <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3129,7 +3239,7 @@ La fonction retourne la liste des fichiers lus.</p>
                 <code>filenames</code>
             </td>
             <td>
-                  <code><span title="typing.Union">Union</span>[<span title="str">str</span>, <span title="pathlib.Path">Path</span>, <span title="typing.Iterable">Iterable</span>[<span title="typing.Union">Union</span>[<span title="str">str</span>, <span title="pathlib.Path">Path</span>]]]</code>
+                  <code><span title="typing.Union">Union</span>[str, <span title="pathlib.Path">Path</span>, <span title="typing.Iterable">Iterable</span>[<span title="typing.Union">Union</span>[str, <span title="pathlib.Path">Path</span>]]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3155,7 +3265,7 @@ La fonction retourne la liste des fichiers lus.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="typing.List">List</span>[<span title="str">str</span>]</code>
+                  <code><span title="typing.List">List</span>[str]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3250,7 +3360,7 @@ La fonction retourne la liste des fichiers lus.</p>
           <tr class="doc-section-item">
             <td><code><span title="sdk_entrepot_gpf.io.Dataset.Dataset.__upload_infos">__upload_infos</span></code></td>
             <td>
-                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="str">str</span>]</code>
+                  <code><span title="typing.Dict">Dict</span>[str, str]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3261,7 +3371,7 @@ La fonction retourne la liste des fichiers lus.</p>
           <tr class="doc-section-item">
             <td><code><span title="sdk_entrepot_gpf.io.Dataset.Dataset.__comments">__comments</span></code></td>
             <td>
-                  <code><span title="typing.List">List</span>[<span title="str">str</span>]</code>
+                  <code><span title="typing.List">List</span>[str]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3272,7 +3382,7 @@ La fonction retourne la liste des fichiers lus.</p>
           <tr class="doc-section-item">
             <td><code><span title="sdk_entrepot_gpf.io.Dataset.Dataset.__tags">__tags</span></code></td>
             <td>
-                  <code><span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="str">str</span>]</code>
+                  <code><span title="typing.Dict">Dict</span>[str, str]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3463,7 +3573,7 @@ La fonction retourne la liste des fichiers lus.</p>
           <tr class="doc-section-item">
             <td><code><span title="sdk_entrepot_gpf.io.UploadDescriptorFileReader.UploadDescriptorFileReader.__datasets">__datasets</span></code></td>
             <td>
-                  <code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="Dataset (sdk_entrepot_gpf.io.Dataset.Dataset)" href="#sdk_entrepot_gpf.io.Dataset.Dataset">Dataset</a>]</code>
+                  <code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Dataset.Dataset" href="#sdk_entrepot_gpf.io.Dataset.Dataset">Dataset</a>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3474,7 +3584,7 @@ La fonction retourne la liste des fichiers lus.</p>
           <tr class="doc-section-item">
             <td><code><span title="sdk_entrepot_gpf.io.UploadDescriptorFileReader.UploadDescriptorFileReader.__parent_folder(path)">__parent_folder(path)</span></code></td>
             <td>
-                  <code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="Dataset (sdk_entrepot_gpf.io.Dataset.Dataset)" href="#sdk_entrepot_gpf.io.Dataset.Dataset">Dataset</a>]</code>
+                  <code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Dataset.Dataset" href="#sdk_entrepot_gpf.io.Dataset.Dataset">Dataset</a>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3744,7 +3854,7 @@ On utilise un "converter" spécialisé.</p>
       <tbody>
           <tr class="doc-section-item">
 <td><code>str</code></td>            <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3833,7 +3943,7 @@ On utilise un "converter" spécialisé.</p>
                 <code>file_logger</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[str]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3849,7 +3959,7 @@ On utilise un "converter" spécialisé.</p>
                 <code>pattern_formater</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[str]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3933,7 +4043,7 @@ Args:
                 <code>message</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3949,7 +4059,7 @@ Args:
                 <code>force_flush</code>
             </td>
             <td>
-                  <code><span title="bool">bool</span></code>
+                  <code>bool</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4018,7 +4128,7 @@ Args:
                 <code>message</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4034,7 +4144,7 @@ Args:
                 <code>green_colored</code>
             </td>
             <td>
-                  <code><span title="bool">bool</span></code>
+                  <code>bool</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4050,7 +4160,7 @@ Args:
                 <code>force_flush</code>
             </td>
             <td>
-                  <code><span title="bool">bool</span></code>
+                  <code>bool</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4098,7 +4208,7 @@ Args:
                 <code>level</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4190,7 +4300,7 @@ Args:
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="ApiError (sdk_entrepot_gpf.io.Errors.ApiError)" href="#sdk_entrepot_gpf.io.Errors.ApiError">ApiError</a></code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Errors.ApiError" href="#sdk_entrepot_gpf.io.Errors.ApiError">ApiError</a></code></p>
 
 
         <p>Erreur API : erreur générique et sans réponse lors d'une requête à l'API.</p>
@@ -4214,7 +4324,7 @@ Args:
                 <code>url</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4230,7 +4340,7 @@ Args:
                 <code>method</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4246,7 +4356,7 @@ Args:
                 <code>params</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4262,7 +4372,7 @@ Args:
                 <code>data</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Union">Union</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>], <span title="typing.List">List</span>[<span title="typing.Any">Any</span>]]]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Union">Union</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>], <span title="typing.List">List</span>[<span title="typing.Any">Any</span>]]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4315,7 +4425,7 @@ Args:
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><span title="Exception">Exception</span></code></p>
+              Bases: <code>Exception</code></p>
 
 
         <p>Erreur API : classe abstraite pour gérer les erreurs API en général.</p>
@@ -4404,7 +4514,7 @@ Args:
           <tr class="doc-section-item">
             <td><code><span title="sdk_entrepot_gpf.io.Errors.ConfigReaderError.__message">__message</span></code></td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4496,7 +4606,7 @@ Args:
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="AbstractRequestError (sdk_entrepot_gpf.io.Errors.AbstractRequestError)" href="#sdk_entrepot_gpf.io.Errors.AbstractRequestError">AbstractRequestError</a></code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Errors.AbstractRequestError" href="#sdk_entrepot_gpf.io.Errors.AbstractRequestError">AbstractRequestError</a></code></p>
 
 
         <p>Erreur API : erreur interne à l'API (contactez le support).</p>
@@ -4625,7 +4735,7 @@ Args:
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="ApiError (sdk_entrepot_gpf.io.Errors.ApiError)" href="#sdk_entrepot_gpf.io.Errors.ApiError">ApiError</a></code></p>
+              Bases: <code><a class="autorefs autorefs-internal" title="sdk_entrepot_gpf.io.Errors.ApiError" href="#sdk_entrepot_gpf.io.Errors.ApiError">ApiError</a></code></p>
 
 
         <p>Route non trouvée (problème de configuration).</p>
@@ -4649,7 +4759,7 @@ Args:
                 <code>route_name</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4720,7 +4830,7 @@ Args:
           <tr class="doc-section-item">
             <td><code><span title="sdk_entrepot_gpf.io.Errors.RoutingReaderError.__message">__message</span></code></td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4793,7 +4903,7 @@ Args:
                 <code>url</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4809,7 +4919,7 @@ Args:
                 <code>method</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4825,7 +4935,7 @@ Args:
                 <code>params</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4841,7 +4951,7 @@ Args:
                 <code>data</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Union">Union</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>], <span title="typing.List">List</span>[<span title="typing.Any">Any</span>]]]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Union">Union</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>], <span title="typing.List">List</span>[<span title="typing.Any">Any</span>]]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4857,7 +4967,7 @@ Args:
                 <code>status_code</code>
             </td>
             <td>
-                  <code><span title="int">int</span></code>
+                  <code>int</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4873,7 +4983,7 @@ Args:
                 <code>response</code>
             </td>
             <td>
-                  <code><span title="str">str</span></code>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4970,7 +5080,7 @@ Args:
     <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.annotate", "content.code.copy"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.c8b220af.min.js"></script>
+      <script src="../../assets/javascripts/bundle.f1b6f286.min.js"></script>
       
     
   </body>
