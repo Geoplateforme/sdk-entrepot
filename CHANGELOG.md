@@ -11,6 +11,7 @@
 ### [Fixed]
 
 * documentation Workflow : action delete-entity, ajout du paramètre `"confirm"`qui n'était pas mentionné dans la documentation
+* Tutoriel archivage: correction de coquille
 
 ## v0.1.40
 
