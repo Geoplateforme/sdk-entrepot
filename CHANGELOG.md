@@ -7,6 +7,7 @@
 ### [Changed]
 
 * LogsInterface.api_logs_filter() : modification du retour (liste des logs) pour une classe Log_List (liste de logs + informations de paginations)
+* ApiRequester: retry lors d'un timeout pour les requêtes GET, pour les autre requête on garde l'erreur
 
 ### [Fixed]
 
