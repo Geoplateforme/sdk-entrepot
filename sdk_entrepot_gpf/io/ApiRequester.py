@@ -158,8 +158,8 @@ class ApiRequester(metaclass=Singleton):
                 s_message = f"La requête formulée par le programme est incorrecte ({e_error.message}). Contactez le support."
                 raise GpfSdkError(s_message) from e_error
 
-            except (ConflictError, NotFoundError, requests.Timeout) as e_error:
-                # S'il y a un conflit, un 404 ou un timeout, on ne retente pas, on ne fait rien. On propage l'erreur.
+            except (ConflictError, NotFoundError) as e_error:
+                # S'il y a un conflit ou un 404 on ne retente pas, on ne fait rien. On propage l'erreur.
                 raise e_error
             except requests.exceptions.ConnectionError as e_connexion:
                 s_message = (
@@ -177,7 +177,10 @@ class ApiRequester(metaclass=Singleton):
                 else:
                     raise GpfSdkError(s_message) from e_connexion
 
-            except (ApiError, requests.RequestException) as e_error:
+            except (ApiError, requests.RequestException, requests.Timeout) as e_error:
+                # cas timeout on retente que si on a que requête GET, sinon on propage
+                if isinstance(e_error, requests.Timeout) and method != "GET":
+                    raise e_error
                 # Pour les autres erreurs, on retente selon les paramètres indiqués.
                 # On récupère la classe de l'erreur histoire que ce soit plus parlant...
                 s_title = e_error.__class__.__name__

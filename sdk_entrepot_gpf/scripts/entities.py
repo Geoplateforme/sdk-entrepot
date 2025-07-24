@@ -348,7 +348,7 @@ class Entities:
             Config().om.warning(f"* {len(d_checks['failed'])} vérifications échouées :", yellow_colored=True)
             for d_verification in d_checks["failed"]:
                 o_check = CheckExecution(d_verification, datastore=upload.datastore)
-                l_logs = o_check.api_logs_filter(str_filter="ERROR")
+                l_logs = o_check.api_logs_filter(str_filter="ERROR").logs
                 if l_logs:
                     s_logs = "\n" + "\n".join(l_logs)
                 else:
@@ -394,7 +394,7 @@ class Entities:
         for d_check_exec in l_check_execs["failed"]:
             if d_check_exec["check"]["name"] in l_accepted_check_names:
                 o_check_exec = CheckExecution(d_check_exec, datastore=upload.datastore)
-                l_lines = o_check_exec.api_logs_filter(str_filter="ERROR")
+                l_lines = o_check_exec.api_logs_filter(str_filter="ERROR").logs
                 for s_line in l_lines:
                     o_match = o_regex.search(s_line)
                     if o_match:
@@ -441,7 +441,7 @@ class Entities:
         if s_filter is None:
             s_filter = ""
         Config().om.info(f"Récupération des logs de l'{execution.entity_title()} {execution.id} ({i_firstpage}:{i_lastpage}/{i_lineperpage}|{s_filter})...")
-        l_lines = execution.api_logs_filter(int(i_firstpage), int(i_lastpage), int(i_lineperpage), s_filter)
+        l_lines = execution.api_logs_filter(int(i_firstpage), int(i_lastpage), int(i_lineperpage), s_filter).logs
         Config().om.info(f"{len(l_lines)} logs récupérés :\n" + "\n".join(l_lines))
 
     @staticmethod

@@ -22,7 +22,7 @@ class Upload(TagInterface, CommentInterface, SharingInterface, EventInterface, P
     _entity_name = "upload"
     _entity_title = "livraison"
     _entity_titles = "livraisons"
-    _entity_fields = "name,type,visibility,srs,status,size"
+    _entity_fields = "name,type,open,srs,status,size"
 
     STATUS_CREATED = "CREATED"
     STATUS_OPEN = "OPEN"
