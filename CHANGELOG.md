@@ -1,5 +1,15 @@
 # CHANGE LOG
 
+## v0.1.42
+
+### [Added]
+
+### [Changed]
+
+### [Fixed]
+
+* suivi modification de la GPF : modification du champ "visibility" en "open" dans les autre stored data + mise à jour des workflow
+
 ## v0.1.41
 
 ### [Added]
@@ -13,6 +23,7 @@
 
 * documentation Workflow : action delete-entity, ajout du paramètre `"confirm"`qui n'était pas mentionné dans la documentation
 * Tutoriel archivage: correction de coquille
+* suivi modification de la GPF : modification du champ "visibility" en "open" dans Upload
 
 ## v0.1.40
 

@@ -123,7 +123,7 @@
                         "configuration": "{store_entity.configuration.infos._id [INFOS(name=Canton Archive), TAGS(tuto=oui)]}"
                     },
                     "body_parameters": {
-                        "visibility": "PRIVATE",
+                        "open": true,
                         // Endpoint de type DOWNLOAD (id trouvé en récupérant les informations de l'entrepôt)
                         "endpoint": "{store_entity.endpoint.infos._id [INFOS(technical_name=gpf-download-private)]}"
                     }
