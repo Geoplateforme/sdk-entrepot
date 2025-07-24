@@ -284,7 +284,6 @@ Le détail d'un traitement est disponible ici : [/datastores/{datastore}/process
 * `url_parameters`: dictionnaire :
     * `configuration`: uuid de la configuration que l'on veux publier
 * `body_parameters`*: dictionnaire paramétrant l'offre:
-    * `visibility`: niveau de visibilité [ PRIVATE, REFERENCED, PUBLIC ] (default: PRIVATE)
     * `endpoint`*: uuid du endpoint à utiliser
     * `open`: boolean
     * `permissions`: liste des uuid des permissions

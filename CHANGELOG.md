@@ -8,6 +8,8 @@
 
 ### [Fixed]
 
+* suivi modification de la GPF : modification du champ "visibility" en "open" dans les autre stored data + mise à jour des workflow
+
 ## v0.1.41
 
 ### [Added]

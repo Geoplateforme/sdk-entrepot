@@ -78,7 +78,6 @@
                         "body_parameters": {
                             // Endpoint de type WMS
                             "endpoint": "{store_entity.endpoint.infos._id [INFOS(technical_name=gpf-geoserver-wms-v)]}",
-                            "visibility": "PRIVATE",
                             "open": true
                         }
                     }
@@ -182,7 +181,6 @@
                         "body_parameters": {
                             // Endpoint de type WMS-R (id trouvé en récupérant les informations de l'entrepôt)
                             "endpoint": "{store_entity.endpoint.infos._id [INFOS(technical_name=gpf-rok4-server-wms-r)]}",
-                            "visibility": "PRIVATE",
                             "open": true
                         }
                     }
