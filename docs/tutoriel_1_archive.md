@@ -76,10 +76,10 @@ Ces étapes sont décrites grâce à un workflow.
 Vous pouvez récupérer un workflow d'exemple grâce à la commande suivante :
 
 ```sh
-python -m sdk_entrepot_gpf exemple workflow generic_archive.jsonc
+python -m sdk_entrepot_gpf example workflow generic_archive.jsonc
 ```
 
-Ouvrez le fichier. Vous trouverez plus de détails dans la [documentation sur les workflows](workflow.md), mais vous pouvez dès à présent voir que le workflow est composé de 3 étapes. Il faudra lancer une commande pour chacune d'elles.
+Ouvrez le fichier. Vous trouverez plus de détails dans la [documentation sur les workflows](workflow.md), mais vous pouvez dès à présent voir que le workflow est composé de 4 étapes. Il faudra lancer une commande pour chacune d'elles.
 
 ```mermaid
 %% doc mermaid ici https://mermaid-js.github.io/mermaid/#/flowchart?id=flowcharts-basic-syntax
@@ -92,14 +92,14 @@ flowchart TD
 
 ## Traitement et publication
 
-Le workflow « generic_archive » permet de passer de la livraison à un lien permettant de télécharger la donnée. Il comporte 3 étapes :
+Le workflow « generic_archive » permet de passer de la livraison à un lien permettant de télécharger la donnée. Il comporte 4 étapes :
 
 * `intégration-archive-livrée` : transformation des données livrées temporaires en une Donnée Stockée pérenne ;
 * `patch-donnée-stockée` : ajout de la description des Données Stockée;
 * `configuration-archive-livrée` : configuration d'un service de téléchargement permettant de télécharger les données ;
 * `publication-archive-livrée` : publication du service de téléchargement.
 
-Lancez les 3 commandes suivantes pour exécuter les 3 étapes :
+Lancez les 4 commandes suivantes pour exécuter les 4 étapes :
 
 ```sh
 python -m sdk_entrepot_gpf workflow -f generic_archive.jsonc -s intégration-archive-livrée
