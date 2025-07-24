@@ -15,7 +15,7 @@ class StoredData(TagInterface, CommentInterface, SharingInterface, EventInterfac
     _entity_name = "stored_data"
     _entity_title = "donnée stockée"
     _entity_titles = "données stockées"
-    _entity_fields = "name,type,visibility,srs,status"
+    _entity_fields = "name,type,open,srs,status"
 
     STATUS_CREATED = "CREATED"
     STATUS_GENERATING = "GENERATING"
