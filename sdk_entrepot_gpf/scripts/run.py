@@ -3,6 +3,7 @@
 # pylint: disable=too-many-lines
 
 import sys
+import os
 import argparse
 import traceback
 from pathlib import Path
@@ -45,8 +46,14 @@ class Main:
         self.datastore: Optional[str] = None
 
         # Résolution de la config
-        if not Path(self.o_args.config).exists():
-            raise GpfSdkError(f"Le fichier de configuration précisé ({self.o_args.config}) n'existe pas.")
+        s_p_config = self.o_args.config
+        if s_p_config == "--default--":
+            # SI on a la variable d'environnement "SDK_ENTREPOT_CONFIG_FILE" de défini on l'utilise
+            # sinon on utilise le fichier par défaut "config.ini"
+            s_p_config = os.environ.get("SDK_ENTREPOT_CONFIG_FILE", "config.ini")
+
+        if not Path(s_p_config).exists():
+            raise GpfSdkError(f"Le fichier de configuration précisé ({s_p_config}) n'existe pas.")
         Config().read(self.o_args.config)
 
         # Si debug on monte la config
@@ -118,7 +125,12 @@ class Main:
         """
         # Parsing des paramètres
         o_parser = argparse.ArgumentParser(prog=program_name, description="Exécutable pour interagir avec l'API Entrepôt de la Géoplateforme.")
-        o_parser.add_argument("--ini", dest="config", default="config.ini", help="Chemin vers le fichier de config à utiliser (config.ini par défaut)")
+        o_parser.add_argument(
+            "--ini",
+            dest="config",
+            default="--default--",
+            help="Chemin vers le fichier de config à utiliser (par défaut fichier défini avec la variable d'environnement SDK_ENTREPOT_CONFIG_FILE ou config.ini)",
+        )
         o_parser.add_argument("--version", action="version", version=f"%(prog)s v{sdk_entrepot_gpf.__version__}")
         o_parser.add_argument("--debug", dest="debug", required=False, default=False, action="store_true", help="Passe l'appli en mode debug (plus de messages affichés)")
         o_parser.add_argument("--datastore", "-d", dest="datastore", required=False, default=None, help="Identifiant du datastore à utiliser")

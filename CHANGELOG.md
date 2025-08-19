@@ -4,6 +4,8 @@
 
 ### [Added]
 
+* Possibilité de préciser l'emplacement du fichier de configuration via une variable d'environnement SDK_ENTREPOT_CONFIG_FILE [#264](https://github.com/Geoplateforme/sdk-entrepot/issues/264)
+
 ### [Changed]
 
 ### [Fixed]

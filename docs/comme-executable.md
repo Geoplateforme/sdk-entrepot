@@ -29,7 +29,10 @@ Un bon moyen de vérifier que la configuration est correcte est de s'authentifie
 # Le fichier de configuration est directement trouvé s'il est
 # nommé "config.ini" et qu'il est situé dans le dossier de travail
 python -m sdk_entrepot_gpf auth
-# Sinon indiquez son chemin
+# Sinon indiquez son chemin avec la variable d'environnement SDK_ENTREPOT_CONFIG_FILE (valable pour toute les commandes suivante)
+export SDK_ENTREPOT_CONFIG_FILE=/autre/chemin/config.ini
+python -m sdk_entrepot_gpf auth
+# ou dans la ligne de commande (doit être précisé dans toutes le lignes de commandes, si précisé SDK_ENTREPOT_CONFIG_FILE est ignorer)
 python -m sdk_entrepot_gpf --ini /autre/chemin/config.ini auth
 ```
 
