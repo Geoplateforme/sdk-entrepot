@@ -8,6 +8,8 @@
 
 ### [Changed]
 
+* Workflow : edit-entity des configurations suppression la limitation sur les used_data #269
+
 ### [Fixed]
 
 ## v0.1.42

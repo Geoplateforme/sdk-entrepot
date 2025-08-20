@@ -349,7 +349,7 @@ Pour avoir une description exhaustive du `body_parameters`, voir POST [/users//m
 
 Possibilité de supprimer des entités de type : `upload`, `stored_data`, `configuration`, `offering`, `key` et `permission`.
 
-* suppression par ID de l'entité :
+* sion par ID de l'entité :
 
 ```json
 {
@@ -358,11 +358,11 @@ Possibilité de supprimer des entités de type : `upload`, `stored_data`, `confi
     "entity_type": "configuration",
     // Id de l'entité à supprimer
     "entity_id": "{uuid}",
-    // Suppression en cascade autorisée ou pas ? par défaut à false
+    // sion en cascade autorisée ou pas ? par défaut à false
     "cascade": true,
     // Ok si non trouvée ? par défaut à true
     "not_found_ok": true,
-    // message de confirmation avant la suppression ? par défaut à true
+    // message de confirmation avant la sion ? par défaut à true
     "confirm": true
 }
 ```
@@ -370,7 +370,7 @@ Possibilité de supprimer des entités de type : `upload`, `stored_data`, `confi
 ???+ warning "Attention !!!"
     Ici la valeur **`{uuid}` doit être une uuid en dur et non une uuid récupérée par le résolveur `store_entity`** (StoreEntityResolver) pour que l'option `"not_found_ok": true,`(valeur par défaut) fonctionne.
 
-    **S'il y a besoin d'utiliser le résolveur `store_entity` il faut utiliser la "suppression par filtre sur la liste" présentée ci-dessous**.
+    **S'il y a besoin d'utiliser le résolveur `store_entity` il faut utiliser la "sion par filtre sur la liste" présentée ci-dessous**.
 
     Avec l'utilisation du résolveur `store_entity`, les résolveurs gardant en mémoire, les valeurs déjà trouvées la réutilisation du résolveur avec les mêmes filtres pointera vers l'entité supprimée.
 
@@ -439,7 +439,7 @@ Il suffit d'indiquer dans le `body_parameters` les valeurs qui sont modifiées, 
 
 !!! note "Notes"
     * Si la configuration est liée à des offres en cours de publication, la modification n'est pas possible. Si la configuration est liée à des offres publiées, les modifications sont répercutées sur les serveurs de diffusion. Le nom technique et le type ne sont pas modifiables.
-    * Cas particulier de la modification des used_data (`[type_infos][used_data]`) : la liste doit être de la même longueur que celle de la configuration et chaque dictionnaire sera fusionné avec l'ancien (cf. [#83](https://github.com/Geoplateforme/sdk-entrepot/issues/83) et [#66](https://github.com/Geoplateforme/sdk-entrepot/issues/66)). Pour supprimer/ajouter une used_data cf. action suivante [Mise à jour des used_data d'une configuration](#mettre-a-jour-les-used_data-et-la-bbox-dune-configuration).
+    * depuis v0.1.43 : Suppression de la possibilité de modification des used_data (`[type_infos][used_data]`). La liste donnée par l'utilisateur est utilisée tel quel.
 
 * offering *(partielle)*: PATCH [/datastores/{datastore}/offerings/{offering}](https://data.geopf.fr/api/swagger-ui/index.html#/Configurations%20et%20publications/update_4)
 
