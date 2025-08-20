@@ -54,7 +54,7 @@ class Main:
 
         if not Path(s_p_config).exists():
             raise GpfSdkError(f"Le fichier de configuration précisé ({s_p_config}) n'existe pas.")
-        Config().read(self.o_args.config)
+        Config().read(s_p_config)
 
         # Si debug on monte la config
         if self.o_args.debug:
