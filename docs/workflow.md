@@ -470,6 +470,9 @@ L'action d'édition d'une configuration ne permet pas de supprimer ni ajouter un
   "delete_used_data": [{"stored_data": "id_store_data"}, {"zone": "ZONE"}],
   // Optionnel : liste des used_data à ajouter, selon le format demandé par l'API Entrepôt
   "append_used_data": [{...}],
+  // Optionnel : si les used_data qui ajouté avec "append_used_data" dont d'abord supprimer de la configuration en filtrant sur la clef "stored_data"
+  // permettant éviter les erreurs lié aux doublons. Par défaut à false.
+  "resolve_conflict": false
   // Optionnel : si on veut mettre à jour la BBox avec les données utilisées (bbox calculée après la modification des used_data). Par défaut à false.
   "reset_bbox": true
 }

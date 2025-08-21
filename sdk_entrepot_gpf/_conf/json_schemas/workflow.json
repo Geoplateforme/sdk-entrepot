@@ -115,6 +115,9 @@
                                                 "type": "object"
                                             }
                                         },
+                                        "resolve_conflict": {
+                                            "type": "boolean"
+                                        },
                                         "reset_bbox": {
                                             "type": "boolean"
                                         }
