@@ -221,3 +221,68 @@ class Config(metaclass=Singleton):
             chemin racine du dossier temporaire à utiliser
         """
         return Path(self.get_str("miscellaneous", "tmp_workdir"))
+
+    def check_obligatoire(self) -> None:
+        """Vérifie que les paramètres obligatoires sont bien définis dans la configuration.
+
+        Si un paramètre obligatoire est manquant, une exception est levée.
+        """
+        l_warning = []
+        l_erreurs = []
+        # Paramètres obligatoires générique
+        l_obligatoire = [
+            ("store_authentification", "client_id"),
+            ("store_authentification", "grant_type"),
+            ("store_authentification", "token_url"),
+            ("store_api", "root_url"),
+        ]
+        l_erreurs += self.__check_conf_not_null(l_obligatoire, "Paramètre obligatoire manquant")
+
+        # vérification des paramètres d'authentification
+        s_grant_type = self.get_str("store_authentification", "grant_type")
+        if s_grant_type == "password":
+            l_erreurs += self.__check_conf_not_null(
+                [("store_authentification", "username"), ("store_authentification", "password")], "Authentification par mot de passe, paramètre obligatoire manquant"
+            )
+        elif s_grant_type == "client_credentials":
+            l_erreurs += self.__check_conf_not_null([("store_authentification", "client_secret")], "Authentification par client credentials, paramètre obligatoire manquant")
+
+        # le proxy http/https (warning)
+        l_warning += self.__check_by_group([("store_authentification", "http_proxy"), ("store_authentification", "http_proxy")], "Paramètres de proxy HTTP absents ou présents en partie")
+        l_warning += self.__check_by_group([("store_api", "http_proxy"), ("store_api", "http_proxy")], "Paramètres de proxy HTTP absents ou présents en partie")
+
+        # homogénéité url prod_dev (warning)
+        s_auth = self.get_str("store_authentification", "token_url")
+        s_api = self.get_str("store_api", "root_url")
+        if "qua" in s_auth and "qua" not in s_api:
+            l_warning.append("L'authentification semble être configurée pour la QUALIFICATION, mais l'API est configurée pour la PRODUCTION. Vérifiez la configuration.")
+        elif "qua" not in s_auth and "qua" in s_api:
+            l_warning.append("L'authentification semble être configurée pour la PRODUCTION, mais l'API est configurée pour la QUALIFICATION. Vérifiez la configuration.")
+
+        # affichage
+        if l_warning:
+            self.__output_manager.warning(f"Configuration : {len(l_warning)} avertissements trouvés.: \n * " + " \n * ".join(l_warning))
+        if l_erreurs:
+            raise ConfigReaderError(f"Configuration : {len(l_erreurs)} erreurs trouvées. Veuillez vérifier la configuration.\n * " + " \n * ".join(l_erreurs))
+
+    def __check_conf_not_null(self, l_obligatoire, s_message):
+        """Vérifie que les paramètres obligatoires sont bien définis dans la configuration."""
+        l_erreurs = []
+        for s_section, s_option in l_obligatoire:
+            if not self.__config.get(s_section, s_option, fallback=None):
+                l_erreurs.append(f"{s_message} : [{s_section}] {s_option}")
+        return l_erreurs
+
+    def __check_by_group(self, l_obligatoire, s_message):
+        """Vérifie que les les paramètres s'utilisant en group sont bien définis dans la configuration."""
+        l_pressent = []
+        l_abscent = []
+        for s_section, s_option in l_obligatoire:
+            if self.__config.get(s_section, s_option, fallback=None):
+                l_pressent.append(f"[{s_section}] {s_option}")
+            else:
+                l_abscent.append(f"[{s_section}] {s_option}")
+
+        if l_pressent != len(l_obligatoire) and l_pressent != 0:
+            return [f"{s_message} : présents {','.join(l_pressent)} et absents {','.join(l_abscent)}"]
+        return []
