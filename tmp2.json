@@ -1,0 +1,1109 @@
+{
+    "logging": {
+        "description": "section concernant le logging de l'application.",
+        "log_level": {
+            "type": "str",
+            "default": "INFO",
+            "description": "Niveau de log minimal pour afficher/sauvegarder les messages.",
+            "choices": [
+                "DEBUG",
+                "INFO",
+                "WARNING",
+                "ERROR",
+                "CRITICAL"
+            ],
+            "obligatoire": false,
+            "conf utilisateur": "optionnel"
+        }
+    },
+    "store_authentification": {
+        "description": "section concernant l'authentification.\n\nCette partie de la configuration permet au module de vous authentifier et de récupérer un jeton pour utiliser l'API.",
+        "token_url": {
+            "type": "str",
+            "default": "https://sso.geopf.fr/realms/geoplateforme/protocol/openid-connect/token",
+            "description": "URL du service d'authentification de la Géoplateforme. Elle n'est à priori pas à changer, sauf si vous [utilisez un environnement particulier](configuration.md#utiliser-un-environnement-particulier-qualification) (test, qualification, ...).",
+            "obligatoire": true,
+            "conf utilisateur": "optionnel"
+        },
+        "http_proxy": {
+            "default": "",
+            "type": "str",
+            "description": "Indiquez ici le proxy HTTP à utiliser si besoin.",
+            "obligatoire": true,
+            "conf utilisateur": "optionnel"
+        },
+        "https_proxy": {
+            "default": "",
+            "type": "str",
+            "description": "Indiquez ici le proxy HTTPS à utiliser si besoin.",
+            "obligatoire": true,
+            "conf utilisateur": "optionnel"
+        },
+        "grant_type": {
+            "default": "password",
+            "type": "str",
+            "description": "Indiquez ici le type d'authentification à utiliser (`password` ou `client_credentials`).",
+            "obligatoire": false,
+            "choices": [
+                "password",
+                "client_credentials"
+            ],
+            "conf utilisateur": "optionnel"
+        },
+        "client_id": {
+            "default": "gpf-warehouse",
+            "type": "str",
+            "description": "Indiquez ici le groupe d’appartenance du compte à utiliser (type `password` ET type `client_credentials`).",
+            "obligatoire": true,
+            "conf utilisateur": "optionnel"
+        },
+        "client_secret": {
+            "default": "BK2G7Vvkn7UDc8cV7edbCnHdYminWVw2",
+            "type": "str",
+            "description": "Indiquez ici le mot de passe du groupe d’appartenance du compte à utiliser (type `client_credentials` seulement).",
+            "obligatoire": true,
+            "conf utilisateur": "optionnel"
+        },
+        "login": {
+            "default": "LOGIN_TO_MODIFY",
+            "type": "str",
+            "description": "Indiquez ici le nom d’utilisateur du compte à utiliser (type `password` seulement).",
+            "obligatoire": false,
+            "conf utilisateur": "oui si type `password`"
+        },
+        "password": {
+            "default": "PASSWORD_TO_MODIFY",
+            "type": "str",
+            "description": "Indiquez ici le mot de passe du compte à utiliser (type `password` seulement).",
+            "obligatoire": false,
+            "conf utilisateur": "oui si type `password`"
+        },
+        "totp_key": {
+            "default": "",
+            "type": "str",
+            "description": "Indiquez ici la clef TOTP à utiliser pour générer le code temporaire (type `password` avec double authentification seulement).",
+            "obligatoire": false,
+            "conf utilisateur": "oui si type `password`"
+        },
+        "nb_attempts": {
+            "default": "5",
+            "type": "int",
+            "description": "Nombre de tentatives de récupération du jeton à effectuer en cas d'erreur avant de lever une erreur.",
+            "obligatoire": false,
+            "conf utilisateur": "oui si type `password`"
+        },
+        "sec_between_attempt": {
+            "default": "1",
+            "type": "int",
+            "description": "Délai à attendre entre deux tentatives de récupération du jeton."
+        },
+        "check_status_url": {
+            "default": "https://status.uptrends.com/aa35b49e519e4f90866dc6bfc0a797a9",
+            "type": "str",
+            "description": "URL de la page de statut de l'API Géoplateforme. Elle permet de vérifier si l'API est en panne ou non."
+        }
+    },
+    "store_api": {
+        "description": "section concernant la connexion à l'entrepôt.",
+        "root_url": {
+            "default": "https://data.geopf.fr/api",
+            "type": "str",
+            "description": "URL racine de l'API Géoplateforme. Elle n'est à priori pas à changer, sauf si vous utilisez un environnement particulier (test, qualification, ...)."
+        },
+        "http_proxy": {
+            "default": "",
+            "type": "str",
+            "description": "Indiquez ici le proxy HTTP à utiliser si besoin."
+        },
+        "https_proxy": {
+            "default": "",
+            "type": "str",
+            "description": "Indiquez ici le proxy HTTPS à utiliser si besoin."
+        },
+        "datastore": {
+            "default": "DATASTORE_ID_TO_MODIFY",
+            "type": "str",
+            "description": "Indiquez ici l'identifiant de l'entrepôt (`datastore`) à utiliser."
+        },
+        "root_datastore": {
+            "default": "${store_api:root_url}/datastores/{datastore}",
+            "type": "str",
+            "description": "Chemin racine des routes permettant de faire des action sur cet entrepôt (`datastore`)."
+        },
+        "nb_attempts": {
+            "default": "5",
+            "type": "int",
+            "description": "Nombre de requêtes à tenter en cas d'erreur avant de lever une erreur."
+        },
+        "sec_between_attempt": {
+            "default": "1",
+            "type": "int",
+            "description": "Délai à attendre entre deux requêtes."
+        },
+        "nb_limit": {
+            "default": "10",
+            "type": "int",
+            "description": "Nombre d'éléments à récupérer lors des requêtes de listing d'entités."
+        },
+        "regex_content_range": {
+            "default": "(?P<i_min>[0-9]+)-(?P<i_max>[0-9]+)/(?P<len>[0-9]+)",
+            "type": "int",
+            "description": "Regex pour parser la métadonnée content-range des réponses API."
+        },
+        "regex_entity_id": {
+            "default": "(?P<id>[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12})",
+            "type": "int",
+            "description": "Regex des ids des entités API."
+        },
+        "check_status_url": {
+            "default": "https://status.uptrends.com/aa35b49e519e4f90866dc6bfc0a797a9",
+            "type": "str",
+            "description": "URL de la page de statut de l'API Géoplateforme. Elle permet de vérifier si l'API est en panne ou non."
+        }
+    },
+    "routing": {
+        "description": "section concernant la définition des routes.\n\nChaque route permet de faire une action via l'API. Tous ces paramètres n'ont à priori pas à être modifiés, sauf changement des spécifications de l'API.",
+        "user_get": {
+            "default": "${store_api:root_url}/users/me",
+            "type": "str",
+            "description": "Route pour récupérer les informations de l'utilisateur authentifié."
+        },
+        "datastore_get": {
+            "default": "${store_api:root_datastore}",
+            "type": "str",
+            "description": "Route pour récupérer les informations d'un entrepôt (`datastore`)."
+        },
+        "me_get": {
+            "default": "${store_api:root_url}/users/me"
+        },
+        "upload_list": {
+            "default": "${store_api:root_datastore}/uploads",
+            "type": "str",
+            "description": "Route pour lister les livraisons (`uploads`) associées à un entrepôt."
+        },
+        "upload_create": {
+            "default": "${upload_list}",
+            "type": "str",
+            "description": "Route pour créer une nouvelle livraison associée à un entrepôt."
+        },
+        "upload_get": {
+            "default": "${upload_list}/{upload}",
+            "type": "str",
+            "description": "Route pour récupérer le détail d'une livraison."
+        },
+        "upload_delete": {
+            "default": "${upload_get}",
+            "type": "str",
+            "description": "Route pour supprimer une livraison."
+        },
+        "upload_partial_edit": {
+            "default": "${upload_get}",
+            "type": "str",
+            "description": "Route pour modifier partiellement un upload (hors fichier et étiquettes)."
+        },
+        "upload_add_tags": {
+            "default": "${upload_get}/tags",
+            "type": "str",
+            "description": "Route pour ajouter/modifier les étiquette(s) d'une livraison."
+        },
+        "upload_delete_tags": {
+            "default": "${upload_get}/tags",
+            "type": "str",
+            "description": "Route pour supprimer un (des) étiquette(s) d'une livraison."
+        },
+        "upload_push_data": {
+            "default": "${upload_get}/data",
+            "type": "str",
+            "description": "Route pour téléverser des fichiers de données associés à une livraison."
+        },
+        "upload_delete_data": {
+            "default": "${upload_get}/data",
+            "type": "str",
+            "description": "Route pour supprimer des fichiers de données associés à une livraison."
+        },
+        "upload_push_md5": {
+            "default": "${upload_get}/md5",
+            "type": "str",
+            "description": "Route pour téléverser des fichiers de clefs md5 associés à une livraison."
+        },
+        "upload_delete_md5": {
+            "default": "${upload_push_md5}",
+            "type": "str",
+            "description": "Route pour supprimer des fichiers de clefs md5 associés à une livraison."
+        },
+        "upload_close": {
+            "default": "${upload_get}/close",
+            "type": "str",
+            "description": "Route pour fermer une livraison."
+        },
+        "upload_open": {
+            "default": "${upload_get}/open",
+            "type": "str",
+            "description": "Route pour ouvrir une livraison."
+        },
+        "upload_tree": {
+            "default": "${upload_get}/tree",
+            "type": "str",
+            "description": "Route pour récupérer l'arborescence des fichiers associés à une livraison."
+        },
+        "upload_list_checks": {
+            "default": "${upload_get}/checks",
+            "type": "str",
+            "description": "Route pour lister les vérifications (checks) liées à une livraison."
+        },
+        "upload_run_checks": {
+            "default": "${upload_get}/checks",
+            "type": "str",
+            "description": "Route pour ajouter une vérification à une livraison."
+        },
+        "upload_list_comment": {
+            "default": "${upload_get}/comments",
+            "type": "str",
+            "description": "Route pour lister les commentaires associés à une livraison."
+        },
+        "upload_add_comment": {
+            "default": "${upload_list_comment}",
+            "type": "str",
+            "description": "Route pour ajouter un commentaire à une livraison."
+        },
+        "upload_edit_comment": {
+            "default": "${upload_list_comment}/{comment}",
+            "type": "str",
+            "description": "Route pour modifier un commentaire associé à une livraison."
+        },
+        "upload_remove_comment": {
+            "default": "${upload_list_comment}/{comment}",
+            "type": "str",
+            "description": "Route pour supprimer un commentaire associé à une livraison."
+        },
+        "upload_list_sharings": {
+            "default": "${upload_get}/sharings",
+            "type": "str",
+            "description": "Route pour lister les partages (sharings) de cette livraison avec d'autres entrepôts."
+        },
+        "upload_add_sharing": {
+            "default": "${upload_list_sharings}",
+            "type": "str",
+            "description": "Route pour partager cette livraison avec d'autres entrepôts."
+        },
+        "upload_remove_sharing": {
+            "default": "${upload_list_sharings}",
+            "type": "str",
+            "description": "Route pour supprimer des partages de cette livraison avec d'autres entrepôts."
+        },
+        "upload_list_events": {
+            "default": "${upload_get}/events",
+            "type": "str",
+            "description": "Route pour lister les événements (event) ayant eu lieu en rapport avec cette livraison."
+        },
+        "stored_data_list": {
+            "default": "${store_api:root_datastore}/stored_data",
+            "type": "str",
+            "description": "Route pour lister les données stockées (`stored_data`) associées à un entrepôt."
+        },
+        "stored_data_get": {
+            "default": "${stored_data_list}/{stored_data}",
+            "type": "str",
+            "description": "Route pour récupérer le détail d'une donnée stockée."
+        },
+        "stored_data_delete": {
+            "default": "${stored_data_get}",
+            "type": "str",
+            "description": "Route pour supprimer une donnée stockée."
+        },
+        "stored_data_partial_edit": {
+            "default": "${stored_data_get}",
+            "type": "str",
+            "description": "Route pour modifier partiellement une stored_data (hors commentaire et étiquettes)."
+        },
+        "stored_data_add_tags": {
+            "default": "${stored_data_get}/tags",
+            "type": "str",
+            "description": "Route pour ajouter/modifier les étiquette(s) d'une donnée stockée."
+        },
+        "stored_data_delete_tags": {
+            "default": "${stored_data_get}/tags",
+            "type": "str",
+            "description": "Route pour supprimer un (des) étiquette(s) d'une donnée stockée."
+        },
+        "stored_data_list_comment": {
+            "default": "${stored_data_get}/comments",
+            "type": "str",
+            "description": "Route pour lister les commentaires associés à une donnée stockée."
+        },
+        "stored_data_add_comment": {
+            "default": "${stored_data_list_comment}",
+            "type": "str",
+            "description": "Route pour ajouter un commentaire à une donnée stockée."
+        },
+        "stored_data_edit_comment": {
+            "default": "${stored_data_list_comment}/{comment}",
+            "type": "str",
+            "description": "Route pour modifier un commentaire associé à une donnée stockée."
+        },
+        "stored_data_remove_comment": {
+            "default": "${stored_data_list_comment}/{comment}",
+            "type": "str",
+            "description": "Route pour supprimer un commentaire associé à une donnée stockée."
+        },
+        "stored_data_list_sharings": {
+            "default": "${stored_data_get}/sharings",
+            "type": "str",
+            "description": "Route pour lister les partages (sharings) de cette donnée stockée avec d'autres entrepôts."
+        },
+        "stored_data_add_sharing": {
+            "default": "${stored_data_list_sharings}",
+            "type": "str",
+            "description": "Route pour partager cette donnée stockée avec d'autres entrepôts."
+        },
+        "stored_data_remove_sharing": {
+            "default": "${stored_data_list_sharings}",
+            "type": "str",
+            "description": "Route pour supprimer des partages de cette donnée stockée avec d'autres entrepôts."
+        },
+        "stored_data_list_events": {
+            "default": "${stored_data_get}/events",
+            "type": "str",
+            "description": "Route pour lister les événements (event) ayant eu lieu en rapport avec cette donnée stockée."
+        },
+        "processing_list": {
+            "default": "${store_api:root_datastore}/processings",
+            "type": "str",
+            "description": "Route pour lister les traitements (`processings`) associés à un entrepôt."
+        },
+        "processing_get": {
+            "default": "${processing_list}/{processing}",
+            "type": "str",
+            "description": "Route pour récupérer le détail d'un traitement."
+        },
+        "processing_execution_list": {
+            "default": "${processing_list}/executions",
+            "type": "str",
+            "description": "Route pour lister les exécutions de traitement (`processing_executions`)."
+        },
+        "processing_execution_create": {
+            "default": "${processing_execution_list}",
+            "type": "str",
+            "description": "Route pour créer une nouvelle exécution de traitement."
+        },
+        "processing_execution_get": {
+            "default": "${processing_execution_list}/{processing_execution}",
+            "type": "str",
+            "description": "Route pour récupérer le détail d'une exécution de traitement."
+        },
+        "processing_execution_delete": {
+            "default": "${processing_execution_get}",
+            "type": "str",
+            "description": "Route pour supprimer une exécution de traitement."
+        },
+        "processing_execution_launch": {
+            "default": "${processing_execution_get}/launch",
+            "type": "str",
+            "description": "Route pour lancer une exécution de traitement."
+        },
+        "processing_execution_abort": {
+            "default": "${processing_execution_get}/abort",
+            "type": "str",
+            "description": "Route pour arrêter une exécution de traitement."
+        },
+        "processing_execution_logs": {
+            "default": "${processing_execution_get}/logs",
+            "type": "str",
+            "description": "Route pour récupérer les logs d'une exécution de traitement."
+        },
+        "configuration_list": {
+            "default": "${store_api:root_datastore}/configurations",
+            "type": "str",
+            "description": "Route pour lister les configurations (`configurations`) associées à un entrepôt."
+        },
+        "configuration_get": {
+            "default": "${configuration_list}/{configuration}",
+            "type": "str",
+            "description": "Route pour récupérer le détail d'une configuration."
+        },
+        "configuration_create": {
+            "default": "${configuration_list}",
+            "type": "str",
+            "description": "Route pour créer une nouvelle configuration."
+        },
+        "configuration_delete": {
+            "default": "${configuration_get}",
+            "type": "str",
+            "description": "Route pour supprimer une configuration."
+        },
+        "configuration_full_edit": {
+            "default": "${configuration_get}",
+            "type": "str",
+            "description": "Route pour modifier complètement une configuration."
+        },
+        "configuration_add_tags": {
+            "default": "${configuration_get}/tags",
+            "type": "str",
+            "description": "Route pour ajouter/modifier les étiquette(s) d'une configuration."
+        },
+        "configuration_delete_tags": {
+            "default": "${configuration_get}/tags",
+            "type": "str",
+            "description": "Route pour supprimer un (des) étiquette(s) d'une configuration."
+        },
+        "configuration_list_comment": {
+            "default": "${configuration_get}/comments",
+            "type": "str",
+            "description": "Route pour lister les commentaires associés à une configuration."
+        },
+        "configuration_add_comment": {
+            "default": "${configuration_list_comment}",
+            "type": "str",
+            "description": "Route pour ajouter un commentaire à une configuration."
+        },
+        "configuration_edit_comment": {
+            "default": "${configuration_list_comment}/{comment}",
+            "type": "str",
+            "description": "Route pour modifier un commentaire associé à une configuration."
+        },
+        "configuration_remove_comment": {
+            "default": "${configuration_list_comment}/{comment}",
+            "type": "str",
+            "description": "Route pour supprimer un commentaire associé à une configuration."
+        },
+        "configuration_list_offerings": {
+            "default": "${configuration_get}/offerings",
+            "type": "str",
+            "description": "Route pour lister les offres (`offerings`) associées à une configuration."
+        },
+        "offering_list": {
+            "default": "${store_api:root_datastore}/offerings",
+            "type": "str",
+            "description": "Route pour lister les offres (`offerings`) associées à un entrepôt."
+        },
+        "offering_get": {
+            "default": "${offering_list}/{offering}",
+            "type": "str",
+            "description": "Route pour récupérer le détail d'une offre."
+        },
+        "offering_create": {
+            "default": "${configuration_list_offerings}",
+            "type": "str",
+            "description": "Route pour créer une nouvelle offre."
+        },
+        "offering_delete": {
+            "default": "${offering_get}",
+            "type": "str",
+            "description": "Route pour supprimer une offre."
+        },
+        "offering_partial_edit": {
+            "default": "${offering_get}",
+            "type": "str",
+            "description": "Route pour modifier partiellement une offre."
+        },
+        "offering_synchronize": {
+            "default": "${offering_get}",
+            "type": "str",
+            "description": "Route pour synchroniser une offre avec les données de l'entrepôt."
+        },
+        "check_list": {
+            "default": "${store_api:root_datastore}/checks",
+            "type": "str",
+            "description": "Liste des vérifications (checks) associées à un entrepôt."
+        },
+        "check_get": {
+            "default": "${routing:check_list}/{check}",
+            "type": "str",
+            "description": "Détail d'une vérification (check)."
+        },
+        "check_execution_list": {
+            "default": "${routing:check_list}/executions",
+            "type": "str",
+            "description": "Liste des exécutions de vérifications (check_executions) associées à un entrepôt."
+        },
+        "check_execution_get": {
+            "default": "${routing:check_execution_list}/{check_execution}",
+            "type": "str",
+            "description": "Détail d'une exécution de vérification (check_execution)."
+        },
+        "check_execution_delete": {
+            "default": "${routing:check_execution_list}/{check_execution}",
+            "type": "str",
+            "description": "Suppression d'une exécution de vérification (check_execution)."
+        },
+        "check_execution_logs": {
+            "default": "${routing:check_execution_get}/logs",
+            "type": "str",
+            "description": "Récupération des logs d'une exécution de vérification (check_execution)."
+        },
+        "static_list": {
+            "default": "${store_api:root_datastore}/statics",
+            "type": "str",
+            "description": "Liste des Fichiers statiques"
+        },
+        "static_get": {
+            "default": "${routing:static_list}/{static}",
+            "type": "str",
+            "description": "Détail d'un Fichier statique"
+        },
+        "static_upload": {
+            "default": "${routing:static_list}",
+            "type": "str",
+            "description": "Téléversement d'un Fichier statique"
+        },
+        "static_delete": {
+            "default": "${routing:static_get}",
+            "type": "str",
+            "description": "Suppression d'un Fichier statique"
+        },
+        "static_re_upload": {
+            "default": "${routing:static_get}",
+            "type": "str",
+            "description": "Remplacement du fichier d'un Fichier statique"
+        },
+        "static_partial_edit": {
+            "default": "${routing:static_get}",
+            "type": "str",
+            "description": "Édition des informations d'un Fichier statique (hors fichier)"
+        },
+        "static_download": {
+            "default": "${routing:static_get}/file",
+            "type": "str",
+            "description": "Téléchargement du fichier d'un Fichier statique"
+        },
+        "annexe_list": {
+            "default": "${store_api:root_datastore}/annexes",
+            "type": "str",
+            "description": "Liste des annexes"
+        },
+        "annexe_get": {
+            "default": "${routing:annexe_list}/{annexe}",
+            "type": "str",
+            "description": "Détails d'une annexe"
+        },
+        "annexe_upload": {
+            "default": "${routing:annexe_list}",
+            "type": "str",
+            "description": "Téléversement d'une annexe"
+        },
+        "annexe_delete": {
+            "default": "${routing:annexe_get}",
+            "type": "str",
+            "description": "Suppression d'une annexe"
+        },
+        "annexe_re_upload": {
+            "default": "${routing:annexe_get}",
+            "type": "str",
+            "description": "Remplacement du fichier de l'annexe"
+        },
+        "annexe_partial_edit": {
+            "default": "${routing:annexe_get}",
+            "type": "str",
+            "description": "Édition partielle d'une annexe (hors fichier)"
+        },
+        "annexe_download": {
+            "default": "${routing:annexe_get}/file",
+            "type": "str",
+            "description": "Téléchargement d'un fichier d'annexe"
+        },
+        "annexe_publish_by_label": {
+            "default": "${routing:annexe_list}/publication",
+            "type": "str",
+            "description": "Publication des annexes par labels"
+        },
+        "annexe_unpublish_by_label": {
+            "default": "${routing:annexe_list}/unpublication",
+            "type": "str",
+            "description": "Dépublication des annexes par labels"
+        },
+        "tms_list": {
+            "default": "${store_api:root_url}/statics/tms",
+            "type": "str",
+            "description": "Liste des TMS disponibles pour tout la GPF"
+        },
+        "tms_get": {
+            "default": "${routing:tms_list}/{tms}",
+            "type": "str",
+            "description": "Détails d'un TMS"
+        },
+        "tms_download": {
+            "default": "${routing:tms_get}/file",
+            "type": "str",
+            "description": "Téléchargement du fichier d'un TMS"
+        },
+        "metadata_list": {
+            "default": "${store_api:root_datastore}/metadata",
+            "type": "str",
+            "description": "Liste des métadonnées associées à un entrepôt."
+        },
+        "metadata_get": {
+            "default": "${routing:metadata_list}/{metadata}",
+            "type": "str",
+            "description": "Détail d'une métadonnée."
+        },
+        "metadata_upload": {
+            "default": "${routing:metadata_list}",
+            "type": "str",
+            "description": "Route pour téléverser une métadonnée."
+        },
+        "metadata_delete": {
+            "default": "${routing:metadata_get}",
+            "type": "str",
+            "description": "Route pour supprimer une métadonnée."
+        },
+        "metadata_re_upload": {
+            "default": "${routing:metadata_get}"
+        },
+        "metadata_partial_edit": {
+            "default": "${routing:metadata_get}",,
+            "type": "str",
+            "description": "Route pour modifier partiellement une métadonnée."
+        },
+        "metadata_download": {
+            "default": "${routing:metadata_get}/file",
+            "type": "str",
+            "description": "Route pour télécharger le fichier d'une métadonnée."
+        },
+        "metadata_publish": {
+            "default": "${routing:metadata_list}/publication",
+            "type": "str",
+            "description": "Route pour publier une ou plusieurs métadonnées."
+        },
+        "metadata_unpublish": {
+            "default": "${routing:metadata_list}/unpublication",
+            "type": "str",
+            "description": "Route pour dépublier une ou plusieurs métadonnées."
+        },
+        "key_list": {
+            "default": "${store_api:root_url}/users/me/keys",
+            "type": "str",
+            "description": "Route pour lister les clefs d'API associées à l'utilisateur authentifié."
+        },
+        "key_create": {
+            "default": "${key_list}",
+            "type": "str",
+            "description": "Route pour créer une nouvelle clef d'API associée à l'utilisateur authentifié."
+        },
+        "key_get": {
+            "default": "${key_list}/{key}",
+            "type": "str",
+            "description": "Route pour récupérer le détail d'une clef d'API."
+        },
+        "key_delete": {
+            "default": "${key_get}",
+            "type": "str",
+            "description": "Route pour supprimer une clef d'API."
+        },
+        "key_partial_edit": {
+            "default": "${key_get}",
+            "type": "str",
+            "description": "Route pour modifier partiellement une clef."
+        },
+        "access_list": {
+            "default": "${store_api:root_url}/users/me/keys/{key}/accesses",
+            "type": "str",
+            "description": "Route pour lister les accès associés à une clef d'API."
+        },
+        "access_create": {
+            "default": "${access_list}",
+            "type": "str",
+            "description": "Route pour créer un nouvel accès associé à une clef d'API."
+        },
+        "access_delete": {
+            "default": "${access_list}/{access}",
+            "type": "str",
+            "description": "Route pour supprimer un accès associé à une clef d'API."
+        },
+        "permission_list": {
+            "default": "${store_api:root_datastore}/permissions",
+            "type": "str",
+            "description": "Route pour lister les permissions associées à un entrepôt."
+        },
+        "permission_get": {
+            "default": "${permission_list}/{permission}",
+            "type": "str",
+            "description": "Route pour récupérer le détail d'une permission."
+        },
+        "permission_create": {
+            "default": "${permission_list}",
+            "type": "str",
+            "description": "Route pour créer une nouvelle permission associée à un entrepôt."
+        },
+        "permission_delete": {
+            "default": "${permission_get}",
+            "type": "str",
+            "description": "Route pour supprimer une permission."
+        },
+        "permission_partial_edit": {
+            "default": "${routing:permission_get}",
+            "type": "str",
+            "description": "Route pour modifier partiellement une permission."
+        }
+    },
+    "upload": {
+        "description": "section concernant les paramètres de gestion des livraisons (`upload`).",
+        "uniqueness_constraint_infos": {
+            "default": "name",
+            "type": "str",
+            "description": "Attributs à considérer pour tester l'unicité d'une livraison."
+        },
+        "uniqueness_constraint_tags": {
+            "default": "",
+            "type": "str",
+            "description": "Étiquettes à considérer pour tester l'unicité d'une livraison."
+        },
+        "behavior_if_exists": {
+            "default": "STOP",
+            "type": "str",
+            "description": "Comportement à adopter si la livraison à créer existe déjà (`DELETE` : on la supprime et on la recrée, `CONTINUE` : on reprend le téléversement, `STOP` : on lève une exception)."
+        },
+        "md5_pattern": {
+            "default": "{md5_key}  {file_path}",
+            "type": "str",
+            "description": "Modèle des fichiers de clés md5 à livrer."
+        },
+        "push_data_file_key": {
+            "default": "file",
+            "type": "int",
+            "description": "Nom de la clé pour téléverser des fichiers de données."
+        },
+        "push_md5_file_key": {
+            "default": "file",
+            "type": "int",
+            "description": "Nom de la clé pour téléverser des fichiers de clé md5."
+        },
+        "nb_sec_between_check_updates": {
+            "default": "10",
+            "type": "int",
+            "description": "Nombre de secondes entre deux mises à jour du statut de la livraison lors des vérifications."
+        },
+        "check_message_pattern": {
+            "default": "Vérifications : {nb_asked} en attente, {nb_in_progress} en cours, {nb_failed} en échec, {nb_passed} en succès",
+            "type": "int",
+            "description": "Modèle du message à afficher pendant la vérification d'une livraison."
+        },
+        "status_open": {
+            "default": "OPEN",
+            "type": "int",
+            "description": "Constante représentant le statut \"ouvert\" d'une livraison."
+        },
+        "status_close": {
+            "default": "CLOSE",
+            "type": "int",
+            "description": "Constante représentant le statut \"fermé\" d'une livraison."
+        }
+    },
+    "processing_execution": {
+        "description": "section concernant les paramètres de gestion des exécutions de traitement (`processing_execution`).",
+        "nb_sec_between_check_updates": {
+            "default": "10",
+            "type": "int",
+            "description": "Nombre de secondes entre deux mises à jour du statut de l'exécution des vérifications."
+        },
+        "uniqueness_constraint_infos": {
+            "default": "name",
+            "type": "str",
+            "description": "Attributs à considérer pour tester l'unicité d'une entité en sortie de l'exécution de traitement (livraison ou donnée stockée)."
+        },
+        "uniqueness_constraint_tags": {
+            "default": "",
+            "type": "str",
+            "description": "Étiquettes à considérer pour tester l'unicité d'une entité en sortie de l'exécution de traitement (livraison ou donnée stockée)."
+        },
+        "behavior_if_exists": {
+            "default": "STOP",
+            "type": "str",
+            "description": "Comportement à adopter si l'entité en sortie de l'exécution de traitement (livraison ou donnée stockée) existe déjà (`DELETE` : on la supprime et on la recrée, `STOP` : on lève une exception)."
+        }
+    },
+    "configuration": {
+        "description": "section concernant les paramètres de gestion des configurations (`configuration`).",
+        "uniqueness_constraint_infos": {
+            "default": "name;layer_name",
+            "type": "str",
+            "description": "Attributs à considérer pour tester l'unicité de la configuration."
+        },
+        "uniqueness_constraint_tags": {
+            "default": "",
+            "type": "str",
+            "description": "Étiquettes à considérer pour tester l'unicité de la configuration."
+        },
+        "behavior_if_exists": {
+            "default": "CONTINUE"
+        }
+    },
+    "offering": {
+        "description": "section concernant les paramètres de gestion des offres (`offering`)",
+        "behavior_if_exists": {
+            "default": "CONTINUE"
+        }
+    },
+    "static": {
+        "description": "section concernant les paramètres de gestion des fichiers statiques (`static`)",
+        "create_file_key": {
+            "default": "file",
+            "type": "str",
+            "description": "Clef pour la livraison d'un fichier static"
+        }
+    },
+    "annexe": {
+        "description": "section concernant les paramètres de gestion des annexes (`annexe`)",
+        "create_file_key": {
+            "default": "file",
+            "type": "str",
+            "description": "Clef pour la livraison d'un fichier annexe"
+        }
+    },
+    "metadata": {
+        "description": "section concernant les paramètres de gestion des fichiers de métadonnées (`metadata`)",
+        "create_file_key": {
+            "default": "file",
+            "type": "str",
+            "description": "Clef pour la livraison d'un fichier de métadonnées"
+        }
+    },
+    "miscellaneous": {
+        "description": "section concernant les paramètres divers.",
+        "data_directory_on_store": {
+            "default": "data",
+            "type": "str",
+            "description": "Préfixe des fichiers de données téléversés sur une livraison."
+        },
+        "tmp_workdir": {
+            "default": "/tmp",
+            "type": "str",
+            "description": "Répertoire local et existant permettant d'écrire des données temporaires."
+        }
+    },
+    "workflow_resolution_regex": {
+        "description": "section concernant la configuration des expression régulières (regex) permettant de résoudre des workflows.\n\nCes regex vont être notamment utilisées par les résolveurs (`resolver`) (cf. la classe Python `ignf_gpf_api.workflow.resolver.AbstractResolver`).",
+        "filter_infos": {
+            "default": "((\\s*)INFOS(\\s*)\\((?P<filter_infos>.*?)\\)(\\s*))?"
+        },
+        "filter_tags": {
+            "default": "((\\s*)TAGS(\\s*)\\((?P<filter_tags>.*?)\\)(\\s*))?"
+        },
+        "filter": {
+            "default": "((\\s*)\\[${filter_infos},?${filter_tags}\\])"
+        },
+        "store_entity_regex": {
+            "default": "(?P<entity_type>(upload|stored_data|processing_execution|offering|processing|configuration|endpoint|static|datastore|permission|key))\\.(((?P<number_selected>ALL|ONE)\\.)?(?P<selected_field_type>(tags|infos))\\.(?P<selected_field>(\\w|\\.|\\[\\d+\\])*)|(?P<number_dict>ALL|ONE))${filter}"
+        },
+        "global_regex": {
+            "default": "(?P<param>(\\[\"_|{(\"_)?)(?P<resolver_name>[a-z_0-9]+)(\\.|_\": *\"|_\", *\")(?P<to_solve>[^\"{}]*?({[^}]+}[^\"{}]*?)*)(\"\\]|\"?}))"
+        },
+        "file_regex": {
+            "default": "(?P<resolver_type>str|list|dict)\\((?P<resolver_file>.*)\\)"
+        },
+        "date_regex": {
+            "default": "(?P<date>now)\\.?(add\\((?P<add_param>(\\w+=-?\\d+,?\\s*)+)\\))?\\.(?P<output>datetime|date|time|strtime\\((?P<output_pattern>.+)\\))"
+        },
+        "datetime_pattern": {
+            "default": " %d/%m/%Y %H:%M"
+        },
+        "date_pattern": {
+            "default": " %d/%m/%Y"
+        },
+        "time_pattern": {
+            "default": " %H:%M"
+        }
+    },
+    "cli": {
+        "description": "section concernant l'affichage.",
+        "list_annexe": {
+            "default": "_id,name,paths,published,labels",
+            "type": "str",
+            "description": "Attributs à afficher lors de la liste des annexes."
+        },
+        "list_check": {
+            "default": "_id,name,description",
+            "type": "str",
+            "description": "Attributs à afficher lors de la liste des vérifications (checks)."
+        },
+        "list_check_execution": {
+            "default": "_id,check.name",
+            "type": "str",
+            "description": "Attributs à afficher lors de la liste des exécutions de vérifications (check_executions)."
+        },
+        "list_configuration": {
+            "default": "_id,name,layer_name,status",
+            "type": "str",
+            "description": "Attributs à afficher lors de la liste des configurations."
+        },
+        "list_datastore": {
+            "default": "_id,name,technical_name",
+            "type": "str",
+            "description": "Attributs à afficher lors de la liste des entrepôts."
+        },
+        "list_endpoint": {
+            "default": "_id,name,technical_name",
+            "type": "str",
+            "description": "Attributs à afficher lors de la liste des endpoints."
+        },
+        "list_key": {
+            "default": "_id,name,type",
+            "type": "str",
+            "description": "Attributs à afficher lors de la liste des clefs d'API."
+        },
+        "list_metadata": {
+            "default": "_id,file_identifier,type,level",
+            "type": "str",
+            "description": "Attributs à afficher lors de la liste des métadonnées."
+        },
+        "list_offering": {
+            "default": "_id,layer_name,type,status,open,available",
+            "type": "str",
+            "description": "Attributs à afficher lors de la liste des offres."
+        },
+        "list_permission": {
+            "default": "_id,licence,end_date",
+            "type": "str",
+            "description": "Attributs à afficher lors de la liste des permissions."
+        },
+        "list_processing": {
+            "default": "_id,name",
+            "type": "str",
+            "description": "Attributs à afficher lors de la liste des traitements."
+        },
+        "list_processing_execution": {
+            "default": "_id,processing.name,status",
+            "type": "str",
+            "description": "Attributs à afficher lors de la liste des exécutions de traitement."
+        },
+        "list_static": {
+            "default": "_id,name,type",
+            "type": "str",
+            "description": "Attributs à afficher lors de la liste des fichiers statiques."
+        },
+        "list_stored_data": {
+            "default": "_id,name,type,srs,status",
+            "type": "str",
+            "description": "Attributs à afficher lors de la liste des données stockées."
+        },
+        "list_tms": {
+            "default": "_id,srs",
+            "type": "str",
+            "description": "Attributs à afficher lors de la liste des TMS."
+        },
+        "list_upload": {
+            "default": "_id,name,type,status,srs,size",
+            "type": "str",
+            "description": "Attributs à afficher lors de la liste des livraisons."
+        }
+    },
+    "json_converter": {
+        "description": "section concernant les paramètres de conversion en JSON des types non gérés de base par Python.",
+        "datetime_pattern": {
+            "default": " %Y-%m-%dT%H:%M:%S",
+            "type": "str",
+            "description": "Modèle de formatage des `datetime` en string."
+        },
+        "date_pattern": {
+            "default": " %Y-%m-%d",
+            "type": "str",
+            "description": "Modèle de formatage des `date` en string."
+        },
+        "time_pattern": {
+            "default": " %H:%M:%S",
+            "type": "str",
+            "description": "Modèle de formatage des `time` en string."
+        }
+    },
+    "json_schemas": {
+        "description": "section concernant le paramétrage des schémas JSON utilisés. Par défaut, les chemins sont définis relativement à `ignf_gpf_api/_conf`, mais peuvent également être absolus.",
+        "descriptor_file": {
+            "default": "json_schemas/upload_descriptor_file.json",
+            "type": "str",
+            "description": "Chemin vers le schéma JSON définissant les fichiers descripteurs de livraison."
+        },
+        "workflow_config": {
+            "default": "json_schemas/workflow.json",
+            "type": "str",
+            "description": "Chemin vers le schéma JSON définissant les fichiers workflow."
+        },
+        "annexe_descriptor_file": {
+            "default": "json_schemas/annexe_descriptor_file.json",
+            "type": "str",
+            "description": "Chemin vers le schéma JSON définissant les fichiers descripteurs d'annexe."
+        },
+        "static_descriptor_file": {
+            "default": "json_schemas/static_descriptor_file.json",
+            "type": "str",
+            "description": "Chemin vers le schéma JSON définissant les fichiers descripteurs de fichier statique."
+        },
+        "metadata_descriptor_file": {
+            "default": "json_schemas/metadata_descriptor_file.json",
+            "type": "str",
+            "description": "Chemin vers le schéma JSON définissant les fichiers descripteurs de métadonnées."
+        }
+    },
+    "compatibility_cartes": {
+        "description": "section concernant la compatibilité parve carte.gouv",
+        "activate": {
+            "default": "False",
+            "type": "bool",
+            "description": "Activer la compatibilité avec les cartes (True) ou non (False)."
+        },
+        "upload_creation_integration_progress": {
+            "default": "{\"send_files_api\": \"waiting\", \"wait_checks\": \"waiting\",\"integration_processing\": \"waiting\"}",
+            "type": "str",
+            "description": "tag à ajouté lors de la création de l'upload, avant de téléverser les fichiers."
+        },
+        "upload_creation_integration_current_step": {
+            "default": "0",
+            "type": "int",
+            "description": "numéro d'étape lors de la création de l'upload, avant de téléverser les fichiers."
+        },
+        "upload_upload_start_integration_progress": {
+            "default": "{\"send_files_api\": \"in_progress\", \"wait_checks\": \"waiting\",\"integration_processing\": \"waiting\"}",
+            "type": "str",
+            "description": "tag à ajouter pendant de téléverser les fichiers."
+
+        },
+        "upload_upload_end_integration_progress": {
+            "default": "{\"send_files_api\": \"successful\", \"wait_checks\": \"in_progress\",\"integration_processing\": \"waiting\"}",
+            "type": "str",
+            "description": "tag à ajouter à la fin du téléverser les fichiers."
+        },
+        "upload_upload_end_integration_current_step": {
+            "default": "1",
+            "type": "int",
+            "description": "numéro d'étape à la fin du téléverser les fichiers."
+        },
+        "upload_check_ok_integration_progress": {
+            "default": "{\"send_files_api\": \"successful\", \"wait_checks\": \"successful\",\"integration_processing\": \"waiting\"}",
+            "type": "str",
+            "description": "tag à ajouter après les vérifications sans erreurs."
+        },
+        "upload_check_ko_integration_progress": {
+            "default": "{\"send_files_api\": \"successful\", \"wait_checks\": \"failed\",\"integration_processing\": \"waiting\"}",
+            "type": "str",
+            "description": "tag à ajouter après les vérifications avec erreurs."
+        },
+        "execution_start_integration_progress": {
+            "default": "{\"send_files_api\": \"successful\", \"wait_checks\": \"successful\",\"integration_processing\": \"in_progress\"}",
+            "type": "str",
+            "description": "tag à ajouter avant de lancer le traitement d'intégration."
+        },
+        "execution_start_integration_current_step": {
+            "default": "2",
+            "type": "int",
+            "description": "numéro d'étape avant de lancer le traitement d'intégration."
+        },
+        "execution_end_ok_integration_progress": {
+            "default": "{\"send_files_api\": \"successful\", \"wait_checks\": \"successful\",\"integration_processing\": \"successful\"}",
+            "type": "str",
+            "description": "tag à ajouter à la fin du traitement d'intégration avec succès."
+        },
+        "execution_end_ko_integration_progress": {
+            "default": "{\"send_files_api\": \"successful\", \"wait_checks\": \"successful\",\"integration_processing\": \"failed\"}",
+            "type": "str",
+            "description": "tag à ajouter à la fin du traitement d'intégration avec échec."
+        },
+        "id_mise_en_base": {
+            "default": "0de8c60b-9938-4be9-aa36-9026b77c3c96",
+            "type": "str",
+            "description": "Identifiant du traitement de mise en base."
+        },
+        "id_pyramide_vecteur": {
+            "default": "aa5f9391-0bdb-4b97-9209-fcde351b82f6",
+            "type": "str",
+            "description": "Identifiant du traitement de pyramide vecteur."
+        }
+    }
+}
