@@ -192,3 +192,15 @@ http_proxy=http://proxy.ign.fr:3128
 https_proxy=http://proxy.ign.fr:3128
 # Autres paramètres à conserver (datastore, ...)
 ```
+
+## Authentification à double facteurs
+
+Si vous utilisez une authentification à double facteurs, il faudra ajouter le paramètre `totp_key` dans le fichier `config.ini`. Ce paramètre correspond à la clé de génération OTP et non au code temporaire. Toutes les applications OTP ne permettent pas de récupérer cette clé (ce n'est par exemple pas le cas de [FreeOTP](https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp&hl=fr)), nous préconisons l'utilisation d'[Aegis](https://play.google.com/store/apps/details?id=com.beemdevelopment.aegis&hl=fr).
+
+Si vous n'arrivez pas à récupérez la clé, vous pouvez repasser sur une authentification simple.
+
+```ini
+[store_authentification]
+totp_key=O42E4NRXMQ3TAR2PKR3KGULVGBVUPM3B
+# Autres paramètres à conserver (client_id, ...)
+```
