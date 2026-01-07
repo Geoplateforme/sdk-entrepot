@@ -19,7 +19,7 @@ Voici les prérequis pour suivre ce tutoriel :
 
 * Vous devez disposer d'un compte Géoplateforme (création en suivant ce [tuto](https://geoplateforme.github.io/tutoriels/production/controle-des-acces/entrepot/creation_compte/) ou sur [cartes.gouv](https://cartes.gouv.fr/))
 * Vous devez disposer d'un datastore (pour sa création, vous pouvez contacter [geoplateforme@ign.fr](mailto:geoplateforme@ign.fr) ou faire une demande [ici](https://cartes.gouv.fr/entrepot/demande-de-creation) en précisant votre établissement, qu'il s'agit d'une diffusion partenaire PCRS et votre identifiant utilisateur que vous trouvez sur votre [espace](https://cartes.gouv.fr/mon-compte))
-* Vous devez avoir installé python et le module [SDK](index.md) sir votre poste de travail
+* Vous devez avoir installé python et le module [SDK](index.md) sur votre poste de travail
 
 Avant de commencer, voici quelques bonnes pratiques et conseils pour que les opérations se déroulent dans les meilleures conditions.
 * Découpez votre projet PCRS en dalles recouvrant des petites surfaces (200m de côté par exemple, 1km au maximum).
