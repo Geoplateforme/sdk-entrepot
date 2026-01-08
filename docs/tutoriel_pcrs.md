@@ -23,7 +23,7 @@ Voici les prérequis pour suivre ce tutoriel :
 
 Avant de commencer, voici quelques bonnes pratiques et conseils pour que les opérations se déroulent dans les meilleures conditions.
 * Découpez votre projet PCRS en dalles recouvrant des petites surfaces (200m de côté par exemple, 1km au maximum).
-* Utilisez des données en format TIFF compressé en JPEG
+* Utilisez des données en format TIFF compressé en JPEG (vous pouvez vérifier le format de vos données avec gdalinfo ou tiffinfo)
 * Travaillez sur l’ordinateur (ou le serveur) sur lequel sont stockés les données
 
 Nous vous rappelons également qu’un projet PCRS représente un gros volume de données et que son transfert sur la Géoplateforme peut prendre du temps. A cet égard, il conviendra de s’assurer que le débit de sortie dont vous disposez soit suffisant pour ne pas avoir une phase de téléversement qui s’éternise.
