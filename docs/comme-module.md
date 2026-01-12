@@ -57,7 +57,7 @@ Delivery(
 )
 ```
 
-Pour une utilisation plus bas niveau, nous vous invitons à parcourir le code (modification des callback, de l'affichage). La classe [Delivery](https://github.com/Geoplateforme/sdk-entrepot/blob/prod/sdk_entrepot_gpf/scripts/delivery.py) est un bon point d'entré pour votre recherche.
+Pour une utilisation plus bas niveau, nous vous invitons à parcourir le code (modification des callback, de l'affichage). La classe [Delivery](https://github.com/Geoplateforme/sdk-entrepot/blob/prod/sdk_entrepot_gpf/scripts/delivery.py) est un bon point d'entrée pour votre recherche.
 
 ### Avec la classe `UploadAction` (uniquement les dataset)
 
@@ -160,7 +160,7 @@ La première méthode est plus simple (et généreusement configurable !), la se
 
 On part ici du principe que vous avez déjà écrit [votre workflow](workflow.md).
 
-Un utilitaire à été créer pour le lancement des workflows : WorkflowCli
+Un utilitaire a été créé pour le lancement des workflows : WorkflowCli
 
 ```txt
 Args:
@@ -193,4 +193,4 @@ WorkflowCli(
 )
 ```
 
-Pour une utilisation plus bas niveau, nous vous invitons à parcourir le code (modification des callback, de l'affichage). La classe [WorkflowCli](https://github.com/Geoplateforme/sdk-entrepot/blob/prod/sdk_entrepot_gpf/scripts/workflow.py) est un bon point d'entré pour votre recherche.
+Pour une utilisation plus bas niveau, nous vous invitons à parcourir le code (modification des callback, de l'affichage). La classe [WorkflowCli](https://github.com/Geoplateforme/sdk-entrepot/blob/prod/sdk_entrepot_gpf/scripts/workflow.py) est un bon point d'entrée pour votre recherche.
