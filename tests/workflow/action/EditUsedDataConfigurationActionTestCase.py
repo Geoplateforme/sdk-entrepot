@@ -81,11 +81,11 @@ class EditUsedDataConfigurationActionTestCase(GpfTestCase):
         d_base_config["type_infos"] = {"used_data": [*l_used_data], "bbox": {}}
         self.run_run(s_uuid, d_definition, d_base_config, d_new_config, "maj de BBox + modif stored_data")
 
-        # maj de bbox demandé mais pas de bbox dans la config
+        # maj de bbox demandée mais pas de bbox dans la config
         d_definition["reset_bbox"] = True
         del d_new_config["type_infos"]["bbox"]
         d_base_config["type_infos"] = {"used_data": [*l_used_data]}
-        self.run_run(s_uuid, d_definition, d_base_config, d_new_config, "maj de bbox demandé mais pas de bbox dans la config")
+        self.run_run(s_uuid, d_definition, d_base_config, d_new_config, "maj de bbox demandée mais pas de bbox dans la config")
 
         # pas de modif stored_data
         d_base_config["type_infos"] = {"used_data": [*l_used_data], "bbox": {}}
@@ -98,7 +98,7 @@ class EditUsedDataConfigurationActionTestCase(GpfTestCase):
         d_new_config_2 = {"name": "nouveau name", "type_infos": {"used_data": [*l_used_data]}}
         self.run_run(s_uuid, d_definition_2, d_base_config, d_new_config_2, "maj de BBox + pas modif stored_data")
 
-        # ajoute de used data avec suppression de doublon
+        # ajout de used data avec suppression de doublon
         d_definition = {
             "type": "used_data-configuration",
             "entity_id": s_uuid,
@@ -107,11 +107,11 @@ class EditUsedDataConfigurationActionTestCase(GpfTestCase):
         }
         d_base_config["type_infos"] = {"used_data": [*l_used_data, d_add_data], "bbox": {}}
         d_new_config_2 = {"name": "nouveau name", "type_infos": {"used_data": [*l_used_data, *d_definition["append_used_data"]], "bbox": {}}}
-        self.run_run(s_uuid, d_definition, d_base_config, d_new_config_2, "ajoute de used data avec suppression de doublon")
+        self.run_run(s_uuid, d_definition, d_base_config, d_new_config_2, "ajout de used data avec suppression de doublon")
 
-        # ajoute de used data sans suppression de doublon => erreur
+        # ajout de used data sans suppression de doublon => erreur
         d_definition["resolve_conflict"] = False
-        with self.subTest(i="ajoute de used data sans suppression de doublon"):
+        with self.subTest(i="ajout de used data sans suppression de doublon"):
             o_action = EditUsedDataConfigurationAction("contexte", d_definition, None)
             o_mock_base_config = MagicMock()
             o_mock_base_config.get_store_properties.return_value = d_base_config
