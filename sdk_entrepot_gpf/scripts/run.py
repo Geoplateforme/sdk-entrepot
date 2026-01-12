@@ -129,7 +129,7 @@ class Main:
             "--ini",
             dest="config",
             default="--default--",
-            help="Chemin vers le fichier de config à utiliser (par défaut fichier défini avec la variable d'environnement SDK_ENTREPOT_CONFIG_FILE ou config.ini)",
+            help="Chemin vers le fichier de config à utiliser (remplace la valeur par défaut ("config.ini") et la variable d'environnement SDK_ENTREPOT_CONFIG_FILE)",
         )
         o_parser.add_argument("--version", action="version", version=f"%(prog)s v{sdk_entrepot_gpf.__version__}")
         o_parser.add_argument("--debug", dest="debug", required=False, default=False, action="store_true", help="Passe l'appli en mode debug (plus de messages affichés)")
