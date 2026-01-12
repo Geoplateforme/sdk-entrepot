@@ -13,13 +13,24 @@ La [Géoplateforme](https://geoplateforme.github.io/) permet d'héberger et diff
 
 Pour cela, vous allez devoir téléverser des dalles « PCRS » qui permettront de créer une pyramide image qui sera diffusée en flux.
 
+Ce tutoriel vous accompagne étape par étape en listant les commandes à lancer et en vous fournissant les différents fichiers nécessaires.
+
 Voici les prérequis pour suivre ce tutoriel :
 
-* vous devez disposer d'un compte Géoplateforme (création en suivant ce [tuto](https://geoplateforme.github.io/tutoriels/production/controle-des-acces/entrepot/creation_compte/) ou sur [cartes.gouv](https://cartes.gouv.fr/))
-* vous devez disposer d'un datastore (pour sa création, vous pouvez contacter [geoplateforme@ign.fr](mailto:geoplateforme@ign.fr) ou faire une demande [ici](https://cartes.gouv.fr/entrepot/demande-de-creation) en précisant votre établissement, qu'il s'agit d'une diffusion partenaire PCRS et votre identifiant utilisateur que vous trouver sur votre [espace](https://cartes.gouv.fr/mon-compte))
-* vous devez avoir installé python et le module [SDK](index.md)
+* Vous devez disposer d'un compte Géoplateforme (création en suivant ce [tuto](https://geoplateforme.github.io/tutoriels/production/controle-des-acces/entrepot/creation_compte/) ou sur [cartes.gouv](https://cartes.gouv.fr/))
+* Vous devez disposer d'un datastore (pour sa création, vous pouvez contacter [geoplateforme@ign.fr](mailto:geoplateforme@ign.fr) ou faire une demande [ici](https://cartes.gouv.fr/entrepot/demande-de-creation) en précisant votre établissement, qu'il s'agit d'une diffusion partenaire PCRS et votre identifiant utilisateur que vous trouvez sur votre [espace](https://cartes.gouv.fr/mon-compte))
+* Vous devez avoir installé python et le module [SDK](index.md) sur votre poste de travail
 
-Ce tutoriel vous accompagne étape par étape en vous listant les commandes à lancer et en vous fournissant les différents fichiers nécessaires :
+Avant de commencer, voici quelques bonnes pratiques et conseils pour que les opérations se déroulent dans les meilleures conditions.
+* Découpez votre projet PCRS en dalles recouvrant des petites surfaces (200m de côté par exemple, 1km au maximum).
+* Utilisez des données en format TIFF compressé en JPEG (vous pouvez vérifier le format de vos données avec gdalinfo ou tiffinfo)
+* Travaillez sur l’ordinateur (ou le serveur) sur lequel sont stockés les données
+
+Nous vous rappelons également qu’un projet PCRS représente un gros volume de données et que son transfert sur la Géoplateforme peut prendre du temps. A cet égard, il conviendra de s’assurer que le débit de sortie dont vous disposez soit suffisant pour ne pas avoir une phase de téléversement qui s’éternise.
+
+# Préparation de l’espace de travail et configuration SDK
+
+Liste des différents fichiers nécessaires :
 
 * un fichier de configuration pour définir vos paramètres SDK (`config.ini`)
 * un fichier descripteur qui détaille votre livraison (`PCRS_descriptor.jsonc`)
@@ -39,9 +50,7 @@ Dossier_PCRS/
     └── dalle_n.tif
 ```
 
-## Définition de la configuration SDK
-
-À la racine de votre dossier de travail, créez un fichier de configuration `config.ini` contenant les informations suivantes :
+À la racine de votre dossier de travail, créez le fichier de configuration `config.ini` contenant les informations suivantes :
 
 ```ini
 # Informations pour l'authentification
@@ -133,13 +142,10 @@ Vous allez devoir créer un fichier `PCRS_descriptor.jsonc` qui décrit votre li
     Si vos données ne sont pas en LAMB93 (`EPSG:2154`), il faudra modifier la valeur associée à la clef `srs`.
     Par exemple, si vous utilisez le système `CC47`, il faudra indiquer `"srs": "EPSG:3947"`.
 
-Il faut remplacer 3 fois dans le fichier `$votre_chantier_PCRS` par une valeur sous la forme `PCRS_chantier_********` (ex: PCRS_chantier_D046). Cette valeur sera utilisée pour nommer la livraison, la pyramide et vos couches. Elle vous permettra également de retrouver votre fiche de données sur cartes.gouv.fr. Vous pouvez aussi ajouter une description et un commentaire.
+Il faut remplacer 3 fois dans le fichier `$votre_chantier_PCRS` par une valeur sous la forme `PCRS_chantier_********` (par exemple: PCRS_chantier_D046, nous vous encourageons à utiliser cette nomenclature). Cette valeur sera utilisée pour nommer la livraison, la pyramide et vos couches. Elle vous permettra également de retrouver votre fiche de données sur cartes.gouv.fr. Vous pouvez aussi ajouter une description et un commentaire.
 
 ???+ warning "Attention"
-    La valeur `$votre_chantier_PCRS` étant utilisée pour définir le nom des couches WMS et WMTS, vous serez bloqués à l'étape de publication si une couche existe déjà avec ce même nom puisque deux couches d'un même service doivent avoir des noms différents à l'échelle de la Géoplateforme. Nous vous encourageons donc à vérifier que la valeur que vous définissez n'est pas déjà utilisée en consultant les GetCapabilities des services [WMTS](https://data.geopf.fr/wmts?service=WMTS&request=GetCapabilities) et [WMS-Raster](https://data.geopf.fr/wms-r?service=WMS&request=GetCapabilities).
-
-???+ warning "Attention"
-    La création de la pyramide se fait via l'outil [ROK4](https://rok4.github.io/). Il n'est pour l'instant pas possible de générer des pyramides à partir de TIFF compression JPEG (résolution [ici](https://github.com/rok4/core-cpp/issues/46)). Les TIFF doivent donc être livrés non compressés ou sous une autre compression (ex: zip).
+    La valeur `$votre_chantier_PCRS` étant utilisée pour définir le nom des couches WMS et WMTS, vous serez bloqués à l'étape de publication si une couche existe déjà avec ce même nom puisque deux couches d'un même service doivent avoir des noms différents à l'échelle de la Géoplateforme. Nous vous invitons donc à vérifier que la valeur que vous définissez n'est pas déjà utilisée en consultant les GetCapabilities des services [WMTS](https://data.geopf.fr/wmts?service=WMTS&request=GetCapabilities) et [WMS-Raster](https://data.geopf.fr/wms-r?service=WMS&request=GetCapabilities).
 
 Vous déposerez vos données dans un répertoire du même nom `$votre_chantier_PCRS` à la racine de votre dossier de travail comme suit :
 
@@ -163,38 +169,38 @@ python3 -m sdk_entrepot_gpf delivery PCRS_descriptor.jsonc
 
 Le programme doit vous indiquer que le transfert est en cours, puis qu'il attend la fin des vérification côté API avant de conclure que tout est bon `INFO - BILAN : les 1 livraisons se sont bien passées` (cela peut être long selon la taille de la livraison et la qualité de votre connexion, ne fermez pas votre terminal pendant ce temps).
 
-Si votre connexion est interrompue, vous pouvez reprendre la livraison avec la commande :
+Si le transfert est interrompu pour quelque raison que ce soit, vous pouvez reprendre la livraison avec la commande :
 
 ```sh
 python3 -m sdk_entrepot_gpf delivery PCRS_descriptor.jsonc -b CONTINUE
 ```
 
-Il y a deux vérifications effectuées sur la livraison :
+Deux vérifications sont effectuées sur la livraison :
 
 * la **vérification standard** qui s'assure que les données ne sont pas corrompues lors du transfert ;
 * la **vérification raster** qui s'assure que les données sont valides ;
 
-Si une des deux vérification échoue, vous pourrez obtenir les logs d'erreur détaillés en indiquant l'id de votre livraison dans la commande :
+Si au moins l’une des deux vérification échoue, vous pourrez obtenir les logs d'erreur détaillés en indiquant l'id de votre livraison dans la commande :
 
 ```sh
 python3 -m sdk_entrepot_gpf upload ******** --checks
 ```
 
-S'il y a des problème avec la **vérification standard**, cela signifie que vos données ont mal été téléversées. Il faudra supprimer les fichier concernés et les relivrer :
+S'il y a des problème avec la **vérification standard**, cela signifie que des données ont mal été téléversées. Il faudra supprimer les fichier concernés et les relivrer :
 
 ```sh
 python3 -m sdk_entrepot_gpf upload ******** --delete-failed-files
 python3 -m sdk_entrepot_gpf delivery PCRS_descriptor.jsonc -b RESUME
 ```
 
-S'il y a des problèmes avec la **vérification raster**, cela signifie que vos données ne sont pas valides. Il faudra notamment vérifier que les données sont bien dans la projection indiquée au moment de la livraison (`EPSG:2154` par défaut).
+S'il y a des problèmes avec la **vérification raster**, cela signifie que vos données ne sont pas valides. Il faudra notamment vérifier que les données sont bien dans la projection indiquée au moment de la livraison (`EPSG:2154` par défaut). La projection d'une livraison n'est pas modifiable, il faut refaire une livraison dans ce cas.
 
 
 ## Traitements
 
 ### Génération de la pyramide
 
-Une fois les données livrées, il faut créer la pyramide image avant de la diffuser en flux (WMS-Raster et WMTS).
+Une fois les données livrées, il faut créer la pyramide image pour pouvoir la diffuser en flux (WMS-Raster et WMTS).
 
 Ces étapes vont être réalisées grâce à un workflow.
 
@@ -204,24 +210,30 @@ Vous pouvez récupérer le workflow `PCRS.jsonc` grâce à la commande suivante 
 python3 -m sdk_entrepot_gpf example workflow PCRS.jsonc
 ```
 
-Pour plus de détails, consultez la [documentation sur les workflows](workflow.md).
+Pour plus de détails, vous pouvez consulter la [documentation sur les workflows](workflow.md).
 
-Une fois que vous avez placé le fichier `PCRS.jsonc`, vous pouvez générer la pyramide en lançant la commande :
+Une fois que vous avez placé le fichier `PCRS.jsonc` dans votre arborescence,, vous pouvez générer la pyramide en lançant la commande :
 
 ```sh
 # partie génération de la pyramide
 python3 -m sdk_entrepot_gpf workflow -f PCRS.jsonc -s pyramide --param producteur $votre_chantier_PCRS
 ```
 
-La commande peut être longue selon le nombre de dalles livrées. Nous avons estimé une moyenne d'une dizaine d'heures par tranche de 500 dalles (TIFF de 20 000px x 20 000px). Des logs doivent vous être remontés et se terminer par :
+Il s’agit d’une opération assez longue, dépendamment du nombre de dalles livrées. Nous avons estimé une moyenne d'une dizaine d'heures par tranche de 500 dalles (TIFF de 20 000px x 20 000px). Des logs doivent vous être remontés et se terminer par :
 
 ```text
 INFO - Exécution de l'action 'pyramide-0' : terminée
 ```
 
+Si vous perdez la connexion ou que vous fermez votre terminal pendant la génération, vous pouvez retrouvez la génération en cours avec la commande :
+
+```sh
+python3 -m sdk_entrepot_gpf workflow -f PCRS.jsonc -s pyramide --param producteur $votre_chantier_PCRS -b CONTINUE
+```
+
 ### Publication des couches WMS et WMTS
 
-Pour publier vos couches, lancez la commande :
+Une fois la pyramide générée, il ne reste plus qu’à publier vos couches. Pour cela, lancez la commande :
 
 ```sh
 # partie publication
@@ -243,7 +255,7 @@ Vous pouvez maintenant retrouver vos données dans cartes.gouv (https://cartes.g
 
 ### Suppression de la livraison
 
-Afin de ne pas surcharger l'espace de livraison et de ne pas atteindre vos quotas lors de livraisons ultérieures, une fois que vous avez validez vos flux, nous vous conseillons de supprimer la livraison avec la commande suivante :
+Afin de ne pas surcharger l'espace de livraison et de ne pas atteindre vos quotas lors de livraisons ultérieures, une fois que vous avez validez que vos flux fonctionnent correctement, nous vous recommandons de supprimer la livraison avec la commande suivante :
 
 ```sh
 python3 -m sdk_entrepot_gpf workflow -f PCRS.jsonc -s upload_delete --param producteur $votre_chantier_PCRS
@@ -251,9 +263,9 @@ python3 -m sdk_entrepot_gpf workflow -f PCRS.jsonc -s upload_delete --param prod
 
 Le programme doit vous indiquer que la suppression s'est bien passée `INFO - Suppression effectuée.`.
 
-### Suppression de la pyramides et des couches
+### Suppression d'un flux
 
-Si vous souhaitez dépublier vos couches et supprimer la pyramide, lancez la commande :
+Si vous souhaitez supprimer un flux, cela passe par la dépublication de vos couches et la suppression de la pyramide. Pour cela, lancez la commande :
 
 ```sh
 python3 -m sdk_entrepot_gpf workflow -f PCRS.jsonc -s depublication --param producteur $votre_chantier_PCRS
@@ -263,7 +275,7 @@ Le programme va vous demander de confirmer les entités à supprimer `INFO - Vou
 
 ## Mise à jour
 
-Si une mise à jour concerne l'ensemble du territoire d'une APLC (Autorité Publique Locale Compétente), nous préconisons de construire une nouvelle pyramide et de diffuser des nouvelles offres en reprenant le [tutoriel](tutoriel_pcrs.md) du début.
+Si une mise à jour concerne l'ensemble du territoire d'une APLC (Autorité Publique Locale Compétente), nous préconisons de construire une nouvelle pyramide et de diffuser des nouvelles offres en reprenant le [tutoriel](tutoriel_pcrs.md) du début avec les nouvelles données.
 
 Si une mise à jour ne concerne qu'une emprise limitée, vous allez pouvoir créer une nouvelle pyramide qui prendra en compte les nouvelles dalles et mettre à jour les offres.
 
@@ -305,7 +317,7 @@ Puis, générez la nouvelle pyramide avec la commande suivante (laissez le param
 python3 -m sdk_entrepot_gpf workflow -f PCRS.jsonc -s pyramide_maj --param producteur $votre_chantier_PCRS --param old_version "" --param new_version 2
 ```
 
-S'il s'agit d'une mise à jour itérative, renseignez le paramètre `old_version` :
+Dans le cas d'une mise à jour itérative, renseignez le paramètre `old_version` :
 
 ```sh
 python3 -m sdk_entrepot_gpf workflow -f PCRS.jsonc -s pyramide_maj --param producteur $votre_chantier_PCRS --param old_version 2 --param new_version 3
