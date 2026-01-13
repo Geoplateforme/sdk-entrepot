@@ -1,6 +1,6 @@
 <!--
 CE DOCUMENT N'A PAS VOCATION A ÊTRE LU DIRECTEMENT OU VIA GITHUB :
-les liens seront cassés, l'affichage ne sera pas correcte. Ne faites ça !
+les liens seront cassés, l'affichage ne sera pas correct. Ne faites pas ça !
 
 Consultez la doc en ligne ici : https://geoplateforme.github.io/sdk-entrepot/
 
@@ -104,7 +104,7 @@ Dans cet exemple, l'identifiant du datastore à utiliser est `333333333333333333
 
 ### Utilisation via l'exécutable
 
-Ce module Python est utilisable comme exécutable. Dans ce cas vous avez deux manières d'indiquer au programme votre fichier de configuration :
+Ce module Python est utilisable comme exécutable. Dans ce cas, vous avez deux manières d'indiquer au programme votre fichier de configuration :
 
 * vous pouvez nommez le fichier `config.ini` et le mettre dans le répertoire courant ;
 * vous pouvez indiquer au programme le chemin vers votre fichier via le paramètre `--ini` :
@@ -191,4 +191,16 @@ https_proxy=http://proxy.ign.fr:3128
 http_proxy=http://proxy.ign.fr:3128
 https_proxy=http://proxy.ign.fr:3128
 # Autres paramètres à conserver (datastore, ...)
+```
+
+## Authentification à double facteurs
+
+Si vous utilisez une authentification à double facteurs, il faudra ajouter le paramètre `totp_key` dans le fichier `config.ini`. Ce paramètre correspond à la clé de génération OTP et non au code temporaire. Toutes les applications OTP ne permettent pas de récupérer cette clé (ce n'est par exemple pas le cas de [FreeOTP](https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp&hl=fr)), nous préconisons l'utilisation d'[Aegis](https://play.google.com/store/apps/details?id=com.beemdevelopment.aegis&hl=fr).
+
+Si vous n'arrivez pas à récupérer la clé, vous pouvez repasser sur une authentification simple.
+
+```ini
+[store_authentification]
+totp_key=O42E4NRXMQ3TAR2PKR3KGULVGBVUPM3B
+# Autres paramètres à conserver (client_id, ...)
 ```

@@ -25,27 +25,64 @@ Config().read("config.ini")
 
 ## Livraison de données
 
-### Avec la classe `UploadAction`
+### Avec Delivery
 
-Pour livrer des données, vous pouvez utiliser les [fichiers descripteurs de livraison](upload_descriptor.md) et appeler la classe `UploadAction`.
+Pour livrer des données (dataset, annexe, static, metadata, key), vous pouvez utiliser les [fichiers descripteurs de livraison](upload_descriptor.md) et appeler la classe `Delivery`.
+
+```txt
+Args:
+    datastore (Optional[str], optional): datastore à considérer, si None on utilise celui donné en configuration
+    file (Path): chemin du fichier descriptif à traiter
+    behavior (str): comportement de gestion des conflits
+    check_before_close (bool): si on doit revérifier la livraison avant sa fermeture
+    mode_cartes (bool): activation du mode cartes.gouv
+```
+
+Voici un exemple de code Python permettant de le faire (à lancer après le chargement de la config !) :
+
+Exemple :
+
+```python
+from pathlib import Path
+from sdk_entrepot_gpf.scripts.delivery import Delivery
+
+# Partie configuration si besoin
+
+Delivery(
+    "datastore",
+    Path("descriptor.json"),
+    "CONTINUE",
+    False,
+    False
+)
+```
+
+Pour une utilisation plus bas niveau, nous vous invitons à parcourir le code (modification des callback, de l'affichage). La classe [Delivery](https://github.com/Geoplateforme/sdk-entrepot/blob/prod/sdk_entrepot_gpf/scripts/delivery.py) est un bon point d'entrée pour votre recherche.
+
+### Avec la classe `UploadAction` (uniquement les dataset)
+
+Pour livrer des dataset, vous pouvez utiliser les [fichiers descripteurs de livraison](upload_descriptor.md) et appeler la classe `UploadAction`.
 Cela sera plus simple d'un point de vue Python mais moins modulaire.
 
 Voici un exemple de code Python permettant de le faire (à lancer après le chargement de la config !) :
 
 ```py
+from pathlib import Path
 # Importation des classes UploadDescriptorFileReader et UploadAction
 from sdk_entrepot_gpf.io.UploadDescriptorFileReader import UploadDescriptorFileReader
 from sdk_entrepot_gpf.workflow.action.UploadAction import UploadAction
 
 # Instanciation d'une UploadDescriptorFileReader
-descriptor_file_reader = UploadDescriptorFileReader(p_descriptor)
+descriptor_file_reader = UploadDescriptorFileReader(Path("descriptor.json"))
 
-# Instanciation d'une UploadAction à partir du Reader
-o_upload_action = UploadAction(o_dataset, behavior=s_behavior)
-# On crée la livraison
-o_upload = o_upload_action.run()
-# On ferme la livraison et on monitore les exécutions de vérification
-b_status = UploadAction.monitor_until_end(o_upload, Livraison.callback_check)
+# livraison de chaque dataset :
+for o_dataset in descriptor_file_reader.datasets
+    # Instanciation d'une UploadAction pour le dataset
+    o_upload_action = UploadAction(o_dataset, behavior=UploadAction.BEHAVIOR_CONTINUE)
+    # On crée la livraison
+    o_upload = o_upload_action.run()
+    # On ferme la livraison et on monitore les exécutions de vérification
+    b_status = UploadAction.monitor_until_end(o_upload, Livraison.callback_check)
 ```
 
 ???+ note "Utiliser un datastore spécifique**
@@ -123,20 +160,37 @@ La première méthode est plus simple (et généreusement configurable !), la se
 
 On part ici du principe que vous avez déjà écrit [votre workflow](workflow.md).
 
-```py
-# Importation de la classe JsonHelper
-from sdk_entrepot_gpf.helper.JsonHelper import JsonHelper
-# Importation des classes Workflow, GlobalResolver et StoreEntityResolver
-from sdk_entrepot_gpf.workflow.Workflow import Workflow
-from sdk_entrepot_gpf.workflow.resolver.GlobalResolver import GlobalResolver
-from sdk_entrepot_gpf.workflow.resolver.StoreEntityResolver import StoreEntityResolver
+Un utilitaire a été créé pour le lancement des workflows : WorkflowCli
+
+```txt
+Args:
+    datastore (Optional[str], optional): datastore à considérer
+    file (Path): chemin du fichier descriptif à traiter
+    behavior (str): comportement de gestion des conflits
+    step (Optional[str]): étape à lancer (si null affichage des action disponibles)
+    params (Dict[str, str]): dictionnaire utilisé pour le résolveur "params"
+    tags (Dict[str, str]): tags à ajouter
+    comments (List[str]): commentaires à ajouter
 ```
 
-La première étape consiste à charger le fichier de workflow et à instancier la classe associée. Vous pouvez utiliser notre classe de lecture JSON qui gère les fichier `.jsonc` (c'est à dire avec des commentaires).
+Exemple :
 
-```py
-p_workflow = Path("mon_workflow.jsonc").absolute()
-o_workflow = Workflow(p_workflow.stem, JsonHelper.load(p_workflow))
+```python
+from pathlib import Path
+from sdk_entrepot_gpf.scripts.workflow import WorkflowCli
+
+# Partie configuration si besoin
+# les resolvers store_entity, user, datetime et params sont automatiquement ajoutés
+
+WorkflowCli(
+    "datastore",
+    Path("workflow.json"),
+    "CONTINUE",
+    "step_1",
+    {"resolver_param1": "val1"},
+    {"tag1": "val1"},
+    ["commentaire"]
+)
 ```
 
-*Rédaction en cours...*
+Pour une utilisation plus bas niveau, nous vous invitons à parcourir le code (modification des callback, de l'affichage). La classe [WorkflowCli](https://github.com/Geoplateforme/sdk-entrepot/blob/prod/sdk_entrepot_gpf/scripts/workflow.py) est un bon point d'entrée pour votre recherche.
