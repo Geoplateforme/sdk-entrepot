@@ -125,6 +125,9 @@ class Dataset:
             # L'élément est un fichier
             elif p_elt.is_file():
                 # Création du chemin relatif pour l'API
-                p_api = p_rep_elt.relative_to(self.__root_dir)
+                try:
+                    p_api = p_rep_elt.relative_to(self.__root_dir)
+                except ValueError:
+                    p_api = p_rep_elt
                 # Remplissage du dictionnaire __data_files
                 self.__data_files[p_rep_elt] = p_api.parent.as_posix()

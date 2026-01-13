@@ -12,6 +12,8 @@
 
 ### [Fixed]
 
+* Dataset : debug pour les dossiers non relatifs au fichier descripteur [#260](https://github.com/Geoplateforme/sdk-entrepot/issues/260)
+
 ## v0.1.42
 
 ### [Added]
