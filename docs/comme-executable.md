@@ -1,6 +1,6 @@
 <!--
 CE DOCUMENT N'A PAS VOCATION A ÊTRE LU DIRECTEMENT OU VIA GITHUB :
-les liens seront cassés, l'affichage ne sera pas correcte. Ne faites ça !
+les liens seront cassés, l'affichage ne sera pas correct. Ne faites pas ça !
 
 Consultez la doc en ligne ici : https://geoplateforme.github.io/sdk-entrepot/
 
@@ -13,7 +13,7 @@ Le lien vers cette page devrait être : https://geoplateforme.github.io/sdk-entr
 
 Vous pouvez consulter l'aide en ajoutant `-h` à la commande.
 
-Cela fonction à la racine de l'executable (`egpf -h` ou `python -m sdk_entrepot_gpf -h`) ou dans une sous-commande (`egpf command -h` ou `python -m sdk_entrepot_gpf command -h`).
+Cela fonctionne à la racine de l'executable (`egpf -h` ou `python -m sdk_entrepot_gpf -h`) ou dans une sous-commande (`egpf command -h` ou `python -m sdk_entrepot_gpf command -h`).
 
 L'aide est plus complète que les exemples de cette page ! :)
 
@@ -29,7 +29,13 @@ Un bon moyen de vérifier que la configuration est correcte est de s'authentifie
 # Le fichier de configuration est directement trouvé s'il est
 # nommé "config.ini" et qu'il est situé dans le dossier de travail
 python -m sdk_entrepot_gpf auth
-# Sinon indiquez son chemin
+
+# Sinon indiquez son chemin avec la variable d'environnement SDK_ENTREPOT_CONFIG_FILE (valable pour toutes les commandes suivantes)
+export SDK_ENTREPOT_CONFIG_FILE=/autre/chemin/config.ini
+python -m sdk_entrepot_gpf auth
+
+# ou sinon indiquez son chemin dans la ligne de commande (doit être précisé dans toutes les lignes de commandes).
+# NB: si le chemin est précisé en ligne de commande, alors la variable d'environnement SDK_ENTREPOT_CONFIG_FILE est ignorée.
 python -m sdk_entrepot_gpf --ini /autre/chemin/config.ini auth
 ```
 
@@ -100,7 +106,7 @@ Lancez la commande `example dataset` pour lister les jeux disponibles :
 python -m sdk_entrepot_gpf example dataset
 ```
 
-Lancez la commande `example dataset [NOM]` en précisant le nom  du jeu de données à extraire pour récupérer un jeu de données :
+Lancez la commande `example dataset [NOM]` en précisant le nom du jeu de données à extraire pour récupérer un jeu de données :
 
 ```sh
 python -m sdk_entrepot_gpf dataset 1_dataset_vector
@@ -219,7 +225,7 @@ Types de lancement :
 * publication / dépublication d'une annexe : `ID [--publish|--unpublish]`
 * publication / dépublication par label : `--publish-by-label label1,label2` et `--unpublish-by-label label1,label2`
 
-## Téléversement d'annexe, de fichiers statique et de métadonnées et création de clefs
+## Téléversement d'annexes, de fichiers statiques et de métadonnées, et création de clefs
 
 La commande `delivery` vous permet de téléverser des annexes, des fichiers statiques (style) et des métadonnées mais également de créer des clefs.
 
