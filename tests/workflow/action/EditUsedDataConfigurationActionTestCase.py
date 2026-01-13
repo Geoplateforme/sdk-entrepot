@@ -125,7 +125,8 @@ class EditUsedDataConfigurationActionTestCase(GpfTestCase):
                         o_action.run("datastore")
             l_doublons = ["stored_data (2)"]
             s_new_message = s_message = (
-                "Il y a un doublon dans les used_data. Veuillez vérifier les append_used_data. L'option 'resolve_conflict' permet de résoudre les conflits en supprimant les doublons. \n * "
+                "Il y a au moins un doublon dans les used_data. Veuillez vérifier les append_used_data. L'option 'resolve_conflict = True'"
+                + " permet de résoudre les conflits en supprimant les doublons. \n * "
                 + "\n * ".join(l_doublons)
             )
             self.assertEqual(o_raise.exception.message, s_new_message)

@@ -56,7 +56,8 @@ class EditUsedDataConfigurationAction(ActionAbstract):
                 l_stored_data = [d_data["stored_data"] for d_data in l_new_use_data]
                 l_doublons = [f"{StoredData.api_get(elem)} ({count})" for elem, count in Counter(l_stored_data).items() if count > 1]
                 s_message = (
-                    "Il y a au moins un doublon dans les used_data. Veuillez vérifier les append_used_data. L'option 'resolve_conflict = True' permet de résoudre les conflits en supprimant les doublons. \n * "
+                    "Il y a au moins un doublon dans les used_data. Veuillez vérifier les append_used_data. L'option 'resolve_conflict = True'"
+                    + " permet de résoudre les conflits en supprimant les doublons. \n * "
                     + "\n * ".join(l_doublons)
                 )
                 raise GpfSdkError(s_message) from e
