@@ -1,5 +1,13 @@
 # CHANGE LOG
 
+## v0.1.44
+
+### [Added]
+
+### [Changed]
+
+### [Fixed]
+
 ## v0.1.43
 
 ### [Added]
