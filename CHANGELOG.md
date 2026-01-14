@@ -8,7 +8,8 @@
 
 ### [Changed]
 
-* Workflow : edit-entity des configurations suppression la limitation sur les used_data #269
+* Workflow : edit-entity des configurations + suppression de la limitation sur les used_data + amélioration du message [#269](https://github.com/Geoplateforme/sdk-entrepot/issues/269)
+* EditUsedDataConfigurationAction: ajout de la clef "resolve_conflict" permettant de gérer les possibles doublons lors de l'ajout d'une used_data [#270](https://github.com/Geoplateforme/sdk-entrepot/issues/270)
 
 ### [Fixed]
 
