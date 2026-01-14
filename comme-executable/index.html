@@ -451,9 +451,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#televersement-dannexe-de-fichiers-statique-et-de-metadonnees-et-creation-de-clefs" class="md-nav__link">
+  <a href="#televersement-dannexes-de-fichiers-statiques-et-de-metadonnees-et-creation-de-clefs" class="md-nav__link">
     <span class="md-ellipsis">
-      Téléversement d'annexe, de fichiers statique et de métadonnées et création de clefs
+      Téléversement d'annexes, de fichiers statiques et de métadonnées, et création de clefs
     </span>
   </a>
   
@@ -1040,9 +1040,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#televersement-dannexe-de-fichiers-statique-et-de-metadonnees-et-creation-de-clefs" class="md-nav__link">
+  <a href="#televersement-dannexes-de-fichiers-statiques-et-de-metadonnees-et-creation-de-clefs" class="md-nav__link">
     <span class="md-ellipsis">
-      Téléversement d'annexe, de fichiers statique et de métadonnées et création de clefs
+      Téléversement d'annexes, de fichiers statiques et de métadonnées, et création de clefs
     </span>
   </a>
   
@@ -1111,7 +1111,7 @@
 
 <!--
 CE DOCUMENT N'A PAS VOCATION A ÊTRE LU DIRECTEMENT OU VIA GITHUB :
-les liens seront cassés, l'affichage ne sera pas correcte. Ne faites ça !
+les liens seront cassés, l'affichage ne sera pas correct. Ne faites pas ça !
 
 Consultez la doc en ligne ici : https://geoplateforme.github.io/sdk-entrepot/
 
@@ -1121,7 +1121,7 @@ Le lien vers cette page devrait être : https://geoplateforme.github.io/sdk-entr
 <h1 id="utilisation-comme-executable">Utilisation comme exécutable<a class="headerlink" href="#utilisation-comme-executable" title="Permanent link">#</a></h1>
 <h2 id="aide">Aide<a class="headerlink" href="#aide" title="Permanent link">#</a></h2>
 <p>Vous pouvez consulter l'aide en ajoutant <code>-h</code> à la commande.</p>
-<p>Cela fonction à la racine de l'executable (<code>egpf -h</code> ou <code>python -m sdk_entrepot_gpf -h</code>) ou dans une sous-commande (<code>egpf command -h</code> ou <code>python -m sdk_entrepot_gpf command -h</code>).</p>
+<p>Cela fonctionne à la racine de l'executable (<code>egpf -h</code> ou <code>python -m sdk_entrepot_gpf -h</code>) ou dans une sous-commande (<code>egpf command -h</code> ou <code>python -m sdk_entrepot_gpf command -h</code>).</p>
 <p>L'aide est plus complète que les exemples de cette page ! :)</p>
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">#</a></h2>
 <p>Pensez à <a href="../configuration/">créer un fichier de configuration</a> indiquant au minimum vos identifiants.</p>
@@ -1130,8 +1130,14 @@ Le lien vers cette page devrait être : https://geoplateforme.github.io/sdk-entr
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Le fichier de configuration est directement trouvé s&#39;il est</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># nommé &quot;config.ini&quot; et qu&#39;il est situé dans le dossier de travail</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>python<span class="w"> </span>-m<span class="w"> </span>sdk_entrepot_gpf<span class="w"> </span>auth
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Sinon indiquez son chemin</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>python<span class="w"> </span>-m<span class="w"> </span>sdk_entrepot_gpf<span class="w"> </span>--ini<span class="w"> </span>/autre/chemin/config.ini<span class="w"> </span>auth
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Sinon indiquez son chemin avec la variable d&#39;environnement SDK_ENTREPOT_CONFIG_FILE (valable pour toutes les commandes suivantes)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SDK_ENTREPOT_CONFIG_FILE</span><span class="o">=</span>/autre/chemin/config.ini
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>python<span class="w"> </span>-m<span class="w"> </span>sdk_entrepot_gpf<span class="w"> </span>auth
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1"># ou sinon indiquez son chemin dans la ligne de commande (doit être précisé dans toutes les lignes de commandes).</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># NB: si le chemin est précisé en ligne de commande, alors la variable d&#39;environnement SDK_ENTREPOT_CONFIG_FILE est ignorée.</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>python<span class="w"> </span>-m<span class="w"> </span>sdk_entrepot_gpf<span class="w"> </span>--ini<span class="w"> </span>/autre/chemin/config.ini<span class="w"> </span>auth
 </code></pre></div>
 <p>Cela devrait renvoyer :</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Authentification réussie.
@@ -1176,7 +1182,7 @@ Le lien vers cette page devrait être : https://geoplateforme.github.io/sdk-entr
 <p>Lancez la commande <code>example dataset</code> pour lister les jeux disponibles :</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>python<span class="w"> </span>-m<span class="w"> </span>sdk_entrepot_gpf<span class="w"> </span>example<span class="w"> </span>dataset
 </code></pre></div>
-<p>Lancez la commande <code>example dataset [NOM]</code> en précisant le nom  du jeu de données à extraire pour récupérer un jeu de données :</p>
+<p>Lancez la commande <code>example dataset [NOM]</code> en précisant le nom du jeu de données à extraire pour récupérer un jeu de données :</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>python<span class="w"> </span>-m<span class="w"> </span>sdk_entrepot_gpf<span class="w"> </span>dataset<span class="w"> </span>1_dataset_vector
 </code></pre></div>
 <p>Les données seront extraites dans le dossier courant, vous pouvez préciser la destination en indiquant le dossier où mettre les données :</p>
@@ -1253,7 +1259,7 @@ Le lien vers cette page devrait être : https://geoplateforme.github.io/sdk-entr
 <li>publication / dépublication d'une annexe : <code>ID [--publish|--unpublish]</code></li>
 <li>publication / dépublication par label : <code>--publish-by-label label1,label2</code> et <code>--unpublish-by-label label1,label2</code></li>
 </ul>
-<h2 id="televersement-dannexe-de-fichiers-statique-et-de-metadonnees-et-creation-de-clefs">Téléversement d'annexe, de fichiers statique et de métadonnées et création de clefs<a class="headerlink" href="#televersement-dannexe-de-fichiers-statique-et-de-metadonnees-et-creation-de-clefs" title="Permanent link">#</a></h2>
+<h2 id="televersement-dannexes-de-fichiers-statiques-et-de-metadonnees-et-creation-de-clefs">Téléversement d'annexes, de fichiers statiques et de métadonnées, et création de clefs<a class="headerlink" href="#televersement-dannexes-de-fichiers-statiques-et-de-metadonnees-et-creation-de-clefs" title="Permanent link">#</a></h2>
 <p>La commande <code>delivery</code> vous permet de téléverser des annexes, des fichiers statiques (style) et des métadonnées mais également de créer des clefs.</p>
 <p>Cela passe toujours par la création d'un fichier descripteur (comme pour le <a href="#televerser-des-donnees">téléversement de données</a>).</p>
 <p>Exemple de fichier pour le téléversement d'une annexe, d'un fichier de style et d'une métadonnée ainsi que la création d'une clef :</p>

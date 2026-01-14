@@ -401,9 +401,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#avec-la-classe-uploadaction" class="md-nav__link">
+  <a href="#avec-delivery" class="md-nav__link">
     <span class="md-ellipsis">
-      Avec la classe UploadAction
+      Avec Delivery
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#avec-la-classe-uploadaction-uniquement-les-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      Avec la classe UploadAction (uniquement les dataset)
     </span>
   </a>
   
@@ -891,9 +900,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#avec-la-classe-uploadaction" class="md-nav__link">
+  <a href="#avec-delivery" class="md-nav__link">
     <span class="md-ellipsis">
-      Avec la classe UploadAction
+      Avec Delivery
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#avec-la-classe-uploadaction-uniquement-les-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      Avec la classe UploadAction (uniquement les dataset)
     </span>
   </a>
   
@@ -973,70 +991,98 @@ Le lien vers cette page devrait être : https://geoplateforme.github.io/sdk-entr
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;config.ini&quot;</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="livraison-de-donnees">Livraison de données<a class="headerlink" href="#livraison-de-donnees" title="Permanent link">#</a></h2>
-<h3 id="avec-la-classe-uploadaction">Avec la classe <code>UploadAction</code><a class="headerlink" href="#avec-la-classe-uploadaction" title="Permanent link">#</a></h3>
-<p>Pour livrer des données, vous pouvez utiliser les <a href="../upload_descriptor/">fichiers descripteurs de livraison</a> et appeler la classe <code>UploadAction</code>.
+<h3 id="avec-delivery">Avec Delivery<a class="headerlink" href="#avec-delivery" title="Permanent link">#</a></h3>
+<p>Pour livrer des données (dataset, annexe, static, metadata, key), vous pouvez utiliser les <a href="../upload_descriptor/">fichiers descripteurs de livraison</a> et appeler la classe <code>Delivery</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Args:
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    datastore (Optional[str], optional): datastore à considérer, si None on utilise celui donné en configuration
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    file (Path): chemin du fichier descriptif à traiter
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    behavior (str): comportement de gestion des conflits
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    check_before_close (bool): si on doit revérifier la livraison avant sa fermeture
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    mode_cartes (bool): activation du mode cartes.gouv
+</code></pre></div>
+<p>Voici un exemple de code Python permettant de le faire (à lancer après le chargement de la config !) :</p>
+<p>Exemple :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sdk_entrepot_gpf.scripts.delivery</span><span class="w"> </span><span class="kn">import</span> <span class="n">Delivery</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Partie configuration si besoin</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">Delivery</span><span class="p">(</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="s2">&quot;datastore&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;descriptor.json&quot;</span><span class="p">),</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="s2">&quot;CONTINUE&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="kc">False</span><span class="p">,</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="kc">False</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="p">)</span>
+</code></pre></div>
+<p>Pour une utilisation plus bas niveau, nous vous invitons à parcourir le code (modification des callback, de l'affichage). La classe <a href="https://github.com/Geoplateforme/sdk-entrepot/blob/prod/sdk_entrepot_gpf/scripts/delivery.py">Delivery</a> est un bon point d'entrée pour votre recherche.</p>
+<h3 id="avec-la-classe-uploadaction-uniquement-les-dataset">Avec la classe <code>UploadAction</code> (uniquement les dataset)<a class="headerlink" href="#avec-la-classe-uploadaction-uniquement-les-dataset" title="Permanent link">#</a></h3>
+<p>Pour livrer des dataset, vous pouvez utiliser les <a href="../upload_descriptor/">fichiers descripteurs de livraison</a> et appeler la classe <code>UploadAction</code>.
 Cela sera plus simple d'un point de vue Python mais moins modulaire.</p>
 <p>Voici un exemple de code Python permettant de le faire (à lancer après le chargement de la config !) :</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Importation des classes UploadDescriptorFileReader et UploadAction</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sdk_entrepot_gpf.io.UploadDescriptorFileReader</span><span class="w"> </span><span class="kn">import</span> <span class="n">UploadDescriptorFileReader</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sdk_entrepot_gpf.workflow.action.UploadAction</span><span class="w"> </span><span class="kn">import</span> <span class="n">UploadAction</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># Instanciation d&#39;une UploadDescriptorFileReader</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">descriptor_file_reader</span> <span class="o">=</span> <span class="n">UploadDescriptorFileReader</span><span class="p">(</span><span class="n">p_descriptor</span><span class="p">)</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1"># Instanciation d&#39;une UploadAction à partir du Reader</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="n">o_upload_action</span> <span class="o">=</span> <span class="n">UploadAction</span><span class="p">(</span><span class="n">o_dataset</span><span class="p">,</span> <span class="n">behavior</span><span class="o">=</span><span class="n">s_behavior</span><span class="p">)</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1"># On crée la livraison</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="n">o_upload</span> <span class="o">=</span> <span class="n">o_upload_action</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1"># On ferme la livraison et on monitore les exécutions de vérification</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="n">b_status</span> <span class="o">=</span> <span class="n">UploadAction</span><span class="o">.</span><span class="n">monitor_until_end</span><span class="p">(</span><span class="n">o_upload</span><span class="p">,</span> <span class="n">Livraison</span><span class="o">.</span><span class="n">callback_check</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># Importation des classes UploadDescriptorFileReader et UploadAction</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sdk_entrepot_gpf.io.UploadDescriptorFileReader</span><span class="w"> </span><span class="kn">import</span> <span class="n">UploadDescriptorFileReader</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sdk_entrepot_gpf.workflow.action.UploadAction</span><span class="w"> </span><span class="kn">import</span> <span class="n">UploadAction</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># Instanciation d&#39;une UploadDescriptorFileReader</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">descriptor_file_reader</span> <span class="o">=</span> <span class="n">UploadDescriptorFileReader</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;descriptor.json&quot;</span><span class="p">))</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="c1"># livraison de chaque dataset :</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="k">for</span> <span class="n">o_dataset</span> <span class="ow">in</span> <span class="n">descriptor_file_reader</span><span class="o">.</span><span class="n">datasets</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>    <span class="c1"># Instanciation d&#39;une UploadAction pour le dataset</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    <span class="n">o_upload_action</span> <span class="o">=</span> <span class="n">UploadAction</span><span class="p">(</span><span class="n">o_dataset</span><span class="p">,</span> <span class="n">behavior</span><span class="o">=</span><span class="n">UploadAction</span><span class="o">.</span><span class="n">BEHAVIOR_CONTINUE</span><span class="p">)</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>    <span class="c1"># On crée la livraison</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>    <span class="n">o_upload</span> <span class="o">=</span> <span class="n">o_upload_action</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>    <span class="c1"># On ferme la livraison et on monitore les exécutions de vérification</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>    <span class="n">b_status</span> <span class="o">=</span> <span class="n">UploadAction</span><span class="o">.</span><span class="n">monitor_until_end</span><span class="p">(</span><span class="n">o_upload</span><span class="p">,</span> <span class="n">Livraison</span><span class="o">.</span><span class="n">callback_check</span><span class="p">)</span>
 </code></pre></div>
 <p>???+ note "Utiliser un datastore spécifique**
     Vous pouvez préciser l'id d'un autre datastore s'il ne faut pas utiliser celui indiqué en configuration :</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># On crée la livraison en précisant un datastore spécifique</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">o_upload</span> <span class="o">=</span> <span class="n">o_upload_action</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">datastore</span><span class="o">=</span><span class="s1">&#39;id-datastore-spécifique&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># On crée la livraison en précisant un datastore spécifique</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">o_upload</span> <span class="o">=</span> <span class="n">o_upload_action</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">datastore</span><span class="o">=</span><span class="s1">&#39;id-datastore-spécifique&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="sans-la-classe-uploadaction">Sans la classe <code>UploadAction</code><a class="headerlink" href="#sans-la-classe-uploadaction" title="Permanent link">#</a></h3>
 <p>Si vous souhaitez livrer les données de manière plus flexible, vous pouvez également utiliser directement la classe <code>Upload</code> pour créer, compléter et fermer votre livraison.</p>
 <p>Voici un exemple de code Python permettant de le faire (à lancer après le chargement de la config !) :</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># Importation de la classe Upload</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sdk_entrepot_gpf.store.Upload</span><span class="w"> </span><span class="kn">import</span> <span class="n">Upload</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1"># Attributs pour créer ma livraison (cf. la documentation)</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># https://data.geopf.fr/api/swagger-ui/index.html#/Livraisons%20et%20vérifications/create</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">info</span> <span class="o">=</span> <span class="p">{</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>  <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Nom de la livraison à créer&quot;</span><span class="p">,</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>  <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Description de la livraison à créer&quot;</span><span class="p">,</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>  <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;VECTOR&quot;</span><span class="p">,</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>  <span class="s2">&quot;srs&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG:2154&quot;</span><span class="p">,</span>
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="p">}</span>
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="c1"># Création d&#39;une livraison</span>
-<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="n">upload</span> <span class="o">=</span> <span class="n">Upload</span><span class="o">.</span><span class="n">api_create</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
-<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>
-<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="c1"># Ajout des informations complémentaires (commentaires et étiquettes)</span>
-<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="n">upload</span><span class="o">.</span><span class="n">api_add_comment</span><span class="p">({</span><span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;mon commentaire&quot;</span><span class="p">})</span>
-<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="n">upload</span><span class="o">.</span><span class="n">api_add_tags</span><span class="p">({</span><span class="s2">&quot;tag1&quot;</span><span class="p">:</span> <span class="s2">&quot;valeur1&quot;</span><span class="p">,</span> <span class="s2">&quot;tag2&quot;</span><span class="p">:</span> <span class="s2">&quot;valeur2&quot;</span><span class="p">})</span>
-<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>
-<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="c1"># Téléversement des fichiers</span>
-<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="c1"># Listes des fichiers : chemin local -&gt; chemin distant</span>
-<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="n">files</span> <span class="o">=</span> <span class="p">{</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;mon_fichier.zip&#39;</span><span class="p">)</span> <span class="p">:</span> <span class="s1">&#39;chemin/api/&#39;</span><span class="p">}</span>
-<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="c1"># Pour chaque fichier</span>
-<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="k">for</span> <span class="n">local_path</span><span class="p">,</span> <span class="n">api_path</span> <span class="ow">in</span> <span class="n">files</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>    <span class="c1"># On le téléverse en utilisant la méthode api_push_data_file</span>
-<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>    <span class="n">upload</span><span class="o">.</span><span class="n">api_push_data_file</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="n">api_path</span><span class="p">)</span>
-<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>
-<a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="c1"># Téléversement des fichiers md5</span>
-<a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="n">upload</span><span class="o">.</span><span class="n">api_push_md5_file</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;checksum.md5&#39;</span><span class="p">))</span>
-<a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>
-<a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="c1"># Fermeture de la livraison</span>
-<a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="n">upload</span><span class="o">.</span><span class="n">api_close</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># Importation de la classe Upload</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sdk_entrepot_gpf.store.Upload</span><span class="w"> </span><span class="kn">import</span> <span class="n">Upload</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># Attributs pour créer ma livraison (cf. la documentation)</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># https://data.geopf.fr/api/swagger-ui/index.html#/Livraisons%20et%20vérifications/create</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="n">info</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>  <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Nom de la livraison à créer&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>  <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Description de la livraison à créer&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>  <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;VECTOR&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>  <span class="s2">&quot;srs&quot;</span><span class="p">:</span> <span class="s2">&quot;EPSG:2154&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="p">}</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="c1"># Création d&#39;une livraison</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="n">upload</span> <span class="o">=</span> <span class="n">Upload</span><span class="o">.</span><span class="n">api_create</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="c1"># Ajout des informations complémentaires (commentaires et étiquettes)</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="n">upload</span><span class="o">.</span><span class="n">api_add_comment</span><span class="p">({</span><span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;mon commentaire&quot;</span><span class="p">})</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="n">upload</span><span class="o">.</span><span class="n">api_add_tags</span><span class="p">({</span><span class="s2">&quot;tag1&quot;</span><span class="p">:</span> <span class="s2">&quot;valeur1&quot;</span><span class="p">,</span> <span class="s2">&quot;tag2&quot;</span><span class="p">:</span> <span class="s2">&quot;valeur2&quot;</span><span class="p">})</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="c1"># Téléversement des fichiers</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="c1"># Listes des fichiers : chemin local -&gt; chemin distant</span>
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="n">files</span> <span class="o">=</span> <span class="p">{</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;mon_fichier.zip&#39;</span><span class="p">)</span> <span class="p">:</span> <span class="s1">&#39;chemin/api/&#39;</span><span class="p">}</span>
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="c1"># Pour chaque fichier</span>
+<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="k">for</span> <span class="n">local_path</span><span class="p">,</span> <span class="n">api_path</span> <span class="ow">in</span> <span class="n">files</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>    <span class="c1"># On le téléverse en utilisant la méthode api_push_data_file</span>
+<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a>    <span class="n">upload</span><span class="o">.</span><span class="n">api_push_data_file</span><span class="p">(</span><span class="n">local_path</span><span class="p">,</span> <span class="n">api_path</span><span class="p">)</span>
+<a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>
+<a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="c1"># Téléversement des fichiers md5</span>
+<a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a><span class="n">upload</span><span class="o">.</span><span class="n">api_push_md5_file</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;checksum.md5&#39;</span><span class="p">))</span>
+<a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a>
+<a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a><span class="c1"># Fermeture de la livraison</span>
+<a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a><span class="n">upload</span><span class="o">.</span><span class="n">api_close</span><span class="p">()</span>
 </code></pre></div>
 <p>???+ note "Utiliser un datastore spécifique**
     Vous pouvez préciser l'id d'un autre datastore s'il ne faut pas utiliser celui indiqué en configuration :</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Création d&#39;une livraison en précisant un datastore spécifique</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">upload</span> <span class="o">=</span> <span class="n">Upload</span><span class="o">.</span><span class="n">api_create</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">datastore</span><span class="o">=</span><span class="s1">&#39;id-datastore-spécifique&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Création d&#39;une livraison en précisant un datastore spécifique</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">upload</span> <span class="o">=</span> <span class="n">Upload</span><span class="o">.</span><span class="n">api_create</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">datastore</span><span class="o">=</span><span class="s1">&#39;id-datastore-spécifique&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="traitement-et-publications-des-donnees">Traitement et publications des données<a class="headerlink" href="#traitement-et-publications-des-donnees" title="Permanent link">#</a></h2>
 <p>D'un point de vue API Entrepôt, pour traiter et publier des données, vous allez créer :</p>
@@ -1049,18 +1095,34 @@ Cela sera plus simple d'un point de vue Python mais moins modulaire.</p>
 <p>La première méthode est plus simple (et généreusement configurable !), la seconde méthode sera plus complexe mais très flexible.</p>
 <h3 id="en-utilisant-des-workflows">En utilisant des workflows<a class="headerlink" href="#en-utilisant-des-workflows" title="Permanent link">#</a></h3>
 <p>On part ici du principe que vous avez déjà écrit <a href="../workflow/">votre workflow</a>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Importation de la classe JsonHelper</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sdk_entrepot_gpf.helper.JsonHelper</span><span class="w"> </span><span class="kn">import</span> <span class="n">JsonHelper</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># Importation des classes Workflow, GlobalResolver et StoreEntityResolver</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sdk_entrepot_gpf.workflow.Workflow</span><span class="w"> </span><span class="kn">import</span> <span class="n">Workflow</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sdk_entrepot_gpf.workflow.resolver.GlobalResolver</span><span class="w"> </span><span class="kn">import</span> <span class="n">GlobalResolver</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sdk_entrepot_gpf.workflow.resolver.StoreEntityResolver</span><span class="w"> </span><span class="kn">import</span> <span class="n">StoreEntityResolver</span>
+<p>Un utilitaire a été créé pour le lancement des workflows : WorkflowCli</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Args:
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    datastore (Optional[str], optional): datastore à considérer
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    file (Path): chemin du fichier descriptif à traiter
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    behavior (str): comportement de gestion des conflits
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    step (Optional[str]): étape à lancer (si null affichage des action disponibles)
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    params (Dict[str, str]): dictionnaire utilisé pour le résolveur &quot;params&quot;
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    tags (Dict[str, str]): tags à ajouter
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    comments (List[str]): commentaires à ajouter
 </code></pre></div>
-<p>La première étape consiste à charger le fichier de workflow et à instancier la classe associée. Vous pouvez utiliser notre classe de lecture JSON qui gère les fichier <code>.jsonc</code> (c'est à dire avec des commentaires).</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">p_workflow</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;mon_workflow.jsonc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">o_workflow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">p_workflow</span><span class="o">.</span><span class="n">stem</span><span class="p">,</span> <span class="n">JsonHelper</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">p_workflow</span><span class="p">))</span>
+<p>Exemple :</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sdk_entrepot_gpf.scripts.workflow</span><span class="w"> </span><span class="kn">import</span> <span class="n">WorkflowCli</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Partie configuration si besoin</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1"># les resolvers store_entity, user, datetime et params sont automatiquement ajoutés</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="n">WorkflowCli</span><span class="p">(</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>    <span class="s2">&quot;datastore&quot;</span><span class="p">,</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;workflow.json&quot;</span><span class="p">),</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>    <span class="s2">&quot;CONTINUE&quot;</span><span class="p">,</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>    <span class="s2">&quot;step_1&quot;</span><span class="p">,</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>    <span class="p">{</span><span class="s2">&quot;resolver_param1&quot;</span><span class="p">:</span> <span class="s2">&quot;val1&quot;</span><span class="p">},</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>    <span class="p">{</span><span class="s2">&quot;tag1&quot;</span><span class="p">:</span> <span class="s2">&quot;val1&quot;</span><span class="p">},</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>    <span class="p">[</span><span class="s2">&quot;commentaire&quot;</span><span class="p">]</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="p">)</span>
 </code></pre></div>
-<p><em>Rédaction en cours...</em></p>
+<p>Pour une utilisation plus bas niveau, nous vous invitons à parcourir le code (modification des callback, de l'affichage). La classe <a href="https://github.com/Geoplateforme/sdk-entrepot/blob/prod/sdk_entrepot_gpf/scripts/workflow.py">WorkflowCli</a> est un bon point d'entrée pour votre recherche.</p>
 
 
 

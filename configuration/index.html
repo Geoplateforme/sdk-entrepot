@@ -402,6 +402,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#authentification-a-double-facteurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentification à double facteurs
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -973,6 +982,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#authentification-a-double-facteurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentification à double facteurs
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -991,7 +1009,7 @@
 
 <!--
 CE DOCUMENT N'A PAS VOCATION A ÊTRE LU DIRECTEMENT OU VIA GITHUB :
-les liens seront cassés, l'affichage ne sera pas correcte. Ne faites ça !
+les liens seront cassés, l'affichage ne sera pas correct. Ne faites pas ça !
 
 Consultez la doc en ligne ici : https://geoplateforme.github.io/sdk-entrepot/
 
@@ -1069,7 +1087,7 @@ Vous pouvez cependant surcharger chaque paramètre par défaut en redéfinissant
 </details>
 <h2 id="utilisations">Utilisations<a class="headerlink" href="#utilisations" title="Permanent link">#</a></h2>
 <h3 id="utilisation-via-lexecutable">Utilisation via l'exécutable<a class="headerlink" href="#utilisation-via-lexecutable" title="Permanent link">#</a></h3>
-<p>Ce module Python est utilisable comme exécutable. Dans ce cas vous avez deux manières d'indiquer au programme votre fichier de configuration :</p>
+<p>Ce module Python est utilisable comme exécutable. Dans ce cas, vous avez deux manières d'indiquer au programme votre fichier de configuration :</p>
 <ul>
 <li>vous pouvez nommez le fichier <code>config.ini</code> et le mettre dans le répertoire courant ;</li>
 <li>vous pouvez indiquer au programme le chemin vers votre fichier via le paramètre <code>--ini</code> :</li>
@@ -1136,6 +1154,13 @@ Vous pouvez cependant surcharger chaque paramètre par défaut en redéfinissant
 <a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="na">http_proxy</span><span class="o">=</span><span class="s">http://proxy.ign.fr:3128</span>
 <a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="na">https_proxy</span><span class="o">=</span><span class="s">http://proxy.ign.fr:3128</span>
 <a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="c1"># Autres paramètres à conserver (datastore, ...)</span>
+</code></pre></div>
+<h2 id="authentification-a-double-facteurs">Authentification à double facteurs<a class="headerlink" href="#authentification-a-double-facteurs" title="Permanent link">#</a></h2>
+<p>Si vous utilisez une authentification à double facteurs, il faudra ajouter le paramètre <code>totp_key</code> dans le fichier <code>config.ini</code>. Ce paramètre correspond à la clé de génération OTP et non au code temporaire. Toutes les applications OTP ne permettent pas de récupérer cette clé (ce n'est par exemple pas le cas de <a href="https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp&amp;hl=fr">FreeOTP</a>), nous préconisons l'utilisation d'<a href="https://play.google.com/store/apps/details?id=com.beemdevelopment.aegis&amp;hl=fr">Aegis</a>.</p>
+<p>Si vous n'arrivez pas à récupérer la clé, vous pouvez repasser sur une authentification simple.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">[store_authentification]</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="na">totp_key</span><span class="o">=</span><span class="s">O42E4NRXMQ3TAR2PKR3KGULVGBVUPM3B</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1"># Autres paramètres à conserver (client_id, ...)</span>
 </code></pre></div>
 
 
