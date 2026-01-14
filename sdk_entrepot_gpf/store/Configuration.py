@@ -1,5 +1,4 @@
 from typing import Any, Dict, List
-from sdk_entrepot_gpf.store.Errors import StoreEntityError
 
 from sdk_entrepot_gpf.store.Offering import Offering
 from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
@@ -73,14 +72,6 @@ class Configuration(TagInterface, CommentInterface, EventInterface, FullEditInte
 
         # fusion de type_infos et de type_infos.used_data
         if "type_infos" in data_edit:  # il peut ne pas y avoir de "type_infos" dans data_edit
-            if "used_data" in data_edit["type_infos"]:  # il peut ne pas y avoir de "used_data" dans data_edit["type_infos"]
-                l_used_data = []
-                if len(d_origine_data["type_infos"]["used_data"]) != len(data_edit["type_infos"]["used_data"]):
-                    s_message = "Edition impossible, le nombre de 'used_data' ne correspond pas."
-                    raise StoreEntityError(s_message)
-                for i in range(len(d_origine_data["type_infos"]["used_data"])):
-                    l_used_data.append({**d_origine_data["type_infos"]["used_data"][i], **data_edit["type_infos"]["used_data"][i]})
-                data_edit["type_infos"]["used_data"] = l_used_data
             data_edit["type_infos"] = {**d_origine_data["type_infos"], **data_edit["type_infos"]}
 
         # le reste est géré par la classe parente

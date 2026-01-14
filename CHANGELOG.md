@@ -1,5 +1,20 @@
 # CHANGE LOG
 
+## v0.1.43
+
+### [Added]
+
+* Possibilité de préciser l'emplacement du fichier de configuration via une variable d'environnement SDK_ENTREPOT_CONFIG_FILE [#264](https://github.com/Geoplateforme/sdk-entrepot/issues/264)
+
+### [Changed]
+
+* Workflow : edit-entity des configurations + suppression de la limitation sur les used_data + amélioration du message [#269](https://github.com/Geoplateforme/sdk-entrepot/issues/269)
+* EditUsedDataConfigurationAction: ajout de la clef "resolve_conflict" permettant de gérer les possibles doublons lors de l'ajout d'une used_data [#270](https://github.com/Geoplateforme/sdk-entrepot/issues/270)
+
+### [Fixed]
+
+* Dataset : debug pour les dossiers non relatifs au fichier descripteur [#260](https://github.com/Geoplateforme/sdk-entrepot/issues/260)
+
 ## v0.1.42
 
 ### [Added]
