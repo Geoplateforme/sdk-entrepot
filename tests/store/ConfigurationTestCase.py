@@ -123,7 +123,7 @@ class ConfigurationTestCase(GpfTestCase):
         d_edit = {"_id": "1", "comm_key": "edit", "type_infos": {"used_data": [{"nom": "val_new"}]}}
         with self.assertRaises(StoreEntityError) as o_raise:
             o_entity.edit(d_edit)
-        s_message = "Edition impossible, le nombre de 'used_data' ne correspond pas."
+        s_message = "Edition impossible, le nombre de 'used_data' ne correspond pas. (3 attendu, 1 fourni)"
         self.assertEqual(s_message, o_raise.exception.message)
 
         # Ok si pas de type_infos (dans d_edit)

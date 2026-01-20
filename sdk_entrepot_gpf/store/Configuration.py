@@ -78,7 +78,10 @@ class Configuration(TagInterface, CommentInterface, EventInterface, FullEditInte
                 if not data_edit["type_infos"]["used_data"]:  # si la liste est vide, on ne modifie pas les used_data
                     data_edit["type_infos"]["used_data"] = d_origine_data["type_infos"]["used_data"]
                 elif len(d_origine_data["type_infos"]["used_data"]) != len(data_edit["type_infos"]["used_data"]):
-                    s_message = "Edition impossible, le nombre de 'used_data' ne correspond pas."
+                    s_message = (
+                        "Edition impossible, le nombre de 'used_data' ne correspond pas. "
+                        + f"({len(d_origine_data['type_infos']['used_data'])} attendu, {len(data_edit['type_infos']['used_data'])} fourni)"
+                    )
                     raise StoreEntityError(s_message)
                 else:
                     for i in range(len(d_origine_data["type_infos"]["used_data"])):
