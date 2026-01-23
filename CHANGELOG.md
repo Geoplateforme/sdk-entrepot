@@ -1,5 +1,15 @@
 # CHANGE LOG
 
+## v0.1.44
+
+### [Added]
+
+### [Changed]
+
+* Configuration.edit: Revert de la modification de suppression de la limitation sur les used_data pour un simple exception en cas de paramètre non donné ou vide [#269](https://github.com/Geoplateforme/sdk-entrepot/issues/269)
+
+### [Fixed]
+
 ## v0.1.43
 
 ### [Added]
