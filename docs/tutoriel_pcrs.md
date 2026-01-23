@@ -22,6 +22,7 @@ Voici les prérequis pour suivre ce tutoriel :
 * Vous devez avoir installé python et le module [SDK](index.md) sur votre poste de travail
 
 Avant de commencer, voici quelques bonnes pratiques et conseils pour que les opérations se déroulent dans les meilleures conditions.
+
 * Découpez votre projet PCRS en dalles recouvrant des petites surfaces (200m de côté par exemple, 1km au maximum).
 * Utilisez des données en format TIFF compressé en JPEG (vous pouvez vérifier le format de vos données avec gdalinfo ou tiffinfo)
 * Travaillez sur l’ordinateur (ou le serveur) sur lequel sont stockés les données
