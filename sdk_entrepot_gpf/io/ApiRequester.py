@@ -4,9 +4,8 @@ import re
 import time
 import datetime
 import traceback
-from io import BufferedReader
 from pathlib import Path
-from typing import Any, Dict, Optional, Tuple, List, Union
+from typing import Any, BinaryIO, Dict, Optional, Tuple, List, Union, Mapping
 import requests
 from requests_toolbelt import MultipartEncoder
 
@@ -48,7 +47,7 @@ class ApiRequester(metaclass=Singleton):
         method: str = "GET",
         params: Optional[Dict[str, Any]] = None,
         data: Optional[Union[Dict[str, Any], List[Any]]] = None,
-        files: Optional[Dict[str, Tuple[str, BufferedReader]]] = None,
+        files: Optional[Mapping[str, Tuple[str, BinaryIO]]] = None,
         timeout: Optional[int] = -1000,
     ) -> requests.Response:
         """Exécute une requête à l'API à partir du nom d'une route. La requête est retentée plusieurs fois s'il y a un problème.
@@ -117,7 +116,7 @@ class ApiRequester(metaclass=Singleton):
         method: str = "GET",
         params: Optional[Dict[str, Any]] = None,
         data: Optional[Union[Dict[str, Any], List[Any]]] = None,
-        files: Optional[Dict[str, Tuple[str, BufferedReader]]] = None,
+        files: Optional[Mapping[str, Tuple[str, BinaryIO]]] = None,
         header: Dict[str, str] = {},
         timeout: Optional[int] = -1000,
     ) -> requests.Response:
@@ -201,7 +200,7 @@ class ApiRequester(metaclass=Singleton):
         method: str = "GET",
         params: Optional[Dict[str, Any]] = None,
         data: Optional[Union[Dict[str, Any], List[Any]]] = None,
-        files: Optional[Dict[str, Tuple[str, BufferedReader]]] = None,
+        files: Optional[Mapping[str, Tuple[str, BinaryIO]]] = None,
         header: Dict[str, str] = {},
         timeout: Optional[int] = None,
     ) -> requests.Response:

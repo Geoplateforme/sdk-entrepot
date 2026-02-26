@@ -4,3 +4,7 @@
 # Sauf les fichiers binaires
 *.png binary
 *.jpg binary
+
+# Mark GeoPackage files as binary to avoid CRLF/LF conversion warnings
+*.gpkg -text
+sdk_entrepot_gpf/_data/datasets/*/lot_*/installation.gpkg -text

@@ -70,11 +70,15 @@ class JsonConverter(metaclass=Singleton):
 
 
 if __name__ == "__main__":
-    o_json_converter = JsonConverter()
-    python_data = {
-        "date": datetime.date.today(),
-        "time": datetime.datetime.now().time(),
-        "datetime": datetime.datetime.now(),
-    }
-    text_data = o_json_converter.convert(python_data)
-    print(JSON.dumps(text_data, indent=4))
+
+    def _main() -> None:
+        o_json_converter = JsonConverter()
+        d_sample_data = {
+            "date": datetime.date.today(),
+            "time": datetime.datetime.now().time(),
+            "datetime": datetime.datetime.now(),
+        }
+        d_text_data = o_json_converter.convert(d_sample_data)
+        print(JSON.dumps(d_text_data, indent=4))
+
+    _main()
