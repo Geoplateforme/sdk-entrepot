@@ -7,6 +7,10 @@ Consultez la doc en ligne ici : https://geoplateforme.github.io/sdk-entrepot/
 Le lien vers cette page devrait être : https://geoplateforme.github.io/sdk-entrepot/tutoriel_1_archive/
 -->
 
+**Nota Bene** : rajouter le numéro de version devant la variable python en ligne de commande :
+exemple si c'est la version de python est 3.X :
+mettre `python3` dans la ligne de commande et ceci pour chaque ligne de commande faisant appel à la commande python.
+
 # Tutoriel 1 : publier une archive
 
 La Géoplateforme permet d'héberger vos fichiers pour permettre à vos utilisateur de les télécharger simplement.
