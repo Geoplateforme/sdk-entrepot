@@ -7,6 +7,10 @@ Consultez la doc en ligne ici : https://geoplateforme.github.io/sdk-entrepot/
 Le lien vers cette page devrait être : https://geoplateforme.github.io/sdk-entrepot/tutoriel_3_flux_raster/
 -->
 
+**Nota Bene** : rajouter le numéro de version devant la variable python en ligne de commande :
+exemple si c'est la version de python est 3.X :
+mettre `python3` dans la ligne de commande et ceci pour chaque ligne de commande faisant appel à la commande python.
+
 # Tutoriel 3 : publier un flux raster
 
 La Géoplateforme permet d'héberger des flux raster pour permettre à vos utilisateur de les télécharger/utiliser.
@@ -26,7 +30,7 @@ Le jeu de données « 3_dataset_raster » contient des données raster à télé
 Récupérez les données en lançant la commande :
 
 ```sh
-python -m sdk_entrepot_gpf example dataset 3_dataset_raster
+python3 -m sdk_entrepot_gpf example dataset 3_dataset_raster
 ```
 
 Observez la structure du fichier :
@@ -64,7 +68,7 @@ Chaque dataset contient :
 Livrez les données en indiquant le chemin du fichier descripteur au programme :
 
 ```sh
-python -m sdk_entrepot_gpf delivery 3_dataset_raster/upload_descriptor.jsonc
+python3 -m sdk_entrepot_gpf delivery 3_dataset_raster/upload_descriptor.jsonc
 ```
 
 Le programme doit vous indiquer que le transfert est en cours, puis qu'il attend la fin des vérification côté API avant de conclure que tout est bon. (Memo : cette partie est assez longue du à des problèmes de performance côté back. Le problème a déjà été remonté.)
@@ -78,7 +82,7 @@ Ces étapes sont décrites grâces à un workflow.
 Vous pouvez récupérer un workflow d'exemple grâce à la commande suivante :
 
 ```sh
-python -m sdk_entrepot_gpf example workflow generic_raster.jsonc
+python3 -m sdk_entrepot_gpf example workflow generic_raster.jsonc
 ```
 
 Ouvrez le fichier. Vous trouverez plus de détails dans la [documentation sur les workflows](workflow.md), mais vous pouvez dès à présent voir que le workflow est composé de 4 étapes. Il faudra lancer une commande pour chacune d'elles.
@@ -112,13 +116,13 @@ Les commandes à lancer sont les suivantes :
 
 ```sh
 # partie création de la pyramide
-python -m sdk_entrepot_gpf workflow -f generic_raster.jsonc -s pyramide
+python3 -m sdk_entrepot_gpf workflow -f generic_raster.jsonc -s pyramide
 # partie publication WMTS
-python -m sdk_entrepot_gpf workflow -f generic_raster.jsonc -s configuration-WMTS
-python -m sdk_entrepot_gpf workflow -f generic_raster.jsonc -s publication-WMTS
+python3 -m sdk_entrepot_gpf workflow -f generic_raster.jsonc -s configuration-WMTS
+python3 -m sdk_entrepot_gpf workflow -f generic_raster.jsonc -s publication-WMTS
 # partie publication WMS
-python -m sdk_entrepot_gpf workflow -f generic_raster.jsonc -s configuration-WMS
-python -m sdk_entrepot_gpf workflow -f generic_raster.jsonc -s publication-WMS
+python3 -m sdk_entrepot_gpf workflow -f generic_raster.jsonc -s configuration-WMS
+python3 -m sdk_entrepot_gpf workflow -f generic_raster.jsonc -s publication-WMS
 ```
 
 La première commande ne doit pas être instantanée : un traitement est effectué et les logs doivent vous être remontés.
