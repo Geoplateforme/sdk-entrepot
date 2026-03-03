@@ -7,6 +7,10 @@ Consultez la doc en ligne ici : https://geoplateforme.github.io/sdk-entrepot/
 Le lien vers cette page devrait être : https://geoplateforme.github.io/sdk-entrepot/tutoriel_2_flux_vecteur/
 -->
 
+**Nota Bene** : rajouter le numéro de version devant la variable python en ligne de commande :
+exemple si c'est la version de python est 3.X :
+mettre `python3` dans la ligne de commande et ceci pour chaque ligne de commande faisant appel à la commande python.
+
 # Tutoriel 2 : publier un flux vecteur
 
 La Géoplateforme permet d'héberger des flux vecteur pour permettre à vos utilisateurs de les télécharger/utiliser.
@@ -66,7 +70,7 @@ Chaque dataset contient :
 Livrer les données en indiquant le chemin du fichier descripteur au programme :
 
 ```sh
-python -m sdk_entrepot_gpf delivery 1_dataset_vector/upload_descriptor.json
+python3 -m sdk_entrepot_gpf delivery 1_dataset_vector/upload_descriptor.json
 ```
 
 Le programme doit vous indiquer que le transfert est en cours, puis qu'il attend la fin des vérifications côté API avant de conclure que tout est bon.
@@ -80,7 +84,7 @@ Ces étapes sont décrites grâce à un workflow.
 Vous pouvez récupérer un workflow d'exemple grâce à la commande suivante :
 
 ```sh
-python -m sdk_entrepot_gpf example workflow generic_vecteur.jsonc
+python3 -m sdk_entrepot_gpf example workflow generic_vecteur.jsonc
 ```
 
 Ouvrez le fichier. Vous trouverez plus de détails dans la [documentation sur les workflows](workflow.md), mais vous pouvez dès à présent voir que le workflow est composé de 4 étapes. Il faudra lancer une commande pour chacune d'elles.
@@ -129,17 +133,17 @@ Les étapes "configuration + publication" des flux WMS et WFS sont indépendante
 Lancez les 8 commandes suivantes pour exécuter les 8 étapes :
 
 ```sh
-python -m sdk_entrepot_gpf workflow -f generic_vecteur.jsonc -s mise-en-base
+python3 -m sdk_entrepot_gpf workflow -f generic_vecteur.jsonc -s mise-en-base
 # WFS depuis BDD
-python -m sdk_entrepot_gpf workflow -f generic_vecteur.jsonc -s configuration-wfs-bdd
-python -m sdk_entrepot_gpf workflow -f generic_vecteur.jsonc -s publication-wfs-bdd
+python3 -m sdk_entrepot_gpf workflow -f generic_vecteur.jsonc -s configuration-wfs-bdd
+python3 -m sdk_entrepot_gpf workflow -f generic_vecteur.jsonc -s publication-wfs-bdd
 # WMS depuis BDD
-python -m sdk_entrepot_gpf workflow -f generic_vecteur.jsonc -s configuration-wms-bdd
-python -m sdk_entrepot_gpf workflow -f generic_vecteur.jsonc -s publication-wms-bdd
+python3 -m sdk_entrepot_gpf workflow -f generic_vecteur.jsonc -s configuration-wms-bdd
+python3 -m sdk_entrepot_gpf workflow -f generic_vecteur.jsonc -s publication-wms-bdd
 # création pyramide et WFS
-python -m sdk_entrepot_gpf workflow -f generic_vecteur.jsonc -s création-pyramide
-python -m sdk_entrepot_gpf workflow -f generic_vecteur.jsonc -s configuration-tms-py
-python -m sdk_entrepot_gpf workflow -f generic_vecteur.jsonc -s publication-tms-py
+python3 -m sdk_entrepot_gpf workflow -f generic_vecteur.jsonc -s création-pyramide
+python3 -m sdk_entrepot_gpf workflow -f generic_vecteur.jsonc -s configuration-tms-py
+python3 -m sdk_entrepot_gpf workflow -f generic_vecteur.jsonc -s publication-tms-py
 ```
 
 Les commandes de mise en base et de création de pyramides ne sont pas instantanées : un traitement est effectué et les logs doivent vous être remontés.
