@@ -72,11 +72,13 @@ Supprimer en local le .md5 et lancer la commande en ajoutant -b DELETE si besoin
 Tapez
 ```sh
  rm -f 2_dataset_archive/CANTON.md5
- ```
+```
 
 Puis Tapez :
 
-``` python3 -m sdk_entrepot_gpf delivery 2_dataset_archive/upload_descriptor.json -b DELETE```.
+```sh
+python3 -m sdk_entrepot_gpf delivery 2_dataset_archive/upload_descriptor.json -b DELETE
+```.
 
 Le programme doit vous indiquer que le transfert est en cours, puis qu'il attend la fin des vérifications côté API avant de conclure que tout est bon.
 
