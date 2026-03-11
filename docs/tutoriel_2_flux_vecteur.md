@@ -69,19 +69,8 @@ Chaque dataset contient :
 
 Livrer les données en indiquant le chemin du fichier descripteur au programme :
 
-Nota bene : si le fichier des empreintes MD5 “CANTON.md5” est erroné
-
-Supprimer en local le .md5 et lancer la commande en ajoutant -b DELETE si besoin
-
-Tapez
 ```sh
-rm -f 1_dataset_vector/CANTON.md5
-```
-
-Puis Tapez :
-
-```sh
-python3 -m sdk_entrepot_gpf delivery 1_dataset_vector/upload_descriptor.json -b DELETE
+python3 -m sdk_entrepot_gpf delivery 1_dataset_vector/upload_descriptor.json
 ```.
 
 

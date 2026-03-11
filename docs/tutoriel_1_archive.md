@@ -65,19 +65,8 @@ La documentation du fichier descripteur est disponible [ici](upload_descriptor.m
 
 Livrer les données en indiquant le chemin du fichier descripteur au programme :
 
-Nota bene : si le fichier des empreintes MD5 “CANTON.md5” est erroné
-
-Supprimer en local le .md5 et lancer la commande en ajoutant -b DELETE si besoin
-
-Tapez
 ```sh
- rm -f 2_dataset_archive/CANTON.md5
-```
-
-Puis Tapez :
-
-```sh
-python3 -m sdk_entrepot_gpf delivery 2_dataset_archive/upload_descriptor.json -b DELETE
+python3 -m sdk_entrepot_gpf delivery 2_dataset_archive/upload_descriptor.json
 ```.
 
 Le programme doit vous indiquer que le transfert est en cours, puis qu'il attend la fin des vérifications côté API avant de conclure que tout est bon.
