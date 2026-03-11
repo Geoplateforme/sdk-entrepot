@@ -176,6 +176,13 @@ Si le transfert est interrompu pour quelque raison que ce soit, vous pouvez repr
 python3 -m sdk_entrepot_gpf delivery PCRS_descriptor.jsonc -b CONTINUE
 ```
 
+Si vous avez une erreur telle que la livraison existe déjà, alors rajouter l'option -b DELETE et supprime l'ancienne lvraison au préalable afin de recréer la nouvelle :
+
+```sh
+python3 -m sdk_entrepot_gpf delivery PCRS_descriptor.jsonc -b DELETE
+```
+
+
 Deux vérifications sont effectuées sur la livraison :
 
 * la **vérification standard** qui s'assure que les données ne sont pas corrompues lors du transfert ;
