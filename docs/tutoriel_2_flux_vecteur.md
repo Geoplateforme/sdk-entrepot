@@ -73,6 +73,12 @@ Livrer les données en indiquant le chemin du fichier descripteur au programme :
 python3 -m sdk_entrepot_gpf delivery 1_dataset_vector/upload_descriptor.json
 ```.
 
+Si vous avez une erreur telle que la livraison existe déjà, alors rajouter l'option -b DELETE et supprime l'ancienne lvraison au préalable afin de recréer la nouvelle :
+
+```sh
+python3 -m sdk_entrepot_gpf delivery 1_dataset_vector/upload_descriptor.json -b DELETE
+```.
+
 
 Le programme doit vous indiquer que le transfert est en cours, puis qu'il attend la fin des vérifications côté API avant de conclure que tout est bon.
 

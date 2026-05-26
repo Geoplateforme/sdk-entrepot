@@ -68,8 +68,14 @@ Chaque dataset contient :
 Livrez les données en indiquant le chemin du fichier descripteur au programme :
 
 ```sh
-python3 -m sdk_entrepot_gpf delivery 3_dataset_raster/upload_descriptor.json
-```.
+python3 -m sdk_entrepot_gpf delivery 3_dataset_raster/upload_descriptor.jsonc
+```
+
+Si vous avez une erreur telle que la livraison existe déjà, alors rajouter l'option -b DELETE et supprime l'ancienne lvraison au préalable afin de recréer la nouvelle :
+
+```sh
+python3 -m sdk_entrepot_gpf delivery 3_dataset_raster/upload_descriptor.jsonc -b DELETE
+```
 
 Le programme doit vous indiquer que le transfert est en cours, puis qu'il attend la fin des vérification côté API avant de conclure que tout est bon. (Memo : cette partie est assez longue du à des problèmes de performance côté back. Le problème a déjà été remonté.)
 
