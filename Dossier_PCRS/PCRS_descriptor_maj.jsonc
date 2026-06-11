@@ -5,8 +5,8 @@
                 "Rennes_Eurosense_PCRS"
             ],
             "upload_infos": {
-                "description": "Description de votre chantier (département, zone, date...)",
-                "name": "PCRS_Rennes_Eurosense",
+                "description": "Description de votre chantier (département, zone, date...) maj v2",
+                "name": "PCRS_Rennes_Eurosense_v3",
                 "srs": "EPSG:2154",
                 "type": "RASTER"
             },
@@ -15,7 +15,8 @@
             ],
             "tags": {
                 "datasheet_name": "PCRS_Rennes_Eurosense",
-                "type": "PCRS"
+                "type": "PCRS",
+                "version": "3"
             }
         }
     ]

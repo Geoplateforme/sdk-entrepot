@@ -18,7 +18,8 @@
                             },
                             "output": {
                                 "stored_data": {
-                                    "name": "{params.producteur}"
+                                    "name": "{params.producteur}",
+                                    "storage_tags": ["PYRAMIDE"]
                                 }
                             },
                             "parameters": {
@@ -225,7 +226,7 @@
                         "type": "processing-execution",
                         "body_parameters": {
 
-                            "processing": "{store_entity.processing.infos._id [INFOS(name=Calcul ou mise à jour de pyramide raster)]}",
+                            "processing": "{store_entity.processing.infos._id [INFOS(name=Calcul de pyramide raster)]}",
                             "inputs": {
                                 "upload": [
 

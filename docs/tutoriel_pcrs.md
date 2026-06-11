@@ -51,7 +51,7 @@ Dossier_PCRS/
     └── dalle_n.tif
 ```
 
-À la racine de votre dossier de travail, créez le fichier de configuration `config.ini` contenant les informations suivantes :
+1°) À la racine de votre dossier de travail, créez le fichier de configuration `config.ini` contenant les informations suivantes :
 
 ```ini
 # Informations pour l'authentification
@@ -70,9 +70,14 @@ password=********
 datastore=********
 ```
 
-Il faut compléter le fichier avec votre login/mot de passe et l'identifiant du datastore qui vous a été alloué.
+2°) Il faut compléter le fichier avec votre login/mot de passe et l'identifiant du datastore qui vous a été alloué.
 
-Vous pouvez tester la validité de votre fichier avec la commande suivante :
+On exporte la variable d'environnement tel que :
+```sh
+ export SDK_ENTREPOT_CONFIG_FILE=~/sdk-entrepot/Dossier_PCRS/config.ini
+```
+
+3°) Vous pouvez tester la validité de votre fichier avec la commande suivante :
 
 ```sh
 python3 -m sdk_entrepot_gpf me
@@ -112,7 +117,7 @@ Il peut être nécessaire de rajouter certains paramètres pour que cela fonctio
 
 ## Livraison
 
-Vous allez devoir créer un fichier `PCRS_descriptor.jsonc` qui décrit votre livraison à la racine de votre dossier de travail avec les informations suivantes :
+4°) Vous allez devoir créer un fichier `PCRS_descriptor.jsonc` qui décrit votre livraison à la racine de votre dossier de travail avec les informations suivantes :
 
 ```json
 {
@@ -162,7 +167,7 @@ Dossier_PCRS/
     └── dalle_n.tif
 ```
 
-Vous pouvez maintenant effectuer la livraison en lançant la commande depuis la racine de votre dossier de travail ou en indiquant le chemin du fichier descripteur au programme :
+5°) Vous pouvez maintenant effectuer la livraison en lançant la commande depuis la racine de votre dossier de travail ou en indiquant le chemin du fichier descripteur au programme :
 
 ```sh
 python3 -m sdk_entrepot_gpf delivery PCRS_descriptor.jsonc
@@ -220,7 +225,7 @@ python3 -m sdk_entrepot_gpf example workflow PCRS.jsonc
 
 Pour plus de détails, vous pouvez consulter la [documentation sur les workflows](workflow.md).
 
-Une fois que vous avez placé le fichier `PCRS.jsonc` dans votre arborescence,, vous pouvez générer la pyramide en lançant la commande :
+6°) Une fois que vous avez placé le fichier `PCRS.jsonc` dans votre arborescence,, vous pouvez générer la pyramide en lançant la commande :
 
 ```sh
 # partie génération de la pyramide
@@ -241,7 +246,7 @@ python3 -m sdk_entrepot_gpf workflow -f PCRS.jsonc -s pyramide --param producteu
 
 ### Publication des couches WMS et WMTS
 
-Une fois la pyramide générée, il ne reste plus qu’à publier vos couches. Pour cela, lancez la commande :
+7°) Une fois la pyramide générée, il ne reste plus qu’à publier vos couches. Pour cela, lancez la commande :
 
 ```sh
 # partie publication
@@ -287,7 +292,7 @@ Si une mise à jour concerne l'ensemble du territoire d'une APLC (Autorité Publ
 
 Si une mise à jour ne concerne qu'une emprise limitée, vous allez pouvoir créer une nouvelle pyramide qui prendra en compte les nouvelles dalles et mettre à jour les offres.
 
-Pour cela, livrez les nouvelles dalles en ajoutant un tag `version` à votre fichier descripteur :
+8°) Pour cela, livrez les nouvelles dalles en ajoutant un tag `version` à votre fichier descripteur :
 
 ```json
 {
@@ -319,7 +324,7 @@ Pour cela, livrez les nouvelles dalles en ajoutant un tag `version` à votre fic
 python3 -m sdk_entrepot_gpf delivery PCRS_descriptor_maj.jsonc
 ```
 
-Puis, générez la nouvelle pyramide avec la commande suivante (laissez le paramètre `old_version` vide si il s'agit d'une mise à jour de la pyramide initiale) :
+9°) Puis, générez la nouvelle pyramide avec la commande suivante (laissez le paramètre `old_version` vide si il s'agit d'une mise à jour de la pyramide initiale) :
 
 ```sh
 python3 -m sdk_entrepot_gpf workflow -f PCRS.jsonc -s pyramide_maj --param producteur $votre_chantier_PCRS --param old_version "" --param new_version 2
@@ -331,13 +336,13 @@ Dans le cas d'une mise à jour itérative, renseignez le paramètre `old_version
 python3 -m sdk_entrepot_gpf workflow -f PCRS.jsonc -s pyramide_maj --param producteur $votre_chantier_PCRS --param old_version 2 --param new_version 3
 ```
 
-Vous pouvez ensuite mettre à jour les offres avec la commande :
+10°) Vous pouvez ensuite mettre à jour les offres avec la commande :
 
 ```sh
 python3 -m sdk_entrepot_gpf workflow -f PCRS.jsonc -s publication_maj --param producteur $votre_chantier_PCRS --param old_version "" --param new_version 2
 ```
 
-Une fois que vous avez validé les nouvelles offres, vous pouvez si vous souhaitez faire de l'historisation pour comparer (attention aux quotas de votre datastore) :
+11°) Une fois que vous avez validé les nouvelles offres, vous pouvez si vous souhaitez faire de l'historisation pour comparer (attention aux quotas de votre datastore) :
 
 ```sh
 # Si vous souhaitez publier l'ancienne pyramide
