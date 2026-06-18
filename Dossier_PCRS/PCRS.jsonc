@@ -62,7 +62,7 @@
 
                                         "stored_data": "{store_entity.stored_data.infos._id [INFOS(name={params.producteur}), TAGS(type=PCRS)]}",
                                         "bottom_level": "22",
-                                        "top_level": "6"
+                                        "top_level": "1"
                                     }
                                 ]
                             }
@@ -105,7 +105,7 @@
 
                                         "stored_data": "{store_entity.stored_data.infos._id [INFOS(name={params.producteur}), TAGS(type=PCRS)]}",
                                         "bottom_level": "22",
-                                        "top_level": "6"
+                                        "top_level": "1"
                                     }
                                 ]
                             }
@@ -278,7 +278,7 @@
                             {
                                 "stored_data": "{store_entity.stored_data.infos._id [INFOS(name={params.producteur}{params.new_version}), TAGS(type=PCRS)]}",
                                 "bottom_level": "22",
-                                "top_level": "6"
+                                "top_level": "1"
                             }
                         ],
 
@@ -295,7 +295,7 @@
                             {
                                 "stored_data": "{store_entity.stored_data.infos._id [INFOS(name={params.producteur}{params.new_version}), TAGS(type=PCRS)]}",
                                 "bottom_level": "22",
-                                "top_level": "6"
+                                "top_level": "1"
                             }
                         ],
 
