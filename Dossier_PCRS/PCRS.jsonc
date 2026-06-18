@@ -61,7 +61,7 @@
                                         // On récupère l'id de la Donnée Stockée créée à l'étape précédente grâce à son nom, son type et l'un de ses tags
                                         "stored_data": "{store_entity.stored_data.infos._id [INFOS(name={params.producteur}), TAGS(type=PCRS)]}",
                                         "bottom_level": "22",
-                                        "top_level": "6"
+                                        "top_level": "1"
                                     }
                                 ]
                             }
@@ -105,7 +105,7 @@
                                         // On récupère l'id de la Donnée Stockée créée à l'étape précédente grâce à son nom, son type et l'un de ses tags
                                         "stored_data": "{store_entity.stored_data.infos._id [INFOS(name={params.producteur}), TAGS(type=PCRS)]}",
                                         "bottom_level": "22",
-                                        "top_level": "6"
+                                        "top_level": "1"
                                     }
                                 ]
                             }
@@ -278,7 +278,7 @@
                             {
                                 "stored_data": "{store_entity.stored_data.infos._id [INFOS(name={params.producteur}{params.new_version}), TAGS(type=PCRS)]}",
                                 "bottom_level": "22",
-                                "top_level": "6"
+                                "top_level": "1"
                             }
                         ],
                         // Optionnel : si on veut mettre à jour la BBox avec les données utilisées (bbox calculée après la modification des used_data). Par défaut à false.
@@ -295,7 +295,7 @@
                             {
                                 "stored_data": "{store_entity.stored_data.infos._id [INFOS(name={params.producteur}{params.new_version}), TAGS(type=PCRS)]}",
                                 "bottom_level": "22",
-                                "top_level": "6"
+                                "top_level": "1"
                             }
                         ],
                         // Optionnel : si on veut mettre à jour la BBox avec les données utilisées (bbox calculée après la modification des used_data). Par défaut à false.
@@ -341,7 +341,7 @@
                                         // On récupère l'id de la Donnée Stockée créée à l'étape précédente grâce à son nom, son type et l'un de ses tags
                                         "stored_data": "{store_entity.stored_data.infos._id [INFOS(name={params.producteur}{params.old_version}), TAGS(type=PCRS)]}",
                                         "bottom_level": "22",
-                                        "top_level": "6"
+                                        "top_level": "1"
                                     }
                                 ]
                             }
@@ -385,7 +385,7 @@
                                         // On récupère l'id de la Donnée Stockée créée à l'étape précédente grâce à son nom, son type et l'un de ses tags
                                         "stored_data": "{store_entity.stored_data.infos._id [INFOS(name={params.producteur}{params.old_version}), TAGS(type=PCRS)]}",
                                         "bottom_level": "22",
-                                        "top_level": "6"
+                                        "top_level": "1"
                                     }
                                 ]
                             }
