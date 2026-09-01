@@ -21,6 +21,19 @@ class Configuration(TagInterface, CommentInterface, EventInterface, FullEditInte
     STATUS_PUBLISHED = "PUBLISHED"
     STATUS_SYNCHRONIZING = "SYNCHRONIZING"
 
+    # Types de flux valides pour une configuration (cf. clef "type" des body_parameters)
+    VALID_TYPES = [
+        "WFS",
+        "WMTS-TMS",
+        "WMS-VECTOR",
+        "WMS-RASTER",
+        "DOWNLOAD",
+        "ITINERARY-ISOCURVE",
+        "ALTIMETRY",
+        "SEARCH",
+        "VECTOR-TMS",
+    ]
+
     def api_list_offerings(self) -> List[Offering]:
         """Liste les Offering liées à cette Configuration.
         Returns:
