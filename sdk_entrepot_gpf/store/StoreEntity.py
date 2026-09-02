@@ -162,7 +162,7 @@ class StoreEntity(ABC):
         return l_fields if l_fields else None
 
     @classmethod
-    def api_list(cls: Type[T], infos_filter: Optional[Dict[str, str]] = None, tags_filter: Optional[Dict[str, str]] = None, page: Optional[int] = None, datastore: Optional[str] = None) -> List[T]:
+    def api_list(cls: Type[T], infos_filter: Optional[Dict[str, Any]] = None, tags_filter: Optional[Dict[str, str]] = None, page: Optional[int] = None, datastore: Optional[str] = None) -> List[T]:
         """Liste les entités de l'API respectant les paramètres donnés.
 
         Args:
