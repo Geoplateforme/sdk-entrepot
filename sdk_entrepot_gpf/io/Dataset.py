@@ -9,7 +9,7 @@ class Dataset:
     """Classe portante les infos nécessaires à la création d'une livraison et issues du dataset.
 
     Attributes:
-        __data_dirs (List[Path]): Liste des dossiers à envoyer à l'API
+        __data_dirs (List[Path]): Liste des dossiers et/ou fichiers à envoyer à l'API
         __upload_infos (Dict[str, str]): Informations permettant de créer la livraison
         __comments (List[str]): Commentaires à ajouter à la livraison
         __tags (Dict[str, str]): Tags à ajouter à la livraison
@@ -43,15 +43,31 @@ class Dataset:
         """Liste tous les fichiers de données à importer sur l'entrepôt API.
         Pour chaque fichier, on associe son Path local au chemin qui sera fourni à l'API.
         ex : Path(/root/dataset/data/fichier.shp) => "dataset/data"
+
+        Les éléments de __data_dirs peuvent être des dossiers (comportement historique, listés
+        récursivement) ou directement des fichiers (ajoutés tels quels à __data_files).
         """
         p_abs_root_dir = self.__root_dir.absolute()
         for p_dir in self.__data_dirs:
-            self.__list_rec(p_abs_root_dir, p_dir)
+            p_abs_elt = p_abs_root_dir / p_dir
+            if p_abs_elt.is_dir():
+                self.__list_rec(p_abs_root_dir, p_dir)
+            elif p_abs_elt.is_file():
+                # Création du chemin relatif pour l'API
+                try:
+                    p_api = p_abs_elt.relative_to(self.__root_dir)
+                except ValueError:
+                    p_api = p_abs_elt
+                # Remplissage du dictionnaire __data_files
+                self.__data_files[p_abs_elt] = p_api.parent.as_posix()
 
     def __generate_md5_files(self) -> None:
         """Génère les fichiers de clés md5 à importer sur l'entrepôt API.
         Pour chaque dossier de donnée, cherche un fichier .md5 correspondant,
         s'il n'existe pas il est créé et rempli en parcourant les fichiers enfants du dossier.
+        Pour chaque fichier de donnée (élément de __data_dirs qui n'est pas un dossier), cherche
+        un fichier .md5 correspondant (nom complet du fichier suffixé par .md5), s'il n'existe
+        pas il est créé et rempli avec la clé md5 de ce seul fichier.
         S'il existe, rien n'est fait.
         """
         p_abs_root_dir = self.__root_dir.absolute()
@@ -59,28 +75,31 @@ class Dataset:
 
         # On parcourt le dictionnaire des répertoires
         for p_dir in self.__data_dirs:
-            p_md5_dir = Path(p_abs_root_dir / p_dir)
-            p_md5_dir_suf = p_md5_dir.with_suffix(".md5")
+            p_elt = Path(p_abs_root_dir / p_dir)
+            b_is_dir = p_elt.is_dir()
+            # Pour un dossier, le fichier md5 remplace l'extension (ex: CANTON -> CANTON.md5)
+            # Pour un fichier, le fichier md5 est ajouté après l'extension (ex: CANTON.shp -> CANTON.shp.md5)
+            p_md5_suf = p_elt.with_suffix(".md5") if b_is_dir else Path(f"{p_elt}.md5")
 
             # On teste si le fichier md5 existe, sinon on le crée
-            if not p_md5_dir_suf.exists():
-                Config().om.info(f"Le fichier md5 {p_md5_dir_suf.relative_to(self.__root_dir)} n'existe pas, il va être créé")
+            if not p_md5_suf.exists():
+                Config().om.info(f"Le fichier md5 {p_md5_suf.relative_to(self.__root_dir)} n'existe pas, il va être créé")
 
                 # On parcourt les fichiers pour remplir un dictionnaire temporaire
                 # la liste des fichiers est ordonnée selon le chemin complet du ficher
                 d_md5 = {}
                 for p_file in sorted(self.__data_files, key=str):
-                    if p_md5_dir in p_file.parents:
+                    if (b_is_dir and p_elt in p_file.parents) or (not b_is_dir and p_file == p_elt):
                         p_file_trunc = p_file.relative_to(self.__root_dir)
                         d_md5[p_file_trunc] = FileHelper.md5_hash(p_file)
 
                 # A la fin on rempli le fichier .md5
-                with open(p_md5_dir_suf, "w", encoding="utf-8") as o_md5_file:
+                with open(p_md5_suf, "w", encoding="utf-8") as o_md5_file:
                     for p_file, s_md5 in d_md5.items():
                         o_md5_file.write(f"{s_pattern}\n".format(md5_key=s_md5, file_path=p_file.as_posix()))
 
             # Enfin, on l'ajoute à la liste des fichiers md5
-            self.__md5_files.append(p_md5_dir_suf)
+            self.__md5_files.append(p_md5_suf)
 
     @property
     def data_dirs(self) -> List[Path]:
