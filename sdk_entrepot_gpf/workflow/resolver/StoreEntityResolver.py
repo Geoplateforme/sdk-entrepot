@@ -3,7 +3,7 @@ import re
 from typing import Any, Dict, Optional, Pattern, Type
 
 from sdk_entrepot_gpf.workflow.resolver.AbstractResolver import AbstractResolver
-from sdk_entrepot_gpf.workflow.resolver.Errors import NoEntityFoundError, ResolverError
+from sdk_entrepot_gpf.workflow.resolver.Errors import InvalidFilterValueError, NoEntityFoundError, ResolverError
 from sdk_entrepot_gpf.store.interface.TagInterface import TagInterface
 from sdk_entrepot_gpf.store.Processing import Processing
 from sdk_entrepot_gpf.store.StoredData import StoredData
@@ -80,6 +80,10 @@ class StoreEntityResolver(AbstractResolver):
         d_filter_tags = StoreEntity.filter_dict_from_str(s_filter_tags)
         # On récupère le type de StoreEntity demandé
         s_entity_type = str(d_groups["entity_type"])
+        # Cas particulier des configurations : la clef "type" ne peut prendre qu'un nombre fini de valeurs.
+        # On vérifie ici la valeur fournie pour lever une erreur explicite avant l'appel API si elle est invalide.
+        if s_entity_type == Configuration.entity_name() and "type" in d_filter_infos and d_filter_infos["type"] not in Configuration.VALID_TYPES:
+            raise InvalidFilterValueError(self.name, string_to_solve, "type", d_filter_infos["type"], Configuration.VALID_TYPES)
         # On liste les éléments API via la fonction de classe
         l_entities = self.__key_to_cls[s_entity_type].api_list(
             infos_filter=d_filter_infos,
