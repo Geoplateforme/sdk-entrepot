@@ -22,7 +22,7 @@ Sinon, la solution consiste à cliquer sur « mot de passe oublié » :
 - Cliquer sur « mdp oublié » : https://sso.geopf.fr/realms/geoplateforme/login-actions/reset-credentials?client_id=account-console&tab_id=C_DLxyHTc4M
 - Ensuite, récupérer son nom d'utilisateur.
 
-Récupération de son nom d'utilisateur
+## Récupération du nom d'utilisateur
 
 Sur la page "Informations personnelles" du compte, vous trouverez votre nom d'utilisateur.
 
