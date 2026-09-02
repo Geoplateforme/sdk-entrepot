@@ -16,11 +16,11 @@ Dans un premier temps il faut vérifier si un mdp est lié à notre compte GPF i
 
 Si c'est le cas, il faut récupérer son nom d'utilisateur.
 
-Sinon, la solution consiste à cliquer sur mot de passe oublier :
+Sinon, la solution consiste à cliquer sur « mot de passe oublié » :
 
-    il faut se déconnecter, ce qui nous renvoi ici : https://sso.geopf.fr/realms/geoplateforme/protocol/openid-connect/auth
-    cliquer sur mdp oublié : https://sso.geopf.fr/realms/geoplateforme/login-actions/reset-credentials?client_id=account-console&tab_id=C_DLxyHTc4M
-    ensuite, il faut récupérer son nom d'utilisateur.
+- Se déconnecter (redirige vers : https://sso.geopf.fr/realms/geoplateforme/protocol/openid-connect/auth)
+- Cliquer sur « mdp oublié » : https://sso.geopf.fr/realms/geoplateforme/login-actions/reset-credentials?client_id=account-console&tab_id=C_DLxyHTc4M
+- Ensuite, récupérer son nom d'utilisateur.
 
 Récupération de son nom d'utilisateur
 
