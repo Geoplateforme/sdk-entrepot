@@ -151,12 +151,12 @@ class StoreEntity(ABC):
         """
         l_fields: List[str] = []
         # champs définis par la classe
-        if cls._entity_fields is not None:
-            l_fields += cls._entity_fields.split(",")
+        if cls._entity_fields:
+            l_fields += [f.strip() for f in cls._entity_fields.split(",") if f.strip()]
         # champs définis dans la configuration
         s_config_fields = Config().get("store_api", f"{cls._entity_name}_list_fields")
         if s_config_fields:
-            l_fields += s_config_fields.split(",")
+            l_fields += [f.strip() for f in s_config_fields.split(",") if f.strip()]
         # suppression des doublons en conservant l'ordre
         l_fields = list(dict.fromkeys(l_fields))
         return l_fields if l_fields else None
