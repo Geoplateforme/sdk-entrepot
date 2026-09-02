@@ -1,4 +1,4 @@
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from sdk_entrepot_gpf.store.Errors import StoreEntityError
 from sdk_entrepot_gpf.store.Offering import Offering
@@ -21,11 +21,22 @@ class Configuration(TagInterface, CommentInterface, EventInterface, FullEditInte
     STATUS_PUBLISHED = "PUBLISHED"
     STATUS_SYNCHRONIZING = "SYNCHRONIZING"
 
-    def api_list_offerings(self) -> List[Offering]:
+    def api_list_offerings(self, fields: Optional[List[str]] = None) -> List[Offering]:
         """Liste les Offering liées à cette Configuration.
+
+        Args:
+            fields: liste des champs souhaités dans la réponse. Si précisée, elle est utilisée telle quelle
+                (l'utilisateur surcharge ainsi la liste des champs demandés) ; sinon la liste est calculée
+                via `Offering.get_fields()`.
+
         Returns:
             List[Offering]: liste des Offering trouvées
         """
+        # Calcul des champs à demander si non précisés par l'utilisateur
+        l_fields = fields if fields is not None else Offering.get_fields()
+
+        # Paramètres de la requête
+        d_params: Dict[str, Any] = {"fields": l_fields} if l_fields is not None else {}
 
         # Génération du nom de la route
         s_route = f"{self._entity_name}_list_offerings"
@@ -34,6 +45,7 @@ class Configuration(TagInterface, CommentInterface, EventInterface, FullEditInte
             s_route,
             method=ApiRequester.GET,
             route_params={"datastore": self.datastore, self._entity_name: self.id},
+            params=d_params,
         )
         # Instanciation de chaque élément renvoyé dans la liste
         l_offerings: List[Offering] = [Offering(i, datastore=self.datastore) for i in o_response.json()]
