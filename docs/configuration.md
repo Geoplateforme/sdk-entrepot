@@ -7,7 +7,7 @@ Consultez la doc en ligne ici : https://geoplateforme.github.io/sdk-entrepot/
 Le lien vers cette page devrait être : https://geoplateforme.github.io/sdk-entrepot/configuration/
 -->
 
-# Doc : guider l'utilisateur sur la connexion
+## Connexion (AgentConnect / FranceConnect)
 
 Certains utilisateurs utilisent un compte AgentConnect ou FranceConnect pour se connecter. Ils n'ont alors pas de mot de passe lié à leur compte GPF : l'authentification par mot de passe n'est donc pas possible.
 Vérifiez qu'un mot de passe est défini pour votre compte GPF (ou définissez-en un).
