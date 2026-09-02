@@ -28,7 +28,7 @@ Sur la page "Informations personnelles" du compte, vous trouverez votre nom d'ut
 
 Page : https://sso.geopf.fr/realms/geoplateforme/account/#/
 
-[documentation_configuration](/docs/assets/images/documentation_configuration.png)
+![Capture d'écran : informations personnelles (nom d'utilisateur)](assets/images/documentation_configuration.png)
 
 Exemple de vue :
 
