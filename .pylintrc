@@ -35,7 +35,7 @@ py-version=3.8
 
 # When enabled, pylint would attempt to guess common misconfiguration and emit
 # user-friendly hints instead of false-positive error messages.
-suggestion-mode=yes
+# suggestion-mode removed: not supported by installed pylint version
 
 # Allow loading of arbitrary C extensions. Extensions are imported into the
 # active Python interpreter and may run arbitrary code.
@@ -216,21 +216,7 @@ enable=
     using-f-string-in-unsupported-version,
     using-final-decorator-in-unsupported-version,
     modified-iterating-list,
-    multiple-constructor-doc,
-    missing-raises-doc,
-    redundant-returns-doc,
-    redundant-yields-doc,
-    missing-return-doc,
-    missing-return-type-doc,
-    missing-yield-doc,
-    missing-yield-type-doc,
-    missing-param-doc,
-    missing-type-doc,
-    differing-param-doc,
-    differing-type-doc,
-    useless-param-doc,
-    useless-type-doc,
-    missing-any-param-doc,
+    # Removed docstring-specific checks (not supported by current pylint)
     boolean-datetime,
     # Refactorisations
     literal-comparison,
@@ -302,8 +288,7 @@ enable=
     unidiomatic-typecheck,
     typevar-double-variance,
     typevar-name-mismatch,
-    bad-docstring-quotes,
-    docstring-first-line-empty,
+    # Removed docstring-specific checks (not supported by current pylint)
     consider-using-enumerate,
     consider-iterating-dictionary,
     bad-classmethod-argument,
@@ -350,25 +335,8 @@ enable=
     deprecated-pragma,
     use-symbolic-message-instead,
     c-extension-no-member,
-    # Docstrings
-    bad-docstring-quotes,
-    differing-param-doc,
-    differing-type-doc,
-    multiple-constructor-doc,
-    differing-param-doc,
-    missing-param-doc,
-    missing-type-doc,
-    missing-raises-doc,
-    missing-return-type-doc,
-    useless-param-doc,
-    useless-type-doc,
-    missing-yield-doc,
-    missing-yield-type-doc,
-    redundant-returns-doc,
-    redundant-yields-doc,
-    docstring-first-line-empty,
-    # Empty comment
-    empty-comment,
+    # Docstring-related checks removed for compatibility with current pylint
+    # (previously included many custom docstring message names).
 
 
 [LOGGING]

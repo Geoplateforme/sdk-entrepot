@@ -7,6 +7,10 @@ Consultez la doc en ligne ici : https://geoplateforme.github.io/sdk-entrepot/
 Le lien vers cette page devrait être : https://geoplateforme.github.io/sdk-entrepot/tutoriel_1_archive/
 -->
 
+**Nota Bene** : rajouter le numéro de version devant la variable python en ligne de commande :
+exemple si c'est la version de python est 3.X :
+mettre `python3` dans la ligne de commande et ceci pour chaque ligne de commande faisant appel à la commande python.
+
 # Tutoriel 1 : publier une archive
 
 La Géoplateforme permet d'héberger vos fichiers pour permettre à vos utilisateur de les télécharger simplement.
@@ -62,8 +66,14 @@ La documentation du fichier descripteur est disponible [ici](upload_descriptor.m
 Livrer les données en indiquant le chemin du fichier descripteur au programme :
 
 ```sh
-python -m sdk_entrepot_gpf delivery 2_dataset_archive/upload_descriptor.json
+python3 -m sdk_entrepot_gpf delivery 2_dataset_archive/upload_descriptor.json
 ```
+
+Si vous avez une erreur telle que la livraison existe déjà, alors rajouter l'option -b DELETE et supprime l'ancienne lvraison au préalable afin de recréer la nouvelle :
+
+```sh
+python3 -m sdk_entrepot_gpf delivery 2_dataset_archive/upload_descriptor.json -b DELETE
+```.
 
 Le programme doit vous indiquer que le transfert est en cours, puis qu'il attend la fin des vérifications côté API avant de conclure que tout est bon.
 

@@ -1,8 +1,7 @@
 from http import HTTPStatus
-from io import BufferedReader
 import json
 from pathlib import Path
-from typing import Dict, Tuple
+from typing import BinaryIO, Dict, Tuple
 from unittest.mock import MagicMock, patch, mock_open
 import requests
 import requests_mock
@@ -38,7 +37,7 @@ class ApiRequesterTestCase(GpfTestCase):
         "data_key_1": "value_1",
         "data_key_2": 2,
     }
-    files: Dict[str, Tuple[str, BufferedReader]] = {}
+    files: Dict[str, Tuple[str, BinaryIO]] = {}
     response = {"key": "value"}
 
     @classmethod

@@ -517,7 +517,7 @@ Synchronisation d'une ou plusieurs offres avec leur configuration et stored-data
 }
 ```
 
-* suppression par filtrage sur la liste des offres, possibilité de synchroniser plusieurs offres en même temps
+* Synchronisation par filtrage sur la liste des offres, possibilité de synchroniser plusieurs offres en même temps
 
 ```json
 {
