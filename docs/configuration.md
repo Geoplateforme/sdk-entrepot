@@ -9,8 +9,8 @@ Le lien vers cette page devrait être : https://geoplateforme.github.io/sdk-entr
 
 # Doc : guider l'utilisateur sur la connexion
 
-Certains utilisateurs utilisent un compte AgentConnect ou FranceConnect pour se connecter. Ils n'ont alors pas de mot de passe lié à leur compte GPF. En l'état il est impossible d'utiliser le SDK...
-Vérifier qu'on a un mdp ou le définir
+Certains utilisateurs utilisent un compte AgentConnect ou FranceConnect pour se connecter. Ils n'ont alors pas de mot de passe lié à leur compte GPF : l'authentification par mot de passe n'est donc pas possible.
+Vérifiez qu'un mot de passe est défini pour votre compte GPF (ou définissez-en un).
 
 Dans un premier temps il faut vérifier si un mdp est lié à notre compte GPF ici : https://sso.geopf.fr/realms/geoplateforme/account/#/account-security/signing-in
 
