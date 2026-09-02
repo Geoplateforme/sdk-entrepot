@@ -32,7 +32,7 @@ class Dataset:
         self.__tags: Dict[str, str] = dataset["tags"]
         self.__data_files: Dict[Path, str] = {}
         self.__md5_files: List[Path] = []
-        self.__root_dir: Path = p_root_dir
+        self.__root_dir: Path = p_root_dir.resolve()
 
         # Listing des fichiers de donnée à envoyer
         self.__list_data_files()
@@ -47,19 +47,20 @@ class Dataset:
         Les éléments de __data_dirs peuvent être des dossiers (comportement historique, listés
         récursivement) ou directement des fichiers (ajoutés tels quels à __data_files).
         """
-        p_abs_root_dir = self.__root_dir.absolute()
         for p_dir in self.__data_dirs:
-            p_abs_elt = p_abs_root_dir / p_dir
+            p_abs_elt = (self.__root_dir / p_dir).resolve()
+            if not p_abs_elt.exists():
+                raise FileNotFoundError(f"Le chemin de données '{p_dir}' est introuvable dans '{self.__root_dir}'.")
             if p_abs_elt.is_dir():
-                self.__list_rec(p_abs_root_dir, p_dir)
+                self.__list_rec(self.__root_dir, p_dir)
             elif p_abs_elt.is_file():
-                # Création du chemin relatif pour l'API
                 try:
                     p_api = p_abs_elt.relative_to(self.__root_dir)
-                except ValueError:
-                    p_api = p_abs_elt
-                # Remplissage du dictionnaire __data_files
+                except ValueError as o_error:
+                    raise ValueError(f"Le chemin de données '{p_dir}' est hors du répertoire racine '{self.__root_dir}'.") from o_error
                 self.__data_files[p_abs_elt] = p_api.parent.as_posix()
+            else:
+                raise ValueError(f"Le chemin de données '{p_dir}' n'est ni un dossier ni un fichier valide.")
 
     def __generate_md5_files(self) -> None:
         """Génère les fichiers de clés md5 à importer sur l'entrepôt API.
@@ -70,12 +71,15 @@ class Dataset:
         pas il est créé et rempli avec la clé md5 de ce seul fichier.
         S'il existe, rien n'est fait.
         """
-        p_abs_root_dir = self.__root_dir.absolute()
         s_pattern = Config().get("upload", "md5_pattern")
 
         # On parcourt le dictionnaire des répertoires
         for p_dir in self.__data_dirs:
-            p_elt = Path(p_abs_root_dir / p_dir)
+            p_elt = (self.__root_dir / p_dir).resolve()
+            if not p_elt.exists():
+                raise FileNotFoundError(f"Le chemin de données '{p_dir}' est introuvable dans '{self.__root_dir}'.")
+            if not p_elt.is_dir() and not p_elt.is_file():
+                raise ValueError(f"Le chemin de données '{p_dir}' n'est ni un dossier ni un fichier valide.")
             b_is_dir = p_elt.is_dir()
             # Pour un dossier, le fichier md5 remplace l'extension (ex: CANTON -> CANTON.md5)
             # Pour un fichier, le fichier md5 est ajouté après l'extension (ex: CANTON.shp -> CANTON.shp.md5)
@@ -90,7 +94,10 @@ class Dataset:
                 d_md5 = {}
                 for p_file in sorted(self.__data_files, key=str):
                     if (b_is_dir and p_elt in p_file.parents) or (not b_is_dir and p_file == p_elt):
-                        p_file_trunc = p_file.relative_to(self.__root_dir)
+                        try:
+                            p_file_trunc = p_file.relative_to(self.__root_dir)
+                        except ValueError as o_error:
+                            raise ValueError(f"Le chemin de données '{p_file}' est hors du répertoire racine '{self.__root_dir}'.") from o_error
                         d_md5[p_file_trunc] = FileHelper.md5_hash(p_file)
 
                 # A la fin on rempli le fichier .md5
@@ -133,20 +140,16 @@ class Dataset:
             path_rep (Path): Chemin du dossier à lister
         """
 
-        p_rep = root_dir / path_rep
-        l_elt = p_rep.iterdir()
-
-        for p_elt in l_elt:
-            p_rep_elt = path_rep / p_elt
+        p_rep = (root_dir / path_rep).resolve()
+        for p_elt in p_rep.iterdir():
+            p_rep_elt = (p_rep / p_elt.name).resolve()
             # Appel récursif si l'élément est un dossier
             if p_elt.is_dir():
-                self.__list_rec(p_rep, Path(p_elt.name))
+                self.__list_rec(root_dir, p_rep_elt.relative_to(root_dir))
             # L'élément est un fichier
             elif p_elt.is_file():
-                # Création du chemin relatif pour l'API
                 try:
-                    p_api = p_rep_elt.relative_to(self.__root_dir)
-                except ValueError:
-                    p_api = p_rep_elt
-                # Remplissage du dictionnaire __data_files
+                    p_api = p_rep_elt.relative_to(root_dir)
+                except ValueError as o_error:
+                    raise ValueError(f"Le chemin de données '{p_rep_elt}' est hors du répertoire racine '{root_dir}'.") from o_error
                 self.__data_files[p_rep_elt] = p_api.parent.as_posix()

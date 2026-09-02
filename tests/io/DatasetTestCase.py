@@ -1,3 +1,4 @@
+import tempfile
 from pathlib import Path
 
 from sdk_entrepot_gpf.helper.FileHelper import FileHelper
@@ -76,3 +77,23 @@ class DatasetTestCase(GpfTestCase):
         s_data_md5 = p_md5.read_text(encoding="UTF-8")
         s_md5 = FileHelper.md5_hash(p_root / "standalone.txt")
         self.assertIn(f"{s_md5}  standalone.txt", s_data_md5)
+
+    def test_init_with_invalid_data_dir(self) -> None:
+        """Test du constructeur avec un data_dirs introuvable."""
+        p_root = GpfTestCase.data_dir_path / "datasets" / "3_test_dataset_sub_dir"
+        d_dataset = {"data_dirs": ["missing_dir"], "upload_infos": {}, "comments": [], "tags": {}}
+
+        with self.assertRaises(FileNotFoundError):
+            Dataset(d_dataset, p_root)
+
+    def test_init_with_data_dir_outside_root(self) -> None:
+        """Test du constructeur avec un data_dirs hors du dossier racine."""
+        with tempfile.TemporaryDirectory() as s_tmp_dir:
+            p_root = Path(s_tmp_dir) / "root"
+            p_root.mkdir()
+            p_outside = Path(s_tmp_dir) / "outside.txt"
+            p_outside.write_text("outside", encoding="utf-8")
+            d_dataset = {"data_dirs": ["../outside.txt"], "upload_infos": {}, "comments": [], "tags": {}}
+
+            with self.assertRaises(ValueError):
+                Dataset(d_dataset, p_root)
