@@ -138,11 +138,37 @@ class StoreEntity(ABC):
         return cls(o_response.json(), datastore)
 
     @classmethod
-    def api_list(cls: Type[T], infos_filter: Optional[Dict[str, str]] = None, tags_filter: Optional[Dict[str, str]] = None, page: Optional[int] = None, datastore: Optional[str] = None) -> List[T]:
+    def get_fields(cls: Type[T]) -> Optional[List[str]]:
+        """Calcule la liste des champs à demander à l'API lors d'un listing.
+
+        La liste est constituée (dans cet ordre, sans doublons) :
+
+        * des champs définis dans l'attribut de classe `_entity_fields` ;
+        * des champs définis dans la configuration, clé `{cls._entity_name}_list_fields` (section `store_api`).
+
+        Returns:
+            (Optional[List[str]]): liste des champs à demander, `None` si aucun n'est défini.
+        """
+        l_fields: List[str] = []
+        # champs définis par la classe
+        if cls._entity_fields:
+            l_fields += [f.strip() for f in cls._entity_fields.split(",") if f.strip()]
+        # champs définis dans la configuration
+        s_config_fields = Config().get("store_api", f"{cls._entity_name}_list_fields")
+        if s_config_fields:
+            l_fields += [f.strip() for f in s_config_fields.split(",") if f.strip()]
+        # suppression des doublons en conservant l'ordre
+        l_fields = list(dict.fromkeys(l_fields))
+        return l_fields if l_fields else None
+
+    @classmethod
+    def api_list(cls: Type[T], infos_filter: Optional[Dict[str, Any]] = None, tags_filter: Optional[Dict[str, str]] = None, page: Optional[int] = None, datastore: Optional[str] = None) -> List[T]:
         """Liste les entités de l'API respectant les paramètres donnés.
 
         Args:
-            infos_filter: Filtres sur les attributs sous la forme `{"nom_attribut": "valeur_attribut"}`
+            infos_filter: Filtres sur les attributs sous la forme `{"nom_attribut": "valeur_attribut"}`.
+                Si une clé `fields` y est précisée, elle est utilisée telle quelle (l'utilisateur surcharge
+                ainsi la liste des champs demandés) ; sinon la liste est calculée via `get_fields()`.
             tags_filter: Filtres sur les tags sous la forme `{"nom_tag": "valeur_tag"}`
             page: Numéro page à récupérer, toutes si None.
             datastore: Identifiant du datastore
@@ -160,9 +186,11 @@ class StoreEntity(ABC):
         # Fusion des filtres sur les attributs et les tags
         d_params: Dict[str, Any] = {**infos_filter, **{f"tags[{k}]": v for k, v in tags_filter.items()}}
 
-        # Ajout des champs supplémentaires si nécessaires
-        if cls._entity_fields is not None:
-            d_params["fields"] = cls._entity_fields.split(",")
+        # Ajout des champs supplémentaires si nécessaire (uniquement si l'utilisateur n'a pas déjà précisé "fields" dans infos_filter)
+        if "fields" not in infos_filter:
+            l_fields = cls.get_fields()
+            if l_fields is not None:
+                d_params["fields"] = l_fields
 
         # Génération du nom de la route
         s_route = f"{cls._entity_name}_list"

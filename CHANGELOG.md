@@ -12,8 +12,12 @@
 
 ### [Added]
 
+* StoreEntity.get_fields: calcule la liste des champs à demander en fusionnant `_entity_fields` et la configuration (`{entity_name}_list_fields`), sans doublons [#257](https://github.com/Geoplateforme/sdk-entrepot/issues/257)
+* Configuration.api_list_offerings: ajout du paramètre `fields` permettant de préciser les champs souhaités dans la réponse [#257](https://github.com/Geoplateforme/sdk-entrepot/issues/257)
+
 ### [Changed]
 
+* StoreEntity.api_list: si l'utilisateur précise `fields` dans `infos_filter`, cette valeur est utilisée telle quelle (sans être écrasée par `_entity_fields`) [#257](https://github.com/Geoplateforme/sdk-entrepot/issues/257)
 * Configuration.edit: Revert de la modification de suppression de la limitation sur les used_data pour un simple exception en cas de paramètre non donné ou vide [#269](https://github.com/Geoplateforme/sdk-entrepot/issues/269)
 
 ### [Fixed]

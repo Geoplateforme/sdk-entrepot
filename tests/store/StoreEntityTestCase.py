@@ -6,6 +6,7 @@ from unittest.mock import MagicMock, Mock, call, patch
 from sdk_entrepot_gpf.store.Errors import StoreEntityError
 from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
 from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
+from sdk_entrepot_gpf.io.Config import Config
 from tests.GpfTestCase import GpfTestCase
 
 
@@ -334,6 +335,48 @@ class StoreEntityTestCase(GpfTestCase):
             for i, o_entity in enumerate(l_entities, start=1):
                 self.assertIsInstance(o_entity, StoreEntity)
                 self.assertEqual(o_entity.id, str(i))
+
+    def test_get_fields(self) -> None:
+        """Vérifie le bon fonctionnement de get_fields : fusion de _entity_fields et de la config, sans doublons."""
+        # Rien n'est défini => None
+        with patch.object(Config, "get", return_value=None):
+            self.assertIsNone(StoreEntity.get_fields())
+
+        # _entity_fields défini uniquement
+        with patch.object(StoreEntity, "_entity_fields", "a,b,c"), patch.object(Config, "get", return_value=None):
+            self.assertEqual(StoreEntity.get_fields(), ["a", "b", "c"])
+
+        # config définie uniquement
+        with patch.object(Config, "get", return_value="d,e"):
+            self.assertEqual(StoreEntity.get_fields(), ["d", "e"])
+
+        # les deux, avec doublons => fusion sans doublon (ordre : _entity_fields puis config)
+        with patch.object(StoreEntity, "_entity_fields", "a,b,c"), patch.object(Config, "get", return_value="c,d"):
+            self.assertEqual(StoreEntity.get_fields(), ["a", "b", "c", "d"])
+
+    def test_api_list_fields(self) -> None:
+        """Vérifie que api_list calcule les champs demandés via get_fields() si l'utilisateur ne précise pas "fields"
+        dans infos_filter, et respecte le choix de l'utilisateur sinon (sans le fusionner)."""
+        o_response = GpfTestCase.get_response(json=[{"_id": "1"}], headers={"Content-Range": "1-1/1"})
+
+        # 1 : pas de "fields" dans infos_filter => on utilise get_fields()
+        with patch.object(StoreEntity, "get_fields", return_value=["a", "b"]), patch.object(ApiRequester(), "route_request", return_value=o_response) as o_mock_request:
+            StoreEntity.api_list(infos_filter={"k_info": "v_info"})
+            o_mock_request.assert_called_once_with(
+                "store_entity_list",
+                route_params={"datastore": None},
+                params={"k_info": "v_info", "fields": ["a", "b"], "page": 1, "limit": 10},
+            )
+
+        # 2 : "fields" précisé par l'utilisateur => get_fields n'est pas appelé, la valeur utilisateur est conservée telle quelle
+        with patch.object(StoreEntity, "get_fields") as o_mock_get_fields, patch.object(ApiRequester(), "route_request", return_value=o_response) as o_mock_request:
+            StoreEntity.api_list(infos_filter={"fields": "custom_field"})
+            o_mock_get_fields.assert_not_called()
+            o_mock_request.assert_called_once_with(
+                "store_entity_list",
+                route_params={"datastore": None},
+                params={"fields": "custom_field", "page": 1, "limit": 10},
+            )
 
     def test_api_delete(self) -> None:
         """Vérifie le bon fonctionnement de api_delete."""
