@@ -1,0 +1,21 @@
+{
+    "datasets": [
+        {
+            "data_dirs": [
+                "standalone.txt"
+            ],
+            "upload_infos": {
+                "description": "Jeu test avec un fichier seul en data_dirs.",
+                "name": "TEST FICHIER SEUL",
+                "srs": "EPSG:4326",
+                "type": "VECTOR"
+            },
+            "comments": [
+                "Ceci est un jeu test avec un fichier seul dans data_dirs."
+            ],
+            "tags": {
+                "reference": "2100-01-00003"
+            }
+        }
+    ]
+}

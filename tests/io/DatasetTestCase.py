@@ -1,3 +1,4 @@
+import tempfile
 from pathlib import Path
 
 from sdk_entrepot_gpf.helper.FileHelper import FileHelper
@@ -50,3 +51,49 @@ class DatasetTestCase(GpfTestCase):
             s_md5 = FileHelper.md5_hash(p_file)
             s_line = f"{s_md5}  {p_file.relative_to(p_root).as_posix()}"
             self.assertIn(s_line, s_data_md5)
+
+    def test_init_with_file(self) -> None:
+        """Test du constructeur avec un data_dirs pointant directement sur un fichier (et non un dossier)."""
+        self.maxDiff = None
+        # Ouverture et chemins
+        p_descriptor = GpfTestCase.data_dir_path / "datasets" / "4_test_dataset_file" / "upload_descriptor.json"
+        p_root = p_descriptor.parent
+        d_descriptor = JsonHelper.load(p_descriptor)
+        d_dataset = d_descriptor["datasets"][0]
+        p_md5 = p_root / "standalone.txt.md5"
+        # Suppression du fichier md5 (les tests doivent le régénérer)
+        p_md5.unlink(missing_ok=True)
+        self.assertFalse(p_md5.exists(), "standalone.txt.md5 existe")
+        # Instanciation
+        o_dataset = Dataset(d_dataset, p_root)
+        # Vérifications
+        self.assertEqual(o_dataset.data_dirs, [Path(i) for i in d_dataset["data_dirs"]])
+        self.assertDictEqual(
+            o_dataset.data_files,
+            {p_root / "standalone.txt": "."},
+        )
+        self.assertEqual(o_dataset.md5_files, [p_root / "standalone.txt.md5"])
+        self.assertTrue(p_md5.exists(), "standalone.txt.md5 n'existe pas")
+        s_data_md5 = p_md5.read_text(encoding="UTF-8")
+        s_md5 = FileHelper.md5_hash(p_root / "standalone.txt")
+        self.assertIn(f"{s_md5}  standalone.txt", s_data_md5)
+
+    def test_init_with_invalid_data_dir(self) -> None:
+        """Test du constructeur avec un data_dirs introuvable."""
+        p_root = GpfTestCase.data_dir_path / "datasets" / "3_test_dataset_sub_dir"
+        d_dataset = {"data_dirs": ["missing_dir"], "upload_infos": {}, "comments": [], "tags": {}}
+
+        with self.assertRaises(FileNotFoundError):
+            Dataset(d_dataset, p_root)
+
+    def test_init_with_data_dir_outside_root(self) -> None:
+        """Test du constructeur avec un data_dirs hors du dossier racine."""
+        with tempfile.TemporaryDirectory() as s_tmp_dir:
+            p_root = Path(s_tmp_dir) / "root"
+            p_root.mkdir()
+            p_outside = Path(s_tmp_dir) / "outside.txt"
+            p_outside.write_text("outside", encoding="utf-8")
+            d_dataset = {"data_dirs": ["../outside.txt"], "upload_infos": {}, "comments": [], "tags": {}}
+
+            with self.assertRaises(ValueError):
+                Dataset(d_dataset, p_root)
