@@ -7,6 +7,35 @@ Consultez la doc en ligne ici : https://geoplateforme.github.io/sdk-entrepot/
 Le lien vers cette page devrait être : https://geoplateforme.github.io/sdk-entrepot/configuration/
 -->
 
+## Connexion (AgentConnect / FranceConnect)
+
+Certains utilisateurs utilisent un compte AgentConnect ou FranceConnect pour se connecter. Ils n'ont alors pas de mot de passe lié à leur compte GPF : l'authentification par mot de passe n'est donc pas possible.
+Vérifiez qu'un mot de passe est défini pour votre compte GPF (ou définissez-en un).
+
+Dans un premier temps il faut vérifier si un mdp est lié à notre compte GPF ici : https://sso.geopf.fr/realms/geoplateforme/account/#/account-security/signing-in
+
+Si c'est le cas, il faut récupérer son nom d'utilisateur.
+
+Sinon, la solution consiste à cliquer sur « mot de passe oublié » :
+
+- Se déconnecter (redirige vers : https://sso.geopf.fr/realms/geoplateforme/protocol/openid-connect/auth)
+- Cliquer sur « mdp oublié » : https://sso.geopf.fr/realms/geoplateforme/login-actions/reset-credentials?client_id=account-console&tab_id=C_DLxyHTc4M
+- Ensuite, récupérer son nom d'utilisateur.
+
+## Récupération du nom d'utilisateur
+
+Sur la page "Informations personnelles" du compte, vous trouverez votre nom d'utilisateur.
+
+Page : https://sso.geopf.fr/realms/geoplateforme/account/#/
+
+![Capture d'écran : informations personnelles (nom d'utilisateur)](assets/images/documentation_configuration.png)
+
+Exemple de vue :
+
+Une fois ces deux actions effectuées, l'utilisateur peut configurer correctement le SDK.
+
+ATTENTION : le mdp expire au bout d'un an.
+
 # Configuration
 
 Ce module Python vient avec une configuration par défaut vous permettant de définir un minimum de paramètres.
