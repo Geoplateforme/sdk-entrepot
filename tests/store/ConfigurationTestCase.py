@@ -35,6 +35,7 @@ class ConfigurationTestCase(GpfTestCase):
                 "configuration_list_offerings",
                 route_params={"datastore": "id_datastore", "configuration": "123456789"},
                 method=ApiRequester.GET,
+                params={},
             )
             # on vérifie qu'on a bien récupéré une liste d'Offering
             self.assertIsInstance(l_offerings, list)
@@ -42,6 +43,21 @@ class ConfigurationTestCase(GpfTestCase):
             self.assertIsInstance(l_offerings[1], Offering)
             self.assertEqual(l_offerings[0].id, "offering_1")
             self.assertEqual(l_offerings[1].id, "offering_2")
+
+    def test_list_offerings_with_fields(self) -> None:
+        """Vérifie que api_list_offerings surcharge bien la liste des champs demandés quand l'utilisateur en précise une."""
+
+        o_response = GpfTestCase.get_response(json=[{"_id": "offering_1"}])
+
+        with patch.object(ApiRequester, "route_request", return_value=o_response) as o_mock_request:
+            o_configuration = Configuration({"_id": "123456789"}, "id_datastore")
+            o_configuration.api_list_offerings(fields=["_id", "status"])
+            o_mock_request.assert_called_once_with(
+                "configuration_list_offerings",
+                route_params={"datastore": "id_datastore", "configuration": "123456789"},
+                method=ApiRequester.GET,
+                params={"fields": ["_id", "status"]},
+            )
 
     def test_add_offering(self) -> None:
         """Vérifie le bon fonctionnement de api_add_offering.
