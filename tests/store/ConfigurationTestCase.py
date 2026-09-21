@@ -59,6 +59,21 @@ class ConfigurationTestCase(GpfTestCase):
                 params={"fields": ["_id", "status"]},
             )
 
+    def test_list_offerings_with_none_fields(self) -> None:
+        """Vérifie que api_list_offerings retombe sur Offering.get_fields() quand fields=None."""
+
+        o_response = GpfTestCase.get_response(json=[{"_id": "offering_1"}])
+
+        with patch.object(Offering, "get_fields", return_value=["_id", "status"]), patch.object(ApiRequester, "route_request", return_value=o_response) as o_mock_request:
+            o_configuration = Configuration({"_id": "123456789"}, "id_datastore")
+            o_configuration.api_list_offerings(fields=None)
+            o_mock_request.assert_called_once_with(
+                "configuration_list_offerings",
+                route_params={"datastore": "id_datastore", "configuration": "123456789"},
+                method=ApiRequester.GET,
+                params={"fields": ["_id", "status"]},
+            )
+
     def test_add_offering(self) -> None:
         """Vérifie le bon fonctionnement de api_add_offering.
         Dans ce test, le datastore n'est pas défini (cf. route_params).
