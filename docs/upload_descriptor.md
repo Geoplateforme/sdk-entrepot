@@ -15,7 +15,7 @@ Le fichier descripteur de livraison est un fichier au format JSON permettant de 
 
 Le fichier doit contenir une liste de `datasets`. Chaque *dataset* représente une *livraison* et doit contenir les informations suivantes :
 
-* la liste des dossiers à téléverser (attribut `data_dirs`) : les chemins **relatifs** vers les dossiers à téléverser ;
+* la liste des chemins à téléverser (attribut `data_dirs`) : les chemins **relatifs** vers les dossiers à téléverser récursivement ou directement vers les fichiers à téléverser ;
 * les informations de la livraison à créer :
   * Nom (attribut `name`) : nom de la livraison (afin que vous puissiez l'identifier, choix libre) ;
   * Description (attribut `description`) : description de la livraison (choix libre) ;

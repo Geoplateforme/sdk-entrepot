@@ -41,6 +41,7 @@ class Authentifier(metaclass=Singleton):
             "http": Config().get_str("store_authentification", "http_proxy"),
             "https": Config().get_str("store_authentification", "https_proxy"),
         }
+        self.__has_proxy: bool = bool(self.__proxy["http"] or self.__proxy["https"])
         # Permettra la sauvegarde du dernier jeton récupéré (pour éviter de multiples requêtes au serveur KeyCloak)
         self.__last_token: Optional[Token] = None
 
@@ -71,18 +72,20 @@ class Authentifier(metaclass=Singleton):
             raise AuthentificationError(f"Type d'authentification « {s_grant_type} » inconnue. Vérifiez le paramétrage 'store_authentification.grant_type'.")
         return d_params
 
-    def __request_new_token(self, nb_attempts: int) -> None:
+    def __request_new_token(self, nb_attempts: int, force_new_connexion: bool = False) -> None:
         """Récupère un nouveau jeton de zéro et le sauvegarde.
 
         En cas de problème pendant la récupération, essaie `nb_attempts` fois en attendant `__sec_between_attempt` secondes entre plusieurs tentatives.
 
         Args:
             nb_attempts (int): Nombre de tentatives en cas d'échec
+            force_new_connexion (bool): indique si une nouvelle connexion réseau doit être forcée. Utile en cas de problème de connexion pour forcer la réinitialisation de celle-ci.
 
         Raises:
             Exception: liée à la requête http, levée si la récupération de jeton au bout de `nb_attempts` tentatives
         """
         o_response = None
+        d_header = {"Connection": "close"} if force_new_connexion else {}
         try:
             # Préparation données d'authentification
             d_data = self.__request_params.copy()
@@ -96,6 +99,7 @@ class Authentifier(metaclass=Singleton):
                 data=d_data,
                 headers={
                     "content-type": "application/x-www-form-urlencoded",
+                    **d_header,
                 },
                 proxies=self.__proxy,
             )
@@ -130,7 +134,8 @@ class Authentifier(metaclass=Singleton):
             # Une erreur s'est produite : attend un peu et relance une nouvelle fois la fonction
             if nb_attempts > 0:
                 time.sleep(self.__sec_between_attempt)
-                self.__request_new_token(nb_attempts - 1)
+                # si on a un proxy, on force une nouvelle connexion pour éviter les problèmes de connexion persistants
+                self.__request_new_token(nb_attempts - 1, self.__has_proxy)
             # Le nombre de tentatives est atteint : comme dirait Jim, this is the end...
             else:
                 # On affiche un message d'erreur
