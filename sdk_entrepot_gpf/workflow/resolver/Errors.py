@@ -1,5 +1,4 @@
 from pathlib import Path
-from difflib import get_close_matches
 from typing import List
 
 from sdk_entrepot_gpf.Errors import GpfSdkError
@@ -83,12 +82,7 @@ class InvalidFilterValueError(GpfSdkError):
         value: str,
         valid_values: List[str],
     ) -> None:
-        s_message = (
-            f"Erreur du résolveur '{resolver_name}' avec la chaîne '{to_solve}' : "
-            f"la valeur '{value}' du filtre '{key}' est invalide, valeurs possibles : "
-            f"{', '.join(valid_values)}."
-        )
-        s_close_matches = ", ".join(get_close_matches(value, valid_values))
+        s_message = f"Erreur du résolveur '{resolver_name}' avec la chaîne '{to_solve}' : " f"la valeur '{value}' du filtre '{key}' est invalide, valeurs possibles : " f"{', '.join(valid_values)}."
         super().__init__(s_message)
         self.__resolver_name = resolver_name
         self.__to_solve = to_solve
