@@ -49,15 +49,16 @@ class Dataset:
         """
         for p_dir in self.__data_dirs:
             p_abs_elt = (self.__root_dir / p_dir).resolve()
+            try:
+                p_abs_elt.relative_to(self.__root_dir)
+            except ValueError as o_error:
+                raise ValueError(f"Le chemin de données '{p_dir}' est hors du répertoire racine '{self.__root_dir}'.") from o_error
             if not p_abs_elt.exists():
                 raise FileNotFoundError(f"Le chemin de données '{p_dir}' est introuvable dans '{self.__root_dir}'.")
             if p_abs_elt.is_dir():
                 self.__list_rec(self.__root_dir, p_dir)
             elif p_abs_elt.is_file():
-                try:
-                    p_api = p_abs_elt.relative_to(self.__root_dir)
-                except ValueError as o_error:
-                    raise ValueError(f"Le chemin de données '{p_dir}' est hors du répertoire racine '{self.__root_dir}'.") from o_error
+                p_api = p_abs_elt.relative_to(self.__root_dir)
                 self.__data_files[p_abs_elt] = p_api.parent.as_posix()
             else:
                 raise ValueError(f"Le chemin de données '{p_dir}' n'est ni un dossier ni un fichier valide.")
@@ -76,6 +77,10 @@ class Dataset:
         # On parcourt le dictionnaire des répertoires
         for p_dir in self.__data_dirs:
             p_elt = (self.__root_dir / p_dir).resolve()
+            try:
+                p_elt.relative_to(self.__root_dir)
+            except ValueError as o_error:
+                raise ValueError(f"Le chemin de données '{p_dir}' est hors du répertoire racine '{self.__root_dir}'.") from o_error
             if not p_elt.exists():
                 raise FileNotFoundError(f"Le chemin de données '{p_dir}' est introuvable dans '{self.__root_dir}'.")
             if not p_elt.is_dir() and not p_elt.is_file():
@@ -94,10 +99,7 @@ class Dataset:
                 d_md5 = {}
                 for p_file in sorted(self.__data_files, key=str):
                     if (b_is_dir and p_elt in p_file.parents) or (not b_is_dir and p_file == p_elt):
-                        try:
-                            p_file_trunc = p_file.relative_to(self.__root_dir)
-                        except ValueError as o_error:
-                            raise ValueError(f"Le chemin de données '{p_file}' est hors du répertoire racine '{self.__root_dir}'.") from o_error
+                        p_file_trunc = p_file.relative_to(self.__root_dir)
                         d_md5[p_file_trunc] = FileHelper.md5_hash(p_file)
 
                 # A la fin on rempli le fichier .md5
