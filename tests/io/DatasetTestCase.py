@@ -97,3 +97,20 @@ class DatasetTestCase(GpfTestCase):
 
             with self.assertRaises(ValueError):
                 Dataset(d_dataset, p_root)
+
+    def test_init_with_file_md5_name_collision(self) -> None:
+        """Test du constructeur avec deux fichiers générant le même nom de md5 distant."""
+        with tempfile.TemporaryDirectory() as s_tmp_dir:
+            p_root = Path(s_tmp_dir)
+            (p_root / "a").mkdir()
+            (p_root / "b").mkdir()
+            p_a_file = p_root / "a/file.txt"
+            p_b_file = p_root / "b/file.txt"
+            p_a_file.write_text("a", encoding="utf-8")
+            p_b_file.write_text("b", encoding="utf-8")
+            d_dataset = {"data_dirs": ["a/file.txt", "b/file.txt"], "upload_infos": {}, "comments": [], "tags": {}}
+
+            with self.assertRaises(ValueError):
+                Dataset(d_dataset, p_root)
+            self.assertFalse((p_a_file.parent / "file.txt.md5").exists())
+            self.assertFalse((p_b_file.parent / "file.txt.md5").exists())

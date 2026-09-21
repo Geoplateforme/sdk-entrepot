@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 from sdk_entrepot_gpf.helper.FileHelper import FileHelper
 
 from sdk_entrepot_gpf.io.Config import Config
@@ -73,6 +73,8 @@ class Dataset:
         S'il existe, rien n'est fait.
         """
         s_pattern = Config().get("upload", "md5_pattern")
+        d_md5_names: Dict[str, Path] = {}
+        l_md5_targets: List[Tuple[Path, Path, bool, Path]] = []
 
         # On parcourt le dictionnaire des répertoires
         for p_dir in self.__data_dirs:
@@ -89,7 +91,13 @@ class Dataset:
             # Pour un dossier, le fichier md5 remplace l'extension (ex: CANTON -> CANTON.md5)
             # Pour un fichier, le fichier md5 est ajouté après l'extension (ex: CANTON.shp -> CANTON.shp.md5)
             p_md5_suf = p_elt.with_suffix(".md5") if b_is_dir else Path(f"{p_elt}.md5")
+            p_existing_md5 = d_md5_names.get(p_md5_suf.name)
+            if p_existing_md5 is not None and p_existing_md5 != p_md5_suf:
+                raise ValueError(f"Les chemins de données '{p_existing_md5.as_posix()}' et '{p_dir.as_posix()}' " f"génèrent le même fichier md5 distant '{p_md5_suf.name}'.")
+            d_md5_names[p_md5_suf.name] = p_dir
+            l_md5_targets.append((p_dir, p_elt, b_is_dir, p_md5_suf))
 
+        for _p_dir, p_elt, b_is_dir, p_md5_suf in l_md5_targets:
             # On teste si le fichier md5 existe, sinon on le crée
             if not p_md5_suf.exists():
                 Config().om.info(f"Le fichier md5 {p_md5_suf.relative_to(self.__root_dir)} n'existe pas, il va être créé")
