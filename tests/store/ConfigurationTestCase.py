@@ -100,6 +100,23 @@ class ConfigurationTestCase(GpfTestCase):
                     )
                     o_mock_list.assert_called_once_with()
 
+    def test_valid_types(self) -> None:
+        """Vérifie la liste des types de configuration acceptés."""
+        self.assertEqual(
+            Configuration.VALID_TYPES,
+            [
+                "WFS",
+                "WMTS-TMS",
+                "WMS-VECTOR",
+                "WMS-RASTER",
+                "DOWNLOAD",
+                "ITINERARY-ISOCURVE",
+                "ALTIMETRY",
+                "SEARCH",
+                "VECTOR-TMS",
+            ],
+        )
+
     def test_edit(self) -> None:
         """test de edit"""
         # Test complet (clef existantes conservées, clef nouvelles ajoutées, clef éditées modifiées)
