@@ -26,8 +26,7 @@ class Configuration(TagInterface, CommentInterface, EventInterface, FullEditInte
 
         Args:
             fields: liste des champs souhaités dans la réponse. Si précisée, elle est utilisée telle quelle
-                (l'utilisateur surcharge ainsi la liste des champs demandés) ; sinon la liste est calculée
-                via `Offering.get_fields()`.
+                sinon la liste est calculée.
 
         Returns:
             List[Offering]: liste des Offering trouvées
