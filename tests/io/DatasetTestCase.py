@@ -121,7 +121,10 @@ class DatasetTestCase(GpfTestCase):
             p_root = Path(s_tmp_dir)
             p_file = p_root / "file.txt"
             p_file.write_text("content", encoding="utf-8")
+            p_md5 = p_root / "file.txt.md5"
 
             o_dataset = Dataset({"data_dirs": ["file.txt", "file.txt"], "upload_infos": {}, "comments": [], "tags": {}}, p_root)
 
+            self.assertEqual(o_dataset.data_files, {p_file: "."})
             self.assertEqual(o_dataset.md5_files, [p_root / "file.txt.md5"])
+            self.assertEqual(p_md5.read_text(encoding="utf-8").splitlines(), [f"{FileHelper.md5_hash(p_file)}  file.txt"])
