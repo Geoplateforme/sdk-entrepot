@@ -167,7 +167,7 @@ class StoreEntity(ABC):
 
         Args:
             infos_filter: Filtres sur les attributs sous la forme `{"nom_attribut": "valeur_attribut"}`.
-                Si une clé `fields` y est précisée, elle est utilisée telle quelle 
+                Si une clé `fields` y est précisée, elle est utilisée telle quelle
                 sinon la liste est calculée.
             tags_filter: Filtres sur les tags sous la forme `{"nom_tag": "valeur_tag"}`
             page: Numéro page à récupérer, toutes si None.
