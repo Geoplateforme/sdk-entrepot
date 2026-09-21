@@ -73,7 +73,7 @@ class Dataset:
         S'il existe, rien n'est fait.
         """
         s_pattern = Config().get("upload", "md5_pattern")
-        d_md5_names: Dict[str, Path] = {}
+        d_md5_names: Dict[str, Tuple[Path, Path]] = {}
         l_md5_targets: List[Tuple[Path, Path, bool, Path]] = []
 
         # On parcourt le dictionnaire des répertoires
@@ -91,10 +91,13 @@ class Dataset:
             # Pour un dossier, le fichier md5 remplace l'extension (ex: CANTON -> CANTON.md5)
             # Pour un fichier, le fichier md5 est ajouté après l'extension (ex: CANTON.shp -> CANTON.shp.md5)
             p_md5_suf = p_elt.with_suffix(".md5") if b_is_dir else Path(f"{p_elt}.md5")
-            p_existing_md5 = d_md5_names.get(p_md5_suf.name)
-            if p_existing_md5 is not None and p_existing_md5 != p_md5_suf:
-                raise ValueError(f"Les chemins de données '{p_existing_md5.as_posix()}' et '{p_dir.as_posix()}' " f"génèrent le même fichier md5 distant '{p_md5_suf.name}'.")
-            d_md5_names[p_md5_suf.name] = p_dir
+            t_existing_md5 = d_md5_names.get(p_md5_suf.name)
+            if t_existing_md5 is not None:
+                p_existing_dir, p_existing_md5 = t_existing_md5
+                if p_existing_md5 != p_md5_suf:
+                    raise ValueError(f"Les chemins de données '{p_existing_dir.as_posix()}' et '{p_dir.as_posix()}' " f"génèrent le même fichier md5 distant '{p_md5_suf.name}'.")
+                continue
+            d_md5_names[p_md5_suf.name] = (p_dir, p_md5_suf)
             l_md5_targets.append((p_dir, p_elt, b_is_dir, p_md5_suf))
 
         for _, p_elt, b_is_dir, p_md5_suf in l_md5_targets:

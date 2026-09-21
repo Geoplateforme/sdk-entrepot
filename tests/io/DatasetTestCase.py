@@ -114,3 +114,14 @@ class DatasetTestCase(GpfTestCase):
                 Dataset(d_dataset, p_root)
             self.assertFalse((p_a_file.parent / "file.txt.md5").exists())
             self.assertFalse((p_b_file.parent / "file.txt.md5").exists())
+
+    def test_init_with_duplicate_data_dir(self) -> None:
+        """Test du constructeur avec le même data_dir déclaré plusieurs fois."""
+        with tempfile.TemporaryDirectory() as s_tmp_dir:
+            p_root = Path(s_tmp_dir)
+            p_file = p_root / "file.txt"
+            p_file.write_text("content", encoding="utf-8")
+
+            o_dataset = Dataset({"data_dirs": ["file.txt", "file.txt"], "upload_infos": {}, "comments": [], "tags": {}}, p_root)
+
+            self.assertEqual(o_dataset.md5_files, [p_root / "file.txt.md5"])
