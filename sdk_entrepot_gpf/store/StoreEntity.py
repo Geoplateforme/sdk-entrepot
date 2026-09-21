@@ -186,8 +186,10 @@ class StoreEntity(ABC):
         # Fusion des filtres sur les attributs et les tags
         d_params: Dict[str, Any] = {**infos_filter, **{f"tags[{k}]": v for k, v in tags_filter.items()}}
 
-        # Ajout des champs supplémentaires si nécessaire (uniquement si l'utilisateur n'a pas déjà précisé "fields" dans infos_filter)
-        if "fields" not in infos_filter:
+        # Ajout des champs supplémentaires si nécessaire (si l'utilisateur n'a pas précisé
+        # "fields", ou si sa valeur vaut None)
+        if infos_filter.get("fields") is None:
+            d_params.pop("fields", None)
             l_fields = cls.get_fields()
             if l_fields is not None:
                 d_params["fields"] = l_fields

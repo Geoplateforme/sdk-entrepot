@@ -378,6 +378,15 @@ class StoreEntityTestCase(GpfTestCase):
                 params={"fields": "custom_field", "page": 1, "limit": 10},
             )
 
+        # 3 : "fields" précisé à None => on retombe sur get_fields()
+        with patch.object(StoreEntity, "get_fields", return_value=["a", "b"]), patch.object(ApiRequester(), "route_request", return_value=o_response) as o_mock_request:
+            StoreEntity.api_list(infos_filter={"fields": None})
+            o_mock_request.assert_called_once_with(
+                "store_entity_list",
+                route_params={"datastore": None},
+                params={"fields": ["a", "b"], "page": 1, "limit": 10},
+            )
+
     def test_api_delete(self) -> None:
         """Vérifie le bon fonctionnement de api_delete."""
         # on créé une instance puis on la supprime
