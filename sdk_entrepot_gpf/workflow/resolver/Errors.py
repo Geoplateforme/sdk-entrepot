@@ -12,7 +12,12 @@ class ResolverError(GpfSdkError):
         __to_solve (str): chaîne à résoudre
     """
 
-    def __init__(self, resolver_name: str, to_solve: str, message: str = "") -> None:
+    def __init__(
+        self,
+        resolver_name: str,
+        to_solve: str,
+        message: str = "",
+    ) -> None:
         s_message = f"Erreur du résolveur '{resolver_name}' avec la chaîne '{to_solve}'"
         if message:
             s_message += f" : {message}"
