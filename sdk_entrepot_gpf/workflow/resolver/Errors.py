@@ -75,11 +75,20 @@ class InvalidFilterValueError(GpfSdkError):
         __to_solve (str): chaîne à résoudre
     """
 
-    def __init__(self, resolver_name: str, to_solve: str, key: str, value: str, valid_values: List[str]) -> None:
-        s_message = f"Erreur du résolveur '{resolver_name}' avec la chaîne '{to_solve}' : " f"la valeur '{value}' du filtre '{key}' est invalide, valeurs possibles : {', '.join(valid_values)}."
+    def __init__(
+        self,
+        resolver_name: str,
+        to_solve: str,
+        key: str,
+        value: str,
+        valid_values: List[str],
+    ) -> None:
+        s_message = (
+            f"Erreur du résolveur '{resolver_name}' avec la chaîne '{to_solve}' : "
+            f"la valeur '{value}' du filtre '{key}' est invalide, valeurs possibles : "
+            f"{', '.join(valid_values)}."
+        )
         s_close_matches = ", ".join(get_close_matches(value, valid_values))
-        if s_close_matches:
-            s_message += f" Vouliez-vous dire : {s_close_matches} ?"
         super().__init__(s_message)
         self.__resolver_name = resolver_name
         self.__to_solve = to_solve
