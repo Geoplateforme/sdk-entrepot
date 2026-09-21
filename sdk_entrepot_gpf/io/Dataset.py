@@ -97,7 +97,7 @@ class Dataset:
             d_md5_names[p_md5_suf.name] = p_dir
             l_md5_targets.append((p_dir, p_elt, b_is_dir, p_md5_suf))
 
-        for _p_dir, p_elt, b_is_dir, p_md5_suf in l_md5_targets:
+        for _, p_elt, b_is_dir, p_md5_suf in l_md5_targets:
             # On teste si le fichier md5 existe, sinon on le crée
             if not p_md5_suf.exists():
                 Config().om.info(f"Le fichier md5 {p_md5_suf.relative_to(self.__root_dir)} n'existe pas, il va être créé")
