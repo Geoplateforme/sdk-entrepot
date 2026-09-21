@@ -275,8 +275,10 @@ class StoreEntityResolverTestCase(GpfTestCase):
                 )
                 o_mock_api_update.assert_called_once_with()
 
-        with self.assertRaises(InvalidFilterValueError) as o_arc:
-            o_store_entity_resolver.resolve("configuration.infos._id [INFOS(type=INVALID)]")
+        with patch.object(Configuration, "api_list", return_value=l_configurations) as o_mock_api_list:
+            with self.assertRaises(InvalidFilterValueError) as o_arc:
+                o_store_entity_resolver.resolve("configuration.infos._id [INFOS(type=INVALID)]")
+            o_mock_api_list.assert_not_called()
         self.assertIn("la valeur 'INVALID' du filtre 'type' est invalide", str(o_arc.exception))
         self.assertIn("DOWNLOAD", str(o_arc.exception))
 
