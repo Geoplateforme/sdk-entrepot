@@ -160,7 +160,11 @@ class Dataset:
             p_rep_elt = (p_rep / p_elt.name).resolve()
             # Appel récursif si l'élément est un dossier
             if p_elt.is_dir():
-                self.__list_rec(root_dir, p_rep_elt.relative_to(root_dir))
+                try:
+                    p_api = p_rep_elt.relative_to(root_dir)
+                except ValueError as o_error:
+                    raise ValueError(f"Le chemin de données '{p_rep_elt}' est hors du répertoire racine '{root_dir}'.") from o_error
+                self.__list_rec(root_dir, p_api)
             # L'élément est un fichier
             elif p_elt.is_file():
                 try:

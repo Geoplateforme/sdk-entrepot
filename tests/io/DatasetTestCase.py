@@ -98,6 +98,25 @@ class DatasetTestCase(GpfTestCase):
             with self.assertRaises(ValueError):
                 Dataset(d_dataset, p_root)
 
+    def test_init_with_symlinked_subdir_outside_root(self) -> None:
+        """Test du constructeur avec un sous-dossier symbolique pointant hors du dossier racine."""
+        with tempfile.TemporaryDirectory() as s_tmp_dir:
+            p_root = Path(s_tmp_dir) / "root"
+            p_root.mkdir()
+            p_data_dir = p_root / "data"
+            p_data_dir.mkdir()
+            p_outside_dir = Path(s_tmp_dir) / "outside"
+            p_outside_dir.mkdir()
+            (p_outside_dir / "secret.txt").write_text("secret", encoding="utf-8")
+            p_link = p_data_dir / "linked"
+            try:
+                p_link.symlink_to(p_outside_dir, target_is_directory=True)
+            except (NotImplementedError, OSError):
+                self.skipTest("La création de liens symboliques n'est pas disponible.")
+
+            with self.assertRaises(ValueError):
+                Dataset({"data_dirs": ["data"], "upload_infos": {}, "comments": [], "tags": {}}, p_root)
+
     def test_init_with_file_md5_name_collision(self) -> None:
         """Test du constructeur avec deux fichiers générant le même nom de md5 distant."""
         with tempfile.TemporaryDirectory() as s_tmp_dir:
