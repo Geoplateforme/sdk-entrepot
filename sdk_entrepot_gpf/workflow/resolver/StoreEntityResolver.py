@@ -3,7 +3,11 @@ import re
 from typing import Any, Dict, Optional, Pattern, Type
 
 from sdk_entrepot_gpf.workflow.resolver.AbstractResolver import AbstractResolver
-from sdk_entrepot_gpf.workflow.resolver.Errors import InvalidFilterValueError, NoEntityFoundError, ResolverError
+from sdk_entrepot_gpf.workflow.resolver.Errors import (
+    InvalidFilterValueError,
+    NoEntityFoundError,
+    ResolverError,
+)
 from sdk_entrepot_gpf.store.interface.TagInterface import TagInterface
 from sdk_entrepot_gpf.store.Processing import Processing
 from sdk_entrepot_gpf.store.StoredData import StoredData
