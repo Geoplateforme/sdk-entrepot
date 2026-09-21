@@ -74,7 +74,7 @@ class Dataset:
         """
         s_pattern = Config().get("upload", "md5_pattern")
         d_md5_names: Dict[str, Path] = {}
-        l_md5_targets: List[Tuple[Path, Path, bool, Path]] = []
+        l_md5_targets: List[Tuple[Path, bool, Path]] = []
 
         # On parcourt le dictionnaire des répertoires
         for p_dir in self.__data_dirs:
@@ -95,9 +95,9 @@ class Dataset:
             if p_existing_md5 is not None and p_existing_md5 != p_md5_suf:
                 raise ValueError(f"Les chemins de données '{p_existing_md5.as_posix()}' et '{p_dir.as_posix()}' " f"génèrent le même fichier md5 distant '{p_md5_suf.name}'.")
             d_md5_names[p_md5_suf.name] = p_dir
-            l_md5_targets.append((p_dir, p_elt, b_is_dir, p_md5_suf))
+            l_md5_targets.append((p_elt, b_is_dir, p_md5_suf))
 
-        for _p_dir, p_elt, b_is_dir, p_md5_suf in l_md5_targets:
+        for p_elt, b_is_dir, p_md5_suf in l_md5_targets:
             # On teste si le fichier md5 existe, sinon on le crée
             if not p_md5_suf.exists():
                 Config().om.info(f"Le fichier md5 {p_md5_suf.relative_to(self.__root_dir)} n'existe pas, il va être créé")
