@@ -97,7 +97,7 @@ class Dataset:
             if o_existing_md5 is not None:
                 p_existing_dir, p_existing_md5 = o_existing_md5
                 if p_existing_md5 != p_md5_suf:
-                    raise ValueError(f"Les chemins de données '{p_existing_dir.as_posix()}' et '{p_dir.as_posix()}' " f"génèrent le même fichier md5 distant '{p_md5_suf.name}'.")
+                    raise ValueError(f"Les chemins de données '{Path(p_existing_dir).as_posix()}' et '{Path(p_dir).as_posix()}' " f"génèrent le même fichier md5 distant '{p_md5_suf.name}'.")
                 continue
             d_md5_names[p_md5_suf.name] = (p_dir, p_md5_suf)
             l_md5_targets.append((p_dir, p_elt, b_is_dir, p_md5_suf))
