@@ -155,20 +155,26 @@ class Dataset:
             path_rep (Path): Chemin du dossier à lister
         """
 
-        p_rep = (root_dir / path_rep).resolve()
+        p_rep = root_dir / path_rep
+        p_rep_resolved = p_rep.resolve()
+        try:
+            p_rep_resolved.relative_to(root_dir)
+        except ValueError as o_error:
+            raise ValueError(f"Le chemin de données '{path_rep}' est hors du répertoire racine '{root_dir}'.") from o_error
         for p_elt in p_rep.iterdir():
-            p_rep_elt = (p_rep / p_elt.name).resolve()
+            p_rep_elt = path_rep / p_elt.name
+            p_rep_elt_resolved = (root_dir / p_rep_elt).resolve()
             # Appel récursif si l'élément est un dossier
             if p_elt.is_dir():
                 try:
-                    p_api = p_rep_elt.relative_to(root_dir)
+                    p_rep_elt_resolved.relative_to(root_dir)
                 except ValueError as o_error:
                     raise ValueError(f"Le chemin de données '{p_rep_elt}' est hors du répertoire racine '{root_dir}'.") from o_error
-                self.__list_rec(root_dir, p_api)
+                self.__list_rec(root_dir, p_rep_elt)
             # L'élément est un fichier
             elif p_elt.is_file():
                 try:
-                    p_api = p_rep_elt.relative_to(root_dir)
+                    p_rep_elt_resolved.relative_to(root_dir)
                 except ValueError as o_error:
                     raise ValueError(f"Le chemin de données '{p_rep_elt}' est hors du répertoire racine '{root_dir}'.") from o_error
-                self.__data_files[p_rep_elt] = p_api.parent.as_posix()
+                self.__data_files[p_elt] = p_rep_elt.parent.as_posix()
