@@ -93,7 +93,7 @@ class StoreEntityResolver(AbstractResolver):
         )
         # Si on a aucune entité trouvée
         if len(l_entities) == 0:
-            # Cas particulier des configurations : on vérifie ici la valeur de  "type" 
+            # Cas particulier des configurations : on vérifie ici la valeur de  "type"
             # fournie pour donner une erreur plus explicite, sans bloquer en amont
             if s_entity_type == Configuration.entity_name() and "type" in d_filter_infos and d_filter_infos["type"] not in Configuration.VALID_TYPES:
                 raise InvalidFilterValueError(self.name, string_to_solve, "type", d_filter_infos["type"], Configuration.VALID_TYPES)
