@@ -106,6 +106,8 @@ class DatasetTestCase(GpfTestCase):
         with tempfile.TemporaryDirectory() as s_tmp_dir:
             p_root = Path(s_tmp_dir) / "root"
             p_root.mkdir()
+            p_a_file = p_root / "a/file.txt"
+            p_b_file = p_root / "b/file.txt"
             p_data_dir = p_root / "data"
             p_data_dir.mkdir()
             p_outside_dir = Path(s_tmp_dir) / "outside"
@@ -116,9 +118,11 @@ class DatasetTestCase(GpfTestCase):
                 p_link.symlink_to(p_outside_dir, target_is_directory=True)
             except (NotImplementedError, OSError):
                 self.skipTest("La création de liens symboliques n'est pas disponible.")
-
+            d_dataset = {"data_dirs": ["../outside.txt"], "upload_infos": {}, "comments": [], "tags": {}}
             with self.assertRaises(ValueError):
-                Dataset({"data_dirs": ["data"], "upload_infos": {}, "comments": [], "tags": {}}, p_root)
+                Dataset(d_dataset, p_root)
+            self.assertFalse((p_a_file.parent / "file.txt.md5").exists())
+            self.assertFalse((p_b_file.parent / "file.txt.md5").exists())
 
     def test_init_with_file_md5_name_collision(self) -> None:
         """Test du constructeur avec deux fichiers générant le même nom de md5 distant."""
