@@ -275,12 +275,43 @@ class StoreEntityResolverTestCase(GpfTestCase):
                 )
                 o_mock_api_update.assert_called_once_with()
 
+        # un type inconnu du SDK mais accepté par l'API ne doit pas bloquer l'utilisateur
         with patch.object(Configuration, "api_list", return_value=l_configurations) as o_mock_api_list:
+            with patch.object(Configuration, "api_update", return_value=None):
+                s_result = o_store_entity_resolver.resolve("configuration.infos._id [INFOS(type=NEW_TYPE)]")
+                self.assertEqual(s_result, l_configurations[0]["_id"])
+                o_mock_api_list.assert_called_once_with(
+                    infos_filter={"type": "NEW_TYPE"},
+                    tags_filter={},
+                    page=1,
+                    datastore=None,
+                )
+
+        # si un type invalide ne retourne aucune configuration, une InvalidFilterValueError est levée pour aider l'utilisateur
+        with patch.object(Configuration, "api_list", return_value=[]) as o_mock_api_list:
             with self.assertRaises(InvalidFilterValueError) as o_arc:
                 o_store_entity_resolver.resolve("configuration.infos._id [INFOS(type=INVALID)]")
-            o_mock_api_list.assert_not_called()
+            o_mock_api_list.assert_called_once_with(
+                infos_filter={"type": "INVALID"},
+                tags_filter={},
+                page=1,
+                datastore=None,
+            )
         self.assertIn("la valeur 'INVALID' du filtre 'type' est invalide", str(o_arc.exception))
         self.assertIn("DOWNLOAD", str(o_arc.exception))
+
+        # si api_list ne retourne aucune configuration, une NoEntityFoundError doit être levée
+        with patch.object(Configuration, "api_list", return_value=[]) as o_mock_api_list:
+            s_to_solve = "configuration.infos._id [INFOS(type=DOWNLOAD)]"
+            with self.assertRaises(NoEntityFoundError) as o_arc_no_result:
+                o_store_entity_resolver.resolve(s_to_solve)
+            self.assertEqual(o_arc_no_result.exception.message, f"Impossible de trouver une entité correspondante (résolveur 'store_entity') avec la chaîne '{s_to_solve}'.")
+            o_mock_api_list.assert_called_once_with(
+                infos_filter={"type": "DOWNLOAD"},
+                tags_filter={},
+                page=1,
+                datastore=None,
+            )
 
     def test_resolve_datastore(self) -> None:
         """Vérifie le bon fonctionnement de la fonction resolve pour un store.
