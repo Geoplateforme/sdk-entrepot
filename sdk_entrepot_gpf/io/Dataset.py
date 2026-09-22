@@ -58,8 +58,7 @@ class Dataset:
             if p_abs_elt.is_dir():
                 self.__list_rec(self.__root_dir, p_dir)
             elif p_abs_elt.is_file():
-                p_api = p_abs_elt.relative_to(self.__root_dir)
-                self.__data_files[p_abs_elt] = p_api.parent.as_posix()
+                self.__data_files[p_abs_elt] = p_dir.parent.as_posix()
             else:
                 raise ValueError(f"Le chemin de données '{p_dir}' n'est ni un dossier ni un fichier valide.")
 
@@ -90,9 +89,10 @@ class Dataset:
             if not p_elt.is_dir() and not p_elt.is_file():
                 raise ValueError(f"Le chemin de données '{p_dir}' n'est ni un dossier ni un fichier valide.")
             b_is_dir = p_elt.is_dir()
+            p_md5 = self.__root_dir / p_dir
             # Pour un dossier, le fichier md5 remplace l'extension (ex: CANTON -> CANTON.md5)
             # Pour un fichier, le fichier md5 est ajouté après l'extension (ex: CANTON.shp -> CANTON.shp.md5)
-            p_md5_suf = p_elt.with_suffix(".md5") if b_is_dir else Path(f"{p_elt}.md5")
+            p_md5_suf = p_md5.with_suffix(".md5") if b_is_dir else Path(f"{p_md5}.md5")
             o_existing_md5 = d_md5_names.get(p_md5_suf.name)
             if o_existing_md5 is not None:
                 p_existing_dir, p_existing_md5 = o_existing_md5
@@ -110,9 +110,9 @@ class Dataset:
                 # On parcourt les fichiers pour remplir un dictionnaire temporaire
                 # la liste des fichiers est ordonnée selon le chemin complet du ficher
                 d_md5 = {}
-                for p_file in sorted(self.__data_files, key=str):
+                for p_file, s_api_dir in sorted(self.__data_files.items(), key=lambda o_item: (Path(o_item[1]) / o_item[0].name).as_posix()):
                     if (b_is_dir and p_elt in p_file.parents) or (not b_is_dir and p_file == p_elt):
-                        p_file_trunc = p_file.relative_to(self.__root_dir)
+                        p_file_trunc = Path(s_api_dir) / p_file.name
                         d_md5[p_file_trunc] = FileHelper.md5_hash(p_file)
 
                 # A la fin on rempli le fichier .md5
@@ -177,4 +177,4 @@ class Dataset:
                     p_rep_elt_resolved.relative_to(root_dir)
                 except ValueError as o_error:
                     raise ValueError(f"Le chemin de données '{p_rep_elt}' est hors du répertoire racine '{root_dir}'.") from o_error
-                self.__data_files[p_elt] = p_rep_elt.parent.as_posix()
+                self.__data_files[p_rep_elt_resolved] = p_rep_elt.parent.as_posix()

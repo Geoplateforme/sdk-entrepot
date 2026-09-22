@@ -148,9 +148,13 @@ class DatasetTestCase(GpfTestCase):
             self.assertDictEqual(
                 o_dataset.data_files,
                 {
-                    p_link / "secret.txt": "data/linked",
+                    p_real_dir / "secret.txt": "data/linked",
                 },
             )
+            self.assertEqual(o_dataset.md5_files, [p_root / "data/linked.md5"])
+            s_data_md5 = o_dataset.md5_files[0].read_text(encoding="UTF-8")
+            s_md5 = FileHelper.md5_hash(p_real_dir / "secret.txt")
+            self.assertIn(f"{s_md5}  data/linked/secret.txt", s_data_md5)
 
     def test_init_with_file_md5_name_collision(self) -> None:
         """Test du constructeur avec deux fichiers générant le même nom de md5 distant."""
