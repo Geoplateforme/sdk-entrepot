@@ -18,7 +18,8 @@
                             },
                             "output": {
                                 "stored_data": {
-                                    "name": "{params.producteur}"
+                                    "name": "{params.producteur}",
+                                    "storage_tags": ["PYRAMIDE"]
                                 }
                             },
                             "parameters": {
@@ -239,7 +240,8 @@
                             },
                             "output": {
                                 "stored_data": {
-                                    "name": "{params.producteur}{params.new_version}"
+                                    "name": "{params.producteur}{params.new_version}",
+                                    "storage_tags": ["PYRAMIDE"]
                                 }
                             },
                             "parameters": {
