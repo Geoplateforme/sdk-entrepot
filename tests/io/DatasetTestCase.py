@@ -1,3 +1,4 @@
+import os
 import tempfile
 from pathlib import Path
 
@@ -25,6 +26,7 @@ class DatasetTestCase(GpfTestCase):
         p_md5 = p_root / "CANTON.md5"
         # Suppression du fichier md5 (les tests doivent le régénérer)
         p_md5.unlink(missing_ok=True)
+        self.addCleanup(p_md5.unlink, missing_ok=True)
         self.assertFalse(p_md5.exists(), "CANTON.md5 existe")
         # Instanciation
         o_dataset = Dataset(d_dataset, p_root)
@@ -77,6 +79,7 @@ class DatasetTestCase(GpfTestCase):
         s_data_md5 = p_md5.read_text(encoding="UTF-8")
         s_md5 = FileHelper.md5_hash(p_root / "standalone.txt")
         self.assertIn(f"{s_md5}  standalone.txt", s_data_md5)
+        os.remove(p_md5)
 
     def test_init_with_invalid_data_dir(self) -> None:
         """Test du constructeur avec un data_dirs introuvable."""
