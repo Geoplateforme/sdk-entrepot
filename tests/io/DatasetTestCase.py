@@ -108,6 +108,10 @@ class DatasetTestCase(GpfTestCase):
             p_root.mkdir()
             p_a_file = p_root / "a/file.txt"
             p_b_file = p_root / "b/file.txt"
+            p_a_file.parent.mkdir()
+            p_b_file.parent.mkdir()
+            p_a_file.write_text("a", encoding="utf-8")
+            p_b_file.write_text("b", encoding="utf-8")
             p_data_dir = p_root / "data"
             p_data_dir.mkdir()
             p_outside_dir = Path(s_tmp_dir) / "outside"
@@ -118,7 +122,7 @@ class DatasetTestCase(GpfTestCase):
                 p_link.symlink_to(p_outside_dir, target_is_directory=True)
             except (NotImplementedError, OSError):
                 self.skipTest("La création de liens symboliques n'est pas disponible.")
-            d_dataset = {"data_dirs": ["../outside.txt"], "upload_infos": {}, "comments": [], "tags": {}}
+            d_dataset = {"data_dirs": ["data/linked"], "upload_infos": {}, "comments": [], "tags": {}}
             with self.assertRaises(ValueError):
                 Dataset(d_dataset, p_root)
             self.assertFalse((p_a_file.parent / "file.txt.md5").exists())
