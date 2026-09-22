@@ -4,3 +4,10 @@
 # Sauf les fichiers binaires
 *.png binary
 *.jpg binary
+*.gpkg binary
+*.cpg binary
+*.bdf binary
+*.shp binary
+*.shx binary
+*.sld binary
+*.tiff binary
