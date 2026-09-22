@@ -35,6 +35,7 @@ class ConfigurationTestCase(GpfTestCase):
                 "configuration_list_offerings",
                 route_params={"datastore": "id_datastore", "configuration": "123456789"},
                 method=ApiRequester.GET,
+                params={},
             )
             # on vérifie qu'on a bien récupéré une liste d'Offering
             self.assertIsInstance(l_offerings, list)
@@ -42,6 +43,38 @@ class ConfigurationTestCase(GpfTestCase):
             self.assertIsInstance(l_offerings[1], Offering)
             self.assertEqual(l_offerings[0].id, "offering_1")
             self.assertEqual(l_offerings[1].id, "offering_2")
+
+    def test_list_offerings_with_fields(self) -> None:
+        """Vérifie que api_list_offerings surcharge bien la liste des champs demandés quand l'utilisateur en précise une."""
+
+        o_response = GpfTestCase.get_response(json=[{"_id": "offering_1"}])
+        l_fields = ["_id", "status"]
+
+        with patch.object(ApiRequester, "route_request", return_value=o_response) as o_mock_request:
+            o_configuration = Configuration({"_id": "123456789"}, "id_datastore")
+            o_configuration.api_list_offerings(fields=l_fields)
+            o_mock_request.assert_called_once_with(
+                "configuration_list_offerings",
+                route_params={"datastore": "id_datastore", "configuration": "123456789"},
+                method=ApiRequester.GET,
+                params={"fields": l_fields},
+            )
+
+    def test_list_offerings_with_none_fields(self) -> None:
+        """Vérifie que api_list_offerings retombe sur Offering.get_fields() quand fields=None."""
+
+        o_response = GpfTestCase.get_response(json=[{"_id": "offering_1"}])
+        l_fields = ["_id", "status"]
+
+        with patch.object(Offering, "get_fields", return_value=l_fields), patch.object(ApiRequester, "route_request", return_value=o_response) as o_mock_request:
+            o_configuration = Configuration({"_id": "123456789"}, "id_datastore")
+            o_configuration.api_list_offerings(fields=None)
+            o_mock_request.assert_called_once_with(
+                "configuration_list_offerings",
+                route_params={"datastore": "id_datastore", "configuration": "123456789"},
+                method=ApiRequester.GET,
+                params={"fields": l_fields},
+            )
 
     def test_add_offering(self) -> None:
         """Vérifie le bon fonctionnement de api_add_offering.
