@@ -84,20 +84,6 @@ class StoreEntityResolver(AbstractResolver):
         d_filter_tags = StoreEntity.filter_dict_from_str(s_filter_tags)
         # On récupère le type de StoreEntity demandé
         s_entity_type = str(d_groups["entity_type"])
-        # Cas particulier des configurations : la clef "type" ne peut prendre qu'un nombre fini de valeurs.
-        # On vérifie ici la valeur fournie pour lever une erreur explicite avant l'appel API si elle est invalide.
-        if (
-            s_entity_type == Configuration.entity_name()
-            and "type" in d_filter_infos
-            and d_filter_infos["type"] not in Configuration.VALID_TYPES
-        ):
-            raise InvalidFilterValueError(
-                self.name,
-                string_to_solve,
-                "type",
-                d_filter_infos["type"],
-                Configuration.VALID_TYPES,
-            )
         # On liste les éléments API via la fonction de classe
         l_entities = self.__key_to_cls[s_entity_type].api_list(
             infos_filter=d_filter_infos,
@@ -107,9 +93,12 @@ class StoreEntityResolver(AbstractResolver):
         )
         # Si on a aucune entité trouvée
         if len(l_entities) == 0:
+            # Cas particulier des configurations : la clef "type" ne peut prendre qu'un nombre fini de valeurs.
+            # On vérifie ici la valeur fournie pour donner une erreur plus explicite, sans bloquer en amont
+            # (le SDK peut ne pas être à jour par rapport à la GPF, un nouveau type pourrait exister côté API).
+            if s_entity_type == Configuration.entity_name() and "type" in d_filter_infos and d_filter_infos["type"] not in Configuration.VALID_TYPES:
+                raise InvalidFilterValueError(self.name, string_to_solve, "type", d_filter_infos["type"], Configuration.VALID_TYPES)
             raise NoEntityFoundError(self.name, string_to_solve)
-        # Sinon on regarde ce qu'on doit envoyer
-
         if d_groups["number_dict"] == "ONE":
             # json de la première entité trouvée
             l_entities[0].api_update()
