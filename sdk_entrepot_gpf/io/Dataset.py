@@ -96,13 +96,13 @@ class Dataset:
                 # pour remplir un dictionnaire temporaire (liste ordonnée selon le chemin complet du fichier).
                 d_md5 = {}
                 if b_is_dir:
-                    for p_file, s_api_dir in sorted(self.__data_files.items(), key=lambda o_item: (Path(o_item[1]) / o_item[0].name).as_posix()):
+                    for p_file, s_api_dir in sorted(self.__data_files.items(), key=lambda o_item: self.__get_api_file_path(o_item[0], o_item[1]).as_posix()):
                         if p_elt in p_file.parents:
-                            p_file_trunc = Path(s_api_dir) / p_file.name
+                            p_file_trunc = self.__get_api_file_path(p_file, s_api_dir)
                             d_md5[p_file_trunc] = FileHelper.md5_hash(p_file)
                 else:
                     s_api_dir = self.__data_files[p_elt]
-                    p_file_trunc = Path(s_api_dir) / p_elt.name
+                    p_file_trunc = self.__get_api_file_path(p_elt, s_api_dir)
                     d_md5[p_file_trunc] = FileHelper.md5_hash(p_elt)
 
                 # A la fin on rempli le fichier .md5
@@ -125,6 +125,11 @@ class Dataset:
         if not p_abs_elt.is_dir() and not p_abs_elt.is_file():
             raise ValueError(f"Le chemin de données '{p_dir}' n'est ni un dossier ni un fichier valide.")
         return p_abs_elt
+
+    @staticmethod
+    def __get_api_file_path(p_file: Path, s_api_dir: str) -> Path:
+        """Construit le chemin relatif transmis à l'API et écrit dans le md5."""
+        return Path(s_api_dir) / p_file.name
 
     @property
     def data_dirs(self) -> List[Path]:
