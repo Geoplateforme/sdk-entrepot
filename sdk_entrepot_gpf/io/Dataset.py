@@ -169,24 +169,21 @@ class Dataset:
             raise ValueError(f"Le chemin de données '{path_rep}' est hors du répertoire racine '{root_dir}'.") from o_error
         if p_rep_resolved in s_seen_dirs:
             raise ValueError(f"Le chemin de données '{path_rep}' contient une boucle de liens symboliques.")
-        s_seen_dirs.add(p_rep_resolved)
-        try:
-            for p_elt in p_rep_resolved.iterdir():
-                p_rep_elt = path_rep / p_elt.name
-                p_rep_elt_resolved = (root_dir / p_rep_elt).resolve()
-                # Appel récursif si l'élément est un dossier
-                if p_elt.is_dir():
-                    try:
-                        p_rep_elt_resolved.relative_to(root_dir)
-                    except ValueError as o_error:
-                        raise ValueError(f"Le chemin de données '{p_rep_elt}' est hors du répertoire racine '{root_dir}'.") from o_error
-                    self.__list_rec(root_dir, p_rep_elt, p_rep_elt_resolved, s_seen_dirs)
-                # L'élément est un fichier
-                elif p_elt.is_file():
-                    try:
-                        p_rep_elt_resolved.relative_to(root_dir)
-                    except ValueError as o_error:
-                        raise ValueError(f"Le chemin de données '{p_rep_elt}' est hors du répertoire racine '{root_dir}'.") from o_error
-                    self.__data_files[p_rep_elt_resolved] = p_rep_elt.parent.as_posix()
-        finally:
-            s_seen_dirs.remove(p_rep_resolved)
+        s_seen_dirs = s_seen_dirs | {p_rep_resolved}
+        for p_elt in p_rep_resolved.iterdir():
+            p_rep_elt = path_rep / p_elt.name
+            p_rep_elt_resolved = p_elt.resolve()
+            # Appel récursif si l'élément est un dossier
+            if p_elt.is_dir():
+                try:
+                    p_rep_elt_resolved.relative_to(root_dir)
+                except ValueError as o_error:
+                    raise ValueError(f"Le chemin de données '{p_rep_elt}' est hors du répertoire racine '{root_dir}'.") from o_error
+                self.__list_rec(root_dir, p_rep_elt, p_rep_elt_resolved, s_seen_dirs)
+            # L'élément est un fichier
+            elif p_elt.is_file():
+                try:
+                    p_rep_elt_resolved.relative_to(root_dir)
+                except ValueError as o_error:
+                    raise ValueError(f"Le chemin de données '{p_rep_elt}' est hors du répertoire racine '{root_dir}'.") from o_error
+                self.__data_files[p_rep_elt_resolved] = p_rep_elt.parent.as_posix()
