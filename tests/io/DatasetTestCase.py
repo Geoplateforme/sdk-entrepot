@@ -127,6 +127,7 @@ class DatasetTestCase(GpfTestCase):
                 Dataset(d_dataset, p_root)
             self.assertFalse((p_a_file.parent / "file.txt.md5").exists())
             self.assertFalse((p_b_file.parent / "file.txt.md5").exists())
+            os.remove(p_link)
 
     def test_init_with_symlinked_subdir_inside_root_keeps_symlink_path(self) -> None:
         """Test du constructeur avec un sous-dossier symbolique interne au dossier racine."""
