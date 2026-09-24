@@ -50,7 +50,7 @@ class Dataset:
         for p_dir in self.__data_dirs:
             p_abs_elt = self.__resolve_data_path(p_dir)
             if p_abs_elt.is_dir():
-                self.__list_rec(self.__root_dir, p_dir, set())
+                self.__list_rec(self.__root_dir, p_dir, p_abs_elt, set())
             else:
                 self.__data_files[p_abs_elt] = p_dir.parent.as_posix()
 
@@ -155,16 +155,14 @@ class Dataset:
     def md5_files(self) -> List[Path]:
         return self.__md5_files
 
-    def __list_rec(self, root_dir: Path, path_rep: Path, s_seen_dirs: Set[Path]) -> None:
+    def __list_rec(self, root_dir: Path, path_rep: Path, p_rep_resolved: Path, s_seen_dirs: Set[Path]) -> None:
         """Fonction récursive permettant de lister des fichiers
 
         Args:
             root_dir (Path): Chemin absolu du dossier racine
             path_rep (Path): Chemin du dossier à lister
+            p_rep_resolved (Path): Chemin réel du dossier à parcourir
         """
-
-        p_rep = root_dir / path_rep
-        p_rep_resolved = p_rep.resolve()
         try:
             p_rep_resolved.relative_to(root_dir)
         except ValueError as o_error:
@@ -182,7 +180,7 @@ class Dataset:
                         p_rep_elt_resolved.relative_to(root_dir)
                     except ValueError as o_error:
                         raise ValueError(f"Le chemin de données '{p_rep_elt}' est hors du répertoire racine '{root_dir}'.") from o_error
-                    self.__list_rec(root_dir, p_rep_elt, s_seen_dirs)
+                    self.__list_rec(root_dir, p_rep_elt, p_rep_elt_resolved, s_seen_dirs)
                 # L'élément est un fichier
                 elif p_elt.is_file():
                     try:
