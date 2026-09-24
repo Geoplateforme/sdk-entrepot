@@ -26,7 +26,6 @@ class DatasetTestCase(GpfTestCase):
         p_md5 = p_root / "CANTON.md5"
         # Suppression du fichier md5 (les tests doivent le régénérer)
         p_md5.unlink(missing_ok=True)
-        self.addCleanup(p_md5.unlink, missing_ok=True)
         self.assertFalse(p_md5.exists(), "CANTON.md5 existe")
         # Instanciation
         o_dataset = Dataset(d_dataset, p_root)
