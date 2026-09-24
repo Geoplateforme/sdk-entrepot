@@ -197,8 +197,11 @@ class DatasetTestCase(GpfTestCase):
             o_dataset = Dataset(d_dataset, p_root)
 
             self.assertEqual(o_dataset.md5_files, [p_root / "data/real.md5", p_root / "data/linked.md5"])
-            for p_md5 in o_dataset.md5_files:
-                self.assertTrue(p_md5.exists())
+            s_real_md5 = (p_root / "data/real.md5").read_text(encoding="utf-8")
+            s_linked_md5 = (p_root / "data/linked.md5").read_text(encoding="utf-8")
+            s_file_md5 = FileHelper.md5_hash(p_real_dir / "file.txt")
+            self.assertIn(f"{s_file_md5}  data/real/file.txt", s_real_md5)
+            self.assertIn(f"{s_file_md5}  data/linked/file.txt", s_linked_md5)
 
     def test_init_with_file_md5_name_collision(self) -> None:
         """Test du constructeur avec deux fichiers générant le même nom de md5 distant."""

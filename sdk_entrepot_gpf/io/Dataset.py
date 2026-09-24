@@ -86,7 +86,7 @@ class Dataset:
             d_md5_names[p_md5_suf.name] = (p_dir, p_md5_suf)
             l_md5_targets.append((p_dir, p_elt, b_is_dir, p_md5_suf))
 
-        for _, p_elt, b_is_dir, p_md5_suf in l_md5_targets:
+        for p_dir, p_elt, b_is_dir, p_md5_suf in l_md5_targets:
             # On teste si le fichier md5 existe, sinon on le crée
             if not p_md5_suf.exists():
                 Config().om.info(f"Le fichier md5 {p_md5_suf.relative_to(self.__root_dir)} n'existe pas, il va être créé")
@@ -96,10 +96,12 @@ class Dataset:
                 # pour remplir un dictionnaire temporaire (liste ordonnée selon le chemin complet du fichier).
                 d_md5 = {}
                 if b_is_dir:
-                    for p_file, s_api_dir in sorted(self.__data_files.items(), key=lambda o_item: self.__get_api_file_path(o_item[0], o_item[1]).as_posix()):
-                        if p_elt in p_file.parents:
-                            p_file_trunc = self.__get_api_file_path(p_file, s_api_dir)
-                            d_md5[p_file_trunc] = FileHelper.md5_hash(p_file)
+                    for p_file in sorted(self.__data_files, key=str):
+                        try:
+                            p_file_trunc = p_dir / p_file.relative_to(p_elt)
+                        except ValueError:
+                            continue
+                        d_md5[p_file_trunc] = FileHelper.md5_hash(p_file)
                 else:
                     s_api_dir = self.__data_files[p_elt]
                     p_file_trunc = self.__get_api_file_path(p_elt, s_api_dir)
