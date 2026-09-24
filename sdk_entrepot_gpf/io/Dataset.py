@@ -107,13 +107,19 @@ class Dataset:
             if not p_md5_suf.exists():
                 Config().om.info(f"Le fichier md5 {p_md5_suf.relative_to(self.__root_dir)} n'existe pas, il va être créé")
 
-                # On parcourt les fichiers pour remplir un dictionnaire temporaire
-                # la liste des fichiers est ordonnée selon le chemin complet du ficher
+                # Pour un fichier unique, on connaît déjà l'unique fichier concerné : pas besoin
+                # de parcourir __data_files. Pour un dossier, on parcourt les fichiers enfants
+                # pour remplir un dictionnaire temporaire (liste ordonnée selon le chemin complet du fichier).
                 d_md5 = {}
-                for p_file, s_api_dir in sorted(self.__data_files.items(), key=lambda o_item: (Path(o_item[1]) / o_item[0].name).as_posix()):
-                    if (b_is_dir and p_elt in p_file.parents) or (not b_is_dir and p_file == p_elt):
-                        p_file_trunc = Path(s_api_dir) / p_file.name
-                        d_md5[p_file_trunc] = FileHelper.md5_hash(p_file)
+                if b_is_dir:
+                    for p_file, s_api_dir in sorted(self.__data_files.items(), key=lambda o_item: (Path(o_item[1]) / o_item[0].name).as_posix()):
+                        if p_elt in p_file.parents:
+                            p_file_trunc = Path(s_api_dir) / p_file.name
+                            d_md5[p_file_trunc] = FileHelper.md5_hash(p_file)
+                else:
+                    s_api_dir = self.__data_files[p_elt]
+                    p_file_trunc = Path(s_api_dir) / p_elt.name
+                    d_md5[p_file_trunc] = FileHelper.md5_hash(p_elt)
 
                 # A la fin on rempli le fichier .md5
                 with open(p_md5_suf, "w", encoding="utf-8") as o_md5_file:
