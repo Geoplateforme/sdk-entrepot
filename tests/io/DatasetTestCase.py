@@ -155,6 +155,24 @@ class DatasetTestCase(GpfTestCase):
             s_md5 = FileHelper.md5_hash(p_real_dir / "secret.txt")
             self.assertIn(f"{s_md5}  data/linked/secret.txt", s_data_md5)
 
+    def test_init_with_symlink_cycle_inside_root(self) -> None:
+        """Test du constructeur avec une boucle de liens symboliques interne au dossier racine."""
+        with tempfile.TemporaryDirectory() as s_tmp_dir:
+            p_root = Path(s_tmp_dir) / "root"
+            p_root.mkdir()
+            p_data_dir = p_root / "data"
+            p_data_dir.mkdir()
+            (p_data_dir / "file.txt").write_text("content", encoding="utf-8")
+            p_link = p_data_dir / "loop"
+            try:
+                p_link.symlink_to(p_data_dir, target_is_directory=True)
+            except (NotImplementedError, OSError):
+                self.skipTest("La création de liens symboliques n'est pas disponible.")
+            d_dataset = {"data_dirs": ["data"], "upload_infos": {}, "comments": [], "tags": {}}
+
+            with self.assertRaises(ValueError):
+                Dataset(d_dataset, p_root)
+
     def test_init_with_file_md5_name_collision(self) -> None:
         """Test du constructeur avec deux fichiers générant le même nom de md5 distant."""
         with tempfile.TemporaryDirectory() as s_tmp_dir:

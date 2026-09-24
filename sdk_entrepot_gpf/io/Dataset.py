@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Set, Tuple
 from sdk_entrepot_gpf.helper.FileHelper import FileHelper
 
 from sdk_entrepot_gpf.io.Config import Config
@@ -50,7 +50,7 @@ class Dataset:
         for p_dir in self.__data_dirs:
             p_abs_elt = self.__resolve_data_path(p_dir)
             if p_abs_elt.is_dir():
-                self.__list_rec(self.__root_dir, p_dir)
+                self.__list_rec(self.__root_dir, p_dir, set())
             else:
                 self.__data_files[p_abs_elt] = p_dir.parent.as_posix()
 
@@ -155,7 +155,7 @@ class Dataset:
     def md5_files(self) -> List[Path]:
         return self.__md5_files
 
-    def __list_rec(self, root_dir: Path, path_rep: Path) -> None:
+    def __list_rec(self, root_dir: Path, path_rep: Path, s_seen_dirs: Set[Path]) -> None:
         """Fonction récursive permettant de lister des fichiers
 
         Args:
@@ -169,20 +169,26 @@ class Dataset:
             p_rep_resolved.relative_to(root_dir)
         except ValueError as o_error:
             raise ValueError(f"Le chemin de données '{path_rep}' est hors du répertoire racine '{root_dir}'.") from o_error
-        for p_elt in p_rep_resolved.iterdir():
-            p_rep_elt = path_rep / p_elt.name
-            p_rep_elt_resolved = (root_dir / p_rep_elt).resolve()
-            # Appel récursif si l'élément est un dossier
-            if p_elt.is_dir():
-                try:
-                    p_rep_elt_resolved.relative_to(root_dir)
-                except ValueError as o_error:
-                    raise ValueError(f"Le chemin de données '{p_rep_elt}' est hors du répertoire racine '{root_dir}'.") from o_error
-                self.__list_rec(root_dir, p_rep_elt)
-            # L'élément est un fichier
-            elif p_elt.is_file():
-                try:
-                    p_rep_elt_resolved.relative_to(root_dir)
-                except ValueError as o_error:
-                    raise ValueError(f"Le chemin de données '{p_rep_elt}' est hors du répertoire racine '{root_dir}'.") from o_error
-                self.__data_files[p_rep_elt_resolved] = p_rep_elt.parent.as_posix()
+        if p_rep_resolved in s_seen_dirs:
+            raise ValueError(f"Le chemin de données '{path_rep}' contient une boucle de liens symboliques.")
+        s_seen_dirs.add(p_rep_resolved)
+        try:
+            for p_elt in p_rep_resolved.iterdir():
+                p_rep_elt = path_rep / p_elt.name
+                p_rep_elt_resolved = (root_dir / p_rep_elt).resolve()
+                # Appel récursif si l'élément est un dossier
+                if p_elt.is_dir():
+                    try:
+                        p_rep_elt_resolved.relative_to(root_dir)
+                    except ValueError as o_error:
+                        raise ValueError(f"Le chemin de données '{p_rep_elt}' est hors du répertoire racine '{root_dir}'.") from o_error
+                    self.__list_rec(root_dir, p_rep_elt, s_seen_dirs)
+                # L'élément est un fichier
+                elif p_elt.is_file():
+                    try:
+                        p_rep_elt_resolved.relative_to(root_dir)
+                    except ValueError as o_error:
+                        raise ValueError(f"Le chemin de données '{p_rep_elt}' est hors du répertoire racine '{root_dir}'.") from o_error
+                    self.__data_files[p_rep_elt_resolved] = p_rep_elt.parent.as_posix()
+        finally:
+            s_seen_dirs.remove(p_rep_resolved)
