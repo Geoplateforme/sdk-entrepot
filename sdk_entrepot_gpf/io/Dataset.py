@@ -123,9 +123,10 @@ class Dataset:
             return {p_file_trunc: FileHelper.md5_hash(p_elt)}
 
         d_md5: Dict[Path, str] = {}
-        for p_file, s_api_dir in sorted(self.__data_files.items(), key=lambda o_item: (Path(o_item[1]) / o_item[0].name).as_posix()):
+        for p_file in sorted(self.__data_files, key=lambda p_path: (Path(self.__data_files[p_path]) / p_path.name).as_posix()):
             if p_elt in p_file.parents:
-                p_file_trunc = Path(s_api_dir) / p_file.name
+                s_api_parent_dir = self.__data_files[p_file]
+                p_file_trunc = Path(s_api_parent_dir) / p_file.name
                 d_md5[p_file_trunc] = FileHelper.md5_hash(p_file)
         return d_md5
 
