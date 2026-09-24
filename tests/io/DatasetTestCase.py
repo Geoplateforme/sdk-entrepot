@@ -80,6 +80,21 @@ class DatasetTestCase(GpfTestCase):
         s_md5 = FileHelper.md5_hash(p_root / "standalone.txt")
         self.assertIn(f"{s_md5}  standalone.txt", s_data_md5)
 
+    def test_init_with_file_in_subdir(self) -> None:
+        """Test du constructeur avec un fichier déclaré dans un sous-dossier."""
+        with tempfile.TemporaryDirectory() as s_tmp_dir:
+            p_root = Path(s_tmp_dir)
+            p_file = p_root / "data/file.txt"
+            p_file.parent.mkdir()
+            p_file.write_text("content", encoding="utf-8")
+            p_md5 = p_root / "data/file.txt.md5"
+
+            o_dataset = Dataset({"data_dirs": ["data/file.txt"], "upload_infos": {}, "comments": [], "tags": {}}, p_root)
+
+            self.assertEqual(o_dataset.data_files, {p_file: "data"})
+            self.assertEqual(o_dataset.md5_files, [p_md5])
+            self.assertEqual(p_md5.read_text(encoding="utf-8").splitlines(), [f"{FileHelper.md5_hash(p_file)}  data/file.txt"])
+
     def test_init_with_invalid_data_dir(self) -> None:
         """Test du constructeur avec un data_dirs introuvable."""
         p_root = GpfTestCase.data_dir_path / "datasets" / "3_test_dataset_sub_dir"
