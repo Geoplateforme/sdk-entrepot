@@ -64,6 +64,8 @@ class Dataset:
         S'il existe, rien n'est fait.
         """
         s_pattern = Config().get("upload", "md5_pattern")
+        if s_pattern is None:
+            raise ValueError("La configuration 'upload.md5_pattern' est absente.")
         # Tous les fichiers md5 sont téléversés à la racine distante, on doit donc
         # détecter les collisions à partir de leur basename distant.
         d_md5_names: Dict[str, Tuple[Path, Path]] = {}
