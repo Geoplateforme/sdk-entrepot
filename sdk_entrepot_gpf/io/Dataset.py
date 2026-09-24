@@ -56,31 +56,45 @@ class Dataset:
         """
         p_abs_root_dir = self.__root_dir.absolute()
         s_pattern = Config().get("upload", "md5_pattern")
+        if s_pattern is None:
+            raise ValueError("Le pattern MD5 de configuration est manquant")
 
         # On parcourt le dictionnaire des répertoires
         for p_dir in self.__data_dirs:
             p_md5_dir = Path(p_abs_root_dir / p_dir)
             p_md5_dir_suf = p_md5_dir.with_suffix(".md5")
-
-            # On teste si le fichier md5 existe, sinon on le crée
-            if not p_md5_dir_suf.exists():
-                Config().om.info(f"Le fichier md5 {p_md5_dir_suf.relative_to(self.__root_dir)} n'existe pas, il va être créé")
-
-                # On parcourt les fichiers pour remplir un dictionnaire temporaire
-                # la liste des fichiers est ordonnée selon le chemin complet du ficher
-                d_md5 = {}
-                for p_file in sorted(self.__data_files, key=str):
-                    if p_md5_dir in p_file.parents:
-                        p_file_trunc = p_file.relative_to(self.__root_dir)
-                        d_md5[p_file_trunc] = FileHelper.md5_hash(p_file)
-
-                # A la fin on rempli le fichier .md5
-                with open(p_md5_dir_suf, "w", encoding="utf-8") as o_md5_file:
-                    for p_file, s_md5 in d_md5.items():
-                        o_md5_file.write(f"{s_pattern}\n".format(md5_key=s_md5, file_path=p_file.as_posix()))
+            self.__create_md5_file(p_md5_dir, p_md5_dir_suf, s_pattern)
 
             # Enfin, on l'ajoute à la liste des fichiers md5
             self.__md5_files.append(p_md5_dir_suf)
+
+    def __create_md5_file(self, p_md5_dir: Path, p_md5_file: Path, s_pattern: str) -> None:
+        """Crée un fichier MD5 pour un dossier de données s'il n'existe pas déjà."""
+        # On teste si le fichier md5 existe, sinon on le crée
+        if p_md5_file.exists():
+            return
+
+        Config().om.info(f"Le fichier md5 {p_md5_file.relative_to(self.__root_dir)} n'existe pas, il va être créé")
+
+        # On parcourt les fichiers pour remplir un dictionnaire temporaire
+        # la liste des fichiers est ordonnée selon le chemin complet du ficher
+        d_md5 = self.__get_md5_hashes(p_md5_dir)
+
+        # A la fin on rempli le fichier .md5
+        with open(p_md5_file, "w", encoding="utf-8") as o_md5_file:
+            for p_file, s_md5 in d_md5.items():
+                o_md5_file.write(f"{s_pattern}\n".format(md5_key=s_md5, file_path=p_file.as_posix()))
+
+    def __get_md5_hashes(self, p_md5_dir: Path) -> Dict[Path, str]:
+        """Construit le dictionnaire des fichiers et de leur clé MD5 pour un dossier donné."""
+        d_md5: Dict[Path, str] = {}
+
+        for p_file in sorted(self.__data_files, key=str):
+            if p_md5_dir in p_file.parents:
+                p_file_trunc = p_file.relative_to(self.__root_dir)
+                d_md5[p_file_trunc] = FileHelper.md5_hash(p_file)
+
+        return d_md5
 
     @property
     def data_dirs(self) -> List[Path]:
