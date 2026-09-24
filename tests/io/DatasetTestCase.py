@@ -95,6 +95,29 @@ class DatasetTestCase(GpfTestCase):
             self.assertEqual(o_dataset.md5_files, [p_md5])
             self.assertEqual(p_md5.read_text(encoding="utf-8").splitlines(), [f"{FileHelper.md5_hash(p_file)}  data/file.txt"])
 
+    def test_init_keeps_nested_md5_paths_for_duplicate_basenames(self) -> None:
+        """Test du constructeur avec des sous-dossiers contenant le même nom de fichier."""
+        with tempfile.TemporaryDirectory() as s_tmp_dir:
+            p_root = Path(s_tmp_dir)
+            p_first_file = p_root / "data/a/file.txt"
+            p_second_file = p_root / "data/b/file.txt"
+            p_first_file.parent.mkdir(parents=True)
+            p_second_file.parent.mkdir(parents=True)
+            p_first_file.write_text("first", encoding="utf-8")
+            p_second_file.write_text("second", encoding="utf-8")
+            p_md5 = p_root / "data.md5"
+
+            o_dataset = Dataset({"data_dirs": ["data"], "upload_infos": {}, "comments": [], "tags": {}}, p_root)
+
+            self.assertEqual(o_dataset.md5_files, [p_md5])
+            self.assertEqual(
+                p_md5.read_text(encoding="utf-8").splitlines(),
+                [
+                    f"{FileHelper.md5_hash(p_first_file)}  data/a/file.txt",
+                    f"{FileHelper.md5_hash(p_second_file)}  data/b/file.txt",
+                ],
+            )
+
     def test_init_with_invalid_data_dir(self) -> None:
         """Test du constructeur avec un data_dirs introuvable."""
         p_root = GpfTestCase.data_dir_path / "datasets" / "3_test_dataset_sub_dir"

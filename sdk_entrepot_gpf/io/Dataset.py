@@ -118,17 +118,19 @@ class Dataset:
     def __build_md5_content(self, p_elt: Path, b_is_dir: bool) -> Dict[Path, str]:
         """Construit le contenu attendu du fichier md5 pour une entrée data_dirs."""
         if not b_is_dir:
-            s_api_dir = self.__data_files[p_elt]
-            p_file_trunc = Path(s_api_dir) / p_elt.name
+            p_file_trunc = self.__get_remote_file_path(p_elt)
             return {p_file_trunc: FileHelper.md5_hash(p_elt)}
 
         d_md5: Dict[Path, str] = {}
-        for p_file in sorted(self.__data_files, key=lambda p_path: (Path(self.__data_files[p_path]) / p_path.name).as_posix()):
+        for p_file in sorted(self.__data_files, key=lambda p_path: self.__get_remote_file_path(p_path).as_posix()):
             if p_elt in p_file.parents:
-                s_api_parent_dir = self.__data_files[p_file]
-                p_file_trunc = Path(s_api_parent_dir) / p_file.name
+                p_file_trunc = self.__get_remote_file_path(p_file)
                 d_md5[p_file_trunc] = FileHelper.md5_hash(p_file)
         return d_md5
+
+    def __get_remote_file_path(self, p_file: Path) -> Path:
+        """Retourne le chemin distant complet d'un fichier déjà listé."""
+        return Path(self.__data_files[p_file]) / p_file.name
 
     @property
     def data_dirs(self) -> List[Path]:
