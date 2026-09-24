@@ -122,7 +122,7 @@ class Dataset:
             return {p_file_trunc: FileHelper.md5_hash(p_elt)}
 
         d_md5: Dict[Path, str] = {}
-        for p_file in sorted(self.__data_files, key=lambda p_path: self.__get_remote_file_path(p_path).as_posix()):
+        for p_file in sorted(self.__data_files, key=str):
             if p_elt in p_file.parents:
                 p_file_trunc = self.__get_remote_file_path(p_file)
                 d_md5[p_file_trunc] = FileHelper.md5_hash(p_file)
