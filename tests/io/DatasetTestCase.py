@@ -148,13 +148,44 @@ class DatasetTestCase(GpfTestCase):
             self.assertDictEqual(
                 o_dataset.data_files,
                 {
-                    p_real_dir / "secret.txt": "data/linked",
+                    p_root / "data/linked/secret.txt": "data/linked",
                 },
             )
             self.assertEqual(o_dataset.md5_files, [p_root / "data/linked.md5"])
             s_data_md5 = o_dataset.md5_files[0].read_text(encoding="UTF-8")
             s_md5 = FileHelper.md5_hash(p_real_dir / "secret.txt")
             self.assertIn(f"{s_md5}  data/linked/secret.txt", s_data_md5)
+
+    def test_init_with_symlinked_file_inside_root_keeps_symlink_path(self) -> None:
+        """Test du constructeur avec un fichier symbolique interne au dossier racine."""
+        with tempfile.TemporaryDirectory() as s_tmp_dir:
+            p_root = Path(s_tmp_dir) / "root"
+            p_root.mkdir()
+            p_real_dir = p_root / "real"
+            p_real_dir.mkdir()
+            p_real_file = p_real_dir / "secret.txt"
+            p_real_file.write_text("secret", encoding="utf-8")
+            p_data_dir = p_root / "data"
+            p_data_dir.mkdir()
+            p_link = p_data_dir / "alias.txt"
+            try:
+                p_link.symlink_to(p_real_file)
+            except (NotImplementedError, OSError):
+                self.skipTest("La création de liens symboliques n'est pas disponible.")
+            d_dataset = {"data_dirs": ["data"], "upload_infos": {}, "comments": [], "tags": {}}
+
+            o_dataset = Dataset(d_dataset, p_root)
+
+            self.assertDictEqual(
+                o_dataset.data_files,
+                {
+                    p_link: "data",
+                },
+            )
+            self.assertEqual(o_dataset.md5_files, [p_root / "data.md5"])
+            s_data_md5 = o_dataset.md5_files[0].read_text(encoding="UTF-8")
+            s_md5 = FileHelper.md5_hash(p_real_file)
+            self.assertIn(f"{s_md5}  data/alias.txt", s_data_md5)
 
     def test_init_with_file_md5_name_collision(self) -> None:
         """Test du constructeur avec deux fichiers générant le même nom de md5 distant."""
