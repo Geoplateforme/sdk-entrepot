@@ -164,6 +164,8 @@ class Dataset:
             p_rep_resolved.relative_to(root_dir)
         except ValueError as o_error:
             raise ValueError(f"Le chemin de données '{path_rep}' est hors du répertoire racine '{root_dir}'.") from o_error
+        if not p_rep_resolved.is_dir():
+            raise ValueError(f"Le chemin de données '{path_rep}' n'est pas un dossier valide dans '{root_dir}'.")
         for p_elt in p_rep.iterdir():
             p_rep_elt = path_rep / p_elt.name
             p_rep_elt_resolved = (root_dir / p_rep_elt).resolve()
