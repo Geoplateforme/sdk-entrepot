@@ -50,3 +50,23 @@ class DatasetTestCase(GpfTestCase):
             s_md5 = FileHelper.md5_hash(p_file)
             s_line = f"{s_md5}  {p_file.relative_to(p_root).as_posix()}"
             self.assertIn(s_line, s_data_md5)
+
+    def test_init_with_file(self) -> None:
+        """Test du constructeur avec un data_dirs pointant directement sur un fichier."""
+        p_descriptor = GpfTestCase.data_dir_path / "datasets" / "4_test_dataset_file" / "upload_descriptor.json"
+        p_root = p_descriptor.parent
+        d_descriptor = JsonHelper.load(p_descriptor)
+        d_dataset = d_descriptor["datasets"][0]
+        p_md5 = p_root / "standalone.txt.md5"
+        p_md5.unlink(missing_ok=True)
+        self.assertFalse(p_md5.exists(), "standalone.txt.md5 existe")
+
+        o_dataset = Dataset(d_dataset, p_root)
+
+        self.assertEqual(o_dataset.data_dirs, [Path(i) for i in d_dataset["data_dirs"]])
+        self.assertDictEqual(o_dataset.data_files, {p_root / "standalone.txt": ""})
+        self.assertEqual(o_dataset.md5_files, [p_md5])
+        self.assertTrue(p_md5.exists(), "standalone.txt.md5 n'existe pas")
+        s_md5 = FileHelper.md5_hash(p_root / "standalone.txt")
+        self.assertEqual(p_md5.read_text(encoding="UTF-8").splitlines(), [f"{s_md5}  standalone.txt"])
+        p_md5.unlink(missing_ok=True)
