@@ -136,6 +136,10 @@ class DatasetTestCase(GpfTestCase):
             p_real_dir = p_root / "data/real"
             p_real_dir.mkdir(parents=True)
             (p_real_dir / "secret.txt").write_text("secret", encoding="utf-8")
+            p_nested_dir = p_real_dir / "nested"
+            p_nested_dir.mkdir()
+            p_nested_file = p_nested_dir / "child.txt"
+            p_nested_file.write_text("child", encoding="utf-8")
             p_link = p_root / "data/linked"
             try:
                 p_link.symlink_to(p_real_dir, target_is_directory=True)
@@ -149,12 +153,15 @@ class DatasetTestCase(GpfTestCase):
                 o_dataset.data_files,
                 {
                     p_root / "data/linked/secret.txt": "data/linked",
+                    p_root / "data/linked/nested/child.txt": "data/linked/nested",
                 },
             )
             self.assertEqual(o_dataset.md5_files, [p_root / "data/linked.md5"])
             s_data_md5 = o_dataset.md5_files[0].read_text(encoding="UTF-8")
             s_md5 = FileHelper.md5_hash(p_real_dir / "secret.txt")
             self.assertIn(f"{s_md5}  data/linked/secret.txt", s_data_md5)
+            s_nested_md5 = FileHelper.md5_hash(p_nested_file)
+            self.assertIn(f"{s_nested_md5}  data/linked/nested/child.txt", s_data_md5)
 
     def test_init_with_symlinked_file_inside_root_keeps_symlink_path(self) -> None:
         """Test du constructeur avec un fichier symbolique interne au dossier racine."""

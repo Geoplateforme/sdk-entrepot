@@ -110,9 +110,8 @@ class Dataset:
                 d_md5 = {}
                 if b_is_dir:
                     for p_file, s_api_dir in l_sorted_data_files:
-                        p_api_dir = Path(s_api_dir)
-                        if p_api_dir == p_dir or p_dir in p_api_dir.parents:
-                            p_file_trunc = p_api_dir / p_file.name
+                        p_file_trunc = Path(s_api_dir) / p_file.name
+                        if p_file_trunc.parent == p_dir or p_dir in p_file_trunc.parents:
                             d_md5[p_file_trunc] = FileHelper.md5_hash(p_file)
                 else:
                     p_file = self.__root_dir / p_dir
