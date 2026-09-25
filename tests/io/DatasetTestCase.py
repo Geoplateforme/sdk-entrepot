@@ -131,7 +131,7 @@ class DatasetTestCase(GpfTestCase):
     def test_init_with_symlinked_subdir_inside_root_keeps_symlink_path(self) -> None:
         """Test du constructeur avec un sous-dossier symbolique interne au dossier racine."""
         with tempfile.TemporaryDirectory() as s_tmp_dir:
-            p_root = Path(s_tmp_dir) / "root"
+            p_root = (Path(s_tmp_dir) / "root").resolve()
             p_root.mkdir()
             p_real_dir = p_root / "data/real"
             p_real_dir.mkdir(parents=True)
@@ -176,7 +176,7 @@ class DatasetTestCase(GpfTestCase):
     def test_init_with_duplicate_data_dir(self) -> None:
         """Test du constructeur avec le même data_dir déclaré plusieurs fois."""
         with tempfile.TemporaryDirectory() as s_tmp_dir:
-            p_root = Path(s_tmp_dir)
+            p_root = Path(s_tmp_dir).resolve()
             p_file = p_root / "file.txt"
             p_file.write_text("content", encoding="utf-8")
             p_md5 = p_root / "file.txt.md5"
