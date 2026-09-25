@@ -83,7 +83,8 @@ class Dataset:
                             p_file_trunc = p_file.relative_to(self.__root_dir)
                             d_md5[p_file_trunc] = FileHelper.md5_hash(p_file)
                 else:
-                    d_md5[p_dir] = FileHelper.md5_hash(p_data)
+                    s_api_dir = self.__data_files[p_data]
+                    d_md5[Path(s_api_dir) / p_data.name] = FileHelper.md5_hash(p_data)
 
                 # A la fin on rempli le fichier .md5
                 with open(p_md5_dir_suf, "w", encoding="utf-8") as o_md5_file:

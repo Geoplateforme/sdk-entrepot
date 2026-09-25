@@ -1,3 +1,4 @@
+import tempfile
 from pathlib import Path
 
 from sdk_entrepot_gpf.helper.FileHelper import FileHelper
@@ -70,3 +71,19 @@ class DatasetTestCase(GpfTestCase):
         s_md5 = FileHelper.md5_hash(p_root / "standalone.txt")
         self.assertEqual(p_md5.read_text(encoding="UTF-8").splitlines(), [f"{s_md5}  standalone.txt"])
         p_md5.unlink(missing_ok=True)
+
+    def test_init_with_nested_file(self) -> None:
+        """Test du constructeur avec un data_dirs pointant sur un fichier dans un sous-dossier."""
+        with tempfile.TemporaryDirectory() as s_tmp_dir:
+            p_root = Path(s_tmp_dir)
+            p_data = p_root / "nested" / "standalone.txt"
+            p_data.parent.mkdir()
+            p_data.write_text("contenu du fichier de test", encoding="UTF-8")
+            p_md5 = Path(f"{p_data}.md5")
+
+            o_dataset = Dataset({"data_dirs": ["nested/standalone.txt"], "upload_infos": {}, "comments": [], "tags": {}}, p_root)
+
+            self.assertDictEqual(o_dataset.data_files, {p_data: "nested"})
+            self.assertEqual(o_dataset.md5_files, [p_md5])
+            s_md5 = FileHelper.md5_hash(p_data)
+            self.assertEqual(p_md5.read_text(encoding="UTF-8").splitlines(), [f"{s_md5}  nested/standalone.txt"])
