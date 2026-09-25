@@ -9,7 +9,7 @@ class Dataset:
     """Classe portante les infos nécessaires à la création d'une livraison et issues du dataset.
 
     Attributes:
-        __data_dirs (List[Path]): Liste des dossiers à envoyer à l'API
+        __data_dirs (List[Path]): Liste des dossiers et/ou fichiers à envoyer à l'API
         __upload_infos (Dict[str, str]): Informations permettant de créer la livraison
         __comments (List[str]): Commentaires à ajouter à la livraison
         __tags (Dict[str, str]): Tags à ajouter à la livraison
@@ -46,12 +46,21 @@ class Dataset:
         """
         p_abs_root_dir = self.__root_dir.absolute()
         for p_dir in self.__data_dirs:
-            self.__list_rec(p_abs_root_dir, p_dir)
+            p_data = p_abs_root_dir / p_dir
+            if p_data.is_dir():
+                self.__list_rec(p_abs_root_dir, p_dir)
+            elif p_data.is_file():
+                s_api_dir = p_dir.parent.as_posix()
+                self.__data_files[p_data] = "" if s_api_dir == "." else s_api_dir
+            else:
+                raise FileNotFoundError(f"Le chemin de données '{p_dir}' est introuvable.")
 
     def __generate_md5_files(self) -> None:
         """Génère les fichiers de clés md5 à importer sur l'entrepôt API.
         Pour chaque dossier de donnée, cherche un fichier .md5 correspondant,
         s'il n'existe pas il est créé et rempli en parcourant les fichiers enfants du dossier.
+        Pour chaque fichier de donnée déclaré directement dans data_dirs, un fichier
+        <nom_fichier>.md5 est généré si nécessaire avec sa seule empreinte.
         S'il existe, rien n'est fait.
         """
         p_abs_root_dir = self.__root_dir.absolute()
@@ -59,8 +68,9 @@ class Dataset:
 
         # On parcourt le dictionnaire des répertoires
         for p_dir in self.__data_dirs:
-            p_md5_dir = Path(p_abs_root_dir / p_dir)
-            p_md5_dir_suf = p_md5_dir.with_suffix(".md5")
+            p_data = p_abs_root_dir / p_dir
+            b_data_is_dir = p_data.is_dir()
+            p_md5_dir_suf = p_data.with_suffix(".md5") if b_data_is_dir else Path(f"{p_data}.md5")
 
             # On teste si le fichier md5 existe, sinon on le crée
             if not p_md5_dir_suf.exists():
@@ -69,10 +79,14 @@ class Dataset:
                 # On parcourt les fichiers pour remplir un dictionnaire temporaire
                 # la liste des fichiers est ordonnée selon le chemin complet du ficher
                 d_md5 = {}
-                for p_file in sorted(self.__data_files, key=str):
-                    if p_md5_dir in p_file.parents:
-                        p_file_trunc = p_file.relative_to(self.__root_dir)
-                        d_md5[p_file_trunc] = FileHelper.md5_hash(p_file)
+                if b_data_is_dir:
+                    for p_file in sorted(self.__data_files, key=str):
+                        if p_data in p_file.parents:
+                            p_file_trunc = p_file.relative_to(self.__root_dir)
+                            d_md5[p_file_trunc] = FileHelper.md5_hash(p_file)
+                else:
+                    s_api_dir = self.__data_files[p_data]
+                    d_md5[Path(s_api_dir) / p_data.name] = FileHelper.md5_hash(p_data)
 
                 # A la fin on rempli le fichier .md5
                 with open(p_md5_dir_suf, "w", encoding="utf-8") as o_md5_file:
