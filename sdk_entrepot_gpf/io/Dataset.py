@@ -175,6 +175,8 @@ class Dataset:
                     p_rep_elt_resolved.relative_to(root_dir)
                 except ValueError as o_error:
                     raise ValueError(f"Le chemin de données '{p_rep_elt}' est hors du répertoire racine '{root_dir}'.") from o_error
+                if not p_rep_elt_resolved.is_dir():
+                    raise ValueError(f"Le chemin de données '{p_rep_elt}' n'est pas un dossier valide dans '{root_dir}'.")
                 self.__list_rec(root_dir, p_rep_elt)
             # L'élément est un fichier
             elif p_elt.is_file():
