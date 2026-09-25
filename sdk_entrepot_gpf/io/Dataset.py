@@ -52,6 +52,8 @@ class Dataset:
             elif p_data.is_file():
                 s_api_dir = p_dir.parent.as_posix()
                 self.__data_files[p_data] = "" if s_api_dir == "." else s_api_dir
+            else:
+                raise FileNotFoundError(f"Le chemin de données '{p_dir}' est introuvable.")
 
     def __generate_md5_files(self) -> None:
         """Génère les fichiers de clés md5 à importer sur l'entrepôt API.

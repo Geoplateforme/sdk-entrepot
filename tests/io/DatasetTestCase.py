@@ -87,3 +87,8 @@ class DatasetTestCase(GpfTestCase):
             self.assertEqual(o_dataset.md5_files, [p_md5])
             s_md5 = FileHelper.md5_hash(p_data)
             self.assertEqual(p_md5.read_text(encoding="UTF-8").splitlines(), [f"{s_md5}  nested/standalone.txt"])
+
+    def test_init_with_missing_path(self) -> None:
+        """Test du constructeur avec un data_dirs pointant sur un chemin introuvable."""
+        with self.assertRaises(FileNotFoundError):
+            Dataset({"data_dirs": ["missing.txt"], "upload_infos": {}, "comments": [], "tags": {}}, GpfTestCase.data_dir_path)
