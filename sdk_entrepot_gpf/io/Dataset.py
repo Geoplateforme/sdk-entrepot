@@ -83,7 +83,7 @@ class Dataset:
 
         # On parcourt le dictionnaire des répertoires pour récupérer la liste des fichiers md5
         for p_dir in self.__data_dirs:
-            p_elt = self.__check_relative(p_elt)
+            p_elt = self.__check_relative(p_dir)
             b_is_dir = p_elt.is_dir()
             p_md5 = self.__root_dir / p_dir
             # Pour un dossier, le fichier md5 remplace l'extension (ex: CANTON -> CANTON.md5)
