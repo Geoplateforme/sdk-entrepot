@@ -158,30 +158,31 @@ class Dataset:
             path_rep (Path): Chemin du dossier à lister
         """
 
+        p_root_dir = root_dir.resolve()
         p_rep = root_dir / path_rep
         p_rep_resolved = p_rep.resolve()
         try:
-            p_rep_resolved.relative_to(root_dir)
+            p_rep_resolved.relative_to(p_root_dir)
         except ValueError as o_error:
-            raise ValueError(f"Le chemin de données '{path_rep}' est hors du répertoire racine '{root_dir}'.") from o_error
+            raise ValueError(f"Le chemin de données '{path_rep}' est hors du répertoire racine '{p_root_dir}'.") from o_error
         if not p_rep_resolved.is_dir():
-            raise ValueError(f"Le chemin de données '{path_rep}' n'est pas un dossier valide dans '{root_dir}'.")
+            raise ValueError(f"Le chemin de données '{path_rep}' n'est pas un dossier valide dans '{p_root_dir}'.")
         for p_elt in p_rep.iterdir():
             p_rep_elt = path_rep / p_elt.name
             p_rep_elt_resolved = (root_dir / p_rep_elt).resolve()
             # Appel récursif si l'élément est un dossier
             if p_elt.is_dir():
                 try:
-                    p_rep_elt_resolved.relative_to(root_dir)
+                    p_rep_elt_resolved.relative_to(p_root_dir)
                 except ValueError as o_error:
-                    raise ValueError(f"Le chemin de données '{p_rep_elt}' est hors du répertoire racine '{root_dir}'.") from o_error
+                    raise ValueError(f"Le chemin de données '{p_rep_elt}' est hors du répertoire racine '{p_root_dir}'.") from o_error
                 if not p_rep_elt_resolved.is_dir():
-                    raise ValueError(f"Le chemin de données '{p_rep_elt}' n'est pas un dossier valide dans '{root_dir}'.")
-                self.__list_rec(root_dir, p_rep_elt)
+                    raise ValueError(f"Le chemin de données '{p_rep_elt}' n'est pas un dossier valide dans '{p_root_dir}'.")
+                self.__list_rec(p_root_dir, p_rep_elt)
             # L'élément est un fichier
             elif p_elt.is_file():
                 try:
-                    p_rep_elt_resolved.relative_to(root_dir)
+                    p_rep_elt_resolved.relative_to(p_root_dir)
                 except ValueError as o_error:
-                    raise ValueError(f"Le chemin de données '{p_rep_elt}' est hors du répertoire racine '{root_dir}'.") from o_error
-                self.__data_files[root_dir / p_rep_elt] = p_rep_elt.parent.as_posix()
+                    raise ValueError(f"Le chemin de données '{p_rep_elt}' est hors du répertoire racine '{p_root_dir}'.") from o_error
+                self.__data_files[p_root_dir / p_rep_elt] = p_rep_elt.parent.as_posix()
