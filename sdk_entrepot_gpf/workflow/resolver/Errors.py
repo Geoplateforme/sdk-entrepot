@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import List
 
 from sdk_entrepot_gpf.Errors import GpfSdkError
 
@@ -56,6 +57,32 @@ class NoEntityFoundError(GpfSdkError):
 
     def __init__(self, resolver_name: str, to_solve: str) -> None:
         s_message = f"Impossible de trouver une entité correspondante (résolveur '{resolver_name}') avec la chaîne '{to_solve}'."
+        super().__init__(s_message)
+        self.__resolver_name = resolver_name
+        self.__to_solve = to_solve
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}({self.__resolver_name}, {self.__to_solve})"
+
+
+class InvalidFilterValueError(GpfSdkError):
+    """Classe d'erreur pour le résolveur StoreEntityResolver quand la valeur d'un filtre est invalide.
+
+    Attributes:
+        __message (str): message décrivant le problème
+        __resolver_name (str): nom du résolveur
+        __to_solve (str): chaîne à résoudre
+    """
+
+    def __init__(
+        self,
+        resolver_name: str,
+        to_solve: str,
+        key: str,
+        value: str,
+        valid_values: List[str],
+    ) -> None:
+        s_message = f"Erreur du résolveur '{resolver_name}' avec la chaîne '{to_solve}' : " f"la valeur '{value}' du filtre '{key}' est invalide, valeurs possibles : " f"{', '.join(valid_values)}."
         super().__init__(s_message)
         self.__resolver_name = resolver_name
         self.__to_solve = to_solve

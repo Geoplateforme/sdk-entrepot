@@ -3,7 +3,11 @@ import re
 from typing import Any, Dict, Optional, Pattern, Type
 
 from sdk_entrepot_gpf.workflow.resolver.AbstractResolver import AbstractResolver
-from sdk_entrepot_gpf.workflow.resolver.Errors import NoEntityFoundError, ResolverError
+from sdk_entrepot_gpf.workflow.resolver.Errors import (
+    InvalidFilterValueError,
+    NoEntityFoundError,
+    ResolverError,
+)
 from sdk_entrepot_gpf.store.interface.TagInterface import TagInterface
 from sdk_entrepot_gpf.store.Processing import Processing
 from sdk_entrepot_gpf.store.StoredData import StoredData
@@ -89,9 +93,13 @@ class StoreEntityResolver(AbstractResolver):
         )
         # Si on a aucune entité trouvée
         if len(l_entities) == 0:
+            # Cas particulier des configurations : on vérifie ici la valeur de  "type"
+            # fournie pour donner une erreur plus explicite, sans bloquer en amont
+            if s_entity_type == Configuration.entity_name() and "type" in d_filter_infos and d_filter_infos["type"] not in Configuration.VALID_TYPES:
+                raise InvalidFilterValueError(self.name, string_to_solve, "type", d_filter_infos["type"], Configuration.VALID_TYPES)
             raise NoEntityFoundError(self.name, string_to_solve)
-        # Sinon on regarde ce qu'on doit envoyer
 
+        # Sinon on regarde ce qu'on doit envoyer
         if d_groups["number_dict"] == "ONE":
             # json de la première entité trouvée
             l_entities[0].api_update()
