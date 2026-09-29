@@ -318,13 +318,18 @@ class StoreEntity(ABC):
         self.delete_liste_entities(l_entities, before_delete)
 
     @staticmethod
-    def delete_liste_entities(l_entities: List["StoreEntity"], before_delete: Optional[Callable[[List["StoreEntity"]], List["StoreEntity"]]] = None) -> None:
+    def delete_liste_entities(
+        l_entities: List["StoreEntity"],
+        before_delete: Optional[Callable[[List["StoreEntity"]], List["StoreEntity"]]] = None,
+        force_delete: bool = False,
+    ) -> None:
         """Suppression d'une liste d’entités. Exécution de `before_delete(l_entities)` avant la suppression, before_delete retourne la nouvelle liste des éléments à supprimer.
 
         Args:
             l_entities (List[StoreEntity]]): liste des entités à supprimer
             before_delete (Optional[Callable[[List[StoreEntity]], List[StoreEntity]]], optional): fonction à lancer avant la suppression (entrée : liste des entités à supprimer,
                 sortie : liste définitive des entités à supprimer). Defaults to None.
+            force_delete (bool, optional): si True, on supprime les offres publiées. Defaults to False.
         """
         if before_delete is not None:
             # callback avant suppression
@@ -336,6 +341,10 @@ class StoreEntity(ABC):
         # suppression
         for o_entity in l_entities:
             o_entity.api_delete()
+            if force_delete and o_entity.entity_name() == "offering" and o_entity.get("status") == "UNPUBLISHED":
+                Config().om.info(f"Suppression de l'offre dépubliée : {o_entity.id}")
+                # on force la suppression de l'offre publiée => 2é suppression
+                o_entity.api_delete()
             time.sleep(1)
         Config().om.info("Suppression effectuée.", green_colored=True)
 

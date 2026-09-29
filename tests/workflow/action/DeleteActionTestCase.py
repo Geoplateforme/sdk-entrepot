@@ -100,7 +100,7 @@ class DeleteActionTestCase(GpfTestCase):
                 with patch.object(StoreEntity, "delete_liste_entities", return_value=[]) as o_mock_delete:
                     o_action_delete.run(s_datastore)
             o_mock_api_list.assert_called_once_with(s_entity_id, datastore=s_datastore)
-            o_mock_delete.assert_called_once_with([o_entity], DeleteAction.question_before_delete)
+            o_mock_delete.assert_called_once_with([o_entity], DeleteAction.question_before_delete, False)
             o_entity.get_liste_deletable_cascade.assert_not_called()
 
             # suppression avec entity_id en cascade
@@ -113,7 +113,7 @@ class DeleteActionTestCase(GpfTestCase):
                 with patch.object(StoreEntity, "delete_liste_entities") as o_mock_delete:
                     o_action_delete.run(s_datastore)
             o_mock_api_list.assert_called_once_with(s_entity_id, datastore=s_datastore)
-            o_mock_delete.assert_called_once_with(l_cascade, DeleteAction.question_before_delete)
+            o_mock_delete.assert_called_once_with(l_cascade, DeleteAction.question_before_delete, True)
             o_entity.get_liste_deletable_cascade.assert_called_once_with()
 
             # suppression avec les filtres
@@ -124,7 +124,7 @@ class DeleteActionTestCase(GpfTestCase):
             with patch.object(c_classe, "api_list", return_value=[o_entity_1, o_entity_2]) as o_mock_api_list:
                 with patch.object(StoreEntity, "delete_liste_entities", return_value=[]) as o_mock_delete:
                     o_action_delete.run(s_datastore)
-            o_mock_delete.assert_called_once_with([o_entity_1, o_entity_2], DeleteAction.question_before_delete)
+            o_mock_delete.assert_called_once_with([o_entity_1, o_entity_2], DeleteAction.question_before_delete, False)
             o_mock_api_list.assert_called_once_with(d_action.get("filter_infos"), d_action.get("filter_tags"), datastore=s_datastore)
             o_entity_1.get_liste_deletable_cascade.assert_not_called()
             o_entity_2.get_liste_deletable_cascade.assert_not_called()
@@ -140,7 +140,7 @@ class DeleteActionTestCase(GpfTestCase):
             with patch.object(c_classe, "api_list", return_value=[o_entity_1, o_entity_2]) as o_mock_api_list:
                 with patch.object(StoreEntity, "delete_liste_entities", return_value=[]) as o_mock_delete:
                     o_action_delete.run(s_datastore)
-            o_mock_delete.assert_called_once_with(l_cascade * 2, DeleteAction.question_before_delete)
+            o_mock_delete.assert_called_once_with(l_cascade * 2, DeleteAction.question_before_delete, True)
             o_mock_api_list.assert_called_once_with(d_action.get("filter_infos"), d_action.get("filter_tags"), datastore=s_datastore)
             o_entity_1.get_liste_deletable_cascade.assert_called_once_with()
             o_entity_2.get_liste_deletable_cascade.assert_called_once_with()
@@ -153,7 +153,7 @@ class DeleteActionTestCase(GpfTestCase):
             with patch.object(c_classe, "api_list", return_value=[o_entity_1, o_entity_2]) as o_mock_api_list:
                 with patch.object(StoreEntity, "delete_liste_entities", return_value=[]) as o_mock_delete:
                     o_action_delete.run(s_datastore)
-            o_mock_delete.assert_called_once_with([o_entity_1], DeleteAction.question_before_delete)
+            o_mock_delete.assert_called_once_with([o_entity_1], DeleteAction.question_before_delete, False)
             o_mock_api_list.assert_called_once_with(d_action.get("filter_infos"), d_action.get("filter_tags"), datastore=s_datastore)
             o_entity_1.get_liste_deletable_cascade.assert_not_called()
             o_entity_2.get_liste_deletable_cascade.assert_not_called()
@@ -166,7 +166,7 @@ class DeleteActionTestCase(GpfTestCase):
                 with patch.object(StoreEntity, "delete_liste_entities", return_value=[]) as o_mock_delete:
                     o_action_delete.run(s_datastore)
             o_mock_api_list.assert_called_once_with(s_entity_id, datastore=s_datastore)
-            o_mock_delete.assert_called_once_with([o_entity], DeleteAction.print_before_delete)
+            o_mock_delete.assert_called_once_with([o_entity], DeleteAction.print_before_delete, False)
             o_entity.get_liste_deletable_cascade.assert_not_called()
 
     def test_question_before_delete(self) -> None:

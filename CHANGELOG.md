@@ -4,7 +4,15 @@
 
 ### [Added]
 
+* liste Entities : possibilité de filtrage sur les fields (requête, configuration, classe) [#257](https://github.com/Geoplateforme/sdk-entrepot/issues/257)
+* resolver Store_entity : dans le cas de filtrage sur le type de configuration affichage d'un message d'erreur spécifique donnat les types valides [#263](https://github.com/Geoplateforme/sdk-entrepot/issues/263)
+* Offre : ajout d'un fonction qui permet de dépublier (api_unpublish)
+
 ### [Changed]
+
+* suppression offre: adaptation suite a l'ajout d'un statut UNPUBLISHED [#303](https://github.com/Geoplateforme/sdk-entrepot/issues/303)
+  * en cas de suppression d'une offre directe affichage d'un warning si elle est UNPUBLISHED.
+  * en cas de suppression en cascade l'offres est si besoin dépubliée puis supprimée
 
 ### [Fixed]
 
