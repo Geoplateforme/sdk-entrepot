@@ -1,11 +1,31 @@
 # CHANGE LOG
 
+## v0.1.45
+
+### [Added]
+
+* liste Entities : possibilité de filtrage sur les fields (requête, configuration, classe) [#257](https://github.com/Geoplateforme/sdk-entrepot/issues/257)
+* resolver Store_entity : dans le cas de filtrage sur le type de configuration affichage d'un message d'erreur spécifique donnat les types valides [#263](https://github.com/Geoplateforme/sdk-entrepot/issues/263)
+* Offre : ajout d'un fonction qui permet de dépublier (api_unpublish)
+
+### [Changed]
+
+* suppression offre: adaptation suite a l'ajout d'un statut UNPUBLISHED [#303](https://github.com/Geoplateforme/sdk-entrepot/issues/303)
+  * en cas de suppression d'une offre directe affichage d'un warning si elle est UNPUBLISHED.
+  * en cas de suppression en cascade l'offres est si besoin dépubliée puis supprimée
+
+### [Fixed]
+
 ## v0.1.44
 
 ### [Added]
 
+* StoreEntity.get_fields: calcule la liste des champs à demander en fusionnant `_entity_fields` et la configuration (`{entity_name}_list_fields`), sans doublons [#257](https://github.com/Geoplateforme/sdk-entrepot/issues/257)
+* Configuration.api_list_offerings: ajout du paramètre `fields` permettant de préciser les champs souhaités dans la réponse ; si `fields` est omis ou vaut `None`, la liste est calculée via `Offering.get_fields()` [#257](https://github.com/Geoplateforme/sdk-entrepot/issues/257)
+
 ### [Changed]
 
+* StoreEntity.api_list: si l'utilisateur précise `fields` dans `infos_filter` avec une valeur non nulle, cette valeur est utilisée telle quelle (sans être écrasée par `_entity_fields`) ; sinon la liste est calculée via `get_fields()` [#257](https://github.com/Geoplateforme/sdk-entrepot/issues/257)
 * Configuration.edit: Revert de la modification de suppression de la limitation sur les used_data pour un simple exception en cas de paramètre non donné ou vide [#269](https://github.com/Geoplateforme/sdk-entrepot/issues/269)
 
 ### [Fixed]

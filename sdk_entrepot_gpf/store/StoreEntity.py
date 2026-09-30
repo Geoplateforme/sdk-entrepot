@@ -138,11 +138,38 @@ class StoreEntity(ABC):
         return cls(o_response.json(), datastore)
 
     @classmethod
-    def api_list(cls: Type[T], infos_filter: Optional[Dict[str, str]] = None, tags_filter: Optional[Dict[str, str]] = None, page: Optional[int] = None, datastore: Optional[str] = None) -> List[T]:
+    def get_fields(cls: Type[T]) -> Optional[List[str]]:
+        """Calcule la liste des champs à demander à l'API lors d'un listing.
+
+        La liste est constituée (dans cet ordre, sans doublons) :
+
+        * des champs définis dans l'attribut de classe `_entity_fields` ;
+        * des champs définis dans la configuration, clé `{cls._entity_name}_list_fields` (section `store_api`).
+
+        Returns:
+            (Optional[List[str]]): liste des champs à demander, `None` si aucun n'est défini.
+        """
+        l_fields: List[str] = []
+        # champs définis par la classe
+        if cls._entity_fields:
+            l_fields += [f.strip() for f in cls._entity_fields.split(",") if f.strip()]
+        # champs définis dans la configuration
+        s_config_fields = Config().get("store_api", f"{cls._entity_name}_list_fields")
+        if s_config_fields:
+            l_fields += [f.strip() for f in s_config_fields.split(",") if f.strip()]
+        # suppression des doublons en conservant l'ordre
+        l_fields = list(dict.fromkeys(l_fields))
+        return l_fields if l_fields else None
+
+    @classmethod
+    def api_list(cls: Type[T], infos_filter: Optional[Dict[str, Any]] = None, tags_filter: Optional[Dict[str, str]] = None, page: Optional[int] = None, datastore: Optional[str] = None) -> List[T]:
         """Liste les entités de l'API respectant les paramètres donnés.
 
         Args:
-            infos_filter: Filtres sur les attributs sous la forme `{"nom_attribut": "valeur_attribut"}`
+            infos_filter: Filtres sur les attributs sous la forme `{"nom_attribut": "valeur_attribut"}`.
+                Si une clé `fields` y est précisée avec une valeur non nulle, elle est utilisée telle
+                quelle (l'utilisateur surcharge ainsi la liste des champs demandés) ; sinon la liste est
+                calculée via `get_fields()`.
             tags_filter: Filtres sur les tags sous la forme `{"nom_tag": "valeur_tag"}`
             page: Numéro page à récupérer, toutes si None.
             datastore: Identifiant du datastore
@@ -160,9 +187,13 @@ class StoreEntity(ABC):
         # Fusion des filtres sur les attributs et les tags
         d_params: Dict[str, Any] = {**infos_filter, **{f"tags[{k}]": v for k, v in tags_filter.items()}}
 
-        # Ajout des champs supplémentaires si nécessaires
-        if cls._entity_fields is not None:
-            d_params["fields"] = cls._entity_fields.split(",")
+        # Ajout des champs supplémentaires si nécessaire (si l'utilisateur n'a pas précisé
+        # "fields", ou si sa valeur vaut None)
+        if infos_filter.get("fields") is None:
+            d_params.pop("fields", None)
+            l_fields = cls.get_fields()
+            if l_fields is not None:
+                d_params["fields"] = l_fields
 
         # Génération du nom de la route
         s_route = f"{cls._entity_name}_list"
@@ -287,13 +318,18 @@ class StoreEntity(ABC):
         self.delete_liste_entities(l_entities, before_delete)
 
     @staticmethod
-    def delete_liste_entities(l_entities: List["StoreEntity"], before_delete: Optional[Callable[[List["StoreEntity"]], List["StoreEntity"]]] = None) -> None:
+    def delete_liste_entities(
+        l_entities: List["StoreEntity"],
+        before_delete: Optional[Callable[[List["StoreEntity"]], List["StoreEntity"]]] = None,
+        force_delete: bool = False,
+    ) -> None:
         """Suppression d'une liste d’entités. Exécution de `before_delete(l_entities)` avant la suppression, before_delete retourne la nouvelle liste des éléments à supprimer.
 
         Args:
             l_entities (List[StoreEntity]]): liste des entités à supprimer
             before_delete (Optional[Callable[[List[StoreEntity]], List[StoreEntity]]], optional): fonction à lancer avant la suppression (entrée : liste des entités à supprimer,
                 sortie : liste définitive des entités à supprimer). Defaults to None.
+            force_delete (bool, optional): si True, on supprime les offres publiées. Defaults to False.
         """
         if before_delete is not None:
             # callback avant suppression
@@ -305,6 +341,10 @@ class StoreEntity(ABC):
         # suppression
         for o_entity in l_entities:
             o_entity.api_delete()
+            if force_delete and o_entity.entity_name() == "offering" and o_entity.get("status") == "UNPUBLISHED":
+                Config().om.info(f"Suppression de l'offre dépubliée : {o_entity.id}")
+                # on force la suppression de l'offre publiée => 2é suppression
+                o_entity.api_delete()
             time.sleep(1)
         Config().om.info("Suppression effectuée.", green_colored=True)
 
