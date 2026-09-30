@@ -2,6 +2,7 @@ from unittest.mock import patch
 
 from sdk_entrepot_gpf.io.ApiRequester import ApiRequester
 from sdk_entrepot_gpf.io.Errors import NotFoundError
+from sdk_entrepot_gpf.store.Errors import StoreEntityError
 from sdk_entrepot_gpf.store.Offering import Offering
 from sdk_entrepot_gpf.store.StoreEntity import StoreEntity
 from tests.GpfTestCase import GpfTestCase
@@ -17,12 +18,43 @@ class OfferingTestCase(GpfTestCase):
         """Vérifie le bon fonctionnement de api_delete."""
         with patch.object(StoreEntity, "api_delete", return_value=None) as o_mock_delete:
             with patch.object(Offering, "api_update", side_effect=[None, None, NotFoundError("", "", {}, {}, "")]) as o_mock_update:
-                # on appelle la fonction à tester : api_abort
+                # on appelle la fonction à tester :
                 o_offering = Offering({"_id": "id_entité"})
                 o_offering.api_delete()
 
         o_mock_delete.assert_called_once_with()
         self.assertEqual(3, o_mock_update.call_count)
+
+    def test_api_delete_unpublish(self) -> None:
+        """Vérifie le bon fonctionnement de api_delete cas dépublication"""
+        with patch.object(StoreEntity, "api_delete", return_value=None) as o_mock_delete:
+            with patch.object(Offering, "api_update", return_value=None) as o_mock_update:
+                with patch.object(Offering, "get", side_effect=[Offering.STATUS_PUBLISHED] + [Offering.STATUS_UNPUBLISHING] * 3 + [Offering.STATUS_UNPUBLISHED]):
+                    # on appelle la fonction à tester :
+                    o_offering = Offering({"_id": "id_entité"})
+                    o_offering.api_delete()
+
+        o_mock_delete.assert_called_once_with()
+        self.assertEqual(5, o_mock_update.call_count)
+
+    def test_api_unpublish(self) -> None:
+        """Vérifie le bon fonctionnement de api_unpublish."""
+        # cas sans erreur
+        with patch.object(Offering, "api_delete", return_value=None) as o_mock_delete:
+            with patch.object(Offering, "api_update", return_value=None) as o_mock_update:
+                o_offering = Offering({"_id": "id_entité", "status": Offering.STATUS_PUBLISHED})
+                o_offering.api_unpublish()
+        o_mock_delete.assert_called_once_with()
+        o_mock_update.assert_called_once_with()
+
+        # cas avec erreur de statut
+        with patch.object(Offering, "api_delete", return_value=None) as o_mock_delete:
+            with patch.object(Offering, "api_update", return_value=None) as o_mock_update:
+                o_offering = Offering({"_id": "id_entité", "status": Offering.STATUS_UNPUBLISHED})
+                with self.assertRaises(StoreEntityError) as o_error:
+                    o_offering.api_unpublish()
+        self.assertEqual(str(o_error.exception), "Impossible de dépublier l'offre id_entité car elle n'est pas publiée (statut : UNPUBLISHED)")
+        o_mock_update.assert_called_once_with()
 
     def test_api_synchronize(self) -> None:
         """Vérifie le bon fonctionnement de api_synchronize."""

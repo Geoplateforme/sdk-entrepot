@@ -114,5 +114,5 @@ class DeleteAction(ActionAbstract):
         o_before_delete = self.question_before_delete if self.definition_dict.get("confirm", True) else self.print_before_delete
 
         # suppression
-        StoreEntity.delete_liste_entities(l_entities, o_before_delete)
+        StoreEntity.delete_liste_entities(l_entities, o_before_delete, self.definition_dict.get("cascade", False))
         Config().om.info("Suppression : terminé")

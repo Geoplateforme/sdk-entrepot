@@ -557,7 +557,7 @@ class StoreEntityTestCase(GpfTestCase):
         reset_mock()
 
         # suppression avec before_delete, avec annulation liste vide ou None
-        for o_return in [[], None]:  # type:ignore
+        for o_return in [[], None]:  # type: ignore
             o_mock_function = MagicMock()
             o_mock_function.before_delete_function.return_value = o_return
             StoreEntity.delete_liste_entities(l_entity, o_mock_function.before_delete_function)
@@ -567,6 +567,40 @@ class StoreEntityTestCase(GpfTestCase):
             o_mock_3.api_delete.assert_not_called()
             self.assertEqual(0, o_mock_sleep.call_count)
             reset_mock()
+
+    @patch.object(time, "sleep", return_value=None)
+    def test_delete_liste_entities_offres(self, o_mock_sleep: Mock) -> None:
+        """test de delete_liste_entities special offres"""
+        o_mock_1 = MagicMock()
+
+        def reset_mock() -> None:
+            """reset des mock de la fonction"""
+            o_mock_1.reset_mock()
+            o_mock_sleep.reset_mock()
+
+        # suppression d'une offre publiée
+        o_mock_1.entity_name.return_value = "offering"
+        o_mock_1.get.return_value = "UNPUBLISHED"
+        StoreEntity.delete_liste_entities([o_mock_1])
+        o_mock_1.api_delete.assert_called_once_with()
+        self.assertEqual(1, o_mock_sleep.call_count)
+        reset_mock()
+
+        # suppression forcer d'une offre non publier
+        o_mock_1.entity_name.return_value = "offering"
+        o_mock_1.get.return_value = "Autre"
+        StoreEntity.delete_liste_entities([o_mock_1], force_delete=True)
+        o_mock_1.api_delete.assert_called_once_with()
+        self.assertEqual(1, o_mock_sleep.call_count)
+        reset_mock()
+
+        # suppression forcer d'une offre publier
+        o_mock_1.entity_name.return_value = "offering"
+        o_mock_1.get.return_value = "UNPUBLISHED"
+        StoreEntity.delete_liste_entities([o_mock_1], force_delete=True)
+        self.assertEqual(2, o_mock_1.api_delete.call_count)
+        self.assertEqual(1, o_mock_sleep.call_count)
+        reset_mock()
 
     def test_edit(self) -> None:
         """test de edit"""
