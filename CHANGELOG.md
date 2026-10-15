@@ -8,6 +8,8 @@
 
 ### [Fixed]
 
+* Access : Debug création d'un accès sur une key suite modification GPF #309
+
 ## v0.1.45
 
 ### [Added]

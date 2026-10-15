@@ -14,7 +14,7 @@ class Access(StoreEntity):
 
     # On doit redéfinir la fonction car l'API ne renvoie rien... A retirer quand ça sera bon.
     @classmethod
-    def api_create(cls: Type[T], data: Optional[Dict[str, Any]], route_params: Optional[Dict[str, Any]] = None) -> bool:  # type:ignore
+    def api_create(cls: Type[T], data: Optional[Dict[str, Any]], route_params: Optional[Dict[str, Any]] = None) -> bool:  # type: ignore
         """Crée un de nouvel accès dans l'API.
 
         Args:
@@ -34,7 +34,7 @@ class Access(StoreEntity):
             data=data,
         )
         # Instanciation
-        return o_response.status_code == 204
+        return o_response.status_code in [204, 200]
 
     def api_update(self) -> None:
         return None
