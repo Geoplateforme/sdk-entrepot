@@ -1,10 +1,14 @@
 # CHANGE LOG
 
-## v0.1.46
+## v0.1.47
 
 ### [Added]
 
 ### [Changed]
+
+### [Fixed]
+
+## v0.1.46
 
 ### [Fixed]
 
